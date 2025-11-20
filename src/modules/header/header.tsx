@@ -6,6 +6,7 @@ import config from '../../../package.json'
 import styles from './header.module.scss'
 import { HeaderProps } from './header.types'
 import Logo from './logo'
+import HeaderAnim from './anim'
 
 const Header: FC<HeaderProps> = ({ className }) => {
   const headerClassName = classNames(styles.root, className)
@@ -13,6 +14,7 @@ const Header: FC<HeaderProps> = ({ className }) => {
     <header className={headerClassName}>
       <Wrapper className={styles.wrapper}>
         <Logo />
+        <HeaderAnim />
         <strong>v {config.version}</strong>
       </Wrapper>
     </header>
