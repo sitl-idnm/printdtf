@@ -1,0 +1,84 @@
+@use '@styles/func';
+@use '@styles/mixins' as *;
+@use '@styles/variables';
+
+.container {
+	display: flex;
+
+	.menu {
+		display: flex;
+
+		@include tablet {
+			position: absolute;
+			top: 120px;
+			left: 0;
+
+			width: 100%;
+
+			flex-direction: column;
+		}
+
+		&_item {
+			display: flex;
+			align-items: center;
+
+			padding: 30px 25px;
+
+			opacity: 0;
+
+			background-color: var(--color-background);
+			color: black;
+			font-size: 20px;
+
+			transition: background 0.3s ease;
+
+			@include desktop {
+				font-size: 16px;
+				padding: 20px 15px;
+			}
+
+			@include tablet {
+				justify-content: center;
+			}
+
+			&:hover {
+				background-color: var(--color-accent-1);
+			}
+		}
+
+		.social {
+			display: none;
+
+			@include tablet {
+				display: flex;
+			}
+		}
+
+		&_item_active {
+			background-color: var(--color-accent-2);
+		}
+	}
+
+	&_icon {
+		position: relative;
+		z-index: 100;
+
+		padding: 25px;
+		background-color: var(--color-background);
+		transition: background 0.3s ease;
+
+		@include desktop {
+			font-size: 16px;
+			padding: 15px;
+		}
+
+		&:hover {
+			background-color: var(--color-accent-1);
+		}
+
+		svg {
+			width: 30px;
+			height: 30px;
+		}
+	}
+}

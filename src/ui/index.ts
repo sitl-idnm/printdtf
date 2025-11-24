@@ -1,4 +1,5 @@
 export { Button } from './button'
 export { Heading } from './heading'
 export { Input } from './input'
+export { SocialLinks } from './socialLinks'
 export { Wrapper } from './wrapper'
