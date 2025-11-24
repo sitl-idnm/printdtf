@@ -1,0 +1,77 @@
+@use "@styles/func";
+@use "@styles/mixins" as *;
+@use "@styles/variables";
+
+.root {
+  background-color: var(--color-black-default);
+  padding: 24px;
+
+  @include desktop {
+    padding: 16px;
+  }
+
+  .row {
+    display: flex;
+    gap: 24px;
+    height: clamp(260px, 40vh, 540px);
+
+    @include desktop {
+      gap: 16px;
+      height: clamp(220px, 36vh, 460px);
+    }
+
+    @include tablet {
+      gap: 12px;
+      height: auto;
+      flex-direction: column;
+    }
+  }
+
+  .card {
+    background-color: var(--color-white-default);
+    color: var(--color-neutral);
+    flex: 1 1 0%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 16px;
+    transition:
+      flex-basis 450ms ease,
+      flex-grow 450ms ease,
+      transform 450ms ease,
+      box-shadow 300ms ease;
+    box-shadow: 0 0 0 0 rgba(0 0 0 / 0%);
+    will-change: flex-basis, flex-grow, transform;
+    min-width: 0; // prevent text overflow pushing width
+
+    &:hover {
+      box-shadow: 0 10px 30px rgba(0 0 0 / 12%);
+    }
+
+    .title {
+      font-size: clamp(18px, 2.2vw, 28px);
+      font-weight: 600;
+      line-height: 1.1;
+    }
+
+    @include tablet {
+      min-height: 140px;
+    }
+  }
+
+  // Hover behavior with flex-grow ratios (gap-safe, no overflow)
+  // Total weight on hover: 0.6 + 2.8 + 0.6 = 4 (≈70% : 15% : 15%)
+  .row:hover .card { flex: 0.6 1 0%; }
+  .row .card:hover { flex: 2.8 1 0%; }
+
+  // Tablet and below: keep equal columns without hover-expansion
+  @include tablet {
+    .row:hover .card {
+      flex: 1 1 0%;
+    }
+    .row .card:hover {
+      flex: 1 1 0%;
+    }
+  }
+}
