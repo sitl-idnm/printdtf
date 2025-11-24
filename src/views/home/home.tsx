@@ -7,6 +7,15 @@ import styles from './home.module.scss'
 import { HomeProps } from './home.types'
 import SvgAnimator from '@/modules/svg-animator'
 import { ServicesMain } from '@/modules/servicesMain'
+import { Stages } from '@/modules/stages'
+
+const StagesArray = [
+  { step: 1, title: 'test1' },
+  { step: 2, title: 'test2' },
+  { step: 3, title: 'test3' },
+  { step: 4, title: 'test4' },
+  { step: 5, title: 'test5' }
+]
 
 const Home: FC<HomeProps> = ({ className }) => {
   const rootClassName = classNames(styles.root, className)
@@ -42,6 +51,9 @@ const Home: FC<HomeProps> = ({ className }) => {
 
         </SvgAnimator>
         <ServicesMain />
+        <Stages
+          stageArray={StagesArray}
+        />
       </Wrapper>
     </main>
   )
