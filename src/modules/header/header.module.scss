@@ -3,7 +3,7 @@
 @use '@styles/variables';
 
 .root {
-  position: fixed;
+  position: absolute;
   width: 98vw;
   background-color: var(--color-accent-2-opacity30);
   top: 20px;
