@@ -6,6 +6,7 @@ import '@styles/global.scss'
 
 import localFont from 'next/font/local'
 import { Provider } from '@service/provider'
+import { SmoothProvider } from '@service/smooth'
 
 const font = localFont({
   src: [
@@ -41,13 +42,15 @@ export default function RootLayout({
     <html lang="ru">
       <body className={font.className}>
         <Provider>
-          <div id="root">
+          <SmoothProvider>
             <Header />
-            {children}
-            <Footer />
-          </div>
-
-          <div id="modal-root" />
+            <div id="smooth-wrapper">
+              <div id="smooth-content">
+                <div id="root">{children}<Footer /></div>
+              </div>
+            </div>
+            <div id="modal-root" />
+          </SmoothProvider>
         </Provider>
       </body>
     </html>

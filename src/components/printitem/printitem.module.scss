@@ -1,0 +1,18 @@
+@use "@styles/func";
+@use "@styles/mixins";
+@use "@styles/variables";
+
+.root {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px 24px;
+	background: var(--color-additional);
+	color: var(--color-neutral);
+	border: 1px solid var(--color-blue-border);
+	box-shadow: 0 2px 8px rgba(0 0 0 / 0.06);
+	white-space: nowrap;
+	font-size: 18px;
+	font-weight: 500;
+	min-width: 160px;
+}
