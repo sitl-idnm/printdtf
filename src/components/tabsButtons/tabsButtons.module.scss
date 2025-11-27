@@ -1,0 +1,33 @@
+@use "@styles/func";
+@use "@styles/mixins" as *;
+@use "@styles/variables";
+
+.root {
+	display: flex;
+	justify-content: space-between;
+
+	gap: 30px;
+
+	height: max-content;
+	align-self: flex-end;
+
+	.button {
+		@include reset-btn;
+		font-size: 20px;
+		background-color: var(--color-accent-2);
+		padding: 15px 70px;
+
+		width: max-content;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		div {
+			display: flex;
+			flex-wrap: nowrap;
+
+			text-transform: uppercase;
+		}
+	}
+}

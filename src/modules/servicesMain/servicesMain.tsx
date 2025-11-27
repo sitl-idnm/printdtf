@@ -7,7 +7,7 @@ import { ServicesMainProps } from './servicesMain.types'
 const ServicesMain: FC<ServicesMainProps> = ({
   className,
   items = [
-    { title: 'Печать', href: '#' },
+    { title: 'Печать', href: '/print' },
     { title: 'Фулфилмент', href: '#' },
     { title: 'Логистика', href: '#' },
   ],
