@@ -1,0 +1,139 @@
+@use "@styles/func";
+@use "@styles/mixins" as *;
+@use "@styles/variables";
+
+.root {
+  max-width: 1312px;
+	margin: 0 auto;
+  padding: 80px 0;
+
+  @include tablet {
+    padding: 40px 12px;
+  }
+
+  @include tablet-small {
+    padding: 32px 8px;
+  }
+}
+
+.container {
+  width: 70%;
+
+  @include tablet {
+    width: 100%;
+  }
+}
+
+.title {
+  font-family: var(--font-inter);
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 120%;
+  margin-bottom: 40px;
+  text-align: left;
+
+  @include tablet {
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.faqItem {
+  background: #F9F9F9;
+  border-radius: 12px;
+  overflow: hidden;
+
+  &.active {
+    .question {
+      .icon {
+        color: var(--color-red-accent);
+
+        svg {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .answer {
+      max-height: 1000px;
+      opacity: 1;
+      margin-top: 16px;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 500;
+  color: #000;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--color-red-accent);
+
+    .icon {
+      transform: rotate(90deg);
+    }
+  }
+
+  @include tablet {
+    font-size: 16px;
+  }
+
+  .icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-red-accent);
+    transition: all 0.3s ease;
+    transform: translateZ(0);
+    will-change: transform;
+
+    svg {
+      width: 32px;
+      height: 32px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center;
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+  }
+}
+
+.answer {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 16px;
+  line-height: 150%;
+  color: #666;
+  padding: 0 20px;
+
+  @include tablet {
+    font-size: 12px;
+  }
+}
