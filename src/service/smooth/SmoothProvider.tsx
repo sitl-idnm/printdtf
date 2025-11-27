@@ -17,7 +17,7 @@ interface SmoothProviderProps {
 
 export const SmoothProvider: FC<SmoothProviderProps> = ({
 	children,
-	smooth = 0.5,
+	smooth = 0,
 	effects = true
 }) => {
 	const smootherRef = useRef<ReturnType<typeof ScrollSmoother.create> | null>(null)

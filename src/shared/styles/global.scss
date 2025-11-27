@@ -44,6 +44,7 @@ body {
   @include text;
   color: var(--color-black-default);
   overflow-x: hidden;
+  font-family: var(--font-involve);
 }
 
 html.has-scroll-snap,
