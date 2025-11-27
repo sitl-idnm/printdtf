@@ -1,0 +1,93 @@
+@use "@styles/func";
+@use "@styles/mixins";
+@use "@styles/variables";
+
+.root {
+	height: 100vh;
+	width: 100vw;
+	background-color: var(--color-accent-1-opacity30);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+	padding: 20px;
+	position: relative;
+}
+
+.icon {
+	position: absolute;
+	width: 72px;
+	height: 72px;
+	cursor: pointer;
+	opacity: 0.4;
+	will-change: transform;
+	filter: drop-shadow(0 2px 8px rgba(0 0 0 / 0.25));
+	z-index: 2;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		user-select: none;
+		pointer-events: none;
+	}
+}
+
+.topLeft { top: 20vh; left: 16px; }
+.topRight { top: 20vh; right: 16px; }
+.bottomLeft { bottom: 16px; left: 16px; }
+.bottomRight { bottom: 16px; right: 16px; }
+
+.content { display: none; }
+.rows { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; width: 100%; max-width: 1200px; position: relative; z-index: 1; perspective: 800px; }
+.row { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: nowrap; }
+.rowTop {}
+.rowMiddle {}
+.rowBottom {}
+
+.item {
+	position: relative;
+	transition: box-shadow 0.25s ease, background-color 0.25s ease;
+	box-shadow: 0 2px 8px rgba(0 0 0 / 0.06);
+	background-color: var(--color-additional);
+	will-change: transform, box-shadow;
+	transform-style: preserve-3d;
+}
+
+.item::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: 12px;
+	background: radial-gradient(120px 60px at var(--mx, 50%) var(--my, 50%), rgba(255 255 255 / 0.35), rgba(255 255 255 / 0));
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s ease;
+}
+
+.itemHover .item::after,
+.item.itemHover::after {
+	opacity: 1;
+}
+
+.item.itemHover {
+	z-index: 5;
+}
+.bgText {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 200px;
+	line-height: 1;
+	text-transform: uppercase;
+	text-align: center;
+	opacity: 0.2;
+	color: var(--color-neutral);
+	white-space: nowrap;
+	pointer-events: none;
+	user-select: none;
+	z-index: 0;
+	will-change: transform, opacity;
+}

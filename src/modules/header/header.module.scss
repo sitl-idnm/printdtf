@@ -3,17 +3,22 @@
 @use '@styles/variables';
 
 .root {
-  position: relative;
-  width: 100%;
-  background-color: var(--color-additional);
+  position: fixed;
+  width: 98vw;
+  background-color: var(--color-accent-2-opacity30);
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--color-accent-2);
 }
 
 .wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 32px;
-  padding-bottom: 32px;
+  padding: 20px;
 }
 
 .navigation {
