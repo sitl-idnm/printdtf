@@ -3,10 +3,11 @@
 @use "@styles/variables";
 
 .root {
-	margin-top: 200px;
 	position: relative;
 
 	background-color: black;
+
+	padding: 60px;
 
 	.list {
 		display: flex;
@@ -21,13 +22,17 @@
 			&_step {
 				font-size: 64px;
 				font-weight: 700;
+				line-height: 140%;
 				color: white;
+				margin-left: 1px;
 			}
 
 			&_title {
 				font-size: 32px;
 				font-weight: 600;
+				line-height: 150%;
 				color: white;
+				margin-left: 1px;
 			}
 		}
 	}
