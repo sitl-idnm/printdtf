@@ -1,13 +1,13 @@
 import { FC } from 'react'
-import Image from 'next/image'
-import { Heading, Wrapper } from '@/ui'
+import { Wrapper } from '@/ui'
 import classNames from 'classnames'
 
 import styles from './home.module.scss'
 import { HomeProps } from './home.types'
-import SvgAnimator from '@/modules/svg-animator'
+// import SvgAnimator from '@/modules/svg-animator'
 import { ServicesMain } from '@/modules/servicesMain'
 import { Stages } from '@/modules/stages'
+import { SliderBeforeAfter } from '@/modules/sliderBeforeAfter'
 
 const StagesArray = [
   { step: 1, title: 'test1' },
@@ -23,19 +23,7 @@ const Home: FC<HomeProps> = ({ className }) => {
   return (
     <main className={rootClassName}>
       <Wrapper>
-        <Heading tagName="h1" className={styles.title}>
-          Next.js template
-        </Heading>
-        <Image
-          src="/images/sticker-shark.png"
-          width={512}
-          height={492}
-          quality={85}
-          id='card'
-          alt="Ligazavr"
-          className={styles.card}
-        />
-        <SvgAnimator
+        {/* <SvgAnimator
           externalSelector="#card"
           externalPlayOn={['mouseenter', 'focus']}
           externalReverseOn={['mouseleave', 'blur']}
@@ -49,11 +37,12 @@ const Home: FC<HomeProps> = ({ className }) => {
           maxAutoDuration={2.5}
         >
 
-        </SvgAnimator>
+        </SvgAnimator> */}
         <ServicesMain />
         <Stages
           stageArray={StagesArray}
         />
+        <SliderBeforeAfter />
       </Wrapper>
     </main>
   )

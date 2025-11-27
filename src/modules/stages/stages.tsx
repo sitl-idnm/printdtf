@@ -4,18 +4,12 @@ import classNames from 'classnames'
 
 import styles from './stages.module.scss'
 import { StagesProps } from './stages.types'
-import { gsap } from 'gsap'
-import { useGSAP } from '@gsap/react'
 
 const Stages: FC<StagesProps> = ({
   className,
   stageArray,
 }) => {
   const rootClassName = classNames(styles.root, className)
-
-  useGSAP(() => {
-
-  })
 
   return (
     <div className={rootClassName}>

@@ -3,8 +3,6 @@
 @use "@styles/variables";
 
 .root {
-  background-color: var(--color-black-default);
-  padding: 24px;
 
   @include desktop {
     padding: 16px;
@@ -12,8 +10,8 @@
 
   .row {
     display: flex;
-    gap: 24px;
-    height: clamp(260px, 40vh, 540px);
+    height: clamp(20vh, 100vh, 100vh);
+
 
     @include desktop {
       gap: 16px;
