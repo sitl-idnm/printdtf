@@ -7,7 +7,6 @@ import { HomeProps } from './home.types'
 // import SvgAnimator from '@/modules/svg-animator'
 import { ServicesMain } from '@/modules/servicesMain'
 import { Stages } from '@/modules/stages'
-import { Faq } from '@/modules/faq'
 import { SliderBeforeAfter } from '@/modules/sliderBeforeAfter'
 
 const StagesArray = [
@@ -56,7 +55,6 @@ const Home: FC<HomeProps> = ({ className }) => {
           stageArray={StagesArray}
         />
         <SliderBeforeAfter />
-        <Faq faqData={faqData} />
       </Wrapper>
     </main>
   )

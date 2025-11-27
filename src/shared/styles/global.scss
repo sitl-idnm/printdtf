@@ -13,7 +13,9 @@
 /* stylelint-enable */
 
   --color-accent-1: #6B48FF;
+  --color-accent-1-opacity30: #6948ff75;
   --color-accent-2: #00F5C0;
+  --color-accent-2-opacity30: #00f5c088;
   --color-background: #FFF5F5;
   --color-additional: #F0F4FF;
   --color-neutral: #2D3748;
@@ -42,6 +44,11 @@ body {
   @include text;
   color: var(--color-black-default);
   overflow-x: hidden;
+}
+
+html.has-scroll-snap,
+body.has-scroll-snap {
+  scroll-snap-type: y mandatory;
 }
 
 a {
