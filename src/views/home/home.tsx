@@ -20,16 +20,16 @@ const StagesArray = [
 const Home: FC<HomeProps> = ({ className }) => {
   const rootClassName = classNames(styles.root, className)
 
-  const faqData = [
-    {
-      title: 'test1',
-      content: 'test1'
-    },
-    {
-      title: 'test2',
-      content: 'test2'
-    }
-  ]
+  // const faqData = [
+  //   {
+  //     title: 'test1',
+  //     content: 'test1'
+  //   },
+  //   {
+  //     title: 'test2',
+  //     content: 'test2'
+  //   }
+  // ]
 
 
   return (
