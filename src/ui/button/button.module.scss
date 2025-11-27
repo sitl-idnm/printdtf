@@ -4,44 +4,71 @@
 
 .root {
   @include mixins.reset-btn;
-  position: relative;
-  display: flex;
-  align-items: center;
+  z-index: 5;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+  color: var(--color-accent-2);
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-flow: column;
   justify-content: center;
-  font-weight: 500;
-  font-size: func.rem(18);
-  line-height: func.rem(20);
-  color: var(--color-white-default);
-  background-color: var(--color-blue);
-  cursor: pointer;
-  transition: variables.$transition;
-  transition-property: color, background-color;
-  outline: none;
-  user-select: none;
+  align-items: stretch;
+  height: auto;
+  transition: all .45s;
+  display: flex;
+  position: relative;
+  overflow: clip;
 
-  &_sm {
-    height: func.rem(48);
-    padding: func.rem(12) func.rem(20);
-  }
+  .left {
+    z-index: 5;
+    border: 2px solid white;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    min-height: 3rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    display: flex;
+    position: relative;
+    overflow: clip;
 
-  &_md {
-    height: func.rem(60);
-    padding: func.rem(20) func.rem(50);
+    .clip_intro {
+      z-index: 10;
+      flex-flow: column;
+      display: flex;
+      position: relative;
+      overflow: clip;
 
-    @include mixins.tablet {
-      height: func.rem(50);
-      padding: func.rem(15) func.rem(50);
+      .button_banner {
+        transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg);
+        transform-style: preserve-3d;
+
+        .button_text {
+          line-height: 1;
+        }
+
+        .button_text_color {
+          line-height: 1;
+          color: white;
+        }
+      }
     }
-  }
 
-  &_white {
-    color: var(--color-black-default);
-    background-color: var(--color-white-default);
-  }
+    .button_cover {
+      background-color: red;
+      width: 100%;
+      height: 100%;
+      display: none;
+      position: absolute;
+      inset: 0% auto 0% 0%;
 
-  &:disabled {
-    color: var(--color-black);
-    background-color: var(--color-grey-hover);
-    pointer-events: none;
+      display: none;
+    transform: translate3d(-110%, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg);
+    transform-style: preserve-3d;
+    }
   }
 }

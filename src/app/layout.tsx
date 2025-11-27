@@ -7,29 +7,36 @@ import '@styles/global.scss'
 import localFont from 'next/font/local'
 import { Provider } from '@service/provider'
 
-const font = localFont({
+const involve = localFont({
   src: [
     {
-      path: './fonts/neuemachina-light.woff2',
+      path: './fonts/Involve-Medium.woff2',
       weight: '500',
       style: 'normal'
     },
     {
-      path: './fonts/neuemachina-regular.woff2',
+      path: './fonts/Involve-Regular.woff2',
       weight: '400',
       style: 'normal'
     },
     {
-      path: './fonts/neuemachina-medium.woff2',
-      weight: '500',
-      style: 'normal'
-    },
-    {
-      path: './fonts/neuemachina-ultrabold.woff2',
-      weight: '800',
+      path: './fonts/Involve-SemiBold.woff2',
+      weight: '600',
       style: 'normal'
     }
-  ]
+  ],
+  variable: '--font-involve'
+})
+
+const unbounded = localFont({
+  src: [
+    {
+      path: './fonts/Unbounded-SemiBold.woff2',
+      weight: '600',
+      style: 'normal'
+    }
+  ],
+  variable: '--font-unbounded'
 })
 
 export default function RootLayout({
@@ -39,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={font.className}>
+      <body className={`${involve.variable} ${unbounded.variable}`}>
         <Provider>
           <div id="root">
             <Header />

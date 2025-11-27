@@ -4,14 +4,13 @@ type ButtonColorSchemeType = 'black' | 'white'
 
 type ButtonSizeType = 'md' | 'sm'
 
-type ButtonOwnProps<E extends ElementType = ElementType> = {
-  as?: E
-  isRouteLink?: boolean
+type ButtonOwnProps = {
   colorScheme?: ButtonColorSchemeType
   size?: ButtonSizeType
   className?: string
   children?: string | ReactNode
+  href?: string
 }
 
-export type ButtonProps<E extends ElementType> = ButtonOwnProps<E> &
+export type ButtonProps<E extends ElementType> = &
   Omit<ComponentProps<E>, keyof ButtonOwnProps>
