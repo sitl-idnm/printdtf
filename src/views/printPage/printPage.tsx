@@ -1,5 +1,5 @@
 'use client'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import classNames from 'classnames'
 
 import styles from './printPage.module.scss'
@@ -12,11 +12,14 @@ import { Gallery } from '@/modules/gallery'
 import { Cases } from '@/modules/cases'
 import { PrintOptions } from '@/modules/printOptions'
 import { Faq } from '@/modules/faq'
-import { Separator } from '@/ui'
+import { ButtonWave, Separator } from '@/ui'
 import { printMethodReadAtom } from '@/shared/atoms/printMethodAtom'
 import { useAtomValue } from 'jotai'
 import { Process } from '@/modules/process'
 import { Stages } from '@/modules/stages'
+import { FinalOfferAlt } from '@/modules/finalOfferAlt'
+import { FinalOffer } from '@/modules/finalOffer'
+import { FormModal } from '@/modules/formModal'
 
 const printIcons = [
   '/images/sticker-dino.png',
@@ -97,19 +100,28 @@ const PrintPage: FC<PrintPageProps> = ({
   className
 }) => {
   const rootClassName = classNames(styles.root, className)
-
+  const [isOpen, setOpen] = useState(false)
   const dtfvalue = useAtomValue(printMethodReadAtom)
 
   return (
     <main className={rootClassName}>
+      <FormModal
+          open={isOpen}
+          onClose={() => setOpen(false)}
+          title="Оставьте заявку на расчёт"
+        text="Выберите метод (DTF/UV DTF), укажите носитель — наш менеджер свяжется с вами в течение 15 минут."
+
+        />
       <PrintHero
         title={<><span>DTF и UV DTF печать&nbsp;—</span><span>от 1 дня, от 1 экземпляра</span></>}
         subtitle={'DTF — полноцветная печать на готовых изделиях. UV DTF — наклейки/стикерпаки для стекла, пластика, металла. Тестовый образец — бесплатно. Печать с переносом или без — на ваш выбор'}
         // cta1={'Рассчитать стоимость'}
         // cta2={'Написать в WhatsApp'}
+
         microtext={'Наш менеджер свяжется с вами в течение 15 минут'}
         option={'Средний срок изготовления: 1–3 рабочих дня. Срочные — по запросу.'}
       />
+
       {
         dtfvalue === 'dtf' ?
         <Separator
@@ -125,6 +137,7 @@ const PrintPage: FC<PrintPageProps> = ({
           angle={'180deg'}
         />
       }
+
       <SliderBeforeAfter />
       {
         dtfvalue === 'dtf' ?
@@ -157,6 +170,7 @@ const PrintPage: FC<PrintPageProps> = ({
           height='40px'
           angle={'180deg'}
         />
+      <FinalOfferAlt /><ButtonWave variant="accent3" onClick={() => setOpen(true)}><span>Заказать печать</span></ButtonWave>
       <Gallery
           title="ПОРТФОЛИО"
           description="Откройте полноэкранный просмотр, чтобы рассмотреть текстуру принта/рельеф."
@@ -226,6 +240,7 @@ const PrintPage: FC<PrintPageProps> = ({
       <Stages
           stageArray={StagesArray}
         />
+      <FinalOffer />
       <Faq faqData={faqData} />
     </main>
   )
