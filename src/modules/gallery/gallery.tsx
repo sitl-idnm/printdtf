@@ -1,5 +1,5 @@
-import { FC, useEffect, useMemo, useRef, useState } from 'react'
-import Image from 'next/image'
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import Image, { StaticImageData } from 'next/image'
 import classNames from 'classnames'
 
 import styles from './gallery.module.scss'
@@ -36,8 +36,12 @@ const Gallery: FC<GalleryProps> = ({
 
   const openLb = (i: number) => setLbIndex(i)
   const closeLb = () => setLbIndex(null)
-  const nextLb = () => setLbIndex((i) => (i === null ? 0 : (i + 1) % data.length))
-  const prevLb = () => setLbIndex((i) => (i === null ? 0 : (i - 1 + data.length) % data.length))
+  const nextLb = useCallback(() => {
+    setLbIndex((i) => (i === null ? 0 : (i + 1) % data.length))
+  }, [data.length])
+  const prevLb = useCallback(() => {
+    setLbIndex((i) => (i === null ? 0 : (i - 1 + data.length) % data.length))
+  }, [data.length])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -48,7 +52,7 @@ const Gallery: FC<GalleryProps> = ({
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [lbIndex, data.length])
+  }, [lbIndex, data.length, nextLb, prevLb])
 
   return (
     <section className={rootClassName}>
@@ -60,7 +64,7 @@ const Gallery: FC<GalleryProps> = ({
         <div className={styles.viewport}>
           <div className={styles.track} ref={viewRef}>
             {data.map((item, idx) => {
-              const src = item.image as any
+              const src = item.image as string | StaticImageData
               return (
                 <article className={styles.card} key={item.id} onClick={() => openLb(idx)}>
                   {item.tags && item.tags.length ? (
@@ -109,45 +113,56 @@ const Gallery: FC<GalleryProps> = ({
       <div className={classNames(styles.lightbox, { [styles.open]: lbIndex !== null })} onClick={closeLb}>
         {lbIndex !== null && (
           <>
-          <button className={styles.lbCloseBar} onClick={closeLb} aria-label="Close">
-            <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" style={{ marginRight: -8 }}>
-              <path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <div className={styles.lbInner} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.lbNav}>
-              <button className={styles.lbBtn} onClick={prevLb} aria-label="Prev">
-                <svg width="28" height="28" viewBox="0 0 12 24" aria-hidden="true">
-                  <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
-                </svg>
-              </button>
-              <button className={styles.lbBtn} onClick={nextLb} aria-label="Next">
-                <svg width="28" height="28" viewBox="0 0 12 24" aria-hidden="true" style={{ transform: 'scaleX(-1)' }}>
-                  <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
-                </svg>
-              </button>
-            </div>
-            {(() => {
-              const img = data[lbIndex].image as any
-              const lbSrc: string = typeof img === 'string' ? img : img?.src
-              return <img className={styles.lbImage} src={lbSrc} alt="" />
-            })()}
-            {/* old close removed in favour of top bar */}
-            <div className={styles.lbCaption}>
-              <div>
-                <div className={styles.lbTitle}>{data[lbIndex].title}</div>
-                {data[lbIndex].subtitle ? <div className={styles.lbSub}>{data[lbIndex].subtitle}</div> : null}
+            <button className={styles.lbCloseBar} onClick={closeLb} aria-label="Close">
+              <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" style={{ marginRight: -8 }}>
+                <path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <div className={styles.lbInner} onClick={(e) => e.stopPropagation()}>
+
+              <div className={styles.lbNav}>
+                <button className={styles.lbBtn} onClick={prevLb} aria-label="Prev">
+                  <svg width="28" height="28" viewBox="0 0 12 24" aria-hidden="true">
+                    <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
+                  </svg>
+                </button>
+                <button className={styles.lbBtn} onClick={nextLb} aria-label="Next">
+                  <svg width="28" height="28" viewBox="0 0 12 24" aria-hidden="true" style={{ transform: 'scaleX(-1)' }}>
+                    <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
+                  </svg>
+                </button>
               </div>
-              {data[lbIndex].tags && data[lbIndex].tags.length ? (
-                <div className={styles.lbTags}>
-                  {data[lbIndex].tags!.map((t, i) => <span className={styles.lbTag} key={i}>{t}</span>)}
+              {(() => {
+                const item = lbIndex !== null ? data[lbIndex] : null
+                const img = item?.image as string | StaticImageData | undefined
+                const lbSrc: string = typeof img === 'string' ? img : (img as StaticImageData | undefined)?.src ?? ''
+                return (
+                  <Image
+                    className={styles.lbImage}
+                    src={lbSrc}
+                    alt=""
+                    width={1600}
+                    height={1000}
+                    style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
+                  />
+                )
+              })()}
+              {/* old close removed in favour of top bar */}
+              <div className={styles.lbCaption}>
+                <div>
+                  <div className={styles.lbTitle}>{lbIndex !== null ? data[lbIndex]!.title : ''}</div>
+                  {lbIndex !== null && data[lbIndex]!.subtitle ? <div className={styles.lbSub}>{data[lbIndex]!.subtitle}</div> : null}
                 </div>
-              ) : null}
+                {lbIndex !== null && data[lbIndex] && data[lbIndex]!.tags && data[lbIndex]!.tags!.length ? (
+                  <div className={styles.lbTags}>
+                    {data[lbIndex]!.tags!.map((t, i) => <span className={styles.lbTag} key={i}>{t}</span>)}
+                  </div>
+                ) : null}
+              </div>
             </div>
-          </div>
           </>
         )}
       </div>

@@ -1,0 +1,40 @@
+@use "@styles/func";
+@use "@styles/mixins";
+@use "@styles/variables";
+
+.root {
+	padding: 160px 40px;
+}
+
+.content {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: clamp(24px, 4vw, 64px);
+	align-items: start;
+
+	@include mixins.tablet {
+		grid-template-columns: 1fr;
+	}
+}
+
+.left {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 16px;
+}
+.title {
+	font-family: var(--font-unbounded);
+	font-weight: 700;
+	font-size: clamp(32px, 5vw, 52px);
+	line-height: 1.05;
+	letter-spacing: -0.02em;
+}
+.text {
+	max-width: 48ch;
+	color: rgba(0,0,0,.75);
+}
+
+.right {
+	// form area
+}
