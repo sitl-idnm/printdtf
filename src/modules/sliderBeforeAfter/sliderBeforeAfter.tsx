@@ -61,7 +61,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
     gsap.set(prevRef.current, { left: 0 })
     gsap.set(nextRef.current, { left: '100%' })
     setPrintMethod('dtf')
-  }, [])
+  }, [setPrintMethod])
 
   function nextSlide() {
     gsap.to(prevRef.current, {
