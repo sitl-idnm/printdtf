@@ -1,0 +1,320 @@
+@use "@styles/func";
+@use "@styles/mixins";
+@use "@styles/variables";
+
+.root {
+	background: #000;
+	color: #fff;
+	padding: 80px 0 60px;
+}
+
+.container {
+	width: 100%;
+	max-width: none;
+	margin: 0;
+	padding: 0; /* чтобы карточки уходили в край экрана */
+}
+
+.top {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 24px;
+	align-items: end;
+	margin-bottom: 32px;
+	padding: 20px 20px 0; /* отступы от краёв для заголовка и описания */
+
+	@media (max-width: 900px) {
+		grid-template-columns: 1fr;
+		gap: 16px;
+		padding: 20px 20px 0;
+	}
+}
+
+.title {
+	font-family: var(--font-unbounded);
+	font-size: clamp(28px, 6vw, 64px);
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	line-height: 1;
+}
+
+.descr {
+	color: rgba(255 255 255 / 0.7);
+	font-size: 14px;
+	line-height: 1.6;
+	max-width: 640px;
+	justify-self: end;
+
+	@media (max-width: 900px) {
+		justify-self: start;
+	}
+}
+
+.viewport {
+	overflow: hidden;
+}
+
+.track {
+	display: grid;
+	grid-auto-flow: column;
+	/* крупнее карточки: минимум ширины на элемент */
+	grid-auto-columns: minmax(480px, 1fr);
+	gap: 24px;
+	scroll-snap-type: x mandatory;
+	overflow-x: auto;
+	padding-bottom: 8px;
+	scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar { display: none; }
+
+.card {
+	position: relative;
+	aspect-ratio: 4 / 3;
+	min-width: 480px;
+	background: #000; /* убираем светлые края */
+	border-radius: 0;
+	border: 0;
+	overflow: hidden;
+	scroll-snap-align: start;
+	user-select: none;
+	outline: 0;
+	box-shadow: none;
+}
+
+.image {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	display: block;
+	background: #000; /* подложка под изображения */
+	object-fit: cover;
+	filter: grayscale(100%);
+	transition: transform 0.5s ease, filter 0.5s ease;
+	border: 0;
+	outline: 0;
+	box-shadow: none;
+}
+
+.card:hover .image {
+	transform: scale(1.03);
+	filter: grayscale(20%);
+}
+
+.shade {
+	position: absolute;
+	inset: 0;
+	/* базовое затемнение снизу – «сливаем» карточку с чёрным фоном страницы */
+	background: linear-gradient(180deg, rgba(0 0 0 / 0) 40%, rgba(0 0 0 / 1) 100%);
+}
+
+.tint {
+	/* синий градиент, проявляется на ховере */
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		180deg,
+		rgba(56 97 251 / 0) 0%,
+		rgba(186, 171, 255, 1) 100%
+	);
+	opacity: 0;
+	/* начальное состояние — круг */
+	-webkit-clip-path: circle(37% at 50% 41.5%);
+	clip-path: circle(37% at 50% 41.5%);
+	transition:
+		opacity .35s ease,
+		-webkit-clip-path .6s cubic-bezier(.2,.7,.2,1),
+		clip-path .6s cubic-bezier(.2,.7,.2,1);
+}
+
+.caption {
+	position: absolute;
+	left: 20px;
+	right: 20px;
+	bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	z-index: 2;
+	transform: translateY(0);
+	transition: transform .35s ease;
+}
+
+.name {
+	font-size: clamp(16px, 3vw, 28px);
+	font-weight: 800;
+	text-transform: uppercase;
+}
+
+.sub {
+	font-size: 13px;
+	color: rgba(255 255 255 / 0.7);
+	max-height: 0;
+	opacity: 0;
+	overflow: hidden;
+	transition: opacity .35s ease, max-height .35s ease;
+}
+
+.card:hover .caption { transform: translateY(-18px); }
+
+.nav {
+	display: flex;
+	gap: 8px;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.btn {
+	width: 52px;
+	height: 52px;
+	border-radius: 0; /* без скругления */
+	border: 0;
+	background: var(--color-accent-3);
+	color: var(--color-white-default);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: transform .12s ease, opacity .2s ease;
+}
+
+.btn:active { transform: scale(0.96); }
+
+.micro {
+	margin-top: 8px;
+	text-align: center;
+	color: rgba(255 255 255 / 0.55);
+	font-size: 12px;
+}
+
+.tags {
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+	opacity: 0;
+	transform: translateY(8px);
+	transition: opacity .3s ease, transform .3s ease;
+}
+
+.tag {
+	background: rgba(0 0 0 / 0.6);
+	border: 0;
+	color: #fff;
+	height: 26px;
+	padding: 0 10px;
+	border-radius: 999px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+}
+
+/* hover states */
+.card:hover .tint {
+	opacity: 1;
+	/* финальное состояние — заливка всей карточки */
+	-webkit-clip-path: circle(100% at 50% 41.5%);
+	clip-path: circle(100% at 50% 41.5%);
+}
+.card:hover .sub { opacity: 1; max-height: 120px; }
+.card:hover .tags { opacity: 1; transform: translateY(0); }
+
+/* Lightbox */
+.lightbox {
+	position: fixed;
+	inset: 0;
+	background: rgba(0 0 0 / 0.9);
+	display: flex; /* всегда в потоке, плавная анимация через opacity */
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity .35s ease;
+}
+
+.lightbox.open {
+	opacity: 1;
+	pointer-events: all;
+}
+
+.lbInner {
+	width: min(92vw, 1200px);
+	max-height: 90vh;
+	position: relative;
+	transform: translateY(12px) scale(.98);
+	transition: transform .35s ease;
+}
+
+.lightbox.open .lbInner { transform: translateY(0) scale(1); }
+
+.lbCloseBar {
+	position: fixed;
+	inset: 0 0 auto 0;
+	height: 52px;
+	background: var(--color-accent-1);
+	color: #fff;
+	border: 0;
+	border-radius: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	z-index: 1100;
+	transition: background-color .25s ease, color .25s ease;
+}
+.lbCloseBar:hover { background: var(--color-accent-2); }
+
+.lbImage {
+	width: 100%;
+	max-height: 80vh;
+	object-fit: contain;
+	border-radius: 0;
+}
+
+.lbCaption {
+	margin-top: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 12px;
+	color: #fff;
+}
+
+.lbTitle { font-weight: 700; }
+.lbSub { color: rgba(255 255 255 / 0.6); font-size: 13px; }
+
+.lbTags { display: flex; gap: 8px; flex-wrap: wrap; }
+.lbTag { @extend .tag; background: rgba(255 255 255 / 0.12); border-color: rgba(255 255 255 / 0.2); }
+
+.lbNav {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	pointer-events: none;
+}
+
+.lbBtn {
+	pointer-events: all;
+	width: 64px;
+	height: 64px;
+	border-radius: 0; /* без скругления */
+	border: 0;
+	background: var(--color-blue);
+	color: var(--color-white-default);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: transform .12s ease, opacity .2s ease;
+	opacity: .95;
+}
+
+.lbBtn:active { transform: scale(0.97); }
+/* старые стили закрытия удалены — заменено на верхнюю плашку */

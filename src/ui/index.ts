@@ -1,4 +1,5 @@
 export { Button } from './button'
+export { ButtonWave } from './buttonWave'
 export { Heading } from './heading'
 export { Input } from './input'
 export { SocialLinks } from './socialLinks'

@@ -1,0 +1,57 @@
+@use "@styles/func" as *;
+@use "@styles/mixins" as *;
+@use "@styles/variables";
+
+.root {
+	width: 100%;
+	padding: 36px 0;
+}
+
+.inner {
+	width: 100%;
+	max-width: none;
+	margin: 0;
+}
+
+.title {
+  font-family: var(--font-inter);
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 120%;
+  margin-bottom: 40px;
+  text-align: left;
+
+  @include tablet {
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
+}
+
+.col {
+	display: grid;
+	grid-template-rows: auto auto;
+	gap: 12px;
+}
+
+.badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--color-accent-3);
+	color: var(--color-neutral);
+	font-size: 20px;
+	box-shadow: 0 2px 8px rgba(0 0 0 / 0.06);
+	padding: 16px 22px;
+	min-height: 56px;
+	max-width: 780px;
+	/* плавность при обратном выезде */
+	will-change: transform;
+}
+
+.left {
+	justify-self: start;
+}
+
+.right {
+	justify-self: end;
+}

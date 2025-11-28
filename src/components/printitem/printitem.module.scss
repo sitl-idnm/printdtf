@@ -9,10 +9,32 @@
 	padding: 16px 24px;
 	background: var(--color-additional);
 	color: var(--color-neutral);
-	border: 1px solid var(--color-blue-border);
 	box-shadow: 0 2px 8px rgba(0 0 0 / 0.06);
 	white-space: nowrap;
 	font-size: 18px;
 	font-weight: 500;
 	min-width: 160px;
+	gap: 8px;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: 32px;
+	height: 32px;
+	border: 1px solid var(--color-accent-4);
+	border-radius: 10%;
+	color: var(--color-accent-4);
+
+	svg {
+		width: 20px;
+		height: 20px;
+		display: block;
+	}
+}
+
+.label {
+	display: inline-block;
 }
