@@ -1,3 +1,4 @@
+export { Advantages } from './advantages'
 export { Dialog } from './dialog'
-export { TabsButtons } from './tabsButtons'
 export { Printitem } from './printitem'
+export { TabsButtons } from './tabsButtons'
