@@ -1,0 +1,138 @@
+@use "@styles/func";
+@use "@styles/mixins";
+@use "@styles/variables";
+
+.root {
+	width: 100%;
+	background: #fff;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 24px;
+	width: 100%;
+	padding: 20px;
+
+	@media (max-width: 1200px) {
+		grid-template-columns: repeat(3, 1fr);
+	}
+	@media (max-width: 900px) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	@media (max-width: 560px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.card {
+	position: relative;
+	aspect-ratio: 3 / 4;
+	background: #f6f8ff;
+	overflow: hidden;
+	border-radius: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	isolation: isolate;
+}
+
+.circle {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	z-index: 0;
+}
+
+.circleInner {
+	width: 72%;
+	aspect-ratio: 1/1;
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--color-accent-2) 40%, white 60%);
+	filter: drop-shadow(0 20px 32px rgba(0 0 0 / 0.15));
+	transform: scale(1);
+	transition: transform .55s cubic-bezier(.2,.7,.2,1);
+}
+
+.labels {
+	position: absolute;
+	top: 16%;
+	left: 50%;
+	transform: translate(-50%, 0);
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	z-index: 2;
+	transition: transform .55s cubic-bezier(.2,.7,.2,1);
+}
+
+.kicker {
+	color: rgba(0 0 0 / .6);
+	font-size: 13px;
+}
+
+.title {
+	font-size: 28px;
+	font-weight: 700;
+	line-height: 1.25;
+	color: rgba(0 0 0 / .9);
+}
+
+.media {
+	position: relative;
+	z-index: 1;
+	transform: translateY(0);
+	transition: transform .55s cubic-bezier(.2,.7,.2,1);
+}
+
+.pic {
+	width: 70%;
+	height: auto;
+	object-fit: contain;
+	display: block;
+	filter: drop-shadow(0 18px 16px rgba(0 0 0 / .15));
+}
+
+.meta {
+	position: absolute;
+	bottom: 12%;
+	left: 50%;
+	transform: translate(-50%, 0);
+	color: rgba(0 0 0 / .55);
+	font-size: 13px;
+	z-index: 2;
+}
+
+.readMore {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, 250%);
+	font-size: clamp(28px, 6vw, 56px);
+	font-weight: 800;
+	color: #fff;
+	letter-spacing: .5px;
+	opacity: 0;
+	z-index: 2;
+	transition: transform .55s cubic-bezier(.2,.7,.2,1), opacity .55s cubic-bezier(.2,.7,.2,1);
+	text-transform: none;
+	text-align: center;
+	line-height: .95;
+	white-space: normal; /* позволяем перенос на 2 строки */
+	max-width: 80%;
+}
+
+.card:hover .circleInner {
+	transform: scale(3); /* «заливка» карточки кругом */
+}
+.card:hover .labels {
+	transform: translate(-50%, -14px); /* уехать немного вверх */
+}
+.card:hover .readMore {
+	opacity: 1;
+	transform: translate(-50%, -50%);
+}

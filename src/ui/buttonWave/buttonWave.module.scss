@@ -1,0 +1,50 @@
+@use "@styles/func";
+@use "@styles/mixins";
+@use "@styles/variables";
+
+.root {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 12px 18px;
+	border: 1px solid #131313;
+	cursor: pointer;
+	letter-spacing: -0.02em;
+	overflow: hidden;
+	z-index: 1;
+	color: #131313;
+	background: transparent;
+	transition: color .3s ease, border-color .3s ease, background-color .3s ease;
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset-inline: 0;
+		top: 100%;
+		height: 200%;
+		background: var(--btn-bg, var(--color-accent-2));
+		transition: top .3s ease, border-radius .3s ease;
+		border-radius: 50%;
+		z-index: -1;
+	}
+
+	@include mixins.desktop-only {
+		&:hover {
+			color: #fff;
+			border-color: var(--btn-bg, var(--color-accent-2));
+		}
+		&:hover::before {
+			top: 0;
+			border-radius: 0;
+		}
+	}
+}
+
+.accent2 {
+	--btn-bg: var(--color-accent-2);
+}
+.accent3 {
+	--btn-bg: var(--color-accent-3);
+}

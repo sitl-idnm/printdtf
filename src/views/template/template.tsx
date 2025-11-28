@@ -1,3 +1,5 @@
+'use client'
+
 import { FC } from 'react'
 import classNames from 'classnames'
 
@@ -6,9 +8,13 @@ import { TemplateProps } from './template.types'
 import { Faq } from '@/modules/faq'
 import { Printitems } from '@/modules/printitems'
 import { Wrapper } from '@/ui/wrapper'
+import { Gallery } from '@/modules/gallery'
+import { Cases } from '@/modules/cases'
+import { PrintOptions } from '@/modules/printOptions'
 // import { ViewportSection } from '@/modules/viewportSection'
 import textileItems from '@/modules/printitems/presets/textile'
 import brandingItems from '@/modules/printitems/presets/branding'
+import { ButtonWave } from '@/ui/buttonWave'
 
 const Template: FC<TemplateProps> = ({
   className,
@@ -79,7 +85,6 @@ const Template: FC<TemplateProps> = ({
   return (
     <main className={rootClassName}>
       <Wrapper>
-        <Faq faqData={faqData} />
         <Printitems
           icons={printIcons ?? [
             '/icons/logo.svg',
@@ -90,17 +95,76 @@ const Template: FC<TemplateProps> = ({
           items={printItems ?? textileItems}
           visibleCorners={['bottomRight']}
         />
-        <Printitems
-          icons={printIcons ?? [
-            '/icons/logo.svg',
-            '/images/favicon/shark-fav.svg',
-            '/icons/logo.svg',
-            '/images/favicon/shark-fav.svg'
+        {/* <ButtonWave variant="accent3"><span>Заказать печать</span></ButtonWave> */}
+
+        <Gallery
+          title="ПОРТФОЛИО"
+          description="Откройте полноэкранный просмотр, чтобы рассмотреть текстуру принта/рельеф."
+          items={[
+            { id: 1, image: '/images/banner.jpg', title: 'Футболки' },
+            { id: 2, image: '/images/banner.jpg', title: 'UV на стекле' },
+            { id: 3, image: '/images/banner.jpg', title: 'Чехлы' },
+            { id: 4, image: '/images/banner.jpg', title: 'Кружки' },
+            { id: 5, image: '/images/banner.jpg', title: 'Кружки' },
+            { id: 6, image: '/images/banner.jpg', title: 'Кружки' }
           ]}
-          items={brandingItems}
-          visibleCorners={['bottomLeft']}
         />
+        <Cases
+          items={[
+            {
+              id: 'sber',
+              kicker: 'Сбер',
+              type: 'UV DTF',
+              title: 'Стикерпаки',
+              meta: '120 м, 3500 шт, плоттерная резка, 5 дней; тестовая печать для согласования цветов.',
+              image: '/images/sticker-shark.png'
+            },
+            {
+              id: 'ducks',
+              kicker: '—',
+              type: 'UV DTF',
+              title: 'Корпоративные уточки',
+              meta: 'Нанесение на резиновых уточек 50 шт (20 см), печать + перенос — 3 дня.',
+              image: '/images/sticker-shark.png'
+            },
+            {
+              id: 'lukoil',
+              kicker: 'ЛУКОЙЛ',
+              type: 'DTF',
+              title: 'Печать на футболках',
+              meta: '1000 шт — 2 дня, печать + перенос + упаковка.',
+              image: '/images/sticker-dino.png'
+            },
+            {
+              id: 'mossport',
+              kicker: 'Мосспорт',
+              type: 'DTF',
+              title: 'Нанесение на блокноты',
+              meta: '2000 наборов — 1 сутки.',
+              image: '/images/sticker-dino.png'
+            },
+            {
+              id: 'fix',
+              kicker: 'Клиент (NDA)',
+              type: 'DTF',
+              title: 'Исправление заказа',
+              meta: '5000 изделий — 4 дня.',
+              image: '/images/sticker-dino.png'
+            },
+            {
+              id: 'van',
+              kicker: 'PrintDTF',
+              type: 'UV DTF',
+              title: 'Печать и поклейка авто',
+              meta: 'Сделали печать и поклейку собственного авто — как пример нашей заморочки и возможностей.',
+              image: '/images/sticker-shark.png'
+            }
+          ]}
+        />
+        <PrintOptions />
+        <Faq faqData={faqData} />
       </Wrapper>
+
     </main>
   )
 }

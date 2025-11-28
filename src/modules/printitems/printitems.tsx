@@ -89,6 +89,106 @@ const Printitems: FC<PrintitemsProps> = ({
     return { topRow, middleRow, bottomRow }
   }, [items])
 
+  const makeIcon = useMemo(() => {
+    // rounded, smooth stroke icons (lucide-like)
+    const common = { stroke: 'currentColor', strokeWidth: 2, fill: 'none' as const }
+    const rounded = { strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const }
+    const icons = {
+      shirt: () => (
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path {...common} {...rounded} d="M8 4l4 2 4-2 3 3-3 3v10H8V10L5 7l3-3z" />
+        </svg>
+      ),
+      cap: () => (
+        <svg viewBox="0 0 24 24"><path {...common} {...rounded} d="M3 15h14l4 2-1 2-7-1H5a4 4 0 0 1 8-6" /></svg>
+      ),
+      mug: () => (
+        <svg viewBox="0 0 24 24"><rect {...common} x="3" y="7" width="12" height="10" rx="2" /><path {...common} {...rounded} d="M15 9h3a2 2 0 1 1 0 4h-3" /></svg>
+      ),
+      bottle: () => (
+        <svg viewBox="0 0 24 24"><path {...common} {...rounded} d="M10 2h4v3l1 2v12a3 3 0 0 1-3 3h0a3 3 0 0 1-3-3V7l1-2V2z" /></svg>
+      ),
+      bag: () => (
+        <svg viewBox="0 0 24 24"><path {...common} {...rounded} d="M6 9h12l1 10H5L6 9z" /><path {...common} {...rounded} d="M9 9V7a3 3 0 0 1 6 0v2" /></svg>
+      ),
+      sticker: () => (
+        <svg viewBox="0 0 24 24"><path {...common} {...rounded} d="M7 4h7l5 5v7a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" /><path {...common} {...rounded} d="M14 4v5h5" /></svg>
+      ),
+      box: () => (
+        <svg viewBox="0 0 24 24"><path {...common} {...rounded} d="M3 7l9-4 9 4-9 4-9-4z" /><path {...common} {...rounded} d="M3 10l9 4 9-4v7l-9 4-9-4v-7z" /></svg>
+      ),
+      cube: () => (
+        <svg viewBox="0 0 24 24"><path {...common} {...rounded} d="M12 3l8 4v10l-8 4-8-4V7l8-4z" /><path {...common} {...rounded} d="M12 7l8 4M12 7L4 11" /></svg>
+      ),
+      sign: () => (
+        <svg viewBox="0 0 24 24"><rect {...common} x="3" y="4" width="18" height="8" rx="1" /><path {...common} {...rounded} d="M9 12v8M15 12v6" /></svg>
+      ),
+      device: () => (
+        <svg viewBox="0 0 24 24"><rect {...common} x="3" y="5" width="18" height="14" rx="2" /><path {...common} {...rounded} d="M12 17h0.01" /></svg>
+      ),
+      gift: () => (
+        <svg viewBox="0 0 24 24"><rect {...common} x="3" y="10" width="18" height="10" rx="2" /><path {...common} {...rounded} d="M12 10v10M3 7h7v3H3zM14 7h7v3h-7z" /></svg>
+      ),
+      ribbon: () => (
+        <svg viewBox="0 0 24 24"><circle {...common} cx="12" cy="9" r="3.5" /><path {...common} {...rounded} d="M9 12l-3 8 6-3 6 3-3-8" /></svg>
+      ),
+      shield: () => (
+        <svg viewBox="0 0 24 24"><path {...common} {...rounded} d="M12 3l7 3v6a9 9 0 0 1-7 8 9 9 0 0 1-7-8V6l7-3z" /></svg>
+      ),
+      poster: () => (
+        <svg viewBox="0 0 24 24"><rect {...common} x="4" y="4" width="16" height="12" rx="2" /><path {...common} {...rounded} d="M7 14l3-3 3 2 2-3 2 4" /></svg>
+      ),
+      tag: () => (
+        <svg viewBox="0 0 24 24"><path {...common} {...rounded} d="M3 12l9-9 9 9-9 9-9-9z" /><circle {...common} cx="12" cy="8" r="1.5" /></svg>
+      )
+    }
+
+    const pickCategory = (label: string) => {
+      const t = label.toLowerCase()
+      if (/(футболк|свитш|толстов|худи|одежд|форм)/.test(t)) return 'shirt'
+      if (/(кепк|бейсболк)/.test(t)) return 'cap'
+      if (/(кружк|чаш|керамик)/.test(t)) return 'mug'
+      if (/(бутыл|фляг)/.test(t)) return 'bottle'
+      if (/(сумк|шоппер)/.test(t)) return 'bag'
+      if (/(стикер|накле)/.test(t)) return 'sticker'
+      if (/(упаков|короб)/.test(t)) return 'box'
+      if (/(пакет)/.test(t)) return 'bag'
+      if (/(стекл|пластик|металл|дерев|камень)/.test(t)) return 'cube'
+      if (/(вывеск|таблич)/.test(t)) return 'sign'
+      if (/(гаджет|телефон|ноутбук)/.test(t)) return 'device'
+      if (/(подар|сувен)/.test(t)) return 'gift'
+      if (/(лента|шеврон)/.test(t)) return 'ribbon'
+      if (/(кожан|бейдж)/.test(t)) return 'tag'
+      if (/(постер|плакат)/.test(t)) return 'poster'
+      return 'tag'
+    }
+
+    // Provide 2-3 variants per popular categories to avoid duplicates
+    const variants: Record<string, Array<() => JSX.Element>> = {
+      shirt: [icons.shirt, icons.ribbon],
+      cap: [icons.cap, icons.tag],
+      mug: [icons.mug, icons.gift],
+      bottle: [icons.bottle, icons.tag],
+      bag: [icons.bag, icons.box],
+      sticker: [icons.sticker, icons.tag],
+      box: [icons.box, icons.cube],
+      cube: [icons.cube, icons.tag],
+      sign: [icons.sign, icons.poster],
+      device: [icons.device, icons.tag],
+      gift: [icons.gift, icons.ribbon],
+      ribbon: [icons.ribbon, icons.tag],
+      tag: [icons.tag, icons.poster],
+      poster: [icons.poster, icons.tag]
+    }
+
+    return (label: string, index: number) => {
+      const cat = pickCategory(label)
+      const list = variants[cat] || [icons.tag]
+      const fn = list[index % list.length]
+      return fn()
+    }
+  }, [items])
+
   const triggerOthersFall = useCallback((anchorEl: Element) => {
     const itemsEls = rowsRef.current ? Array.from(rowsRef.current.querySelectorAll(`.${styles.item}`)) : []
     const others = itemsEls.filter(node => node !== anchorEl)
@@ -113,7 +213,7 @@ const Printitems: FC<PrintitemsProps> = ({
     const el = getEventTarget(e)
     el.classList.add(styles.itemHover)
     gsap.set(el, { zIndex: 5 })
-    gsap.to(el, { y: -8, scale: 1.06, duration: 0.25, ease: 'power3.out' })
+    gsap.to(el, { y: 0, duration: 0.25, ease: 'power3.out' })
     // delayed fall for others (200ms sustained hover)
     const existing = hoverDelayTimersRef.current.get(el)
     if (existing) window.clearTimeout(existing)
@@ -161,8 +261,9 @@ const Printitems: FC<PrintitemsProps> = ({
         gsap.to(node, {
           y: 0,
           rotation: 0,
-          duration: 0.7,
-          ease: 'back.out(1.6)'
+          duration: 0.45,
+          ease: 'power2.out',
+          overwrite: 'auto'
         })
       })
       fallActivatedRef.current.delete(el)
@@ -232,6 +333,7 @@ const Printitems: FC<PrintitemsProps> = ({
                 onMouseEnter={handleItemEnter}
                 onMouseMove={handleItemMove}
                 onMouseLeave={handleItemLeave}
+                icon={makeIcon(label, idx)}
               >
                 {label}
               </Printitem>
@@ -246,6 +348,7 @@ const Printitems: FC<PrintitemsProps> = ({
               onMouseEnter={handleItemEnter}
               onMouseMove={handleItemMove}
               onMouseLeave={handleItemLeave}
+              icon={makeIcon(label, idx)}
             >
               {label}
             </Printitem>
@@ -260,6 +363,7 @@ const Printitems: FC<PrintitemsProps> = ({
                 onMouseEnter={handleItemEnter}
                 onMouseMove={handleItemMove}
                 onMouseLeave={handleItemLeave}
+                icon={makeIcon(label, idx)}
               >
                 {label}
               </Printitem>

@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useLayoutEffect, useRef, useState } from 'react'
+import { FC, useLayoutEffect, useRef, useState, useEffect } from 'react'
 import classNames from 'classnames'
 import { gsap } from 'gsap'
 
@@ -10,9 +10,11 @@ type HeaderAnimProps = {
 	className?: string
 	size?: number
 	color?: string
+	initialOpen?: boolean
+	open?: boolean
 }
 
-const HeaderAnim: FC<HeaderAnimProps> = ({ className, size = 48, color = 'var(--color-black-default)' }) => {
+const HeaderAnim: FC<HeaderAnimProps> = ({ className, size = 48, color = 'var(--color-black-default)', initialOpen = false, open }) => {
 	const svgRef = useRef<SVGSVGElement | null>(null)
 	const tlRef = useRef<gsap.core.Timeline | null>(null)
 	const arrowGroupRef = useRef<SVGGElement | null>(null)
@@ -121,18 +123,42 @@ const HeaderAnim: FC<HeaderAnimProps> = ({ className, size = 48, color = 'var(--
 				{ duration: 0.45, strokeDashoffset: 0, strokeOpacity: 1 },
 				'-=0.2'
 			)
+			// If needs to start opened (cross), jump to end state
+			if (initialOpen && tlRef.current) {
+				tlRef.current.progress(1)
+			}
 		}, svgRef)
 
 		return () => ctx.revert()
 	}, [])
 
-	const [isOpen, setIsOpen] = useState(false)
+	const [isOpen, setIsOpen] = useState(initialOpen)
+
+	// Controlled mode: when `open` is provided, tween timeline to target state and ignore local toggles
+	// This prevents race conditions when switching rapidly between FAQ items
+	const prevOpenRef = useRef<boolean | undefined>(open)
+	useEffect(() => {
+		if (open === undefined) return
+		if (!tlRef.current) return
+		if (prevOpenRef.current === open) return
+		prevOpenRef.current = open
+		const tl = tlRef.current
+		gsap.to(tl, {
+			time: open ? tl.duration() : 0,
+			duration: 0.35,
+			ease: 'power2.inOut',
+			overwrite: 'auto'
+		})
+		setIsOpen(open)
+	}, [open])
 
 	return (
 		<div
 			className={classNames(styles.root, className)}
 			aria-hidden
 			onClick={() => {
+				// In controlled mode (open defined) - ignore internal clicks
+				if (open !== undefined) return
 				if (!tlRef.current) return
 				if (!isOpen) {
 					tlRef.current.play()
