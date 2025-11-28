@@ -17,6 +17,8 @@
 
 	.bg_image {
 		background: center no-repeat url('../../../public/images/black.avif');
+		// background-size: cover;
+		// filter: grayscale(100%);
 
 		position: absolute;
 		top: 0;

@@ -6,6 +6,8 @@ import styles from './sliderBeforeAfter.module.scss'
 import { SliderBeforeAfterProps } from './sliderBeforeAfter.types'
 import gsap from 'gsap'
 import { Advantages } from '@/components'
+import { useSetAtom } from 'jotai'
+import { printMethodWriteAtom } from '@atoms/printMethodAtom'
 
 const advantagesDTF = [{
   num: '1', text: 'Малые и средние тиражи'
@@ -53,10 +55,12 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
 
   const prevRef = useRef<HTMLDivElement>(null)
   const nextRef = useRef<HTMLDivElement>(null)
+  const setPrintMethod = useSetAtom(printMethodWriteAtom)
 
   useLayoutEffect(() => {
     gsap.set(prevRef.current, { left: 0 })
     gsap.set(nextRef.current, { left: '100%' })
+    setPrintMethod('dtf')
   }, [])
 
   function nextSlide() {
@@ -94,12 +98,14 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
           <button onClick={() => {
             nextSlide()
             setCurrentSlide(2)
+            setPrintMethod('uvdtf')
           }}>
             2
           </button>
           <button onClick={() => {
             prevSlide()
             setCurrentSlide(1)
+            setPrintMethod('dtf')
           }}>
             1
           </button>
