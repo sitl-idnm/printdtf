@@ -1,0 +1,152 @@
+@use "@styles/variables";
+
+.overlay {
+	position: fixed;
+	inset: 0;
+	background: #000;
+	color: #fff;
+	z-index: 1000;
+	opacity: 0;
+	animation: fadeIn .35s ease forwards;
+	display: grid;
+	grid-template-rows: 52px 1fr; /* верхняя плашка + контент */
+}
+
+@keyframes fadeIn {
+	to { opacity: 1; }
+}
+
+.wrap {
+	width: 100%;
+	max-width: none;
+	margin: 0;
+	padding: 24px 24px 48px;
+	display: grid;
+	grid-template-columns: 1fr 1.8fr;
+	grid-template-rows: auto auto auto;
+	gap: 24px 32px;
+	height: calc(100vh - 52px); /* помещаем контент вместе с плашкой в экран */
+	overflow-y: auto;
+}
+
+.close {
+	grid-row: 1 / 2;
+	grid-column: 1 / -1;
+	height: 52px;
+	background: var(--color-accent-1);
+	color: #fff;
+	border: 0;
+	border-radius: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.close:hover { background: var(--color-accent-2); }
+
+.impact {
+	grid-column: 1 / 2;
+	grid-row: 1 / 2;
+	align-self: start;
+	justify-self: start;
+	color: rgba(255 255 255 / .8);
+	font-size: 24px; /* в 2 раза больше */
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+
+.title {
+	grid-column: 2 / 3;
+	grid-row: 1 / 2;
+	font-family: var(--font-unbounded);
+	font-size: clamp(36px, 6vw, 72px);
+	font-weight: 900;
+	line-height: 1.05;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	margin: 4px 0 12px;
+}
+
+.hero {
+	grid-column: 2 / 3;
+	grid-row: 2 / 3;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	max-height: 52vh; /* чтобы не перекрывать статистику */
+	align-self: start;
+	background: #111;
+	border-radius: 0;
+	overflow: hidden;
+	filter: grayscale(100%);
+}
+
+.desc {
+	grid-column: 1 / 2;
+	grid-row: 2 / 3;
+	align-self: start;
+	color: rgba(255 255 255 / .85);
+	line-height: 1.6;
+	font-size: 15px;
+	letter-spacing: .01em;
+}
+
+.hero img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	filter: grayscale(100%);
+}
+
+.stats {
+	grid-column: 2 / 3;
+	grid-row: 3 / 4;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+	margin-top: 48px; /* небольшой отступ между фото и статистикой */
+}
+
+.statNum {
+	font-family: var(--font-unbounded);
+	font-size: clamp(48px, 10vw, 96px);
+	font-weight: 900;
+	letter-spacing: .5px;
+	/* убираем странную обводку */
+}
+
+.statNum span {
+	font-size: .35em;
+	position: relative;
+	top: -0.25em; /* приподняли плюс */
+	margin-left: 8px;
+}
+
+.statNote {
+	margin-top: 10px;
+	font-size: 13px;
+	color: rgba(255 255 255 / .75);
+	letter-spacing: .1em;
+	text-transform: uppercase;
+}
+
+.ticket {
+	grid-column: 1 / 2;
+	grid-row: 3 / 4;
+	align-self: end; /* прижать к низу контейнера */
+	justify-self: start;
+	display: inline-block;
+	background: var(--color-blue);
+	color: #fff;
+	padding: 12px 18px;
+	border: 0;
+	border-radius: 0;
+	font-weight: 700;
+	letter-spacing: .6px;
+	cursor: pointer;
+}
+
+.close {
+	transition: background-color .25s ease, color .25s ease; /* плавное изменение цвета */
+}

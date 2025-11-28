@@ -3,9 +3,10 @@
 @use "@styles/variables";
 
 .root {
-  max-width: 1312px;
+  width: 100%;
+  max-width: none;
 	margin: 0 auto;
-  padding: 80px 0;
+  padding: 80px 12px;
 
   @include tablet {
     padding: 40px 12px;
@@ -17,7 +18,7 @@
 }
 
 .container {
-  width: 70%;
+  width: 100%;
 
   @include tablet {
     width: 100%;
@@ -38,30 +39,43 @@
   }
 }
 
-.faqList {
+.faqGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+
+  @include tablet {
+    grid-template-columns: 1fr;
+  }
+}
+
+.col {
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  &:nth-child(2) {
+    margin-top: 28px;
+
+    @include tablet {
+      margin-top: 0;
+    }
+  }
 }
 
 .faqItem {
   background: #F9F9F9;
-  border-radius: 12px;
+  border-radius: 0;
   overflow: hidden;
 
   &.active {
     .question {
-      .icon {
-        color: var(--color-red-accent);
-
-        svg {
-          transform: rotate(180deg);
-        }
-      }
+      .icon { }
+      .chev { transform: rotate(180deg); }
     }
 
     .answer {
-      max-height: 1000px;
+      grid-template-rows: 1fr;
       opacity: 1;
       margin-top: 16px;
       margin-bottom: 20px;
@@ -86,11 +100,9 @@
   transition: color 0.3s ease;
 
   &:hover {
-    color: var(--color-red-accent);
+    color: var(--color-accent-4);
 
-    .icon {
-      transform: rotate(90deg);
-    }
+    .chev { transform: rotate(90deg); }
   }
 
   @include tablet {
@@ -104,28 +116,40 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-red-accent);
-    transition: all 0.3s ease;
-    transform: translateZ(0);
-    will-change: transform;
+    background: transparent;
+    border-radius: 0;
+    transition: background 0.3s ease;
 
-    svg {
-      width: 32px;
-      height: 32px;
+    .animIcon {
+      display: inline-flex;
+
+      svg {
+        display: block;
+      }
+    }
+
+    // inner arrow (chevron)
+    .chev {
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid var(--color-white-default);
+      border-bottom: 2px solid var(--color-white-default);
+      transform: rotate(45deg);
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      transform-origin: center;
       will-change: transform;
-      backface-visibility: hidden;
-      -webkit-font-smoothing: antialiased;
     }
   }
 }
 
 .answer {
-  max-height: 0;
+  display: grid;
+  grid-template-rows: 0fr;
   opacity: 0;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition:
+    grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease,
+    margin 0.3s ease;
   margin-top: 0;
   margin-bottom: 0;
   font-size: 16px;
@@ -136,4 +160,8 @@
   @include tablet {
     font-size: 12px;
   }
+}
+
+.answerInner {
+  overflow: hidden;
 }
