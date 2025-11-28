@@ -1,4 +1,5 @@
 export { Advantages } from './advantages'
 export { Dialog } from './dialog'
+export { Form } from './form'
 export { Printitem } from './printitem'
 export { TabsButtons } from './tabsButtons'

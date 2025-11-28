@@ -130,7 +130,7 @@ const HeaderAnim: FC<HeaderAnimProps> = ({ className, size = 48, color = 'var(--
 		}, svgRef)
 
 		return () => ctx.revert()
-	}, [])
+	}, [initialOpen, x0, xMax, y0, yMax])
 
 	const [isOpen, setIsOpen] = useState(initialOpen)
 

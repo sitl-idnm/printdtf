@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Printitem } from '@/components'
+import Image from 'next/image'
 
 import styles from './printitems.module.scss'
 import { PrintitemsProps } from './printitems.types'
@@ -79,10 +80,10 @@ const Printitems: FC<PrintitemsProps> = ({
     if (total < 3) {
       return { topRow: [] as string[], middleRow: items, bottomRow: [] as string[] }
     }
-    let middleCount = Math.min(total, Math.ceil(total / 3) + 1)
-    let remaining = total - middleCount
-    let topCount = Math.min(Math.ceil(remaining / 2), middleCount - 1)
-    let bottomCount = remaining - topCount
+    const middleCount = Math.min(total, Math.ceil(total / 3) + 1)
+    const remaining = total - middleCount
+    const topCount = Math.min(Math.ceil(remaining / 2), middleCount - 1)
+    const bottomCount = remaining - topCount
     const topRow = items.slice(0, topCount)
     const middleRow = items.slice(topCount, topCount + middleCount)
     const bottomRow = items.slice(topCount + middleCount, topCount + middleCount + bottomCount)
@@ -187,13 +188,13 @@ const Printitems: FC<PrintitemsProps> = ({
       const fn = list[index % list.length]
       return fn()
     }
-  }, [items])
+  }, [])
 
   const triggerOthersFall = useCallback((anchorEl: Element) => {
     const itemsEls = rowsRef.current ? Array.from(rowsRef.current.querySelectorAll(`.${styles.item}`)) : []
     const others = itemsEls.filter(node => node !== anchorEl)
     const vh = window.innerHeight
-    others.forEach((node, i) => {
+    others.forEach((node) => {
       gsap.killTweensOf(node)
       const rect = (node as HTMLElement).getBoundingClientRect()
       const dy = Math.max(120, vh - rect.top + 180)
@@ -255,7 +256,7 @@ const Printitems: FC<PrintitemsProps> = ({
     if (fallActivatedRef.current.has(el)) {
       const itemsEls = rowsRef.current ? Array.from(rowsRef.current.querySelectorAll(`.${styles.item}`)) : []
       const others = itemsEls.filter(node => node !== el)
-      others.forEach((node, i) => {
+      others.forEach((node) => {
         fallTweensRef.current.get(node)?.kill()
         fallTweensRef.current.delete(node)
         gsap.to(node, {
@@ -380,7 +381,7 @@ const Printitems: FC<PrintitemsProps> = ({
               onMouseEnter={() => handleMouseEnter(0)}
               onMouseLeave={() => handleMouseLeave(0)}
             >
-              <img src={preparedIcons[0]} alt="" aria-hidden="true" />
+              <Image src={preparedIcons[0]} alt="" width={64} height={64} aria-hidden="true" />
             </div>
           )}
           {showTopRight && (
@@ -390,7 +391,7 @@ const Printitems: FC<PrintitemsProps> = ({
               onMouseEnter={() => handleMouseEnter(1)}
               onMouseLeave={() => handleMouseLeave(1)}
             >
-              <img src={preparedIcons[1]} alt="" aria-hidden="true" />
+              <Image src={preparedIcons[1]} alt="" width={64} height={64} aria-hidden="true" />
             </div>
           )}
           {showBottomLeft && (
@@ -400,7 +401,7 @@ const Printitems: FC<PrintitemsProps> = ({
               onMouseEnter={() => handleMouseEnter(2)}
               onMouseLeave={() => handleMouseLeave(2)}
             >
-              <img src={preparedIcons[2]} alt="" aria-hidden="true" />
+              <Image src={preparedIcons[2]} alt="" width={64} height={64} aria-hidden="true" />
             </div>
           )}
           {showBottomRight && (
@@ -410,7 +411,7 @@ const Printitems: FC<PrintitemsProps> = ({
               onMouseEnter={() => handleMouseEnter(3)}
               onMouseLeave={() => handleMouseLeave(3)}
             >
-              <img src={preparedIcons[3]} alt="" aria-hidden="true" />
+              <Image src={preparedIcons[3]} alt="" width={64} height={64} aria-hidden="true" />
             </div>
           )}
         </>

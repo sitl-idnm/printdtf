@@ -1,5 +1,6 @@
 import { FC, useEffect, useMemo } from 'react'
 import classNames from 'classnames'
+import Image from 'next/image'
 
 import styles from './caseModal.module.scss'
 import { Portal } from '@/service/portal'
@@ -20,10 +21,10 @@ export type CaseModalProps = {
 }
 
 const CaseModal: FC<CaseModalProps> = ({ open, onClose, item }) => {
-  if (!open) return null
 
   // block body scroll and close on ESC
   useEffect(() => {
+    if (!open) return
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     const onKey = (e: KeyboardEvent) => {
@@ -34,7 +35,7 @@ const CaseModal: FC<CaseModalProps> = ({ open, onClose, item }) => {
       document.body.style.overflow = prevOverflow
       window.removeEventListener('keydown', onKey)
     }
-  }, [onClose])
+  }, [onClose, open])
 
   const parsedStats = useMemo(() => {
     if (item?.stats?.length) return item.stats
@@ -52,6 +53,8 @@ const CaseModal: FC<CaseModalProps> = ({ open, onClose, item }) => {
     while (res.length < 3) res.push({ value: '—', note: '' })
     return res.slice(0, 3)
   }, [item])
+
+  if (!open) return null
 
   const formatType = (t?: string) => {
     if (!t) return ''
@@ -79,7 +82,14 @@ const CaseModal: FC<CaseModalProps> = ({ open, onClose, item }) => {
             {item?.meta ?? ''}
           </div>
           <div className={classNames(styles.hero)}>
-            <img src={item?.image ?? '/images/banner.jpg'} alt="" />
+            <Image
+              src={item?.image ?? '/images/banner.jpg'}
+              alt=""
+              width={1600}
+              height={900}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              priority
+            />
           </div>
           <div className={styles.stats}>
             {parsedStats.map((s, i) => (
