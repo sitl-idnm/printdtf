@@ -55,12 +55,15 @@ const PrintOptions: FC<PrintOptionsProps> = ({
 
       // анимация рисования декоративных линий/крестиков
       if (decos) {
-        const drawables = decos.querySelectorAll<SVGPathElement | SVGLineElement>('[data-draw="1"]')
+        const drawables = decos.querySelectorAll<SVGGeometryElement>('[data-draw="1"]')
         drawables.forEach((el) => {
-          // вычислить длину линии/пути, чтобы анимация была видна на любом размере
-          const len =
-            // @ts-expect-error getTotalLength доступен у SVG геометрии
-            typeof el.getTotalLength === 'function' ? el.getTotalLength() : 400
+          // вычислить длину линии/пути (SVGGeometryElement.getTotalLength)
+          let len = 400
+          try {
+            len = el.getTotalLength()
+          } catch {
+            // fallback оставляем 400
+          }
           gsap.set(el, { strokeDasharray: len, strokeDashoffset: len })
           gsap.to(el, {
             strokeDashoffset: 0,
