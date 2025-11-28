@@ -1,0 +1,155 @@
+@use "@styles/func";
+@use "@styles/mixins";
+@use "@styles/variables";
+
+.root {
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+
+	padding: 40px;
+
+	background-color: black;
+
+	.title {
+		font-family: var(--font-unbounded);
+		font-size: 48px;
+		text-transform: uppercase;
+		color: white;
+	}
+
+	.container {
+		display: flex;
+		flex-direction: column;
+
+		.card {
+			padding: 130px 40px 20px;
+
+			background-color: var(--color-accent-4);
+
+			width: max-content;
+
+			opacity: 0;
+
+			font-size: 24px;
+			line-height: 1.4;
+			font-weight: 600;
+			color: white;
+
+			display: flex;
+			flex-direction: column;
+			gap: 40px;
+
+			max-width: 500px;
+			width: 100%;
+
+			transition: color 0.3s ease-in-out, background 0.3s ease-in-out;
+
+			&:hover {
+				color: black;
+				background-color: var(--color-accent-2);
+
+				.text {
+					border-bottom: 2px solid black;
+				}
+
+				.number {
+					background-color: black;
+					color: var(--color-accent-2);
+				}
+			}
+
+			.text {
+				border-bottom: 2px solid white;
+				padding-bottom: 40px;
+				transition: border 0.3s ease-in-out;
+			}
+
+			.number {
+				font-family: var(--font-unbounded);
+				font-size: 32px;
+				line-height: 1.4;
+
+				width: 60px;
+				height: 60px;
+
+				color: var(--color-accent-4);
+
+				background-color: white;
+				padding: 5px 15px;
+
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+			}
+		}
+
+		.first {
+			margin-top: 100px;
+			background-color: var(--color-accent-2);
+
+			color: black;
+
+			&:hover {
+				color: white;
+				background-color: var(--color-accent-1);
+
+				.text {
+					border-bottom: 2px solid white;
+				}
+
+				.number {
+					background-color: white;
+					color: var(--color-accent-1);
+				}
+			}
+
+			.text {
+				border-color: black;
+			}
+
+			.number {
+				color: var(--color-accent-2);
+				background-color: black;
+			}
+		}
+
+		.second {
+			align-self: flex-end;
+		}
+
+		.third {
+			background-color: white;
+
+			color: black;
+
+			margin-left: 450px;
+			margin-top: -100px;
+
+			&:hover {
+				color: white;
+				background-color: rgb(172, 172, 172);
+
+				.text {
+					border-bottom: 2px solid white;
+				}
+
+				.number {
+					background-color: white;
+					color: rgb(172, 172, 172);
+				}
+			}
+
+			.text {
+				border-color: black;
+			}
+
+			.number {
+				background-color: black;
+				color: white;
+			}
+		}
+	}
+}
