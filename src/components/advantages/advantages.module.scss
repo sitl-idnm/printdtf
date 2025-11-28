@@ -1,0 +1,148 @@
+@use "@styles/func";
+@use "@styles/mixins";
+@use "@styles/variables";
+
+.root {
+	display: flex;
+
+	align-items: center;
+	justify-content: flex-end;
+
+	gap: 60px;
+
+	padding: 40px;
+
+	max-width: 80vw;
+
+	position: relative;
+	width: 100%;
+
+	.container {
+		position: absolute;
+		top: 50%;
+		left: 0;
+		transform: translateY(-50%);
+
+		.title {
+			font-family: var(--font-unbounded);
+			font-size: 32px;
+			line-height: 1.4;
+			text-transform: uppercase;
+
+
+			display: flex;
+			flex-direction: column;
+
+			margin-bottom: 30px;
+
+			span:last-child {
+				font-size: 64px;
+			}
+		}
+
+		.bg_image {
+			background: center no-repeat url('/images/background-3.jpg');
+
+			.image,
+			.image2 {
+				transition: scale 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+				transform: translate(-25%, -25%);
+			}
+
+			.image2 {
+				transform: translate(25%, 25%);
+			}
+
+			&:hover {
+				.image {
+					scale: 1.1;
+					transform: translateX(-25%);
+				}
+
+				.image2 {
+					scale: 1.1;
+					transform: translateX(25%);
+				}
+			}
+		}
+	}
+
+	.list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 30px;
+
+		padding: 20px;
+
+		max-width: 675px;
+
+		.item {
+			padding: 15px 30px;
+			background-color: var(--color-accent-2);
+			font-weight: 500;
+
+			transition: all 0.3s ease-in-out;
+
+			max-width: 300px;
+
+			&:nth-child(2n) {
+				transform: translateY(50px);
+			}
+
+			&:nth-child(2n):hover {
+				scale: 1.1;
+				rotate: -5deg;
+			}
+
+			&:nth-child(2n + 1):hover {
+				scale: 1.1;
+				rotate: 5deg;
+			}
+
+			&:hover {
+				background-color: var(--color-accent-1);
+				color: white;
+			}
+
+			.number {
+				font-family: var(--font-unbounded);
+				font-size: 32px;
+				line-height: 1.4;
+			}
+
+			.text {
+				font-weight: 500;
+				font-size: 20px;
+				line-height: 1.5;
+			}
+		}
+	}
+}
+
+
+.right {
+	justify-content: flex-start;
+
+	.container {
+		right: 0;
+		left: auto;
+
+		.title {
+			color: white;
+		}
+	}
+
+	.list {
+		.item {
+			background-color: var(--color-accent-1);
+
+			color: white;
+
+			&:hover {
+				background-color: var(--color-accent-2);
+				color: black;
+			}
+		}
+	}
+}
