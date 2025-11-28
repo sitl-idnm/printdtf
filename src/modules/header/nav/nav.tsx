@@ -34,7 +34,7 @@ export const Nav = () => {
 				defaults: { ease: 'power1.inOut' }
 			})
 				.to(menu, { width: 'auto' })
-				.to(items, { opacity: 1, stagger: { each: 0.5, from: 'end' }, overwrite: 'auto' }, 0)
+				.to(items, { opacity: 1, stagger: { each: 0.3, from: 'end' }, overwrite: 'auto' }, 0)
 
 			return () => {
 				tlRef.current?.kill()

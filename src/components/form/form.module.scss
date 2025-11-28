@@ -1,5 +1,190 @@
 @use "@styles/func";
 @use "@styles/mixins";
 @use "@styles/variables";
-  
-.root {}
+
+.root {
+	display: grid;
+	gap: 24px;
+}
+
+.invert {
+	color: #fff;
+}
+.invert .fieldLabel { color: #fff; }
+.invert .choiceLabel { color: #fff; }
+.invert .topLine { background: rgba(255,255,255,.35); }
+.invert .ph { color: rgba(255,255,255,.6); }
+.invert .input { color: #fff; }
+.invert .option { color: #fff; border-color: rgba(255,255,255,.6); }
+.invert .selected { color: #fff !important; }
+.invert .checkbox {
+	border-color: #fff;
+}
+.invert .agree { color: #fff; }
+.invert .cta {
+	color: #fff;
+	border-color: rgba(255,255,255,.7);
+}
+.invert .cta:hover {
+	color: #fff;
+	border-color: var(--btn-bg, var(--color-accent-2));
+}
+.invert .inputCell:focus-within .ph,
+.invert .inputCell:hover .ph,
+.invert .filled .ph {
+	color: #fff;
+}
+
+.control {
+	position: relative;
+	display: grid;
+	gap: 10px;
+	padding-top: 12px; // room for the top line
+}
+
+.topLine {
+	position: absolute;
+	inset-inline: 0;
+	top: 0;
+	height: 1px;
+	background: rgba(0,0,0,.25);
+}
+
+.fieldLabel {
+	color: #131313;
+	font-weight: 400;
+	font-size: clamp(14px, 1.4vw, 16px);
+	margin-top: 8px;
+}
+.choiceLabel {
+	color: #131313;
+	font-weight: 400;
+	font-size: clamp(14px, 1.4vw, 16px);
+}
+
+.row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	justify-content: space-between;
+}
+
+.row .fieldLabel {
+	margin-top: 0;
+}
+
+.inputCell {
+	position: relative;
+	display: flex;
+	align-items: center;
+	min-height: 40px;
+	width: 80%;
+}
+
+	.ph {
+	position: absolute;
+	right: 0;
+	top: 11px;
+	color: rgba(0,0,0,.45);
+	transition: top .2s ease, font-size .2s ease, color .2s ease;
+	pointer-events: none;
+}
+
+.input {
+	width: 100%;
+	background: transparent;
+	border: 0;
+	outline: none;
+	padding: 0;
+	color: #131313;
+	font: inherit;
+	text-align: right;
+	direction: ltr;
+}
+
+.inputCell:focus-within .ph,
+.inputCell:hover .ph,
+.filled .ph {
+	top: -32px;
+	font-size: 12px;
+	color: #131313;
+}
+
+.optionsRow {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.group {
+	padding-bottom: 6px;
+}
+.groupHeader {
+	min-height: 28px;
+}
+.options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+.option {
+	// reset vertical spacing alignment
+}
+.selected {
+	color: #fff !important;
+	background: var(--btn-bg, var(--color-accent-2)) !important;
+	border-color: var(--btn-bg, var(--color-accent-2)) !important;
+}
+
+.agree {
+	display: grid;
+	grid-template-columns: 28px 1fr;
+	align-items: start;
+	gap: 12px;
+	font-size: 14px;
+	color: #131313;
+}
+.checkbox {
+	appearance: none;
+	-webkit-appearance: none;
+	width: 24px;
+	height: 24px;
+	margin: 0;
+	border: 2px solid #131313;
+	border-radius: 4px;
+	background: transparent;
+	display: grid;
+	place-content: center;
+	cursor: pointer;
+	transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
+
+	&::after {
+		content: "";
+		width: 10px;
+		height: 6px;
+		border-left: 2px solid #fff;
+		border-bottom: 2px solid #fff;
+		transform: translateY(-4px) rotate(-45deg) scale(.8);
+		opacity: 0;
+		transition: transform .2s ease, opacity .2s ease;
+	}
+
+	&:checked {
+		background: var(--color-accent-2);
+		border-color: var(--color-accent-2);
+	}
+	&:checked::after {
+		opacity: 1;
+		transform: translateY(-4px) rotate(-45deg) scale(1);
+	}
+
+	&:focus-visible {
+		box-shadow: 0 0 0 3px rgba(0,0,0,.08), 0 0 0 5px var(--color-accent-2);
+		outline: none;
+	}
+}
+
+.actions {
+	margin-top: 6px;
+}

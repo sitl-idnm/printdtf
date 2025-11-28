@@ -1,6 +1,6 @@
 'use client'
 
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import classNames from 'classnames'
 
 import styles from './template.module.scss'
@@ -11,7 +11,10 @@ import { Wrapper } from '@/ui/wrapper'
 import { Gallery } from '@/modules/gallery'
 import { Cases } from '@/modules/cases'
 import { PrintOptions } from '@/modules/printOptions'
-// import { ViewportSection } from '@/modules/viewportSection'
+import { FinalOffer } from '@/modules/finalOffer'
+import { FinalOfferAlt } from '@/modules/finalOfferAlt'
+import { FormModal } from '@/modules/formModal'
+import { ButtonWave } from '@/ui/buttonWave'
 import textileItems from '@/modules/printitems/presets/textile'
 
 const Template: FC<TemplateProps> = ({
@@ -20,6 +23,8 @@ const Template: FC<TemplateProps> = ({
   printItems
 }) => {
   const rootClassName = classNames(styles.root, className)
+
+  const [isOpen, setOpen] = useState(false)
 
   const faqData = [
     {
@@ -94,7 +99,14 @@ const Template: FC<TemplateProps> = ({
           visibleCorners={['bottomRight']}
         />
         {/* <ButtonWave variant="accent3"><span>Заказать печать</span></ButtonWave> */}
-
+        <FormModal
+          open={isOpen}
+          onClose={() => setOpen(false)}
+          title="Оставьте заявку на расчёт"
+          text="Выберите метод (DTF/UV DTF), укажите носитель — наш менеджер свяжется с вами в течение 15 минут."
+        />
+        <FinalOffer />
+        <ButtonWave variant="accent3" onClick={() => setOpen(true)}><span>Заказать печать</span></ButtonWave>
         <Gallery
           title="ПОРТФОЛИО"
           description="Откройте полноэкранный просмотр, чтобы рассмотреть текстуру принта/рельеф."
@@ -107,6 +119,7 @@ const Template: FC<TemplateProps> = ({
             { id: 6, image: '/images/banner.jpg', title: 'Кружки' }
           ]}
         />
+        <FinalOfferAlt />
         <Cases
           items={[
             {
