@@ -7,6 +7,7 @@ import { PrintitemProps } from './printitem.types'
 const Printitem: FC<PrintitemProps> = ({
   className,
   children,
+  icon,
   onMouseEnter,
   onMouseMove,
   onMouseLeave
@@ -20,7 +21,8 @@ const Printitem: FC<PrintitemProps> = ({
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
     >
-      {children}
+      {icon ? <span className={styles.icon}>{icon}</span> : null}
+      <span className={styles.label}>{children}</span>
     </div>
   )
 }

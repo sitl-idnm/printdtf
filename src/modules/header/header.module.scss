@@ -3,7 +3,7 @@
 @use '@styles/variables';
 
 .root {
-  position: absolute;
+  position: fixed;
   width: 98vw;
   background-color: var(--color-accent-2-opacity30);
   top: 20px;
@@ -11,7 +11,6 @@
   transform: translateX(-50%);
   z-index: 100;
   backdrop-filter: blur(4px);
-  border: 1px solid var(--color-accent-2);
 }
 
 .wrapper {
