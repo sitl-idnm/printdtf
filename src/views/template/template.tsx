@@ -13,8 +13,6 @@ import { Cases } from '@/modules/cases'
 import { PrintOptions } from '@/modules/printOptions'
 // import { ViewportSection } from '@/modules/viewportSection'
 import textileItems from '@/modules/printitems/presets/textile'
-import brandingItems from '@/modules/printitems/presets/branding'
-import { ButtonWave } from '@/ui/buttonWave'
 
 const Template: FC<TemplateProps> = ({
   className,

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import type { ComponentProps } from 'react'
 import classNames from 'classnames'
 
 import styles from './button.module.scss'
@@ -11,7 +12,7 @@ export default function Button ({
   className,
   href,
   ...props
-}: ButtonProps<E>) {
+}: ButtonProps) {
   const elClassName = classNames(
     styles.root,
     styles[`root_${size}`],
@@ -19,8 +20,27 @@ export default function Button ({
     className
   )
 
+  if (href) {
+    return (
+      <Link {...(props as ComponentProps<typeof Link>)} href={href} className={elClassName}>
+        <div className={styles.left}>
+          <div className={styles.clip_intro}>
+            <div className={styles.button_banner}>
+              <div className={styles.button_text}>{children}</div>
+            </div>
+            <div className={`${styles.button_banner} ${styles.is_bottom}`}>
+              <div className={styles.button_text_color}>{children}</div>
+            </div>
+          </div>
+          <div className={styles.button_cover}></div>
+        </div>
+        {children}
+      </Link>
+    )
+  }
+
   return (
-    <Link {...props} href={href} className={elClassName}>
+    <button {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)} className={elClassName}>
       <div className={styles.left}>
         <div className={styles.clip_intro}>
           <div className={styles.button_banner}>
@@ -33,6 +53,6 @@ export default function Button ({
         <div className={styles.button_cover}></div>
       </div>
       {children}
-    </Link>
+    </button>
   )
 }

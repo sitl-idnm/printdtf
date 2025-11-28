@@ -1,4 +1,5 @@
-import { ComponentProps, ElementType, ReactNode } from 'react'
+import { ComponentProps, ReactNode } from 'react'
+import Link from 'next/link'
 
 type ButtonColorSchemeType = 'black' | 'white'
 
@@ -12,5 +13,5 @@ type ButtonOwnProps = {
   href?: string
 }
 
-export type ButtonProps<E extends ElementType> = &
-  Omit<ComponentProps<E>, keyof ButtonOwnProps>
+export type ButtonProps = ButtonOwnProps &
+  Omit<ComponentProps<typeof Link>, keyof ButtonOwnProps>
