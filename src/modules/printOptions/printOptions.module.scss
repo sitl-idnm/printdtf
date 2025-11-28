@@ -11,6 +11,7 @@
 	width: 100%;
 	max-width: none;
 	margin: 0;
+	position: relative;
 }
 
 .title {
@@ -41,11 +42,33 @@
 	color: var(--color-neutral);
 	font-size: 20px;
 	box-shadow: 0 2px 8px rgba(0 0 0 / 0.06);
-	padding: 16px 22px;
+	padding: 80px 32px 84px; /* ещё больше верхний паддинг */
 	min-height: 56px;
-	max-width: 780px;
+	max-width: 480px; /* сделали карточки ещё уже */
 	/* плавность при обратном выезде */
 	will-change: transform;
+	position: relative;
+	transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
+
+	/* горизонтальный чёрный сепаратор во всю ширину контента */
+	&::after {
+		content: "";
+		position: absolute;
+		left: 32px;
+		right: 32px;
+		bottom: 24px;
+		height: 2px;
+		background: #000;
+		opacity: 1;
+	}
+
+	@include desktop-only {
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 18px rgba(0 0 0 / 0.18);
+			background: var(--color-accent-2);
+		}
+	}
 }
 
 .left {
@@ -54,4 +77,71 @@
 
 .right {
 	justify-self: end;
+}
+
+.icon {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	width: 28px;
+	height: 28px;
+	color: var(--color-neutral);
+	opacity: .9;
+	pointer-events: none;
+}
+
+.text {
+	text-align: left;
+}
+
+/* декоративные элементы */
+.decors {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+/* правый верх — две палочки // */
+.decSlashOne {
+	position: absolute;
+	top: -12px;
+	right: 24px;
+	width: 108px;
+	height: 108px;
+	color: var(--color-accent-2);
+}
+.decSlashTwo {
+	position: absolute;
+	top: 4px;
+	right: 8px;
+	width: 108px;
+	height: 108px;
+	color: var(--color-accent-3);
+}
+/* правый верх — плюс */
+.decPlus {
+	position: absolute;
+	top: 28px;
+	right: 44px;
+	width: 72px;
+	height: 72px;
+	color: var(--color-accent-2);
+}
+
+/* левый низ — две горизонтали */
+.decBottomLong {
+	position: absolute;
+	bottom: -24px;
+	left: 24px;
+	width: 480px;
+	height: 36px;
+	color: var(--color-accent-2);
+}
+.decBottomShort {
+	position: absolute;
+	bottom: -8px;
+	left: 24px;
+	width: 270px;
+	height: 36px;
+	color: var(--color-accent-2);
 }

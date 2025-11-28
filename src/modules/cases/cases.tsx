@@ -1,5 +1,6 @@
 import { FC, useMemo, useState } from 'react'
 import classNames from 'classnames'
+import Image from 'next/image'
 
 import styles from './cases.module.scss'
 import { CasesProps } from './cases.types'
@@ -32,7 +33,7 @@ const Cases: FC<CasesProps> = ({
     ]
   }, [items])
 
-  const handleOpen = (item: any) => {
+  const handleOpen = (item: CaseItem) => {
     setSelected(item)
     setOpen(true)
   }
@@ -53,9 +54,9 @@ const Cases: FC<CasesProps> = ({
                 <h3 className={styles.title}>{title}</h3>
               </header>
 
-              <div className={styles.media}>
-                <img className={styles.pic} src={image ?? '/images/sticker-dino.png'} alt="" />
-              </div>
+            <div className={styles.media}>
+              <Image className={styles.pic} src={image ?? '/images/sticker-dino.png'} alt="" width={640} height={480} />
+            </div>
 
               <div className={styles.meta}>{type ?? meta}</div>
               <div className={styles.readMore}>смотреть<br />больше</div>
