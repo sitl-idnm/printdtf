@@ -1,0 +1,129 @@
+@use "@styles/func";
+@use "@styles/mixins" as *;
+@use "@styles/variables" as *;
+
+.root {
+  position: relative;
+  width: 100%;
+	padding: 160px 20px;
+}
+
+.code {
+  position: relative;
+  background: color-mix(in srgb, var(--color-black-default) 92%, var(--color-white-default));
+  color: var(--color-accent-3);
+  border: 1px solid color-mix(in srgb, var(--color-white-default) 10%, transparent);
+  border-radius: 0;
+  padding: 40px 20px;
+  overflow: hidden;
+}
+
+.codeHeader {
+  position: absolute;
+  top: 14px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+
+.title {
+  font-family: var(--font-inter);
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 120%;
+  margin-bottom: 40px;
+  text-align: left;
+
+  @include tablet {
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: color-mix(in srgb, var(--color-white-default) 35%, transparent);
+  border-radius: 50%;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: var(--color-white-default);
+  background: var(--color-blue);
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: opacity .2s ease, box-shadow .2s ease, background-color .2s ease;
+  margin-top: 12px;
+}
+
+.copyBtn:hover {
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--color-blue) 45%, transparent);
+}
+
+.content {
+  position: relative;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 16px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.line {
+  display: block;
+}
+
+.isComment {
+  color: color-mix(in srgb, var(--color-white-default) 55%, transparent);
+}
+
+.isMeta {
+  color: var(--color-accent-3);
+}
+
+.copyIconBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--color-white-default) 16%, transparent);
+  background: transparent;
+  color: var(--color-white-default);
+  border-radius: 0;
+  cursor: pointer;
+  transition: box-shadow .2s ease, background-color .2s ease, opacity .2s ease;
+}
+
+.copyIconBtn:hover {
+  box-shadow: 0 10px 26px color-mix(in srgb, var(--color-accent-1) 35%, transparent);
+}
+
+.copyIconSvg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
