@@ -17,5 +17,60 @@
 .wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: func.rem(24);
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: func.rem(20);
+}
+
+.nav a {
+  color: var(--color-white-default);
+  text-decoration: none;
+  opacity: .9;
+  transition: opacity .2s ease;
+}
+
+.nav a:hover,
+.nav a:focus-visible {
+  opacity: 1;
+}
+
+.contacts {
+  display: flex;
+  align-items: center;
+  gap: func.rem(12);
+}
+
+.contacts a {
+  color: var(--color-white-default);
+  text-decoration: none;
+}
+
+.iconBtn {
+  width: func.rem(36);
+  height: func.rem(36);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--color-white-default) 65%, transparent);
+  background: transparent;
+  color: var(--color-white-default);
+  transition: box-shadow .2s ease, opacity .2s ease, border-color .2s ease;
+}
+
+.iconBtn:hover,
+.iconBtn:focus-visible {
+  border-color: var(--color-white-default);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--color-white-default) 25%, transparent);
+  opacity: 1;
 }

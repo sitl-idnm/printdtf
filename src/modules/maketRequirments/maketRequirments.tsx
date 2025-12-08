@@ -73,7 +73,7 @@ const MaketRequirments: FC<MaketRequirmentsProps> = ({
               </span>
             )
           })}
-          <ButtonWave variant="accent3" onClick={handleCopy}>Скопировать</ButtonWave>
+          <ButtonWave variant="accent3" className={styles.copyBtn} onClick={handleCopy}>Скопировать требования</ButtonWave>
         </div>
       </div>
     </div>
