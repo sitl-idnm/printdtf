@@ -1,0 +1,103 @@
+@use "@styles/func";
+@use "@styles/mixins";
+@use "@styles/variables";
+
+.root {
+	width: 100%;
+	padding: 80px;
+
+	.title {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		&_name {
+			font-size: 32px;
+			font-family: var(--font-unbounded);
+			text-transform: uppercase;
+			line-height: 1.4;
+		}
+
+		&_list {
+			display: flex;
+			gap: 16px;
+			align-items: center;
+			list-style: none;
+
+			&_item {
+				position: relative;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				--cut-w: 28px; // right-side triangular cut-out width
+				--notch-w: 22px;
+				padding: 10px 20px;
+				// mirror: cut-out on the left, notch on the right
+				padding-left: calc(20px + var(--cut-w));
+				padding-right: calc(14px + var(--notch-w));
+				white-space: nowrap;
+				font-size: 20px;
+				font-family: var(--font-unbounded);
+				text-transform: uppercase;
+				line-height: 1.2;
+				list-style: none;
+				color: var(--text-color, #111);
+
+				// beveled/relief background
+				&::before {
+					content: "";
+					position: absolute;
+					z-index: -1;
+					left: 0;
+					top: 50%;
+					transform: translateY(-50%);
+					width: 100%;
+					height: calc(100% + 8px);
+					background: var(--color-accent-3);
+					border: 1px solid rgba(0, 0, 0, 0.08);
+					box-shadow:
+						3px 3px 8px rgba(0, 0, 0, 0.12),
+						-3px -3px 8px rgba(255, 255, 255, 0.9),
+						inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+					// mirrored default: left cut-out (concave) and right notch
+					clip-path: polygon(
+						0 0,
+						calc(100% - var(--notch-w)) 0,
+						100% 50%,
+						calc(100% - var(--notch-w)) 100%,
+						0 100%,
+						var(--cut-w) 50%
+					);
+				}
+
+				// first: plain rectangle (no cut-outs or notches)
+				&:first-child::before {
+					clip-path: polygon(
+						0 0,
+						calc(100% - var(--notch-w)) 0,
+						100% 50%,
+						calc(100% - var(--notch-w)) 100%,
+						0 100%
+					);
+				}
+				&:first-child {
+					padding-left: 20px;
+				}
+
+				// last: left cut-out (concave), flat right edge
+				&:last-child::before {
+					clip-path: polygon(
+						0 0,
+						100% 0,
+						100% 100%,
+						0 100%,
+						var(--cut-w) 50%
+					);
+				}
+				&:last-child {
+					padding-right: 20px;
+				}
+			}
+		}
+	}
+}
