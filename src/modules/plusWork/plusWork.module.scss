@@ -1,0 +1,155 @@
+/* stylelint-disable no-descending-specificity */
+@use "@styles/func";
+@use "@styles/mixins" as *;
+@use "@styles/variables";
+
+.root {
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+
+	max-width: 1440px;
+	margin: 0 auto;
+
+	padding: 0 64px 60px;
+
+	@include tablet-small {
+		padding: 0 8px 20px;
+
+		gap: 16px;
+	}
+
+	.firstline {
+		display: flex;
+		gap: 32px;
+
+		@include tablet {
+			flex-direction: column;
+			align-items: center;
+			gap: 16px;
+		}
+
+		.box {
+			padding: 20px 15px;
+
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+
+			max-width: 416px;
+
+			height: 357px;
+			width: 100%;
+
+			background-color: var(--color-accent-2);
+
+			.title {
+				font-size: 26px;
+				font-family: var(--font-involve);
+				font-weight: 500;
+				line-height: 130%;
+				letter-spacing: 0;
+			}
+
+			.text {
+				p {
+					display: flex;
+					flex-direction: column;
+					gap: 9px;
+
+					font-family: var(--font-involve);
+					font-weight: 400;
+					font-size: 16px;
+					line-height: 150%;
+
+					color: black;
+
+					.number {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+
+						background-color: #fff;
+
+						width: 32px;
+						height: 32px;
+					}
+				}
+			}
+		}
+	}
+
+	.secondline {
+		display: flex;
+		justify-content: space-between;
+
+		@include tablet {
+			flex-direction: column;
+
+			justify-content: flex-start;
+			align-items: center;
+			gap: 32px;
+		}
+
+		@include tablet-small {
+			gap: 16px;
+		}
+
+		.box {
+			padding: 20px 15px;
+
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+
+			max-width: 416px;
+
+			height: 357px;
+			width: 100%;
+
+			background-color: var(--color-accent-3);
+
+			.title {
+				font-size: 26px;
+				font-family: var(--font-involve);
+				font-weight: 500;
+				line-height: 130%;
+				letter-spacing: 0;
+			}
+
+			.text {
+				p {
+					display: flex;
+					flex-direction: column;
+					gap: 9px;
+
+					font-family: var(--font-involve);
+					font-weight: 400;
+					font-size: 16px;
+					line-height: 150%;
+
+					color: black;
+
+					.number {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+
+						background-color: #fff;
+
+						width: 32px;
+						height: 32px;
+					}
+				}
+			}
+		}
+
+		.box:nth-child(2) {
+			background-color: transparent;
+
+			@include tablet {
+				display: none;
+			}
+		}
+	}
+}
