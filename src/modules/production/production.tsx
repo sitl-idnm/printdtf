@@ -1,8 +1,14 @@
-import { FC } from 'react'
+'use client'
+import { FC, useRef } from 'react'
 import classNames from 'classnames'
 
 import styles from './production.module.scss'
 import { ProductionProps } from './production.types'
+import { gsap } from 'gsap'
+import { useGSAP } from '@gsap/react'
+import { ScrollTrigger } from 'gsap/all'
+
+gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 const Production: FC<ProductionProps> = ({
   className,
@@ -11,6 +17,24 @@ const Production: FC<ProductionProps> = ({
   videoSrc
 }) => {
   const rootClassName = classNames(styles.root, className)
+
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: videoRef.current,
+        scrub: 2,
+        start: 'top 250%',
+      }
+    })
+
+    tl.fromTo(videoRef.current, {
+      scale: 0.5
+    }, {
+      scale: 1
+    })
+  })
 
   return (
     <div className={rootClassName}>
@@ -26,8 +50,8 @@ const Production: FC<ProductionProps> = ({
           }
         </ul>
       </div>
-      <div>
-        <video width="100vw" height="100vh" controls preload="none">
+      <div className={styles.container}>
+        <video className={styles.video} width="100vw" height="100vh" preload="auto" ref={videoRef}>
           <source src={videoSrc} type="video/mp4" />
           Your browser does not support the video tag.
         </video>

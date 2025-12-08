@@ -5,17 +5,22 @@ import styles from './form.module.scss'
 import { FormProps } from './form.types'
 import { useMemo, useState } from 'react'
 import ButtonWave from '@/ui/buttonWave/buttonWave'
+import { useAtomValue } from 'jotai'
+import { printMethodReadAtom } from '@/shared/atoms/printMethodAtom'
 
 const Form: FC<FormProps> = ({
   className,
   submitLabel,
-  theme = 'default'
+  theme = 'default',
+  useAtomPrintMethod = false
 }) => {
   const rootClassName = classNames(
     styles.root,
     theme === 'invert' && styles.invert,
     className
   )
+  const atomMethod = useAtomValue(printMethodReadAtom)
+  const atomMethodHuman: 'UV DTF' | 'DTF' = atomMethod === 'uvdtf' ? 'UV DTF' : 'DTF'
   const formatPhoneFromDigits = (digitsRaw: string) => {
     const core = digitsRaw.slice(0, 10)
     if (core.length === 0) return ''
@@ -50,10 +55,22 @@ const Form: FC<FormProps> = ({
   const isPhoneActive = useMemo(() => phone.length > 0, [phone])
   const isTelegramActive = useMemo(() => telegram.length > 0, [telegram])
   const isMessengerActive = useMemo(() => messenger !== '', [messenger])
-  const isMethodActive = useMemo(() => method !== '', [method])
+  const isMethodActive = useMemo(() => (useAtomPrintMethod ? true : method !== ''), [method, useAtomPrintMethod])
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    const resolvedMethod = useAtomPrintMethod ? atomMethodHuman : method
+    const payload = {
+      name,
+      phone,
+      telegram: telegram || undefined,
+      messenger,
+      method: resolvedMethod,
+      agree
+    }
+    // Replace with actual submission logic
+    // eslint-disable-next-line no-console
+    console.log('Form submit:', payload)
   }
 
   return (
@@ -187,24 +204,26 @@ const Form: FC<FormProps> = ({
         </div>
       </div>
 
-      <div className={classNames(styles.control, isMethodActive && styles.filled)}>
-        <div className={styles.topLine} />
-        <div className={styles.row}>
-          <span className={styles.choiceLabel}>Метод печати</span>
-          <div className={classNames(styles.options, styles.optionsRow)}>
-            {(['UV DTF', 'DTF'] as const).map((m) => (
-              <ButtonWave
-                key={m}
-                className={classNames(styles.option, method === m && styles.selected)}
-                variant="accent3"
-                onClick={() => setMethod(m)}
-              >
-                {m}
-              </ButtonWave>
-            ))}
+      {useAtomPrintMethod ? null : (
+        <div className={classNames(styles.control, isMethodActive && styles.filled)}>
+          <div className={styles.topLine} />
+          <div className={styles.row}>
+            <span className={styles.choiceLabel}>Метод печати</span>
+            <div className={classNames(styles.options, styles.optionsRow)}>
+              {(['UV DTF', 'DTF'] as const).map((m) => (
+                <ButtonWave
+                  key={m}
+                  className={classNames(styles.option, method === m && styles.selected)}
+                  variant="accent3"
+                  onClick={() => setMethod(m)}
+                >
+                  {m}
+                </ButtonWave>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <label className={styles.agree}>
         <input
@@ -220,7 +239,7 @@ const Form: FC<FormProps> = ({
       </label>
 
       <div className={styles.actions}>
-        <ButtonWave variant="accent2" className={styles.cta}>
+        <ButtonWave variant="accent2" className={styles.cta} type="submit">
           {submitLabel ?? 'Отправить'}
         </ButtonWave>
       </div>
