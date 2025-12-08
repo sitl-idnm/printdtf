@@ -63,23 +63,9 @@
 
 				width: 100%;
 
-				display: flex;
-				flex-direction: column;
-
-				justify-content: center;
-
 				color: white;
 
-				span:first-child {
-					text-align: center;
-					align-items: center;
-				}
-
-				span:last-child {
-					text-align: end;
-					align-items: flex-end;
-					font-size: 65px;
-				}
+				text-align: left;
 			}
 		}
 
@@ -92,9 +78,7 @@
 			width: 100%;
 
 			&_text {
-				display: flex;
-				flex-direction: column;
-				gap: 30px;
+				display: block;
 
 				align-self: flex-start;
 
@@ -120,4 +104,14 @@
 			}
 		}
 	}
+}
+
+.lines {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.row {
+	display: block;
 }

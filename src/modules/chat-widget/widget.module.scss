@@ -1,0 +1,87 @@
+.root {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1000;
+}
+
+.schemePrimary .fab,
+.schemePrimary .item {
+  background: var(--color-blue);
+  color: var(--color-white-default);
+}
+
+.schemeContrast .fab,
+.schemeContrast .item {
+  background: var(--color-white-default);
+  color: var(--color-black-default);
+}
+
+.fab {
+  width: 56px;
+  height: 56px;
+  border-radius: 0;
+  background: var(--color-blue);
+  color: var(--color-white-default);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: none;
+  transition: box-shadow .25s ease, background-color .25s ease, color .25s ease, opacity .2s ease;
+  border: none;
+}
+
+.fab:hover {
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--color-blue) 85%, transparent);
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  bottom: 72px;
+  display: grid;
+  gap: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+
+.open .menu {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.item {
+  width: 48px;
+  height: 48px;
+  border-radius: 0;
+  background: var(--color-blue);
+  color: var(--color-white-default);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: none;
+  transition: box-shadow .18s ease, background-color .25s ease, color .25s ease, opacity .25s ease;
+  opacity: 0;
+}
+
+.item:hover {
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--color-blue) 85%, transparent);
+}
+
+.open .menu .item {
+  opacity: 1;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}

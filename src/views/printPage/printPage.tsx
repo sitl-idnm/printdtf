@@ -19,6 +19,7 @@ import { Process } from '@/modules/process'
 import { FinalOfferAlt } from '@/modules/finalOfferAlt'
 import { FinalOffer } from '@/modules/finalOffer'
 import { FormModal } from '@/modules/formModal'
+import { MaketRequirments } from '@/modules/maketRequirments'
 
 const printIcons = [
   '/images/sticker-dino.png',
@@ -103,7 +104,7 @@ const PrintPage: FC<PrintPageProps> = ({
 
         />
       <PrintHero
-        title={<><span>Ваш проект&nbsp;— от идеи до реализации.</span><span>Быстро и ярко.</span></>}
+        title={<><span>DTF и UV DTF</span></>}
         subtitle={'Делаем как срочные тиражи фирменного мерча для бизнеса, так и единичные креативные вещи. DTF и UV DTF печать для любых задач и любого бюджета.'}
         // cta1={'Рассчитать стоимость'}
         // cta2={'Написать в WhatsApp'}
@@ -218,8 +219,9 @@ const PrintPage: FC<PrintPageProps> = ({
       />
       <PrintOptions />
       <Process />
-      <FinalOffer />
+      <MaketRequirments />
       <Faq faqData={faqData} />
+      <FinalOffer />
     </main>
   )
 }

@@ -6,6 +6,7 @@ import '@styles/global.scss'
 
 import localFont from 'next/font/local'
 import { Provider } from '@service/provider'
+import ChatWidget from '@modules/chat-widget'
 
 const involve = localFont({
   src: [
@@ -55,6 +56,7 @@ export default function RootLayout({
             </div>
           </div>
           <div id="modal-root" />
+          <ChatWidget />
         </Provider>
       </body>
     </html>
