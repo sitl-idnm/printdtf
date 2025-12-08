@@ -16,7 +16,6 @@ import { ButtonWave, Separator } from '@/ui'
 import { printMethodReadAtom } from '@/shared/atoms/printMethodAtom'
 import { useAtomValue } from 'jotai'
 import { Process } from '@/modules/process'
-import { Stages } from '@/modules/stages'
 import { FinalOfferAlt } from '@/modules/finalOfferAlt'
 import { FinalOffer } from '@/modules/finalOffer'
 import { FormModal } from '@/modules/formModal'
@@ -26,15 +25,6 @@ const printIcons = [
   '/images/sticker-shark.png',
   '/icons/logo.svg',
   '/images/favicon/shark-fav.svg'
-]
-
-const StagesArray = [
-  { step: 1, title: 'Форматы:', description: 'PDF/AI/EPS или PNG с прозрачностью (300 dpi+)' },
-  { step: 2, title: 'Цвет:', description: 'CMYK + White (по необходимости белой подложки)' },
-  { step: 3, title: 'Белый слой и выворотки:', description: 'указывайте, если требуется' },
-  { step: 4, title: 'Допуски/bleeds:', description: '1–2 мм; минимальная толщина линий от 0,6–1,0 мм' },
-  { step: 5, title: 'Максимальная ширина печати:', description: '600 мм; крупные макеты согласовываем' },
-  { step: 6, title: 'По запросу —', description: 'бесплатный экспресс‑чек файла перед печатью' }
 ]
 
 const faqData = [
@@ -113,8 +103,8 @@ const PrintPage: FC<PrintPageProps> = ({
 
         />
       <PrintHero
-        title={<><span>DTF и UV DTF печать&nbsp;—</span><span>от 1 дня, от 1 экземпляра</span></>}
-        subtitle={'DTF — полноцветная печать на готовых изделиях. UV DTF — наклейки/стикерпаки для стекла, пластика, металла. Тестовый образец — бесплатно. Печать с переносом или без — на ваш выбор'}
+        title={<><span>Ваш проект&nbsp;— от идеи до реализации.</span><span>Быстро и ярко.</span></>}
+        subtitle={'Делаем как срочные тиражи фирменного мерча для бизнеса, так и единичные креативные вещи. DTF и UV DTF печать для любых задач и любого бюджета.'}
         // cta1={'Рассчитать стоимость'}
         // cta2={'Написать в WhatsApp'}
 
@@ -139,21 +129,12 @@ const PrintPage: FC<PrintPageProps> = ({
       }
 
       <SliderBeforeAfter />
-      {
-        dtfvalue === 'dtf' ?
-        <Separator
-          fromColor={'var(--color-background)'}
-          toColor={'var(--color-accent-3)'}
-          height='40px'
-          angle={'180deg'}
-        /> :
-        <Separator
-          fromColor={'black'}
-          toColor={'var(--color-accent-3)'}
-          height='40px'
-          angle={'180deg'}
-        />
-      }
+      <Separator
+        fromColor={'black'}
+        toColor={'var(--color-accent-3)'}
+        height='40px'
+        angle={'180deg'}
+      />
       <Printitems
           icons={printIcons ?? [
             '/icons/logo.svg',
@@ -166,7 +147,7 @@ const PrintPage: FC<PrintPageProps> = ({
       />
       <Separator
           fromColor={'var(--color-accent-3)'}
-          toColor={'black'}
+          toColor={'white'}
           height='40px'
           angle={'180deg'}
         />
@@ -237,9 +218,6 @@ const PrintPage: FC<PrintPageProps> = ({
       />
       <PrintOptions />
       <Process />
-      <Stages
-          stageArray={StagesArray}
-        />
       <FinalOffer />
       <Faq faqData={faqData} />
     </main>
