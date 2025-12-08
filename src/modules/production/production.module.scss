@@ -4,12 +4,20 @@
 
 .root {
 	width: 100%;
-	padding: 80px;
+
+	display: flex;
+	flex-direction: column;
+	gap: 50px;
+
+	justify-content: center;
+	align-items: center;
 
 	.title {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+
+		padding: 80px;
 
 		&_name {
 			font-size: 32px;
@@ -30,18 +38,19 @@
 				align-items: center;
 				justify-content: center;
 				--cut-w: 28px; // right-side triangular cut-out width
-				--notch-w: 22px;
+				--notch-w: 28px;
 				padding: 10px 20px;
 				// mirror: cut-out on the left, notch on the right
 				padding-left: calc(20px + var(--cut-w));
 				padding-right: calc(14px + var(--notch-w));
 				white-space: nowrap;
-				font-size: 20px;
+				font-size: 14px;
 				font-family: var(--font-unbounded);
 				text-transform: uppercase;
 				line-height: 1.2;
 				list-style: none;
 				color: var(--text-color, #111);
+				margin-right: -30px;
 
 				// beveled/relief background
 				&::before {
@@ -98,6 +107,16 @@
 					padding-right: 20px;
 				}
 			}
+		}
+	}
+
+	.container {
+		width: 100%;
+		height: 100%;
+
+		.video {
+			width: 100vw;
+			height: 100vh;
 		}
 	}
 }

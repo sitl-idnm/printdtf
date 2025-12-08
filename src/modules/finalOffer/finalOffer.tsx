@@ -6,7 +6,8 @@ import { FinalOfferProps } from './finalOffer.types'
 import Form from '@/components/form/form'
 
 const FinalOffer: FC<FinalOfferProps> = ({
-  className
+  className,
+  useAtomPrintMethod
 }) => {
   const rootClassName = classNames(styles.root, className)
 
@@ -21,7 +22,7 @@ const FinalOffer: FC<FinalOfferProps> = ({
           </p>
         </div>
         <div className={styles.right}>
-          <Form submitLabel="Отправить заявку" />
+          <Form submitLabel="Отправить заявку" useAtomPrintMethod={!!useAtomPrintMethod} />
         </div>
       </div>
     </section>
