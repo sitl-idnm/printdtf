@@ -63,18 +63,9 @@
 }
 
 .copyBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  font-size: 14px;
-  color: var(--color-white-default);
-  background: var(--color-blue);
-  border: none;
-  border-radius: 0;
-  cursor: pointer;
-  transition: opacity .2s ease, box-shadow .2s ease, background-color .2s ease;
-  margin-top: 12px;
+	border-color: var(--color-accent-2);
+	color: var(--color-accent-2);
+	margin-top: 10px;
 }
 
 .copyBtn:hover {
@@ -84,8 +75,8 @@
 .content {
   position: relative;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 16px;
-  line-height: 1.7;
+  font-size: clamp(13px, 1.6vw, 16px);
+  line-height: clamp(1.4, 1.55, 1.7);
   white-space: pre-wrap;
 }
 
