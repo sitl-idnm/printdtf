@@ -20,6 +20,8 @@ import { FinalOfferAlt } from '@/modules/finalOfferAlt'
 import { FinalOffer } from '@/modules/finalOffer'
 import { FormModal } from '@/modules/formModal'
 import { MaketRequirments } from '@/modules/maketRequirments'
+import { PriceList } from '@/modules/priceList'
+import { Delivery } from '@/modules/delivery'
 
 const printIcons = [
   '/images/sticker-dino.png',
@@ -219,6 +221,8 @@ const PrintPage: FC<PrintPageProps> = ({
       />
       <PrintOptions />
       <Process />
+      <PriceList />
+      <Delivery />
       <MaketRequirments />
       <Faq faqData={faqData} />
       <FinalOffer />
