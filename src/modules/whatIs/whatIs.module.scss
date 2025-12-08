@@ -1,0 +1,94 @@
+@use "@styles/func";
+@use "@styles/mixins";
+@use "@styles/variables";
+
+.root {
+	display: flex;
+	flex-direction: column;
+	gap: 60px;
+	padding: 80px;
+
+	width: 100%;
+
+	.title {
+		font-size: 64px;
+		font-family: var(--font-unbounded);
+		text-transform: uppercase;
+		line-height: 1.4;
+	}
+
+	.container {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
+
+		width: 100%;
+
+		.list {
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+
+			max-width: 500px;
+
+			background-color: black;
+			color: white;
+
+			padding: 10px 20px;
+
+			transition: rotate 0.3s ease-in-out, scale 0.3s ease-in-out;
+
+			&:hover {
+				rotate: 5deg;
+				scale: 1.05;
+			}
+
+			&_title {
+				font-size: 24px;
+				font-family: var(--font-unbounded);
+				text-transform: uppercase;
+				line-height: 1.4;
+			}
+
+			&_text {
+				font-size: 16px;
+				line-height: 1.5;
+			}
+		}
+
+		.list:nth-child(2) {
+			align-self: flex-end;
+			text-align: end;
+
+			&:hover {
+				rotate: -5deg;
+			}
+		}
+	}
+}
+
+.othercolor {
+	.title {
+		color: white;
+
+		text-align: end;
+	}
+
+	.container {
+		align-items: flex-end;
+
+		.list {
+			background-color: white;
+			color: black;
+		}
+
+		.list:nth-child(2) {
+			align-self: flex-start;
+			text-align: start;
+
+			&:hover {
+				rotate: -5deg;
+			}
+		}
+	}
+}
