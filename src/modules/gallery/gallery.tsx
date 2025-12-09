@@ -18,11 +18,11 @@ const Gallery: FC<GalleryProps> = ({
   const data = useMemo(() => {
     if (items?.length) return items
     return [
-      { id: 1, image: '/images/sticker-dino.png', title: 'Стикеры DTF', tags: ['DTF'] },
-      { id: 2, image: '/images/sticker-shark.png', title: 'UV DTF стекло', tags: ['UV DTF'] },
-      { id: 3, image: '/images/banner.jpg', title: 'Текстильный принт', tags: ['DTF'] },
-      { id: 4, image: '/images/sticker-dino.png', title: 'Наклейки', tags: ['DTF'] },
-      { id: 5, image: '/images/sticker-shark.png', title: 'Подарочные наборы', tags: ['UV DTF'] }
+      { id: 1, image: '/images/test.jpg', title: 'Стикеры DTF', tags: ['DTF'] },
+      { id: 2, image: '/images/test.jpg', title: 'UV DTF стекло', tags: ['UV DTF'] },
+      { id: 3, image: '/images/test.jpg', title: 'Текстильный принт', tags: ['DTF'] },
+      { id: 4, image: '/images/test.jpg', title: 'Наклейки', tags: ['DTF'] },
+      { id: 5, image: '/images/test.jpg', title: 'Подарочные наборы', tags: ['UV DTF'] }
     ]
   }, [items])
 
