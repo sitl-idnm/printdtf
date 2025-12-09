@@ -55,15 +55,14 @@
 }
 
 .track {
-	display: grid;
-	grid-auto-flow: column;
-	/* крупнее карточки: минимум ширины на элемент */
-	grid-auto-columns: minmax(480px, 1fr);
+	display: flex;
+	flex-direction: row;
 	gap: 24px;
 	scroll-snap-type: x mandatory;
 	overflow-x: auto;
 	padding-bottom: 8px;
 	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
 }
 
 .track::-webkit-scrollbar { display: none; }
@@ -71,7 +70,8 @@
 .card {
 	position: relative;
 	aspect-ratio: 4 / 3;
-	min-width: 480px;
+	width: 480px;
+	flex-shrink: 0;
 	background: #000; /* убираем светлые края */
 	border-radius: 0;
 	border: 0;

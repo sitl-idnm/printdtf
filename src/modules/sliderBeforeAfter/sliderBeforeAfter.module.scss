@@ -17,7 +17,8 @@
 			display: grid;
 			grid-template-rows: 0fr;
 			opacity: 0;
-			overflow: hidden;
+			overflow-x: visible;
+			overflow-y: hidden;
 			transition:
 				grid-template-rows 0.7s ease-in-out,
 				opacity 0.6s ease-in-out,
@@ -32,8 +33,12 @@
 		}
 
 		.sectionInner {
-			overflow: hidden;
+			overflow-x: visible;
+			overflow-y: hidden;
       display: flex;
+			flex-direction: column;
+			min-width: 0;
+			width: 100%;
 		}
 
 		.first {

@@ -18,6 +18,10 @@
 		position: relative;
 		left: 0;
 
+		display: flex;
+		flex-direction: column;
+		gap: 60px;
+
 		.title {
 			font-family: var(--font-unbounded);
 			font-size: 32px;
