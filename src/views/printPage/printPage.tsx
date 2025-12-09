@@ -110,7 +110,7 @@ const PrintPage: FC<PrintPageProps> = ({
       <Delivery />
       <MaketRequirments />
       <DynamicBackground variant="grid-draw" cellSize={100}><Faq faqData={faqData} /></DynamicBackground>
-      <DynamicBackground variant="crosses" cellSize={100}><FinalOffer /></DynamicBackground>
+      <DynamicBackground pin={false} variant="crosses" cellSize={100}><FinalOffer /></DynamicBackground>
     </main>
   )
 }
