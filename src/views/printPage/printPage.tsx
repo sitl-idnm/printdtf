@@ -10,7 +10,9 @@ import { Printitems } from '@/modules/printitems'
 import textileItems from '@/modules/printitems/presets/textile'
 import { PrintOptions } from '@/modules/printOptions'
 import { Faq } from '@/modules/faq'
-import { ButtonWave, Separator } from '@/ui'
+import { Separator } from '@/ui'
+import { DynamicBackground } from '@/ui'
+
 import { Process } from '@/modules/process'
 import { FinalOfferAlt } from '@/modules/finalOfferAlt'
 import { FinalOffer } from '@/modules/finalOffer'
@@ -94,12 +96,12 @@ const PrintPage: FC<PrintPageProps> = ({
   return (
     <main className={rootClassName}>
       <FormModal
-          open={isOpen}
-          onClose={() => setOpen(false)}
-          title="Оставьте заявку на расчёт"
+        open={isOpen}
+        onClose={() => setOpen(false)}
+        title="Оставьте заявку на расчёт"
         text="Выберите метод (DTF/UV DTF), укажите носитель — наш менеджер свяжется с вами в течение 15 минут."
 
-        />
+      />
       <PrintHero
         title={<><span>DTF и UV DTF</span></>}
         subtitle={'Делаем как срочные тиражи фирменного мерча для бизнеса, так и единичные креативные вещи. DTF и UV DTF печать для любых задач и любого бюджета.'}
@@ -110,6 +112,7 @@ const PrintPage: FC<PrintPageProps> = ({
         option={'Средний срок изготовления: 1–3 рабочих дня. Срочные — по запросу.'}
       />
 
+
       <SliderBeforeAfter />
       <Separator
         fromColor={'white'}
@@ -118,29 +121,29 @@ const PrintPage: FC<PrintPageProps> = ({
         angle={'180deg'}
       />
       <Printitems
-          icons={printIcons ?? [
-            '/icons/logo.svg',
-            '/images/favicon/shark-fav.svg',
-            '/icons/logo.svg',
-            '/images/favicon/shark-fav.svg'
-          ]}
-          items={textileItems}
-          visibleCorners={['bottomRight']}
+        icons={printIcons ?? [
+          '/icons/logo.svg',
+          '/images/favicon/shark-fav.svg',
+          '/icons/logo.svg',
+          '/images/favicon/shark-fav.svg'
+        ]}
+        items={textileItems}
+        visibleCorners={['bottomRight']}
       />
       <Separator
-          fromColor={'var(--color-accent-3)'}
-          toColor={'white'}
-          height='40px'
-          angle={'180deg'}
-        />
-      <FinalOfferAlt /><ButtonWave variant="accent3" onClick={() => setOpen(true)}><span>Заказать печать</span></ButtonWave>
+        fromColor={'var(--color-accent-3)'}
+        toColor={'white'}
+        height='40px'
+        angle={'180deg'}
+      />
+      <DynamicBackground variant="diagonal-lines" cellSize={100}><FinalOfferAlt /></DynamicBackground>
       <PrintOptions />
       <Process />
       <PriceList />
       <Delivery />
       <MaketRequirments />
-      <Faq faqData={faqData} />
-      <FinalOffer />
+      <DynamicBackground variant="grid-draw" cellSize={100}><Faq faqData={faqData} /></DynamicBackground>
+      <DynamicBackground variant="crosses" cellSize={100}><FinalOffer /></DynamicBackground>
     </main>
   )
 }

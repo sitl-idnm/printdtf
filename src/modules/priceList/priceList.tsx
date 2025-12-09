@@ -60,17 +60,21 @@ const PriceList: FC<PriceListProps> = ({
         </div>
       </div>
 
-      <h3 className={styles.sectionTitle}>Сроки</h3>
-      <p className={styles.muted}>Стандарт: 1–3 рабочих дня. Срочно — по запросу, зависит от загрузки и тиража.</p>
+      <div className={styles.infoRow}>
+        <h3 className={styles.sectionTitle}>Сроки</h3>
+        <p className={styles.muted}>Стандарт: 1–3 рабочих дня. Срочно — по запросу, зависит от загрузки и тиража.</p>
+      </div>
 
-      <h3 className={styles.sectionTitle}>Опции</h3>
-      <p className={styles.muted}>Можно заказать только плёнку — перенесёте сами. Поможем с инструкцией.</p>
+      <div className={styles.infoRow}>
+        <h3 className={styles.sectionTitle}>Опции</h3>
+        <p className={styles.muted}>Можно заказать только плёнку — перенесёте сами. Поможем с инструкцией.</p>
+      </div>
 
       <div className={styles.cta}>
-        <ButtonWave variant="accent2" onClick={() => { if (typeof window !== 'undefined') window.location.href = 'tel:+79999999999' }}>
+        <ButtonWave variant="accent2" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = 'tel:+79999999999' }}>
           Остались вопросы? Позвоните
         </ButtonWave>
-        <ButtonWave variant="accent3" onClick={() => { if (typeof window !== 'undefined') window.open('https://t.me/username', '_blank', 'noopener,noreferrer') }}>
+        <ButtonWave variant="accent3" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.open('https://t.me/username', '_blank', 'noopener,noreferrer') }}>
           Написать в Telegram
         </ButtonWave>
       </div>
