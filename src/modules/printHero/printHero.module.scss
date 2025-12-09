@@ -121,4 +121,9 @@
 .buttons {
 	display: flex;
 	gap: 40px;
+
+	button {
+		border: 1px solid white;
+  	color: white;
+	}
 }

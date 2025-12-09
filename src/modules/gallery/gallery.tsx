@@ -29,9 +29,20 @@ const Gallery: FC<GalleryProps> = ({
   const scrollByCards = (dir: -1 | 1) => {
     const el = viewRef.current
     if (!el) return
-    const firstCard = el.querySelector<HTMLElement>(`.${styles.card}`)
-    const delta = firstCard ? (firstCard.offsetWidth + 24) * 1 : el.clientWidth * 0.9
-    el.scrollBy({ left: delta * dir, behavior: 'smooth' })
+
+    // Проверяем, что элемент может скроллиться
+    if (el.scrollWidth <= el.clientWidth) return
+
+    // Карточки теперь имеют фиксированную ширину 480px + gap 24px
+    const cardWidth = 480
+    const gap = 24
+    const delta = cardWidth + gap
+
+    // Используем scrollBy для более простого и надежного скролла
+    el.scrollBy({
+      left: delta * dir,
+      behavior: 'smooth'
+    })
   }
 
   const openLb = (i: number) => setLbIndex(i)
