@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import styles from './maketRequirments.module.scss'
 import { MaketRequirmentsProps } from './maketRequirments.types'
-import { Heading, ButtonWave } from '@/ui'
+import { ButtonWave } from '@/ui'
 
 const MaketRequirments: FC<MaketRequirmentsProps> = ({
   className

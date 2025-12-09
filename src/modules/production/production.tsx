@@ -25,12 +25,13 @@ const Production: FC<ProductionProps> = ({
       scrollTrigger: {
         trigger: videoRef.current,
         scrub: 2,
-        start: 'top 250%',
+        start: 'top 150%',
+        end: 'bottom 100%',
       }
     })
 
     tl.fromTo(videoRef.current, {
-      scale: 0.5
+      scale: 0.01
     }, {
       scale: 1
     })
@@ -51,7 +52,7 @@ const Production: FC<ProductionProps> = ({
         </ul>
       </div>
       <div className={styles.container}>
-        <video className={styles.video} width="100vw" height="100vh" preload="auto" ref={videoRef}>
+        <video className={styles.video} width="100vw" height="100vh" preload="auto" ref={videoRef} autoPlay loop>
           <source src={videoSrc} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
