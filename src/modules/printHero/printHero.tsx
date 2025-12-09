@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import styles from './printHero.module.scss'
 import { PrintHeroProps } from './printHero.types'
-import { TabsButtons } from '@/components'
+import { ButtonWave } from '@/ui'
 // import { Button } from '@/ui'
 
 const PrintHero: FC<PrintHeroProps> = ({
@@ -51,6 +51,14 @@ const PrintHero: FC<PrintHeroProps> = ({
               <div className={styles.row}>
                 <h2 className={styles.subtitle}>{subtitle}</h2>
               </div>
+              <div className={styles.buttons}>
+                <ButtonWave variant="accent2" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = '#' }}>
+                  Заказать тираж
+                </ButtonWave>
+                <ButtonWave variant="accent2" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = '#' }}>
+                  Обсудить индивидуальный заказ
+                </ButtonWave>
+              </div>
               {microtext && (
                 <div className={styles.row}>
                   <p className={styles.microtext}>{microtext}</p>
@@ -61,9 +69,6 @@ const PrintHero: FC<PrintHeroProps> = ({
                   <p className={styles.option}>{option}</p>
                 </div>
               )}
-              <div className={styles.row}>
-                <TabsButtons />
-              </div>
             </div>
           </div>
         </div>
