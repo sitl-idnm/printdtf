@@ -22,16 +22,16 @@ const Advantages: FC<AdvantagesProps> = ({
         <h2 className={styles.title}>{title}</h2>
         <div className={styles.bg_image}>
           <Image
-            width={300}
-            height={300}
+            width={200}
+            height={200}
             quality={90}
             src={imageSrc}
             alt=''
             className={styles.image}
           />
           <Image
-            width={300}
-            height={300}
+            width={200}
+            height={200}
             quality={90}
             src={imageSrc}
             alt=''

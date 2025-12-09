@@ -14,7 +14,7 @@ const Delivery: FC<DeliveryProps> = ({
   return (
     <div className={rootClassName}>
       <div className={styles.media}>
-        <Image src="/images/sticker-shark.png" alt="" width={420} height={260} className={styles.image} priority />
+        <Image src="/images/123.jpg" alt="" width={420} height={260} className={styles.image} priority />
       </div>
       <div className={styles.content}>
         <div className={styles.text}>

@@ -77,7 +77,6 @@ const ChatWidget: FC<ChatWidgetProps> = ({ className, links = DEFAULT_LINKS }) =
       const y = rect ? rect.top + rect.height / 2 : window.innerHeight - 28
       // Prefer elementsFromPoint and ignore our own widget
       const stack = (document.elementsFromPoint(x, y) as Element[]) || []
-      const el = stack.find((e) => !holder.contains(e)) || document.body
       // Attribute-based override ONLY: data-chat-scheme="primary|contrast|auto"
       const overrideEl = stack.find(
         (e) => !holder.contains(e) && (e as HTMLElement).getAttribute && (e as HTMLElement).getAttribute('data-chat-scheme')

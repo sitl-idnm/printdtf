@@ -1,19 +1,23 @@
 'use client'
-import { FC, useLayoutEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 
 import styles from './sliderBeforeAfter.module.scss'
 import { SliderBeforeAfterProps } from './sliderBeforeAfter.types'
-import gsap from 'gsap'
 import { Advantages } from '@/components'
-import { useSetAtom } from 'jotai'
-import { printMethodWriteAtom } from '@atoms/printMethodAtom'
+import { useSetAtom, useAtomValue } from 'jotai'
+import { printMethodWriteAtom, printMethodReadAtom } from '@atoms/printMethodAtom'
 import { WhatIs } from '../whatIs'
 import { PlusWork } from '../plusWork'
 import { Cases } from '../cases'
 import { Gallery } from '../gallery'
 import { Production } from '../production'
 import { FinalOffer } from '../finalOffer'
+import { gsap } from 'gsap'
+import { useGSAP } from '@gsap/react'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(useGSAP, ScrollTrigger)
 // import { Stages } from '../stages'
 
 const StagesDTFArray = [
@@ -110,248 +114,224 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
 
   const [currentSlide, setCurrentSlide] = useState<number>(1)
 
-  const prevRef = useRef<HTMLDivElement>(null)
-  const nextRef = useRef<HTMLDivElement>(null)
   const setPrintMethod = useSetAtom(printMethodWriteAtom)
+  const printMethod = useAtomValue(printMethodReadAtom)
+  const navigationRef = useRef<HTMLDivElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
 
-  useLayoutEffect(() => {
-    gsap.set(prevRef.current, { left: 0 })
-    gsap.set(nextRef.current, { left: '100%' })
+  useEffect(() => {
     setPrintMethod('dtf')
   }, [setPrintMethod])
 
-  function nextSlide() {
-    gsap.to(prevRef.current, {
-      left: '-100%',
-      ease: 'power1.inOut',
-      duration: 1
+  useGSAP(() => {
+    if (!navigationRef.current || !rootRef.current) return
+
+    gsap.set(navigationRef.current, {
+      y: '-100%',
+      opacity: 1
     })
 
-    gsap.to(nextRef.current, {
-      left: '0',
-      ease: 'power1.inOut',
-      duration: 1
+    gsap.to(navigationRef.current, {
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: rootRef.current,
+        start: 'top top',
+        end: 'top top',
+        toggleActions: 'play none none reverse'
+      }
     })
-  }
+  }, { scope: rootRef })
 
-  function prevSlide() {
-    gsap.to(prevRef.current, {
-      left: '0',
-      ease: 'power1.inOut',
-      duration: 1
-    })
+  const [isCollapsing, setIsCollapsing] = useState(false)
+  const isDTF = currentSlide === 1
+  const collapseMs = 700
+  const timersRef = useRef<number[]>([])
 
-    gsap.to(nextRef.current, {
-      left: '100%',
-      ease: 'power1.inOut',
-      duration: 1
-    })
+  useEffect(() => {
+    return () => {
+      // cleanup timers on unmount
+      timersRef.current.forEach((t) => window.clearTimeout(t))
+      timersRef.current = []
+    }
+  }, [])
+
+  function handleSwitch(target: 1 | 2, method: 'dtf' | 'uvdtf') {
+    if (currentSlide === target || isCollapsing) return
+    setIsCollapsing(true)
+    // 1) полностью схлопываем
+    timersRef.current.push(
+      window.setTimeout(() => {
+        // 2) меняем контент, пока высота = 0
+        setCurrentSlide(target)
+        setPrintMethod(method)
+        // 3) даём кадр на рефлоу, затем раскрываем
+        timersRef.current.push(
+          window.setTimeout(() => setIsCollapsing(false), 16)
+        )
+      }, collapseMs)
+    )
   }
 
   return (
-    <div className={rootClassName}>
-      <div className={styles.navigation}>
+    <div className={rootClassName} ref={rootRef}>
+      <div className={styles.navigation} ref={navigationRef}>
         <div className={`${styles.navigation_container} ${currentSlide === 1 ? styles.firstSlide : styles.secondSlide}`}>
-          <button onClick={() => {
-            nextSlide()
-            setCurrentSlide(2)
-            setPrintMethod('uvdtf')
-          }}>
-            2
+          <button
+            className={classNames(printMethod === 'dtf' && styles.active)}
+            onClick={() => {
+              handleSwitch(1, 'dtf')
+            }}
+          >
+            DTF
           </button>
-          <button onClick={() => {
-            prevSlide()
-            setCurrentSlide(1)
-            setPrintMethod('dtf')
-          }}>
-            1
+          <button
+            className={classNames(printMethod === 'uvdtf' && styles.active)}
+            onClick={() => {
+              handleSwitch(2, 'uvdtf')
+            }}
+          >
+            UV-DTF
           </button>
         </div>
       </div>
       <div className={styles.slider}>
-        <div className={styles.first} ref={prevRef}>
-          <WhatIs
-            title={'DTF-печать'}
-            arrWhat={whatDTF}
-          />
-          <Advantages
-            arrAdvantages={advantagesDTF}
-            title={<><span>Преимущества</span><span>DTF</span></>}
-            imageSrc='/images/sticker-shark.png'
-          />
-          <PlusWork arrPlusWork={StagesDTFArray} />
-          <Production
-            title='DTF процесс производства'
-            titleArr={[{
-              name: 'Печать на пленку'
-            }, {
-              name: 'Нанесение клея'
-            }, {
-              name: 'Плавление'
-            }, {
-              name: 'Перенос'
-            }, {
-              name: 'Фиксация'
-            }]}
-            videoSrc='/videos/6.mp4'
-          />
-          <Gallery
-            title="ПОРТФОЛИО"
-            description="Откройте полноэкранный просмотр, чтобы рассмотреть текстуру принта/рельеф."
-            items={[
-              { id: 1, image: '/images/banner.jpg', title: 'Футболки' },
-              { id: 2, image: '/images/banner.jpg', title: 'UV на стекле' },
-              { id: 3, image: '/images/banner.jpg', title: 'Чехлы' },
-              { id: 4, image: '/images/banner.jpg', title: 'Кружки' },
-              { id: 5, image: '/images/banner.jpg', title: 'Кружки' },
-              { id: 6, image: '/images/banner.jpg', title: 'Кружки' }
-            ]}
-          />
-          <Cases
-            items={[
-              {
-                id: 'sber',
-                kicker: 'Сбер',
-                type: 'UV DTF',
-                title: 'Стикерпаки',
-                meta: '120 м, 3500 шт, плоттерная резка, 5 дней; тестовая печать для согласования цветов.',
-                image: '/images/sticker-shark.png'
-              },
-              {
-                id: 'ducks',
-                kicker: '—',
-                type: 'UV DTF',
-                title: 'Корпоративные уточки',
-                meta: 'Нанесение на резиновых уточек 50 шт (20 см), печать + перенос — 3 дня.',
-                image: '/images/sticker-shark.png'
-              },
-              {
-                id: 'lukoil',
-                kicker: 'ЛУКОЙЛ',
-                type: 'DTF',
-                title: 'Печать на футболках',
-                meta: '1000 шт — 2 дня, печать + перенос + упаковка.',
-                image: '/images/sticker-dino.png'
-              },
-              {
-                id: 'mossport',
-                kicker: 'Мосспорт',
-                type: 'DTF',
-                title: 'Нанесение на блокноты',
-                meta: '2000 наборов — 1 сутки.',
-                image: '/images/sticker-dino.png'
-              },
-              {
-                id: 'fix',
-                kicker: 'Клиент (NDA)',
-                type: 'DTF',
-                title: 'Исправление заказа',
-                meta: '5000 изделий — 4 дня.',
-                image: '/images/sticker-dino.png'
-              },
-              {
-                id: 'van',
-                kicker: 'PrintDTF',
-                type: 'UV DTF',
-                title: 'Печать и поклейка авто',
-                meta: 'Сделали печать и поклейку собственного авто — как пример нашей заморочки и возможностей.',
-                image: '/images/sticker-shark.png'
-              }
-            ]}
-          />
-          <FinalOffer useAtomPrintMethod />
-        </div>
-        <div className={styles.second} ref={nextRef}>
-          <WhatIs
-            classBlock
-            title={'UV DTF-печать: стойкий декор для любых поверхностей'}
-            arrWhat={whatUVDTF}
-          />
-          <Advantages
-            classBlock
-            arrAdvantages={advantagesUVDTF}
-            title={<><span>Преимущества</span><span>UV-DTF</span></>}
-            imageSrc='/images/sticker-shark.png'
-          />
-          <PlusWork arrPlusWork={StagesUVDTFArray} />
-          <Production
-            title='UV DTF процесс производства'
-            titleArr={[{
-              name: 'Печать УФ-чернилами'
-            }, {
-              name: 'Мгновенная УФ-сушка'
-            }, {
-              name: 'Нанесение монтажной пленки'
-            }, {
-              name: 'Перенос на изделие'
-            }]}
-            videoSrc=''
-          />
-          <Gallery
-            title="ПОРТФОЛИО"
-            description="Откройте полноэкранный просмотр, чтобы рассмотреть текстуру принта/рельеф."
-            items={[
-              { id: 1, image: '/images/banner.jpg', title: 'Футболки' },
-              { id: 2, image: '/images/banner.jpg', title: 'UV на стекле' },
-              { id: 3, image: '/images/banner.jpg', title: 'Чехлы' },
-              { id: 4, image: '/images/banner.jpg', title: 'Кружки' },
-              { id: 5, image: '/images/banner.jpg', title: 'Кружки' },
-              { id: 6, image: '/images/banner.jpg', title: 'Кружки' }
-            ]}
-          />
-          <Cases
-            items={[
-              {
-                id: 'sber',
-                kicker: 'Сбер',
-                type: 'UV DTF',
-                title: 'Стикерпаки',
-                meta: '120 м, 3500 шт, плоттерная резка, 5 дней; тестовая печать для согласования цветов.',
-                image: '/images/sticker-shark.png'
-              },
-              {
-                id: 'ducks',
-                kicker: '—',
-                type: 'UV DTF',
-                title: 'Корпоративные уточки',
-                meta: 'Нанесение на резиновых уточек 50 шт (20 см), печать + перенос — 3 дня.',
-                image: '/images/sticker-shark.png'
-              },
-              {
-                id: 'lukoil',
-                kicker: 'ЛУКОЙЛ',
-                type: 'DTF',
-                title: 'Печать на футболках',
-                meta: '1000 шт — 2 дня, печать + перенос + упаковка.',
-                image: '/images/sticker-dino.png'
-              },
-              {
-                id: 'mossport',
-                kicker: 'Мосспорт',
-                type: 'DTF',
-                title: 'Нанесение на блокноты',
-                meta: '2000 наборов — 1 сутки.',
-                image: '/images/sticker-dino.png'
-              },
-              {
-                id: 'fix',
-                kicker: 'Клиент (NDA)',
-                type: 'DTF',
-                title: 'Исправление заказа',
-                meta: '5000 изделий — 4 дня.',
-                image: '/images/sticker-dino.png'
-              },
-              {
-                id: 'van',
-                kicker: 'PrintDTF',
-                type: 'UV DTF',
-                title: 'Печать и поклейка авто',
-                meta: 'Сделали печать и поклейку собственного авто — как пример нашей заморочки и возможностей.',
-                image: '/images/sticker-shark.png'
-              }
-            ]}
-          />
-          <FinalOffer useAtomPrintMethod />
+        <div>
+          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+            <div className={styles.sectionInner}>
+              <WhatIs
+                title={isDTF ? 'DTF-печать' : 'UV DTF-печать: стойкий декор для любых поверхностей'}
+                arrWhat={isDTF ? whatDTF : whatUVDTF}
+              />
+            </div>
+          </div>
+
+          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+            <div className={styles.sectionInner}>
+              <Advantages
+                arrAdvantages={isDTF ? advantagesDTF : advantagesUVDTF}
+                title={
+                  isDTF
+                    ? <><span>Преимущества</span><span>DTF</span></>
+                    : <><span>Преимущества</span><span>UV-DTF</span></>
+                }
+                imageSrc='/images/123.jpg'
+              />
+            </div>
+          </div>
+
+          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+            <div className={styles.sectionInner}>
+              <PlusWork arrPlusWork={isDTF ? StagesDTFArray : StagesUVDTFArray} />
+            </div>
+          </div>
+
+          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+            <div className={styles.sectionInner}>
+              <Production
+                title={isDTF ? 'DTF процесс производства' : 'UV DTF процесс производства'}
+                titleArr={
+                  isDTF
+                    ? [
+                      { name: 'Печать на пленку' },
+                      { name: 'Нанесение клея' },
+                      { name: 'Плавление' },
+                      { name: 'Перенос' },
+                      { name: 'Фиксация' }
+                    ]
+                    : [
+                      { name: 'Печать УФ-чернилами' },
+                      { name: 'Мгновенная УФ-сушка' },
+                      { name: 'Нанесение монтажной пленки' },
+                      { name: 'Перенос на изделие' }
+                    ]
+                }
+                videoSrc={isDTF ? '/videos/6.mp4' : ''}
+              />
+            </div>
+          </div>
+
+          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+            <div className={styles.sectionInner}>
+              <Gallery
+                title="ПОРТФОЛИО"
+                description="Откройте полноэкранный просмотр, чтобы рассмотреть текстуру принта/рельеф."
+                items={[
+                  { id: 1, image: '/images/test.jpg', title: 'Футболки' },
+                  { id: 2, image: '/images/test.jpg', title: 'UV на стекле' },
+                  { id: 3, image: '/images/test.jpg', title: 'Чехлы' },
+                  { id: 4, image: '/images/test.jpg', title: 'Кружки' },
+                  { id: 5, image: '/images/test.jpg', title: 'Кружки' },
+                  { id: 6, image: '/images/test.jpg', title: 'Кружки' }
+                ]}
+              />
+            </div>
+          </div>
+
+          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+            <div className={styles.sectionInner}>
+              <Cases
+                items={[
+                  {
+                    id: 'sber',
+                    kicker: 'Сбер',
+                    type: 'UV DTF',
+                    title: 'Стикерпаки',
+                    meta: '120 м, 3500 шт, плоттерная резка, 5 дней; тестовая печать для согласования цветов.',
+                    image: '/images/notebook.png'
+                  },
+                  {
+                    id: 'ducks',
+                    kicker: '—',
+                    type: 'UV DTF',
+                    title: 'Корпоративные уточки',
+                    meta: 'Нанесение на резиновых уточек 50 шт (20 см), печать + перенос — 3 дня.',
+                    image: '/images/notebook.png'
+                  },
+                  {
+                    id: 'lukoil',
+                    kicker: 'ЛУКОЙЛ',
+                    type: 'DTF',
+                    title: 'Печать на футболках',
+                    meta: '1000 шт — 2 дня, печать + перенос + упаковка.',
+                    image: '/images/notebook.png'
+                  },
+                  {
+                    id: 'mossport',
+                    kicker: 'Мосспорт',
+                    type: 'DTF',
+                    title: 'Нанесение на блокноты',
+                    meta: '2000 наборов — 1 сутки.',
+                    image: '/images/notebook.png'
+                  },
+                  {
+                    id: 'fix',
+                    kicker: 'Клиент (NDA)',
+                    type: 'DTF',
+                    title: 'Исправление заказа',
+                    meta: '5000 изделий — 4 дня.',
+                    image: '/images/notebook.png'
+                  },
+                  {
+                    id: 'van',
+                    kicker: 'PrintDTF',
+                    type: 'UV DTF',
+                    title: 'Печать и поклейка авто',
+                    meta: 'Сделали печать и поклейку собственного авто — как пример нашей заморочки и возможностей.',
+                    image: '/images/notebook.png'
+                  }
+                ].filter((item) => (isDTF ? item.type === 'DTF' : item.type === 'UV DTF'))}
+              />
+            </div>
+          </div>
+
+          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+            <div className={styles.sectionInner}>
+              <FinalOffer useAtomPrintMethod />
+            </div>
+          </div>
         </div>
       </div>
     </div>

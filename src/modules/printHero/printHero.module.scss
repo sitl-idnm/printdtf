@@ -6,6 +6,7 @@
 	position: relative;
 
 	font-family: var(--font-involve);
+	z-index: 7;
 
 	.spacer {
 		opacity: 0;
@@ -16,9 +17,10 @@
 	}
 
 	.bg_image {
-		background: center no-repeat url('../../../public/images/black.avif');
+		background: top no-repeat url('../../../public/images/background.jpg');
 		// background-size: cover;
 		// filter: grayscale(100%);
+		background-size: cover;
 
 		position: absolute;
 		top: 0;

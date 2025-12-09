@@ -53,7 +53,7 @@
 	border-radius: 50%;
 	background: color-mix(in srgb, var(--color-accent-2) 40%, white 60%);
 	filter: drop-shadow(0 20px 32px rgba(0 0 0 / 0.15));
-	transform: scale(1);
+	transform: scale(1) translateY(-20%);
 	transition: transform .55s cubic-bezier(.2,.7,.2,1);
 }
 
@@ -87,6 +87,8 @@
 	z-index: 1;
 	transform: translateY(0);
 	transition: transform .55s cubic-bezier(.2,.7,.2,1);
+	justify-content: center;
+  display: flex;
 }
 
 .pic {
@@ -127,7 +129,7 @@
 }
 
 .card:hover .circleInner {
-	transform: scale(3); /* «заливка» карточки кругом */
+	transform: scale(3.3) translateY(-15%); /* «заливка» карточки кругом */
 }
 .card:hover .labels {
 	transform: translate(-50%, -14px); /* уехать немного вверх */
