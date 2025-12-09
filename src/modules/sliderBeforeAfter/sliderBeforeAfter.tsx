@@ -332,7 +332,9 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
 
           <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
             <div className={styles.sectionInner}>
-              <FinalOffer useAtomPrintMethod />
+              <DynamicBackground pin={false} variant={'swirl-2'}>
+                <FinalOffer useAtomPrintMethod />
+              </DynamicBackground>
             </div>
           </div>
         </div>
