@@ -304,7 +304,7 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
       // ScrollTrigger ties timeline progress to scroll
       const st = ScrollTrigger.create({
         trigger: root,
-        start: 'top top',
+        start: 'top 40%',
         end: () => `+=${Math.max(400, height * scrollFactor)}`,
         scrub: 0.5,
         pin: resolvedPin,
@@ -518,7 +518,7 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
       // ScrollTrigger ties timeline progress to scroll
       const st = ScrollTrigger.create({
         trigger: root,
-        start: 'top top',
+        start: 'top 50%',
         end: () => `+=${Math.max(400, height * scrollFactor)}`,
         scrub: 0.5,
         pin: resolvedPin,

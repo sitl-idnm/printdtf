@@ -90,7 +90,6 @@ const PrintPage: FC<PrintPageProps> = ({
         onClose={() => setOpen(false)}
         title="Оставьте заявку на расчёт"
         text="Выберите метод (DTF/UV DTF), укажите носитель — наш менеджер свяжется с вами в течение 15 минут."
-
       />
       <PrintHero
         title={<><span>DTF и UV DTF</span></>}
@@ -105,8 +104,9 @@ const PrintPage: FC<PrintPageProps> = ({
 
       <SliderBeforeAfter />
 
-
-      <PriceList />
+      <DynamicBackground pin={false} variant="crosses" cellSize={100}>
+        <PriceList />
+      </DynamicBackground>
       <Delivery />
       <MaketRequirments />
       <DynamicBackground variant="grid-draw" cellSize={100}><Faq faqData={faqData} /></DynamicBackground>
