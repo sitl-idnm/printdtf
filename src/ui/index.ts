@@ -1,5 +1,6 @@
 export { Button } from './button'
 export { ButtonWave } from './buttonWave'
+export { DynamicBackground } from './dynamicBackground'
 export { Heading } from './heading'
 export { Input } from './input'
 export { Separator } from './separator'

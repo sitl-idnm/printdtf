@@ -41,6 +41,11 @@
   transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease, color .25s ease;
 }
 
+.btn {
+	color: var(--color-white-default);
+	border-color: var(--color-white-default);
+}
+
 .card::before {
   content: "";
   position: absolute;
@@ -94,6 +99,26 @@
   text-transform: uppercase;
   color: var(--color-white-default);
   font-size: clamp(18px, 2.6vw, 24px);
+}
+
+.infoRow {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(10px, 3vw, 24px);
+}
+
+.infoRow + .infoRow {
+  margin-top: clamp(10px, 2.5vw, 18px);
+}
+
+.infoRow .sectionTitle {
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.infoRow .muted {
+  margin: 0;
+  flex: 1 1 auto;
 }
 
 .cta {
