@@ -224,37 +224,6 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
 
           <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
             <div className={styles.sectionInner}>
-              <PlusWork arrPlusWork={isDTF ? StagesDTFArray : StagesUVDTFArray} />
-            </div>
-          </div>
-
-          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
-            <div className={styles.sectionInner}>
-              <Production
-                title={isDTF ? 'DTF процесс производства' : 'UV DTF процесс производства'}
-                titleArr={
-                  isDTF
-                    ? [
-                      { name: 'Печать на пленку' },
-                      { name: 'Нанесение клея' },
-                      { name: 'Плавление' },
-                      { name: 'Перенос' },
-                      { name: 'Фиксация' }
-                    ]
-                    : [
-                      { name: 'Печать УФ-чернилами' },
-                      { name: 'Мгновенная УФ-сушка' },
-                      { name: 'Нанесение монтажной пленки' },
-                      { name: 'Перенос на изделие' }
-                    ]
-                }
-                videoSrc={isDTF ? '/videos/6.mp4' : ''}
-              />
-            </div>
-          </div>
-
-          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
-            <div className={styles.sectionInner}>
               <Gallery
                 title="ПОРТФОЛИО"
                 description="Откройте полноэкранный просмотр, чтобы рассмотреть текстуру принта/рельеф."
@@ -324,6 +293,37 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                   }
                 ].filter((item) => (isDTF ? item.type === 'DTF' : item.type === 'UV DTF'))}
               />
+            </div>
+          </div>
+
+          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+            <div className={styles.sectionInner}>
+              <Production
+                title={isDTF ? 'DTF процесс производства' : 'UV DTF процесс производства'}
+                titleArr={
+                  isDTF
+                    ? [
+                      { name: 'Печать на пленку' },
+                      { name: 'Нанесение клея' },
+                      { name: 'Плавление' },
+                      { name: 'Перенос' },
+                      { name: 'Фиксация' }
+                    ]
+                    : [
+                      { name: 'Печать УФ-чернилами' },
+                      { name: 'Мгновенная УФ-сушка' },
+                      { name: 'Нанесение монтажной пленки' },
+                      { name: 'Перенос на изделие' }
+                    ]
+                }
+                videoSrc={isDTF ? '/videos/6.mp4' : ''}
+              />
+            </div>
+          </div>
+
+          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+            <div className={styles.sectionInner}>
+              <PlusWork arrPlusWork={isDTF ? StagesDTFArray : StagesUVDTFArray} />
             </div>
           </div>
 
