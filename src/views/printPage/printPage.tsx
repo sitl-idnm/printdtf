@@ -114,31 +114,8 @@ const PrintPage: FC<PrintPageProps> = ({
 
 
       <SliderBeforeAfter />
-      <Separator
-        fromColor={'white'}
-        toColor={'var(--color-accent-3)'}
-        height='40px'
-        angle={'180deg'}
-      />
-      <Printitems
-        icons={printIcons ?? [
-          '/icons/logo.svg',
-          '/images/favicon/shark-fav.svg',
-          '/icons/logo.svg',
-          '/images/favicon/shark-fav.svg'
-        ]}
-        items={textileItems}
-        visibleCorners={['bottomRight']}
-      />
-      <Separator
-        fromColor={'var(--color-accent-3)'}
-        toColor={'white'}
-        height='40px'
-        angle={'180deg'}
-      />
-      <DynamicBackground variant="diagonal-lines" cellSize={100}><FinalOfferAlt /></DynamicBackground>
-      <PrintOptions />
-      <Process />
+
+    
       <PriceList />
       <Delivery />
       <MaketRequirments />
