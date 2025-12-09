@@ -16,6 +16,7 @@ import { FinalOffer } from '../finalOffer'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { DynamicBackground } from '@/ui'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 // import { Stages } from '../stages'
@@ -201,10 +202,12 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
         <div>
           <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
             <div className={styles.sectionInner}>
-              <WhatIs
-                title={isDTF ? 'DTF-печать' : 'UV DTF-печать: стойкий декор для любых поверхностей'}
-                arrWhat={isDTF ? whatDTF : whatUVDTF}
-              />
+              <DynamicBackground pin={false}>
+                <WhatIs
+                  title={isDTF ? 'DTF-печать' : 'UV DTF-печать: стойкий декор для любых поверхностей'}
+                  arrWhat={isDTF ? whatDTF : whatUVDTF}
+                />
+              </DynamicBackground>
             </div>
           </div>
 

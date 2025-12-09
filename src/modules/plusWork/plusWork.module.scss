@@ -4,14 +4,9 @@
 @use "@styles/variables";
 
 .root {
-	display: flex;
-	flex-direction: column;
-	gap: 32px;
+	width: 100%;
 
-	max-width: 1440px;
-	margin: 0 auto;
-
-	padding: 0 64px 60px;
+	background-color: black;
 
 	@include tablet-small {
 		padding: 0 8px 20px;
@@ -19,136 +14,146 @@
 		gap: 16px;
 	}
 
-	.firstline {
+	.container {
+
+		max-width: 1440px;
+		margin: 0 auto;
 		display: flex;
+		flex-direction: column;
 		gap: 32px;
+		padding: 60px 64px;
 
-		@include tablet {
-			flex-direction: column;
-			align-items: center;
-			gap: 16px;
-		}
-
-		.box {
-			padding: 20px 15px;
-
+		.firstline {
 			display: flex;
-			flex-direction: column;
-			justify-content: space-between;
-
-			max-width: 416px;
-
-			height: 357px;
-			width: 100%;
-
-			background-color: #f5f5f5;
-
-			.title {
-				font-size: 26px;
-				font-family: var(--font-involve);
-				font-weight: 500;
-				line-height: 130%;
-				letter-spacing: 0;
-			}
-
-			.text {
-				p {
-					display: flex;
-					flex-direction: column;
-					gap: 9px;
-
-					font-family: var(--font-involve);
-					font-weight: 400;
-					font-size: 16px;
-					line-height: 150%;
-
-					color: black;
-
-					.number {
-						display: flex;
-						align-items: center;
-						justify-content: center;
-
-						background-color: #fff;
-
-						width: 32px;
-						height: 32px;
-					}
-				}
-			}
-		}
-	}
-
-	.secondline {
-		display: flex;
-		justify-content: space-between;
-
-		@include tablet {
-			flex-direction: column;
-
-			justify-content: flex-start;
-			align-items: center;
 			gap: 32px;
-		}
-
-		@include tablet-small {
-			gap: 16px;
-		}
-
-		.box {
-			padding: 20px 15px;
-
-			display: flex;
-			flex-direction: column;
-			justify-content: space-between;
-
-			max-width: 416px;
-
-			height: 357px;
-			width: 100%;
-
-			background-color: #f5f5f5;
-
-			.title {
-				font-size: 26px;
-				font-family: var(--font-involve);
-				font-weight: 500;
-				line-height: 130%;
-				letter-spacing: 0;
-			}
-
-			.text {
-				p {
-					display: flex;
-					flex-direction: column;
-					gap: 9px;
-
-					font-family: var(--font-involve);
-					font-weight: 400;
-					font-size: 16px;
-					line-height: 150%;
-
-					color: black;
-
-					.number {
-						display: flex;
-						align-items: center;
-						justify-content: center;
-
-						background-color: #fff;
-
-						width: 32px;
-						height: 32px;
-					}
-				}
-			}
-		}
-
-		.box:nth-child(2) {
-			background-color: transparent;
 
 			@include tablet {
-				display: none;
+				flex-direction: column;
+				align-items: center;
+				gap: 16px;
+			}
+
+			.box {
+				padding: 20px 15px;
+
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+
+				max-width: 416px;
+
+				height: 357px;
+				width: 100%;
+
+				background-color: #f5f5f5;
+
+				.title {
+					font-size: 26px;
+					font-family: var(--font-involve);
+					font-weight: 500;
+					line-height: 130%;
+					letter-spacing: 0;
+				}
+
+				.text {
+					p {
+						display: flex;
+						flex-direction: column;
+						gap: 9px;
+
+						font-family: var(--font-involve);
+						font-weight: 400;
+						font-size: 16px;
+						line-height: 150%;
+
+						color: black;
+
+						.number {
+							display: flex;
+							align-items: center;
+							justify-content: center;
+
+							background-color: #fff;
+
+							width: 32px;
+							height: 32px;
+						}
+					}
+				}
+			}
+		}
+
+		.secondline {
+			display: flex;
+			justify-content: space-between;
+
+			@include tablet {
+				flex-direction: column;
+
+				justify-content: flex-start;
+				align-items: center;
+				gap: 32px;
+			}
+
+			@include tablet-small {
+				gap: 16px;
+			}
+
+			.box {
+				padding: 20px 15px;
+
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+
+				max-width: 416px;
+
+				height: 357px;
+				width: 100%;
+
+				background-color: #f5f5f5;
+
+				.title {
+					font-size: 26px;
+					font-family: var(--font-involve);
+					font-weight: 500;
+					line-height: 130%;
+					letter-spacing: 0;
+				}
+
+				.text {
+					p {
+						display: flex;
+						flex-direction: column;
+						gap: 9px;
+
+						font-family: var(--font-involve);
+						font-weight: 400;
+						font-size: 16px;
+						line-height: 150%;
+
+						color: black;
+
+						.number {
+							display: flex;
+							align-items: center;
+							justify-content: center;
+
+							background-color: #fff;
+
+							width: 32px;
+							height: 32px;
+						}
+					}
+				}
+			}
+
+			.box:nth-child(2) {
+				background-color: transparent;
+
+				@include tablet {
+					display: none;
+				}
 			}
 		}
 	}
