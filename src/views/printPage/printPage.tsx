@@ -6,27 +6,17 @@ import styles from './printPage.module.scss'
 import { PrintPageProps } from './printPage.types'
 import { PrintHero } from '@/modules/printHero'
 import { SliderBeforeAfter } from '@/modules/sliderBeforeAfter'
-import { Printitems } from '@/modules/printitems'
-import textileItems from '@/modules/printitems/presets/textile'
-import { PrintOptions } from '@/modules/printOptions'
 import { Faq } from '@/modules/faq'
-import { Separator } from '@/ui'
+
 import { DynamicBackground } from '@/ui'
 
-import { Process } from '@/modules/process'
-import { FinalOfferAlt } from '@/modules/finalOfferAlt'
 import { FinalOffer } from '@/modules/finalOffer'
 import { FormModal } from '@/modules/formModal'
 import { MaketRequirments } from '@/modules/maketRequirments'
 import { PriceList } from '@/modules/priceList'
 import { Delivery } from '@/modules/delivery'
 
-const printIcons = [
-  '/images/sticker-dino.png',
-  '/images/sticker-shark.png',
-  '/icons/logo.svg',
-  '/images/favicon/shark-fav.svg'
-]
+
 
 const faqData = [
   {
@@ -115,7 +105,7 @@ const PrintPage: FC<PrintPageProps> = ({
 
       <SliderBeforeAfter />
 
-    
+
       <PriceList />
       <Delivery />
       <MaketRequirments />
