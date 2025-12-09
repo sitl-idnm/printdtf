@@ -6,11 +6,13 @@ import styles from './plusWork.module.scss'
 import { PlusWorkProps } from './plusWork.types'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+import Image from 'next/image'
 
 const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
   const rootClassName = classNames(styles.root, className)
 
   const secondRef = useRef<HTMLDivElement>(null)
+  const thirdRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLDivElement>(null)
 
   const mergedItems = arrPlusWork.map((defaultItem, index) => ({
@@ -25,11 +27,17 @@ const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
           trigger: triggerRef.current,
           start: 'top 70%',
           scrub: true,
+          end: 'bottom 40%'
         }
       })
 
       tl.to(secondRef.current, {
         x: 448,
+        ease: 'power1.out'
+      })
+
+      tl.to(thirdRef.current, {
+        x: -448,
         ease: 'power1.out'
       })
     }
@@ -66,7 +74,7 @@ const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
           </div>
         </div>
       </div>
-      <div className={styles.secondline}>
+      <div className={styles.secondline} ref={thirdRef}>
         <div className={styles.box} ref={secondRef}>
           <h3 className={styles.title}>{mergedItems[3].title}</h3>
           <div className={styles.text}>
@@ -80,15 +88,26 @@ const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
         </div>
         {mergedItems[4] !== undefined ? (
           <div className={styles.box}>
-          <h3 className={styles.title}>{mergedItems[4].title}</h3>
-          <div className={styles.text}>
-            <p>
-              <span className={styles.number}>{mergedItems[4].number}</span>
-              {mergedItems[4].text}
-            </p>
+            <h3 className={styles.title}>{mergedItems[4].title}</h3>
+            <div className={styles.text}>
+              <p>
+                <span className={styles.number}>{mergedItems[4].number}</span>
+                {mergedItems[4].text}
+              </p>
+            </div>
           </div>
+        ) : (
+          <div className={styles.box}>
+            <Image
+              width={200}
+              height={200}
+              quality={90}
+              src={'/images/123.jpg'}
+              alt=''
+              className={styles.image2}
+            />
           </div>
-        ) : null
+        )
         }
       </div>
     </div>

@@ -11,8 +11,6 @@ import textileItems from '@/modules/printitems/presets/textile'
 import { PrintOptions } from '@/modules/printOptions'
 import { Faq } from '@/modules/faq'
 import { ButtonWave, Separator } from '@/ui'
-import { printMethodReadAtom } from '@/shared/atoms/printMethodAtom'
-import { useAtomValue } from 'jotai'
 import { Process } from '@/modules/process'
 import { FinalOfferAlt } from '@/modules/finalOfferAlt'
 import { FinalOffer } from '@/modules/finalOffer'
@@ -92,7 +90,6 @@ const PrintPage: FC<PrintPageProps> = ({
 }) => {
   const rootClassName = classNames(styles.root, className)
   const [isOpen, setOpen] = useState(false)
-  const dtfvalue = useAtomValue(printMethodReadAtom)
 
   return (
     <main className={rootClassName}>
@@ -113,25 +110,9 @@ const PrintPage: FC<PrintPageProps> = ({
         option={'Средний срок изготовления: 1–3 рабочих дня. Срочные — по запросу.'}
       />
 
-      {
-        dtfvalue === 'dtf' ?
-        <Separator
-          fromColor={'var(--color-accent-1)'}
-          toColor={'var(--color-background)'}
-          height='40px'
-          angle={'180deg'}
-        /> :
-        <Separator
-          fromColor={'var(--color-accent-1)'}
-          toColor={'black'}
-          height='40px'
-          angle={'180deg'}
-        />
-      }
-
       <SliderBeforeAfter />
       <Separator
-        fromColor={'black'}
+        fromColor={'white'}
         toColor={'var(--color-accent-3)'}
         height='40px'
         angle={'180deg'}
