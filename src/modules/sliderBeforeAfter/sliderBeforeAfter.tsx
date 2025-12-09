@@ -16,7 +16,7 @@ import { FinalOffer } from '../finalOffer'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { DynamicBackground } from '@/ui'
+import { DynamicBackground, LineButton } from '@/ui'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 // import { Stages } from '../stages'
@@ -222,6 +222,12 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                 }
                 imageSrc='/images/123.jpg'
               />
+            </div>
+          </div>
+
+          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+            <div className={styles.sectionInner}>
+              <LineButton />
             </div>
           </div>
 
