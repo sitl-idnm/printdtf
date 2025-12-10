@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import styles from './form.module.scss'
 import { FormProps } from './form.types'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import ButtonWave from '@/ui/buttonWave/buttonWave'
 import { useAtomValue } from 'jotai'
 import { printMethodReadAtom } from '@/shared/atoms/printMethodAtom'
@@ -51,11 +51,6 @@ const Form: FC<FormProps> = ({
   const [method, setMethod] = useState<'UV DTF' | 'DTF' | ''>('')
   const [agree, setAgree] = useState(false)
 
-  const isNameActive = useMemo(() => name.length > 0, [name])
-  const isPhoneActive = useMemo(() => phone.length > 0, [phone])
-  const isTelegramActive = useMemo(() => telegram.length > 0, [telegram])
-  const isMessengerActive = useMemo(() => messenger !== '', [messenger])
-  const isMethodActive = useMemo(() => (useAtomPrintMethod ? true : method !== ''), [method, useAtomPrintMethod])
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -75,12 +70,11 @@ const Form: FC<FormProps> = ({
 
   return (
     <form className={rootClassName} onSubmit={onSubmit}>
-      <div className={classNames(styles.control, isNameActive && styles.filled)}>
+      <div className={styles.control}>
         <div className={styles.topLine} />
         <div className={styles.row}>
           <label className={styles.fieldLabel} htmlFor="form-name">Ваше имя</label>
           <div className={styles.inputCell}>
-            <span className={styles.ph}>Введите свое имя</span>
             <input
               id="form-name"
               className={styles.input}
@@ -93,6 +87,7 @@ const Form: FC<FormProps> = ({
                     .slice(0, 40)
                 )
               }
+              placeholder="Введите свое имя"
               autoComplete="name"
               required
             />
@@ -100,12 +95,11 @@ const Form: FC<FormProps> = ({
         </div>
       </div>
 
-      <div className={classNames(styles.control, isPhoneActive && styles.filled)}>
+      <div className={styles.control}>
         <div className={styles.topLine} />
         <div className={styles.row}>
           <label className={styles.fieldLabel} htmlFor="form-phone">Ваш телефон</label>
           <div className={styles.inputCell}>
-            <span className={styles.ph}>Введите телефон</span>
             <input
               id="form-phone"
               className={styles.input}
@@ -113,48 +107,11 @@ const Form: FC<FormProps> = ({
               value={phone}
               onChange={(e) => {
                 const rawDigits = e.target.value.replace(/\D/g, '')
-                // remove leading country digit coming from the "+7" prefix in the UI
                 const national = rawDigits.startsWith('7') ? rawDigits.slice(1) : rawDigits
                 const clamped = national.slice(0, 10)
                 setPhone(formatPhoneFromDigits(clamped))
               }}
-              onKeyDown={(e) => {
-                if (e.key !== 'Backspace') return
-                const target = e.currentTarget
-                const start = target.selectionStart ?? 0
-                const end = target.selectionEnd ?? 0
-                // Only custom-handle collapsed caret (no selection)
-                if (start !== end) return
-                e.preventDefault()
-                const rawDigits = phone.replace(/\D/g, '')
-                const national = rawDigits.startsWith('7') ? rawDigits.slice(1) : rawDigits
-                if (national.length === 0) {
-                  // nothing to delete
-                  setPhone('')
-                  return
-                }
-                // Count digits before caret (includes the country digit '7' from "+7")
-                const digitsBeforeCaretAll = target.value.slice(0, start).replace(/\D/g, '').length
-                // Convert to index within national part (exclude the country digit)
-                const nationalBefore = Math.max(0, digitsBeforeCaretAll - 1)
-                // We want to delete the digit immediately BEFORE the caret
-                if (nationalBefore === 0) {
-                  // Caret is before first national digit: nothing to delete
-                  return
-                }
-                const deleteIndex = nationalBefore - 1
-                const newDigits =
-                  national.slice(0, deleteIndex) + national.slice(deleteIndex + 1)
-                setPhone(formatPhoneFromDigits(newDigits))
-              }}
-              onFocus={() => {
-                const digits = phone.replace(/\D/g, '')
-                if (digits.length === 0) setPhone('+7 ')
-              }}
-              onBlur={() => {
-                const digits = phone.replace(/\D/g, '')
-                if (digits.length === 0) setPhone('')
-              }}
+              placeholder="+7 (___) ___-__-__"
               autoComplete="tel"
               required
             />
@@ -162,30 +119,24 @@ const Form: FC<FormProps> = ({
         </div>
       </div>
 
-      <div className={classNames(styles.control, isTelegramActive && styles.filled)}>
+      <div className={styles.control}>
         <div className={styles.topLine} />
         <div className={styles.row}>
           <label className={styles.fieldLabel} htmlFor="form-telegram">Telegram</label>
           <div className={styles.inputCell}>
-            <span className={styles.ph}>Введите свой никнейм</span>
             <input
               id="form-telegram"
               className={styles.input}
               type="text"
               value={telegram}
               onChange={(e) => setTelegram(formatTelegram(e.target.value))}
-              onFocus={() => {
-                if (telegram === '') setTelegram('@')
-              }}
-              onBlur={() => {
-                if (telegram === '@') setTelegram('')
-              }}
+              placeholder="@username"
             />
           </div>
         </div>
       </div>
 
-      <div className={classNames(styles.control, isMessengerActive && styles.filled)}>
+      <div className={styles.control}>
         <div className={styles.topLine} />
         <div className={styles.row}>
           <span className={styles.choiceLabel}>Мессенджер</span>
@@ -205,7 +156,7 @@ const Form: FC<FormProps> = ({
       </div>
 
       {useAtomPrintMethod ? null : (
-        <div className={classNames(styles.control, isMethodActive && styles.filled)}>
+        <div className={styles.control}>
           <div className={styles.topLine} />
           <div className={styles.row}>
             <span className={styles.choiceLabel}>Метод печати</span>
