@@ -1,0 +1,28 @@
+@use '@styles/func';
+
+.container {
+  max-width: func.rem(980);
+  margin: func.rem(120) auto func.rem(100);
+  padding: 0 func.rem(24);
+}
+
+.card {
+  border: 1px solid #e5e7eb;
+  border-radius: func.rem(14);
+  padding: func.rem(16);
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+}
+
+.section {
+  margin-top: func.rem(24);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: func.rem(8);
+}
+
+
+
