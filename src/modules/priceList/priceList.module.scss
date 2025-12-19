@@ -126,15 +126,16 @@
   flex-wrap: wrap;
   gap: clamp(8px, 2vw, 12px);
   margin-top: clamp(12px, 2.5vw, 20px);
+
+  button {
+    border: 1px solid var(--color-accent-2);
+    color: var(--color-accent-2);
+
+    background: transparent;
+    transition: box-shadow .2s ease, background-color .2s ease, color .2s ease;
+  }
 }
 
-.btn {
-  border: 1px solid var(--color-accent-2);
-  color: var(--color-accent-2);
-  padding: 10px 14px;
-  background: transparent;
-  transition: box-shadow .2s ease, background-color .2s ease, color .2s ease;
-}
 
 .btn:hover {
   background: color-mix(in srgb, var(--color-accent-2) 12%, transparent);
