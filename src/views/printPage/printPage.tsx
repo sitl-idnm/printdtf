@@ -93,7 +93,7 @@ const PrintPage: FC<PrintPageProps> = ({
       />
       <PrintHero
         title={<><span>DTF и UV DTF</span></>}
-        subtitle={'Делаем как срочные тиражи фирменного мерча для бизнеса, так и единичные креативные вещи. DTF и UV DTF печать для любых задач и любого бюджета.'}
+        subtitle={<>Делаем как срочные тиражи фирменного мерча для бизнеса, так и&nbsp;единичные креативные вещи. DTF и&nbsp;UV DTF печать для любых задач и&nbsp;любого бюджета.</>}
         // cta1={'Рассчитать стоимость'}
         // cta2={'Написать в WhatsApp'}
 
@@ -109,7 +109,7 @@ const PrintPage: FC<PrintPageProps> = ({
       </DynamicBackground>
       <Delivery />
       <MaketRequirments />
-      <DynamicBackground variant="grid-draw" cellSize={100}><Faq faqData={faqData} /></DynamicBackground>
+      <DynamicBackground variant="swirl-2" pin={false} cellSize={100}><Faq faqData={faqData} /></DynamicBackground>
       <DynamicBackground pin={false} variant="crosses" cellSize={100}><FinalOffer /></DynamicBackground>
     </main>
   )

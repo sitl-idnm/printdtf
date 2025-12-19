@@ -14,6 +14,3 @@ export async function GET (_req: NextRequest, { params }: { params: { id: string
     return NextResponse.json({ error: e?.message || 'Unknown error' }, { status: 500 })
   }
 }
-
-
-

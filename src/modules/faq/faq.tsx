@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 import styles from './faq.module.scss'
 import { FaqProps } from './faq.types'
-import HeaderAnim from '@modules/header/anim'
+import HeaderAnim from '@ui/anim'
 
 const FaqComponent: FC<FaqProps> = ({
   className,

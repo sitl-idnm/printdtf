@@ -71,7 +71,7 @@ const Form: FC<FormProps> = ({
   return (
     <form className={rootClassName} onSubmit={onSubmit}>
       <div className={styles.control}>
-        <div className={styles.topLine} />
+
         <div className={styles.row}>
           <label className={styles.fieldLabel} htmlFor="form-name">Ваше имя</label>
           <div className={styles.inputCell}>
@@ -96,7 +96,7 @@ const Form: FC<FormProps> = ({
       </div>
 
       <div className={styles.control}>
-        <div className={styles.topLine} />
+        
         <div className={styles.row}>
           <label className={styles.fieldLabel} htmlFor="form-phone">Ваш телефон</label>
           <div className={styles.inputCell}>
@@ -120,7 +120,7 @@ const Form: FC<FormProps> = ({
       </div>
 
       <div className={styles.control}>
-        <div className={styles.topLine} />
+
         <div className={styles.row}>
           <label className={styles.fieldLabel} htmlFor="form-telegram">Telegram</label>
           <div className={styles.inputCell}>
@@ -137,7 +137,7 @@ const Form: FC<FormProps> = ({
       </div>
 
       <div className={styles.control}>
-        <div className={styles.topLine} />
+
         <div className={styles.row}>
           <span className={styles.choiceLabel}>Мессенджер</span>
           <div className={classNames(styles.options, styles.optionsRow)}>
@@ -157,7 +157,7 @@ const Form: FC<FormProps> = ({
 
       {useAtomPrintMethod ? null : (
         <div className={styles.control}>
-          <div className={styles.topLine} />
+
           <div className={styles.row}>
             <span className={styles.choiceLabel}>Метод печати</span>
             <div className={classNames(styles.options, styles.optionsRow)}>

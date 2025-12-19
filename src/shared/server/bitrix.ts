@@ -183,5 +183,3 @@ export async function getDealById(id: string): Promise<BitrixDeal | null> {
 	const deal = await bitrixCall<BitrixDeal>('crm.deal.get', { id })
 	return deal || null
 }
-
-

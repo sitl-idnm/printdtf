@@ -30,7 +30,9 @@
 			color: black;
 			font-size: 20px;
 
-			transition: background 0.3s ease;
+			transition: background 0.3s ease, color 0.3s ease;
+
+			cursor: pointer;
 
 			@include desktop {
 				font-size: 16px;
@@ -43,6 +45,11 @@
 
 			&:hover {
 				background-color: var(--color-accent-1);
+				color: white;
+			}
+
+			a:hover {
+				opacity: 1;
 			}
 		}
 
@@ -67,6 +74,8 @@
 		background-color: var(--color-background);
 		transition: background 0.3s ease;
 
+		cursor: pointer;
+
 		@include desktop {
 			font-size: 16px;
 			padding: 15px;
@@ -74,11 +83,41 @@
 
 		&:hover {
 			background-color: var(--color-accent-1);
+
+			svg {
+				g {
+					line {
+						stroke: white;
+					}
+				}
+
+				rect {
+					fill: white;
+				}
+
+				line {
+					stroke: white;
+				}
+			}
 		}
 
 		svg {
 			width: 30px;
 			height: 30px;
+
+			g {
+				line {
+					transition: stroke 0.3s ease;
+				}
+			}
+
+			rect {
+				transition: stroke 0.3s ease;
+			}
+
+			line {
+				transition: stroke 0.3s ease;
+			}
 		}
 	}
 }

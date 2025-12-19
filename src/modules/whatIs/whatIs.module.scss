@@ -49,8 +49,9 @@
 			}
 
 			&:nth-child(2) {
-				background-color: var(--color-accent-2);
+				background-color: white;
 				color: black;
+				border: 3px solid var(--color-accent-1);
 			}
 
 			&:last-child {
