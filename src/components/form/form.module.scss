@@ -12,7 +12,6 @@
 }
 .invert .fieldLabel { color: #fff; }
 .invert .choiceLabel { color: #fff; }
-.invert .topLine { background: rgba(255,255,255,.35); }
 .invert .input { color: #fff; }
 .invert .inputCell {
 	background: rgba(255,255,255,.08);
@@ -47,14 +46,6 @@
 	padding-top: 12px; // room for the top line
 }
 
-.topLine {
-	position: absolute;
-	inset-inline: 0;
-	top: 0;
-	height: 1px;
-	background: rgba(0,0,0,.3);
-}
-
 .fieldLabel {
 	color: #131313;
 	font-weight: 400;
@@ -83,7 +74,7 @@
 	align-items: center;
 	min-height: 48px;
 	width: 100%;
-	padding: 8px 12px;
+	padding: 16px 24px;
 	background: rgba(0,0,0,.03);
 	border: 1px solid rgba(0,0,0,.15);
 	border-radius: 4px;
@@ -103,7 +94,6 @@
 	padding: 0;
 	color: #131313;
 	font: inherit;
-	text-align: right;
 	direction: ltr;
 }
 
@@ -127,8 +117,12 @@
 }
 .options {
 	display: flex;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	gap: 10px;
+
+	button {
+		width: 100%;
+	}
 }
 .option {
 	// reset vertical spacing alignment
@@ -189,4 +183,8 @@
 
 .actions {
 	margin-top: 6px;
+
+	button {
+		width: 100%;
+	}
 }

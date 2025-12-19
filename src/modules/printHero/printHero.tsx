@@ -52,10 +52,10 @@ const PrintHero: FC<PrintHeroProps> = ({
                 <h2 className={styles.subtitle}>{subtitle}</h2>
               </div>
               <div className={styles.buttons}>
-                <ButtonWave variant="accent2" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = '#' }}>
+                <ButtonWave variant="accent3" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = '#' }}>
                   Заказать тираж
                 </ButtonWave>
-                <ButtonWave variant="accent2" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = '#' }}>
+                <ButtonWave variant="accent2" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = '#'  }}>
                   Обсудить индивидуальный заказ
                 </ButtonWave>
               </div>

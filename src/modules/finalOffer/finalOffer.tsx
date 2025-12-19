@@ -21,8 +21,10 @@ const FinalOffer: FC<FinalOfferProps> = ({
             свяжется с вами в течение 15 минут.
           </p>
         </div>
-        <div className={styles.right}>
+        <div className={styles.center}>
           <Form submitLabel="Отправить заявку" useAtomPrintMethod={!!useAtomPrintMethod} />
+        </div>
+        <div className={styles.right}>
         </div>
       </div>
     </section>

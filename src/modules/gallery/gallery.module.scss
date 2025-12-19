@@ -145,6 +145,14 @@
 	font-size: clamp(16px, 3vw, 28px);
 	font-weight: 800;
 	text-transform: uppercase;
+
+	opacity: 0;
+
+	transform: opacity 0.3s ease;
+}
+
+.card:hover .name {
+	opacity: 1;
 }
 
 .sub {
