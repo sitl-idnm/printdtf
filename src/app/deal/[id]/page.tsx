@@ -117,7 +117,3 @@ export default function DealPage () {
     </Wrapper>
   )
 }
-
-
-
-

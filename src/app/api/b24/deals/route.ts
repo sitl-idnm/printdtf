@@ -20,7 +20,3 @@ export async function POST (req: NextRequest) {
     return NextResponse.json({ error: e?.message || 'Unknown error' }, { status: 500 })
   }
 }
-
-
-
-
