@@ -96,7 +96,7 @@ const Form: FC<FormProps> = ({
       </div>
 
       <div className={styles.control}>
-        
+
         <div className={styles.row}>
           <label className={styles.fieldLabel} htmlFor="form-phone">Ваш телефон</label>
           <div className={styles.inputCell}>
@@ -145,7 +145,7 @@ const Form: FC<FormProps> = ({
               <ButtonWave
                 key={m}
                 className={classNames(styles.option, messenger === m && styles.selected)}
-                variant="accent2"
+                variant="accent3"
                 onClick={() => setMessenger(m)}
               >
                 {m}
@@ -190,7 +190,7 @@ const Form: FC<FormProps> = ({
       </label>
 
       <div className={styles.actions}>
-        <ButtonWave variant="accent2" className={styles.cta} type="submit">
+        <ButtonWave variant="accent3" className={styles.cta} type="submit">
           {submitLabel ?? 'Отправить'}
         </ButtonWave>
       </div>

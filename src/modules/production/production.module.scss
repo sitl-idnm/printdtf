@@ -37,6 +37,7 @@
 			margin-right: 20px;
 
 			&_item {
+				color: white;
 				position: relative;
 				display: inline-flex;
 				align-items: center;
@@ -50,11 +51,11 @@
 				white-space: nowrap;
 				font-size: 14px;
 				font-family: var(--font-involve);
-				font-weight: 500;
+				font-weight: 600;
 				text-transform: uppercase;
 				line-height: 1.2;
 				list-style: none;
-				color: var(--text-color, #111);
+				color: white;
 				margin-right: -30px;
 
 				// beveled/relief background

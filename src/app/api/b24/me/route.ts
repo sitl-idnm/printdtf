@@ -3,7 +3,7 @@ import { getSessionCookieName, verifySessionToken } from '@/shared/server/sessio
 import { extractDigits } from '@/shared/utils/phone'
 import { findLeadIdsByPhone, getLeadById, findContactIdsByPhone, getContactById, listDealsByContactId, listDealsByCompanyId, type BitrixContact, type BitrixDeal } from '@/shared/server/bitrix'
 
-export async function GET (req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
     const cookieName = getSessionCookieName()
     const token = req.cookies.get(cookieName)?.value

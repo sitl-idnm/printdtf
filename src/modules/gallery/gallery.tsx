@@ -99,6 +99,7 @@ const Gallery: FC<GalleryProps> = ({
                   <div className={styles.caption}>
                     <div className={styles.name}>{item.title}</div>
                     {item.subtitle ? <div className={styles.sub}>{item.subtitle}</div> : null}
+                    <div className={styles.hint}>Откройте полноэкранный просмотр, чтобы рассмотреть текстуру принта/рельеф</div>
                   </div>
                 </article>
               )
@@ -117,7 +118,6 @@ const Gallery: FC<GalleryProps> = ({
             </svg>
           </button>
         </div>
-        <div className={styles.micro}>Откройте полноэкранный просмотр, чтобы рассмотреть текстуру принта/рельеф</div>
       </div>
 
       {/* lightbox */}

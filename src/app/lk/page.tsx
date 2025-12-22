@@ -25,7 +25,7 @@ type Lead = {
   CURRENCY_ID?: string
 }
 
-export default function LkPage () {
+export default function LkPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [lead, setLead] = useState<Lead | null>(null)

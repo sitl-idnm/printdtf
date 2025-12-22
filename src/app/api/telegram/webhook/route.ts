@@ -16,7 +16,7 @@ type TgUpdate = {
   }
 }
 
-export async function POST (req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const update = (await req.json()) as TgUpdate
     const msg = update.message

@@ -70,38 +70,53 @@
 	.list {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 30px;
-
 		padding: 20px;
 
 		max-width: 900px;
 
 		.item {
 			padding: 15px 30px;
-			background-color: var(--color-accent-2);
+			background-color: var(--color-accent-1);
+			border: 1px solid black;
+			color: white;
 			font-weight: 500;
 
-			transition: all 0.3s ease-in-out;
+			transition: scale 0.3s ease-in-out, rotate 0.3s ease-in-out;
 
 			max-width: 400px;
 
-			&:nth-child(2n) {
-				transform: translateY(50px);
+			// Начальное состояние для анимации (будет переопределено GSAP)
+			opacity: 0;
+
+			// Разные углы поворота для разных элементов, как в WhatIs
+			&:nth-child(3n + 1) {
+				rotate: -3deg;
 			}
 
-			&:nth-child(2n):hover {
-				scale: 1.1;
-				rotate: -5deg;
+			&:nth-child(3n + 2) {
+				rotate: 4deg;
 			}
 
-			&:nth-child(2n + 1):hover {
-				scale: 1.1;
-				rotate: 5deg;
+			&:nth-child(3n) {
+				rotate: -2deg;
 			}
 
-			&:hover {
-				background-color: var(--color-accent-1);
-				color: white;
+			@include mixins.desktop-only {
+				&:hover {
+					scale: 1.1;
+
+					&:nth-child(3n + 1) {
+						rotate: -8deg;
+					}
+
+					&:nth-child(3n + 2) {
+						rotate: 8deg;
+					}
+
+					&:nth-child(3n) {
+						rotate: -6deg;
+					}
+				}
 			}
 
 			.number {
@@ -135,12 +150,24 @@
 	.list {
 		.item {
 			background-color: var(--color-accent-1);
-
 			color: white;
 
-			&:hover {
-				background-color: var(--color-accent-2);
-				color: black;
+			@include mixins.desktop-only {
+				&:hover {
+					scale: 1.1;
+
+					&:nth-child(3n + 1) {
+						rotate: -8deg;
+					}
+
+					&:nth-child(3n + 2) {
+						rotate: 8deg;
+					}
+
+					&:nth-child(3n) {
+						rotate: -6deg;
+					}
+				}
 			}
 		}
 	}

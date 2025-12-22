@@ -30,34 +30,34 @@ const CardScrollAnimation = ({ children }: CardScrollAnimationProps) => {
           pin: true, // Фиксируем скролл на месте, пока длится анимация
         }
       })
-      .fromTo(cardsRegular,
-        { y: 800, rotation: -10, opacity: 0 }, // Начальное состояние (карточки снизу, повёрнуты, прозрачные)
-        {
-          y: 0, rotation: 0, opacity: 1, // Конечное состояние (карточки на месте, без поворота, видимые)
-          stagger: 0.9, // Задержка между анимацией каждой карточки
-          ease: 'power2.out',
-          duration: 2
-        }
-      )
-      .fromTo(cardsOrange,
-        { y: 800, rotation: 40, opacity: 0 }, // Начальное состояние (карточки снизу, повёрнуты, прозрачные)
-        {
-          y: 30, rotation: -10, opacity: 1, // Конечное состояние (карточки на месте, без поворота, видимые)
-          stagger: 0.9, // Задержка между анимацией каждой карточки
-          ease: 'power2.out',
-          duration: 2
-        }
-      )
+        .fromTo(cardsRegular,
+          { y: 800, rotation: -10, opacity: 0 }, // Начальное состояние (карточки снизу, повёрнуты, прозрачные)
+          {
+            y: 0, rotation: 0, opacity: 1, // Конечное состояние (карточки на месте, без поворота, видимые)
+            stagger: 0.9, // Задержка между анимацией каждой карточки
+            ease: 'power2.out',
+            duration: 2
+          }
+        )
+        .fromTo(cardsOrange,
+          { y: 800, rotation: 40, opacity: 0 }, // Начальное состояние (карточки снизу, повёрнуты, прозрачные)
+          {
+            y: 30, rotation: -10, opacity: 1, // Конечное состояние (карточки на месте, без поворота, видимые)
+            stagger: 0.9, // Задержка между анимацией каждой карточки
+            ease: 'power2.out',
+            duration: 2
+          }
+        )
 
-      .fromTo(cardsWhite,
-        { y: 800, rotation: -40, opacity: 0 }, // Начальное состояние (карточки снизу, повёрнуты, прозрачные)
-        {
-          y: 30, rotation: 10, opacity: 1, // Конечное состояние (карточки на месте, без поворота, видимые)
-          stagger: 0.9, // Задержка между анимацией каждой карточки
-          ease: 'power2.out',
-          duration: 2
-        }
-      )
+        .fromTo(cardsWhite,
+          { y: 800, rotation: -40, opacity: 0 }, // Начальное состояние (карточки снизу, повёрнуты, прозрачные)
+          {
+            y: 30, rotation: 10, opacity: 1, // Конечное состояние (карточки на месте, без поворота, видимые)
+            stagger: 0.9, // Задержка между анимацией каждой карточки
+            ease: 'power2.out',
+            duration: 2
+          }
+        )
     }
   }, []);
 
@@ -84,7 +84,7 @@ export const Result = () => {
             </h3>
             <p className={styles.cardDescription}>
               <span className={styles.cardDescriptionSemibold}>Сотрудникам </span>
-               – ресурсы для профессионального роста и самовыражения
+              – ресурсы для профессионального роста и самовыражения
             </p>
             <p className={styles.cardDescription}>
               Клиентам – качественный результат

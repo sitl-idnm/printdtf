@@ -242,7 +242,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
             <div className={styles.sectionInner}>
               <Gallery
                 title="ПОРТФОЛИО"
-                description="Откройте полноэкранный просмотр, чтобы рассмотреть текстуру принта/рельеф."
+                description=""
                 items={[
                   { id: 1, image: '/images/test.jpg', title: 'Футболки' },
                   { id: 2, image: '/images/test.jpg', title: 'UV на стекле' },

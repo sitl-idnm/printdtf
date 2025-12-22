@@ -9,7 +9,7 @@ import { Button } from '@ui/button'
 import { maskPhoneInput } from '@/shared/utils/phone'
 import styles from './login.module.scss'
 
-export default function LoginPage () {
+export default function LoginPage() {
   const [phone, setPhone] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -97,21 +97,21 @@ export default function LoginPage () {
       setNormalized(data.phone || null)
       if (!data.lead && !data.contact) {
         setError('По данному номеру не найден Lead/Contact в CRM')
-        } else {
-          // fetch deals for contact or company
-          const contactId = (data.contact && data.contact.ID) || null
-          const companyId = (data.contact && data.contact.COMPANY_ID) || null
-          if (contactId || companyId) {
-            const respDeals = await fetch('/api/b24/deals', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ contactId, companyId })
-            })
-            const dealsData = await respDeals.json()
-            if (respDeals.ok) {
-              setDeals(dealsData.deals || [])
-            }
+      } else {
+        // fetch deals for contact or company
+        const contactId = (data.contact && data.contact.ID) || null
+        const companyId = (data.contact && data.contact.COMPANY_ID) || null
+        if (contactId || companyId) {
+          const respDeals = await fetch('/api/b24/deals', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contactId, companyId })
+          })
+          const dealsData = await respDeals.json()
+          if (respDeals.ok) {
+            setDeals(dealsData.deals || [])
           }
+        }
       }
     } catch (err: unknown) {
       setError((err instanceof Error ? err.message : 'Unknown error'))

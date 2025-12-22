@@ -122,15 +122,25 @@
 
 	button {
 		width: 100%;
+		color: black;
+		border-color: black;
+
+		&::before {
+			background-color: white;
+		}
 	}
 }
 .option {
 	// reset vertical spacing alignment
 }
-.selected {
-	color: #fff !important;
-	background: var(--btn-bg, var(--color-accent-2)) !important;
-	border-color: var(--btn-bg, var(--color-accent-2)) !important;
+
+button.selected {
+	color: white !important;
+	border-color: black !important;
+
+	&::before {
+		background-color: var(--color-accent-1);
+	}
 }
 
 .agree {
