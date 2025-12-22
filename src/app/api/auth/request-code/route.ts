@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { normalizePhoneToE164 } from '@/shared/utils/phone'
 import { codeTtlSeconds } from '@/shared/server/totp'
 
-export async function POST (req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const { phone } = (await req.json()) as { phone?: string }
     if (!phone) {

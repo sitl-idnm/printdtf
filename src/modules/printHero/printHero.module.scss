@@ -128,13 +128,24 @@
 	button {
 		border: 1px solid white;
   	color: white;
+		background-color: var(--color-accent-3);
+
+		&::before {
+			background-color: black;
+		}
 	}
 
 	button:last-child {
-		border: 1px solid var(--color-accent-2);
-  	color: var(--color-accent-2);
+		border: 1px solid black;
+  	color: black;
+		background-color: transparent;
+
+		&::before {
+			background-color: var(--color-accent-2);
+		}
 
 		&:hover {
+			border: 1px solid white;
 			color: white;
 		}
 	}

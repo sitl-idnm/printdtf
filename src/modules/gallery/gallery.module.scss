@@ -164,6 +164,16 @@
 	transition: opacity .35s ease, max-height .35s ease;
 }
 
+.hint {
+	font-size: 12px;
+	color: rgba(255 255 255 / 0.55);
+	margin-top: 8px;
+	max-height: 0;
+	opacity: 0;
+	overflow: hidden;
+	transition: opacity .35s ease, max-height .35s ease, margin-top .35s ease;
+}
+
 .card:hover .caption { transform: translateY(-18px); }
 
 .nav {
@@ -188,13 +198,6 @@
 }
 
 .btn:active { transform: scale(0.96); }
-
-.micro {
-	margin-top: 8px;
-	text-align: center;
-	color: rgba(255 255 255 / 0.55);
-	font-size: 12px;
-}
 
 .tags {
 	position: absolute;
@@ -229,6 +232,7 @@
 	clip-path: circle(100% at 50% 41.5%);
 }
 .card:hover .sub { opacity: 1; max-height: 120px; }
+.card:hover .hint { opacity: 1; max-height: 60px; margin-top: 8px; }
 .card:hover .tags { opacity: 1; transform: translateY(0); }
 
 /* Lightbox */

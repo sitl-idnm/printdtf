@@ -37,7 +37,7 @@ type Company = {
   EMAIL?: Array<{ ID: string; VALUE: string }>
 }
 
-export default function DealPage () {
+export default function DealPage() {
   const params = useParams<{ id: string }>()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)

@@ -27,7 +27,7 @@ type Lead = {
   CURRENCY_ID?: string
 }
 
-export default function BitrixPortalPage () {
+export default function BitrixPortalPage() {
   const [phone, setPhone] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)

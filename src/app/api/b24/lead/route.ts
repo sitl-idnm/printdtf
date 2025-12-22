@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { normalizePhoneToE164, extractDigits } from '@/shared/utils/phone'
 import { findLeadIdsByPhone, getLeadById, findContactIdsByPhone, getContactById } from '@/shared/server/bitrix'
 
-export async function POST (req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const { phone } = (await req.json()) as { phone?: string }
     if (!phone) {

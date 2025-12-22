@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { listDealsByContactId, listDealsByCompanyId } from '@/shared/server/bitrix'
 
-export async function POST (req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const { contactId, companyId } = (await req.json()) as { contactId?: string; companyId?: string }
     if (!contactId && !companyId) {

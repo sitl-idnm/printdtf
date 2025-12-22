@@ -128,11 +128,19 @@
   margin-top: clamp(12px, 2.5vw, 20px);
 
   button {
-    border: 1px solid var(--color-accent-2);
-    color: var(--color-accent-2);
-
-    background: transparent;
+    border: 1px solid black;
+    color: black;
+    background-color: transparent;
     transition: box-shadow .2s ease, background-color .2s ease, color .2s ease;
+
+    &::before {
+      background: var(--color-accent-2);
+    }
+
+    &:hover {
+      border: 1px solid white;
+      color: white;
+    }
   }
 }
 

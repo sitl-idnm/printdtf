@@ -3,7 +3,7 @@ import { normalizePhoneToE164 } from '@/shared/utils/phone'
 import { verifyCode } from '@/shared/server/totp'
 import { buildSessionCookie, createSessionToken } from '@/shared/server/session'
 
-export async function POST (req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const { phone, code } = (await req.json()) as { phone?: string; code?: string }
     if (!phone || !code) {
