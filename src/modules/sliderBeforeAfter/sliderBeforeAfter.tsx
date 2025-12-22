@@ -144,36 +144,43 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
         toggleActions: 'play none none reverse'
       }
     })
+
+    // Set initial opacity for sections
+    if (sectionsRef.current) {
+      gsap.set(sectionsRef.current, { opacity: 1 })
+    }
   }, { scope: rootRef })
 
-  const [isCollapsing, setIsCollapsing] = useState(false)
+  const [isFading, setIsFading] = useState(false)
   const isDTF = currentSlide === 1
-  const collapseMs = 700
-  const timersRef = useRef<number[]>([])
-
-  useEffect(() => {
-    return () => {
-      // cleanup timers on unmount
-      timersRef.current.forEach((t) => window.clearTimeout(t))
-      timersRef.current = []
-    }
-  }, [])
+  const sectionsRef = useRef<HTMLDivElement>(null)
 
   function handleSwitch(target: 1 | 2, method: 'dtf' | 'uvdtf') {
-    if (currentSlide === target || isCollapsing) return
-    setIsCollapsing(true)
-    // 1) полностью схлопываем
-    timersRef.current.push(
-      window.setTimeout(() => {
-        // 2) меняем контент, пока высота = 0
+    if (currentSlide === target || isFading) return
+
+    setIsFading(true)
+
+    // Fade out
+    gsap.to(sectionsRef.current, {
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        // Change content while invisible
         setCurrentSlide(target)
         setPrintMethod(method)
-        // 3) даём кадр на рефлоу, затем раскрываем
-        timersRef.current.push(
-          window.setTimeout(() => setIsCollapsing(false), 16)
-        )
-      }, collapseMs)
-    )
+
+        // Fade in
+        gsap.to(sectionsRef.current, {
+          opacity: 1,
+          duration: 0.3,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            setIsFading(false)
+          }
+        })
+      }
+    })
   }
 
   return (
@@ -199,8 +206,8 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
         </div>
       </div>
       <div className={styles.slider}>
-        <div>
-          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+        <div ref={sectionsRef}>
+          <div className={`${styles.section} ${styles.sectionOpen}`}>
             <div className={styles.sectionInner}>
               <DynamicBackground pin={false}>
                 <WhatIs
@@ -211,7 +218,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
             </div>
           </div>
 
-          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+          <div className={`${styles.section} ${styles.sectionOpen}`}>
             <div className={styles.sectionInner}>
               <Advantages
                 arrAdvantages={isDTF ? advantagesDTF : advantagesUVDTF}
@@ -225,13 +232,13 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
             </div>
           </div>
 
-          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+          <div className={`${styles.section} ${styles.sectionOpen}`}>
             <div className={styles.sectionInner}>
               <LineButton />
             </div>
           </div>
 
-          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+          <div className={`${styles.section} ${styles.sectionOpen}`}>
             <div className={styles.sectionInner}>
               <Gallery
                 title="ПОРТФОЛИО"
@@ -248,7 +255,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
             </div>
           </div>
 
-          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+          <div className={`${styles.section} ${styles.sectionOpen}`}>
             <div className={styles.sectionInner}>
               <Cases
                 items={[
@@ -305,7 +312,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
             </div>
           </div>
 
-          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+          <div className={`${styles.section} ${styles.sectionOpen}`}>
             <div className={styles.sectionInner}>
               <Production
                 title={isDTF ? 'DTF процесс производства' : 'UV DTF процесс производства'}
@@ -330,13 +337,13 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
             </div>
           </div>
 
-          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+          <div className={`${styles.section} ${styles.sectionOpen}`}>
             <div className={styles.sectionInner}>
               <PlusWork arrPlusWork={isDTF ? StagesDTFArray : StagesUVDTFArray} />
             </div>
           </div>
 
-          <div className={`${styles.section} ${!isCollapsing ? styles.sectionOpen : ''}`}>
+          <div className={`${styles.section} ${styles.sectionOpen}`}>
             <div className={styles.sectionInner}>
               <DynamicBackground pin={false} variant={'swirl-2'}>
                 <FinalOffer useAtomPrintMethod />
