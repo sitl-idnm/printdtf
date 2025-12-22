@@ -177,8 +177,8 @@ button.selected {
 	}
 
 	&:checked {
-		background: var(--color-accent-2);
-		border-color: var(--color-accent-2);
+		background: var(--color-accent-1);
+		border-color: var(--color-accent-1);
 	}
 	&:checked::after {
 		opacity: 1;
