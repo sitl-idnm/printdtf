@@ -1,12 +1,13 @@
 'use client'
 import { FC, useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import styles from './sliderBeforeAfter.module.scss'
 import { SliderBeforeAfterProps } from './sliderBeforeAfter.types'
 import { Advantages } from '@/components'
 import { useSetAtom, useAtomValue } from 'jotai'
-import { printMethodWriteAtom, printMethodReadAtom } from '@atoms/printMethodAtom'
+import { printMethodWriteAtom, printMethodReadAtom, PrintMethod } from '@atoms/printMethodAtom'
 import { WhatIs } from '../whatIs'
 import { PlusWork } from '../plusWork'
 import { Cases } from '../cases'
@@ -113,6 +114,8 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
 }) => {
   const rootClassName = classNames(styles.root, className)
 
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [currentSlide, setCurrentSlide] = useState<number>(1)
 
   const setPrintMethod = useSetAtom(printMethodWriteAtom)
@@ -120,9 +123,37 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
   const navigationRef = useRef<HTMLDivElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
 
+  const isInitializedRef = useRef(false)
+
+  // Initialize from URL on mount only
   useEffect(() => {
-    setPrintMethod('dtf')
-  }, [setPrintMethod])
+    if (isInitializedRef.current) return
+
+    const methodFromUrl = searchParams.get('method') as PrintMethod | null
+    const validMethod = methodFromUrl === 'dtf' || methodFromUrl === 'uvdtf' ? methodFromUrl : 'dtf'
+
+    setPrintMethod(validMethod)
+    setCurrentSlide(validMethod === 'dtf' ? 1 : 2)
+    isInitializedRef.current = true
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Only on mount - initialize from URL once
+
+  // Sync atom changes to URL (when user clicks buttons)
+  useEffect(() => {
+    if (!isInitializedRef.current) return // Don't update URL until initialized
+
+    const methodFromUrl = searchParams.get('method') as PrintMethod | null
+    const urlMethod = methodFromUrl === 'dtf' || methodFromUrl === 'uvdtf' ? methodFromUrl : 'dtf'
+
+    // Only update URL if atom differs from URL
+    if (printMethod !== urlMethod) {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('method', printMethod)
+
+      const newUrl = `${window.location.pathname}?${params.toString()}`
+      router.replace(newUrl, { scroll: false })
+    }
+  }, [printMethod, router, searchParams])
 
   useGSAP(() => {
     if (!navigationRef.current || !rootRef.current) return
@@ -156,28 +187,74 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
   const sectionsRef = useRef<HTMLDivElement>(null)
 
   function handleSwitch(target: 1 | 2, method: 'dtf' | 'uvdtf') {
-    if (currentSlide === target || isFading) return
+    // Check by printMethod instead of currentSlide to ensure buttons always work
+    if (printMethod === method || isFading) return
+
+    // Save scroll position at the very beginning to prevent any jumps
+    const savedScrollY = window.scrollY || window.pageYOffset
 
     setIsFading(true)
+
+    // Don't kill ScrollTriggers - let components handle their own cleanup/recreation
+    // Components using useGSAP with dependencies will automatically recreate ScrollTriggers
+    // when their props change (like arrAdvantages, title, etc.)
+
+    // Restore scroll position immediately
+    window.scrollTo(0, savedScrollY)
+
+    // Ensure opacity is set before animation
+    gsap.set(sectionsRef.current, { opacity: 1 })
 
     // Fade out
     gsap.to(sectionsRef.current, {
       opacity: 0,
-      duration: 0.3,
+      duration: 0.4,
       ease: 'power2.inOut',
       onComplete: () => {
         // Change content while invisible
         setCurrentSlide(target)
         setPrintMethod(method)
+        // URL will be updated automatically via useEffect
 
-        // Fade in
-        gsap.to(sectionsRef.current, {
-          opacity: 1,
-          duration: 0.3,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            setIsFading(false)
-          }
+        // Wait for React to update DOM before fade in
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            // Restore scroll position before fade in to prevent layout shift
+            window.scrollTo(0, savedScrollY)
+
+            // Ensure starting opacity is 0
+            gsap.set(sectionsRef.current, { opacity: 0 })
+
+            // Fade in
+            gsap.to(sectionsRef.current, {
+              opacity: 1,
+              duration: 0.4,
+              ease: 'power2.inOut',
+              onComplete: () => {
+                setIsFading(false)
+
+                // Give components time to recreate ScrollTriggers via useGSAP
+                // Components will automatically recreate ScrollTriggers when their props change
+                // (Advantages, WhatIs, Production, etc. all use dependencies in useGSAP)
+                // Then refresh all ScrollTriggers to recalculate positions
+                setTimeout(() => {
+                  // Save current position before refresh
+                  const currentScrollY = window.scrollY || window.pageYOffset
+
+                  // Full refresh to recalculate all ScrollTriggers
+                  // This will update positions for all newly created ScrollTriggers
+                  ScrollTrigger.refresh()
+
+                  // Restore scroll position after refresh
+                  requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                      window.scrollTo(0, currentScrollY)
+                    })
+                  })
+                }, 500) // Increased delay to ensure all useGSAP hooks have run and recreated ScrollTriggers
+              }
+            })
+          })
         })
       }
     })

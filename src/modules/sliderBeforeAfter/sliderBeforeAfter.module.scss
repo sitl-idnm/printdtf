@@ -18,6 +18,8 @@
 			opacity: 1;
 			overflow-x: visible;
 			overflow-y: visible;
+			will-change: opacity;
+			transition: opacity 0.01s; // Fallback for smoother transitions
 		}
 
 		.sectionOpen {
