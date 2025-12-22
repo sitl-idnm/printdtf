@@ -49,7 +49,7 @@ export async function POST (req: NextRequest) {
       await tgSendMessage(msg.chat.id, 'Привет! Нажмите кнопку «Отправить номер телефона» в меню, чтобы привязать ваш номер.')
     }
     return NextResponse.json({ ok: true })
-  } catch (e: any) {
+  } catch (e: unknown) {
     return NextResponse.json({ ok: true })
   }
 }

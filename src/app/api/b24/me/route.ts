@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSessionCookieName, verifySessionToken } from '@/shared/server/session'
 import { extractDigits } from '@/shared/utils/phone'
-import { findLeadIdsByPhone, getLeadById, findContactIdsByPhone, getContactById, listDealsByContactId, listDealsByCompanyId } from '@/shared/server/bitrix'
+import { findLeadIdsByPhone, getLeadById, findContactIdsByPhone, getContactById, listDealsByContactId, listDealsByCompanyId, type BitrixContact, type BitrixDeal } from '@/shared/server/bitrix'
 
 export async function GET (req: NextRequest) {
   try {
@@ -28,8 +28,8 @@ export async function GET (req: NextRequest) {
       const contact = await getContactById(targetId)
       const deals = await listDealsByContactId(targetId)
       // also try by company
-      let companyDeals: any[] = []
-      const companyId = (contact as any)?.COMPANY_ID
+      let companyDeals: BitrixDeal[] = []
+      const companyId = (contact as BitrixContact)?.COMPANY_ID
       if (companyId) {
         companyDeals = await listDealsByCompanyId(String(companyId))
       }
@@ -37,7 +37,7 @@ export async function GET (req: NextRequest) {
     }
 
     return NextResponse.json({ entity: null, lead: null, contact: null, deals: [], phone: session.phone }, { status: 200 })
-  } catch (e: any) {
-    return NextResponse.json({ error: e?.message || 'Unknown error' }, { status: 500 })
+  } catch (e: unknown) {
+    return NextResponse.json({ error: (e instanceof Error ? e.message : 'Unknown error') }, { status: 500 })
   }
 }

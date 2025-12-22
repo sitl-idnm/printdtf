@@ -1,6 +1,6 @@
 type BitrixCommonResponse<T> = {
 	result?: T
-	time?: any
+	time?: unknown
 	total?: number
 	next?: number
 	error?: string
@@ -43,7 +43,7 @@ export type BitrixContact = {
 	DATE_MODIFY?: string
 }
 
-export async function bitrixCall<T>(method: string, params: Record<string, any>): Promise<T> {
+export async function bitrixCall<T>(method: string, params: Record<string, unknown>): Promise<T> {
 	const base = process.env.BITRIX_WEBHOOK_URL
 	if (!base) {
 		throw new Error('Missing env BITRIX_WEBHOOK_URL')
@@ -95,7 +95,7 @@ export async function findLeadIdsByPhone(phoneDigits: string): Promise<string[]>
 
 export async function getLeadById(id: string): Promise<BitrixLead | null> {
 	const lead = await bitrixCall<BitrixLead>('crm.lead.get', { id })
-	const list = await bitrixCall<{ ID: string; PHONE?: any[]; EMAIL?: any[] }[]>('crm.lead.list', {
+	const list = await bitrixCall<{ ID: string; PHONE?: Array<{ ID: string; VALUE: string; VALUE_TYPE?: string }>; EMAIL?: Array<{ ID: string; VALUE: string; VALUE_TYPE?: string }> }[]>('crm.lead.list', {
 		filter: { ID: id },
 		select: ['ID', 'TITLE', 'STATUS_ID', 'ASSIGNED_BY_ID', 'PHONE', 'EMAIL', 'DATE_CREATE', 'DATE_MODIFY', 'COMMENTS', 'NAME', 'LAST_NAME', 'SECOND_NAME', 'SOURCE_ID', 'OPPORTUNITY', 'CURRENCY_ID']
 	}).catch(() => [])
@@ -116,7 +116,7 @@ export async function findContactIdsByPhone(phoneDigits: string): Promise<string
 
 export async function getContactById(id: string): Promise<BitrixContact | null> {
 	const contact = await bitrixCall<BitrixContact>('crm.contact.get', { id })
-	const list = await bitrixCall<{ ID: string; PHONE?: any[]; EMAIL?: any[] }[]>('crm.contact.list', {
+	const list = await bitrixCall<{ ID: string; PHONE?: Array<{ ID: string; VALUE: string; VALUE_TYPE?: string }>; EMAIL?: Array<{ ID: string; VALUE: string; VALUE_TYPE?: string }> }[]>('crm.contact.list', {
 		filter: { ID: id },
 		select: ['ID', 'NAME', 'LAST_NAME', 'SECOND_NAME', 'ASSIGNED_BY_ID', 'PHONE', 'EMAIL', 'DATE_CREATE', 'DATE_MODIFY', 'COMMENTS', 'POST', 'COMPANY_ID', 'TYPE_ID', 'SOURCE_ID']
 	}).catch(() => [])
@@ -153,7 +153,7 @@ export type BitrixDeal = {
 
 export async function getCompanyById(id: string): Promise<BitrixCompany | null> {
 	const company = await bitrixCall<BitrixCompany>('crm.company.get', { id })
-	const list = await bitrixCall<{ ID: string; PHONE?: any[]; EMAIL?: any[] }[]>('crm.company.list', {
+	const list = await bitrixCall<{ ID: string; PHONE?: Array<{ ID: string; VALUE: string; VALUE_TYPE?: string }>; EMAIL?: Array<{ ID: string; VALUE: string; VALUE_TYPE?: string }> }[]>('crm.company.list', {
 		filter: { ID: id },
 		select: ['ID', 'TITLE', 'ASSIGNED_BY_ID', 'COMPANY_TYPE', 'INDUSTRY', 'PHONE', 'EMAIL', 'COMMENTS', 'DATE_CREATE', 'DATE_MODIFY']
 	}).catch(() => [])
