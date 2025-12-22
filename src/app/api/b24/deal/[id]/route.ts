@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getDealById, getContactById, getCompanyById } from '@/shared/server/bitrix'
 
-export async function GET (_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const id = params.id
     if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
