@@ -24,7 +24,7 @@ export async function POST (req: NextRequest) {
       return NextResponse.json({ entity: 'contact', contact, phone: normalized }, { status: 200 })
     }
     return NextResponse.json({ entity: null, lead: null, contact: null, phone: normalized }, { status: 200 })
-  } catch (e: any) {
-    return NextResponse.json({ error: e?.message || 'Unknown error' }, { status: 500 })
+  } catch (e: unknown) {
+    return NextResponse.json({ error: (e instanceof Error ? e.message : 'Unknown error') }, { status: 500 })
   }
 }

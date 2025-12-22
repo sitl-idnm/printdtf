@@ -18,7 +18,7 @@ export async function POST (req: NextRequest) {
     const res = NextResponse.json({ ok: true }, { status: 200 })
     res.headers.set('Set-Cookie', buildSessionCookie(token))
     return res
-  } catch (e: any) {
-    return NextResponse.json({ error: e?.message || 'Unknown error' }, { status: 500 })
+  } catch (e: unknown) {
+    return NextResponse.json({ error: (e instanceof Error ? e.message : 'Unknown error') }, { status: 500 })
   }
 }

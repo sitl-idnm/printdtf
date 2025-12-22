@@ -14,4 +14,6 @@ type ButtonOwnProps = {
 }
 
 export type ButtonProps = ButtonOwnProps &
-  Omit<ComponentProps<typeof Link>, keyof ButtonOwnProps>
+  (ButtonOwnProps['href'] extends string
+    ? Omit<ComponentProps<typeof Link>, keyof ButtonOwnProps>
+    : Omit<ComponentProps<'button'>, keyof ButtonOwnProps>)

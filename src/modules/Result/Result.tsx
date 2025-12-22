@@ -3,7 +3,7 @@ import styles from './styles.module.css';
 import React, { useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { TextAnimation } from '../TextAnimation/TextAnimation.tsx'
+// TextAnimation component not found, using simple heading instead
 import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -72,14 +72,11 @@ export const Result = () => {
   return (
     <div className={styles.section}>
       <CardScrollAnimation>
-        <TextAnimation
-          text={[
-            'Добиваемся результатов',
-            'за счет жестких принципов',
-            'и мягких подходов'
-          ]}
-          style={styles.title}
-        />
+        <h2 className={styles.title}>
+          Добиваемся результатов<br />
+          за счет жестких принципов<br />
+          и мягких подходов
+        </h2>
         <div className={styles.cardWrapper}>
           <div className={`${styles.card} ${styles.cardRegular}`}>
             <h3 className={styles.cardTitle}>

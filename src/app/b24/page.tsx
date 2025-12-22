@@ -60,8 +60,8 @@ export default function BitrixPortalPage () {
       if (!data.lead) {
         setError('По данному номеру лида не найдено / No lead found for this number')
       }
-    } catch (err: any) {
-      setError(err?.message || 'Unknown error')
+    } catch (err: unknown) {
+      setError((err instanceof Error ? err.message : 'Unknown error'))
     } finally {
       setLoading(false)
     }

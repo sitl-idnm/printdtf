@@ -48,8 +48,8 @@ export default function LkPage () {
       }
       setLead(data.lead || null)
       setPhone(data.phone || null)
-    } catch (err: any) {
-      setError(err?.message || 'Unknown error')
+    } catch (err: unknown) {
+      setError((err instanceof Error ? err.message : 'Unknown error'))
     } finally {
       setLoading(false)
     }

@@ -10,7 +10,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
     const contact = deal.CONTACT_ID ? await getContactById(deal.CONTACT_ID) : null
     const company = deal.COMPANY_ID ? await getCompanyById(deal.COMPANY_ID) : null
     return NextResponse.json({ deal, contact, company }, { status: 200 })
-  } catch (e: any) {
-    return NextResponse.json({ error: e?.message || 'Unknown error' }, { status: 500 })
+  } catch (e: unknown) {
+    return NextResponse.json({ error: (e instanceof Error ? e.message : 'Unknown error') }, { status: 500 })
   }
 }
