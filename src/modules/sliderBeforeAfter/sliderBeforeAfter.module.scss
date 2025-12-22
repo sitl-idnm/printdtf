@@ -12,23 +12,15 @@
 		height: 100%;
 		position: relative;
 
-		// collapsible section wrapper (like FAQ)
+		// section wrapper
 		.section {
-			display: grid;
-			grid-template-rows: 0fr;
-			opacity: 0;
+			display: block;
+			opacity: 1;
 			overflow-x: visible;
-			overflow-y: hidden;
-			transition:
-				grid-template-rows 0.7s ease-in-out,
-				opacity 0.6s ease-in-out,
-				margin 0.6s ease-in-out;
-			margin-top: 0;
-			margin-bottom: 0;
+			overflow-y: visible;
 		}
 
 		.sectionOpen {
-			grid-template-rows: 1fr;
 			opacity: 1;
 		}
 
