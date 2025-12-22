@@ -72,7 +72,7 @@
 		flex-wrap: wrap;
 		padding: 20px;
 
-		max-width: 900px;
+		max-width: 950px;
 
 		.item {
 			padding: 15px 30px;
@@ -83,7 +83,8 @@
 
 			transition: scale 0.3s ease-in-out, rotate 0.3s ease-in-out;
 
-			max-width: 400px;
+			max-width: 450px;
+			width: 100%;
 
 			// Начальное состояние для анимации (будет переопределено GSAP)
 			opacity: 0;

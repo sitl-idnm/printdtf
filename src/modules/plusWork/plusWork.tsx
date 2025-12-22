@@ -52,7 +52,7 @@ const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
             <div className={styles.text}>
               <p>
                 <span className={styles.number}>{mergedItems[0].number}</span>
-                {mergedItems[0].text}
+                <span className={styles.textContent}>{mergedItems[0].text}</span>
               </p>
             </div>
           </div>
@@ -61,7 +61,7 @@ const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
             <div className={styles.text}>
               <p>
                 <span className={styles.number}>{mergedItems[1].number}</span>
-                {mergedItems[1].text}
+                <span className={styles.textContent}>{mergedItems[1].text}</span>
               </p>
             </div>
           </div>
@@ -70,7 +70,7 @@ const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
             <div className={styles.text}>
               <p>
                 <span className={styles.number}>{mergedItems[2].number}</span>
-                {mergedItems[2].text}
+                <span className={styles.textContent}>{mergedItems[2].text}</span>
               </p>
             </div>
           </div>
@@ -81,11 +81,9 @@ const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
             <div className={styles.text}>
               <p>
                 <span className={styles.number}>{mergedItems[3].number}</span>
-                {mergedItems[3].text}
+                <span className={styles.textContent}>{mergedItems[3].text}</span>
               </p>
             </div>
-          </div>
-          <div className={styles.box}>
           </div>
           {mergedItems[4] !== undefined ? (
             <div className={styles.box}>
@@ -93,7 +91,7 @@ const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
               <div className={styles.text}>
                 <p>
                   <span className={styles.number}>{mergedItems[4].number}</span>
-                  {mergedItems[4].text}
+                  <span className={styles.textContent}>{mergedItems[4].text}</span>
                 </p>
               </div>
             </div>
@@ -108,8 +106,7 @@ const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
                 className={styles.image2}
               />
             </div>
-          )
-          }
+          )}
         </div>
       </div>
     </div>
