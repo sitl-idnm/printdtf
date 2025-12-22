@@ -5,6 +5,7 @@ import styles from './printHero.module.scss'
 import { PrintHeroProps } from './printHero.types'
 import { ButtonWave } from '@/ui'
 // import { Button } from '@/ui'
+import Clock from '@icons/watch.svg';
 
 const PrintHero: FC<PrintHeroProps> = ({
   className,
@@ -65,8 +66,8 @@ const PrintHero: FC<PrintHeroProps> = ({
                 </div>
               )}
               {option && (
-                <div className={styles.row}>
-                  <p className={styles.option}>{option}</p>
+                <div className={`${styles.row} ${styles.containertext}`}>
+                  <p className={styles.option}><Clock/>{option}</p>
                 </div>
               )}
             </div>

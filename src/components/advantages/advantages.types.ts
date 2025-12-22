@@ -10,5 +10,5 @@ export interface AdvantagesProps {
 
 export interface arrItem {
   num: string
-  text: string
+  text: string | ReactNode
 }
