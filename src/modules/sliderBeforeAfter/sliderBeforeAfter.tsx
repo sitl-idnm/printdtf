@@ -190,7 +190,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
     // Check by printMethod instead of currentSlide to ensure buttons always work
     if (printMethod === method || isFading) return
 
-    // Save scroll position at the very beginning to prevent any jumps
+    // Save scroll position once; avoid repeated scrollTo (it causes jank on mobile)
     const savedScrollY = window.scrollY || window.pageYOffset
 
     setIsFading(true)
@@ -198,9 +198,6 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
     // Don't kill ScrollTriggers - let components handle their own cleanup/recreation
     // Components using useGSAP with dependencies will automatically recreate ScrollTriggers
     // when their props change (like arrAdvantages, title, etc.)
-
-    // Restore scroll position immediately
-    window.scrollTo(0, savedScrollY)
 
     // Ensure opacity is set before animation
     gsap.set(sectionsRef.current, { opacity: 1 })
@@ -219,9 +216,6 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
         // Wait for React to update DOM before fade in
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            // Restore scroll position before fade in to prevent layout shift
-            window.scrollTo(0, savedScrollY)
-
             // Ensure starting opacity is 0
             gsap.set(sectionsRef.current, { opacity: 0 })
 
@@ -233,25 +227,12 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
               onComplete: () => {
                 setIsFading(false)
 
-                // Give components time to recreate ScrollTriggers via useGSAP
-                // Components will automatically recreate ScrollTriggers when their props change
-                // (Advantages, WhatIs, Production, etc. all use dependencies in useGSAP)
-                // Then refresh all ScrollTriggers to recalculate positions
-                setTimeout(() => {
-                  // Save current position before refresh
-                  const currentScrollY = window.scrollY || window.pageYOffset
-
-                  // Full refresh to recalculate all ScrollTriggers
-                  // This will update positions for all newly created ScrollTriggers
+                // Give React a tick to commit new DOM, then refresh triggers once.
+                // `refresh()` should not change scroll position; if anything shifts, restore once.
+                requestAnimationFrame(() => {
                   ScrollTrigger.refresh()
-
-                  // Restore scroll position after refresh
-                  requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                      window.scrollTo(0, currentScrollY)
-                    })
-                  })
-                }, 500) // Increased delay to ensure all useGSAP hooks have run and recreated ScrollTriggers
+                  window.scrollTo(0, savedScrollY)
+                })
               }
             })
           })
@@ -322,11 +303,9 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                 description=""
                 items={[
                   { id: 1, image: '/images/test.jpg', title: 'Футболки' },
-                  { id: 2, image: '/images/test.jpg', title: 'UV на стекле' },
-                  { id: 3, image: '/images/test.jpg', title: 'Чехлы' },
-                  { id: 4, image: '/images/test.jpg', title: 'Кружки' },
-                  { id: 5, image: '/images/test.jpg', title: 'Кружки' },
-                  { id: 6, image: '/images/test.jpg', title: 'Кружки' }
+                  { id: 2, image: '/images/steklo.png', title: 'UV на стекле' },
+                  { id: 3, image: '/images/chehol.png', title: 'Чехлы' },
+                  { id: 4, image: '/images/krujka.png', title: 'Кружки' },
                 ]}
               />
             </div>
@@ -358,7 +337,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                     type: 'DTF',
                     title: 'Печать на футболках',
                     meta: '1000 шт — 2 дня, печать + перенос + упаковка.',
-                    image: '/images/notebook.png'
+                    image: '/images/fotbolka.png'
                   },
                   {
                     id: 'mossport',
