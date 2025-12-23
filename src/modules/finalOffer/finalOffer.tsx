@@ -17,7 +17,7 @@ const FinalOffer: FC<FinalOfferProps> = ({
         <div className={styles.left}>
           <h2 className={styles.title}>Готовы обсудить макет?</h2>
           <p className={styles.text}>
-            Выберите метод (DTF/UV DTF), прикрепите файл и укажите носитель — наш менеджер
+            Выберите метод (DTF/UV DTF) — наш менеджер
             свяжется с вами в течение 15 минут.
           </p>
         </div>

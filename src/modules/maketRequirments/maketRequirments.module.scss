@@ -9,10 +9,11 @@
 	background: linear-gradient(180deg, #fff 0%, rgba(255 255 255 / 0.98) 100%);
 
 	@include tablet {
-		padding: 56px 16px;
+		padding: 56px 8px;
 	}
+
 	@include mobile-large {
-		padding: 44px 12px;
+		padding: 44px 8px;
 	}
 }
 
@@ -25,7 +26,7 @@
 }
 
 .title {
-  font-family: var(--font-inter);
+  font-family: var(--font-unbounded);
   font-size: 48px;
   font-weight: 600;
   line-height: 120%;

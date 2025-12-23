@@ -8,7 +8,7 @@
 	background-color: black;
 
 	@include tablet-small {
-		padding: 0 8px 20px;
+		padding: 40px 8px;
 		gap: 16px;
 	}
 
@@ -21,13 +21,8 @@
 		padding: 60px 64px;
 
 		@include tablet {
-			padding: 40px 32px;
+			padding: 0;
 			gap: 24px;
-		}
-
-		@include tablet-small {
-			padding: 24px 16px;
-			gap: 20px;
 		}
 
 		.firstline {
@@ -53,6 +48,10 @@
 				border: 1px solid rgba(0 0 0 / 0.08);
 				overflow: hidden;
 				transition: all 0.4s cubic-bezier(.2, .7, .2, 1);
+
+				@include tablet {
+					padding: 24px 12px;
+				}
 
 				&::before {
 					content: "";
@@ -143,7 +142,6 @@
 							color: var(--color-accent-3);
 							width: 40px;
 							height: 40px;
-							border-radius: 12px;
 							font-weight: 700;
 							font-size: 18px;
 							transition: all 0.4s cubic-bezier(.2, .7, .2, 1);
@@ -276,7 +274,6 @@
 							color: var(--color-accent-3);
 							width: 40px;
 							height: 40px;
-							border-radius: 12px;
 							font-weight: 700;
 							font-size: 18px;
 							transition: all 0.4s cubic-bezier(.2, .7, .2, 1);

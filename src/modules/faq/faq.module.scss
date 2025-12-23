@@ -26,7 +26,7 @@
 }
 
 .title {
-  font-family: var(--font-inter);
+  font-family: var(--font-unbounded);
   font-size: 48px;
   font-weight: 500;
   line-height: 120%;
@@ -36,6 +36,10 @@
   @include tablet {
     font-size: 32px;
     margin-bottom: 24px;
+  }
+
+  @include mobile-large {
+    font-size: 24px;
   }
 }
 

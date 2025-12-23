@@ -1,10 +1,15 @@
 @use "@styles/func";
-@use "@styles/mixins";
+@use "@styles/mixins" as *;
 @use "@styles/variables";
 
 .root {
 	display: grid;
 	gap: 24px;
+
+
+	@include mobile-large {
+		gap: 8px;
+	}
 }
 
 .invert {
@@ -51,11 +56,19 @@
 	font-weight: 400;
 	font-size: clamp(14px, 1.4vw, 16px);
 	margin-top: 8px;
+
+	@include mobile-large {
+		font-size: 12px;
+	}
 }
 .choiceLabel {
 	color: #131313;
 	font-weight: 400;
 	font-size: clamp(14px, 1.4vw, 16px);
+
+	@include mobile-large {
+		font-size: 12px;
+	}
 }
 
 .row {
@@ -79,6 +92,11 @@
 	border: 1px solid rgba(0,0,0,.15);
 	border-radius: 4px;
 	transition: border-color .2s ease, background-color .2s ease;
+
+
+	@include mobile-large {
+		padding: 12px 16px;
+	}
 }
 
 .inputCell:focus-within {
@@ -100,6 +118,11 @@
 .input::placeholder {
 	color: rgba(0,0,0,.45);
 	opacity: 1;
+
+
+	@include mobile-large {
+		font-size: 14px;
+	}
 }
 
 .optionsRow {
@@ -124,6 +147,11 @@
 		width: 100%;
 		color: black;
 		border-color: black;
+
+		@include mobile-large {
+			font-size: 14px;
+			padding: 12px 16px;
+		}
 
 		&::before {
 			background-color: white;
@@ -150,6 +178,14 @@ button.selected {
 	gap: 12px;
 	font-size: 14px;
 	color: #131313;
+
+
+	@include mobile-large {
+		gap: 6px;
+
+		font-size: 12px;
+		line-height: 1.4;
+	}
 }
 .checkbox {
 	appearance: none;
@@ -196,5 +232,10 @@ button.selected {
 
 	button {
 		width: 100%;
+
+		@include mobile-large {
+			font-size: 14px;
+			padding: 12px 16px;
+		}
 	}
 }

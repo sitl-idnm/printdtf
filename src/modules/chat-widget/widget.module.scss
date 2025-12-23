@@ -7,7 +7,7 @@
 
 .schemePrimary .fab,
 .schemePrimary .item {
-  background: var(--color-blue);
+  background: var(--color-accent-1);
   color: var(--color-white-default);
 }
 
@@ -18,8 +18,8 @@
 }
 
 .fab {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   border-radius: 0;
   background: var(--color-blue);
   color: var(--color-white-default);
@@ -39,7 +39,7 @@
 .menu {
   position: absolute;
   right: 0;
-  bottom: 72px;
+  bottom: 60px;
   display: grid;
   gap: 12px;
   opacity: 0;

@@ -1,11 +1,15 @@
 @use "@styles/func";
-@use "@styles/mixins";
+@use "@styles/mixins" as *;
 @use "@styles/variables";
 
 .root {
 	background: #000;
 	color: #fff;
 	padding: 80px 0 60px;
+
+	@include tablet {
+		padding: 40px 0 20px;
+	}
 }
 
 .container {
@@ -23,10 +27,11 @@
 	margin-bottom: 32px;
 	padding: 20px 20px 0; /* отступы от краёв для заголовка и описания */
 
-	@media (max-width: 900px) {
+	@include tablet {
 		grid-template-columns: 1fr;
 		gap: 16px;
-		padding: 20px 20px 0;
+		padding: 20px 8px 0;
+		margin-bottom: 16px;
 	}
 }
 
@@ -80,6 +85,10 @@
 	user-select: none;
 	outline: 0;
 	box-shadow: none;
+
+	@include mobile-large {
+		width: 360px;
+	}
 }
 
 .image {
@@ -234,6 +243,26 @@
 .card:hover .sub { opacity: 1; max-height: 120px; }
 .card:hover .hint { opacity: 1; max-height: 60px; margin-top: 8px; }
 .card:hover .tags { opacity: 1; transform: translateY(0); }
+
+/* Mobile/tablet: keep "hover" effect always-on */
+@media (max-width: 1024px) {
+	.card .image {
+		transform: scale(1.03);
+		filter: grayscale(20%);
+	}
+
+	.card .tint {
+		opacity: 1;
+		-webkit-clip-path: circle(100% at 50% 41.5%);
+		clip-path: circle(100% at 50% 41.5%);
+	}
+
+	.card .caption { transform: translateY(-18px); }
+	.card .name { opacity: 1; }
+	.card .sub { opacity: 1; max-height: 120px; }
+	.card .hint { opacity: 1; max-height: 60px; margin-top: 8px; }
+	.card .tags { opacity: 1; transform: translateY(0); }
+}
 
 /* Lightbox */
 .lightbox {

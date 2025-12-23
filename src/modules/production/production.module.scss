@@ -1,5 +1,5 @@
 @use "@styles/func";
-@use "@styles/mixins";
+@use "@styles/mixins" as *;
 @use "@styles/variables";
 
 .root {
@@ -13,6 +13,10 @@
 	align-items: center;
 	transform: translateY(5px);
 
+	@include tablet {
+		gap: 20px;
+	}
+
 	.title {
 		width: 100vw;
 		display: flex;
@@ -21,11 +25,19 @@
 
 		padding: 40px 20px;
 
+		@include tablet {
+			padding: 40px 8px 10px;
+		}
+
 		&_name {
 			font-size: 32px;
 			font-family: var(--font-unbounded);
 			text-transform: uppercase;
 			line-height: 1.4;
+
+			@include tablet {
+				font-size: 24px;
+			}
 		}
 
 		&_list {
@@ -36,6 +48,10 @@
 			transform: translateX(-32px);
 			margin-right: 20px;
 			width: 100%;
+
+			@include tablet {
+				display: none;
+			}
 
 			&_item {
 				color: white;

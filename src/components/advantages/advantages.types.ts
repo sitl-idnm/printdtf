@@ -5,7 +5,8 @@ export interface AdvantagesProps {
   arrAdvantages: arrItem[]
   title: string | ReactNode
   classBlock?: boolean
-  imageSrc: string
+  imageSrc1: string
+  imageSrc2: string
 }
 
 export interface arrItem {

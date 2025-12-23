@@ -69,6 +69,10 @@
     top: 0;
     overflow: visible;
 
+    @include tablet {
+      height: 60px;
+    }
+
     &_container {
       display: flex;
 
@@ -91,6 +95,10 @@
         border: 1px solid black;
 
         color: black;
+
+        @include tablet {
+          padding: 12px;
+        }
 
         &:hover {
           color: white;

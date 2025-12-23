@@ -1,5 +1,5 @@
 @use "@styles/func";
-@use "@styles/mixins";
+@use "@styles/mixins" as *;
 @use "@styles/variables";
 
 .root {
@@ -7,6 +7,10 @@
   padding: clamp(24px, 6vw, 80px) clamp(16px, 4vw, 40px);
   background: var(--color-black-default);
   color: var(--color-white-default);
+
+  @include tablet {
+    padding: 24px 8px;
+  }
 }
 
 .title {
@@ -23,6 +27,27 @@
   color: color-mix(in srgb, var(--color-white-default) 70%, transparent);
   margin-bottom: clamp(12px, 3vw, 28px);
   font-size: clamp(14px, 1.7vw, 18px);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 10px;
+  margin-top: 10px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--color-white-default);
+  background: color-mix(in srgb, var(--color-accent-1) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-white-default) 18%, transparent);
+}
+
+.subline {
+  margin-top: 10px;
+  color: color-mix(in srgb, var(--color-white-default) 78%, transparent);
+  font-size: 13px;
 }
 
 .grid {
@@ -132,6 +157,11 @@
     color: black;
     background-color: transparent;
     transition: box-shadow .2s ease, background-color .2s ease, color .2s ease;
+
+    @include tablet {
+      font-size: 14px;
+      width: 100%;
+    }
 
     &::before {
       background: var(--color-accent-2);
