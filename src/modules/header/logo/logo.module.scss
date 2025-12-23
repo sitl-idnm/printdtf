@@ -1,5 +1,5 @@
 @use '@styles/func';
-@use '@styles/mixins';
+@use '@styles/mixins' as *;
 
 .root {
   display: block;
@@ -8,5 +8,10 @@
   svg {
     width: func.rem(110);
     height: func.rem(48);
+
+    @include tablet {
+      width: 40px;
+      height: 40px;
+    }
   }
 }

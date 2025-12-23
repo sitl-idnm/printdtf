@@ -1,10 +1,8 @@
-import { FC, useMemo } from 'react'
+import { FC, useEffect, useMemo, useRef, useState } from 'react'
 import classNames from 'classnames'
 
 import styles from './maketRequirments.module.scss'
 import { MaketRequirmentsProps } from './maketRequirments.types'
-import FormatIcon from '@icons/format.svg'
-import RazmerIcon from '@icons/razmer.svg'
 
 const MaketRequirments: FC<MaketRequirmentsProps> = ({
   className
@@ -41,102 +39,147 @@ const MaketRequirments: FC<MaketRequirmentsProps> = ({
   )
 
   const allText = useMemo(() => lines.join('\n'), [lines])
+  const [typedLen, setTypedLen] = useState(0)
+  const [copied, setCopied] = useState(false)
+  const [inView, setInView] = useState(false)
+  const panelRef = useRef<HTMLDivElement | null>(null)
+  const scrollRef = useRef<HTMLDivElement | null>(null)
+  const autoScrollRef = useRef(true)
+  const rafRef = useRef<number | null>(null)
+  const lastTickRef = useRef<number>(0)
+  const typedLenRef = useRef<number>(0)
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(allText)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1400)
     } catch {
       // no-op
     }
   }
 
-  // Группируем строки по секциям
-  const sections = useMemo(() => {
-    const result: Array<{ title: string; items: string[] }> = []
-    let currentSection: { title: string; items: string[] } | null = null
+  const typedText = useMemo(() => allText.slice(0, typedLen), [allText, typedLen])
+  const isDone = typedLen >= allText.length
 
-    lines.forEach((line) => {
-      const trimmed = line.trim()
-      if (trimmed.startsWith('//')) {
-        if (currentSection) {
-          result.push(currentSection)
-        }
-        currentSection = {
-          title: trimmed.replace('//', '').trim(),
-          items: []
-        }
-      } else if (trimmed.startsWith('-') && currentSection) {
-        currentSection.items.push(trimmed.replace('-', '').trim())
-      }
-    })
+  useEffect(() => {
+    typedLenRef.current = typedLen
+  }, [typedLen])
 
-    if (currentSection) {
-      result.push(currentSection)
-    }
+  // start typing only when the block is in viewport
+  useEffect(() => {
+    const el = panelRef.current
+    if (!el) return
 
-    return result
-  }, [lines])
-
-  const getSectionIcon = (title: string) => {
-    if (title.includes('Формат') || title.includes('цвет')) {
-      return (
-        <FormatIcon />
-      )
-    }
-    if (title.includes('Размеры') || title.includes('разрешение')) {
-      return (
-        <RazmerIcon />
-      )
-    }
-    if (title.includes('Текст') || title.includes('шрифты')) {
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="3" y="3" width="18" height="18" rx="2" />
-          <path d="M9 9h6M9 15h6" />
-        </svg>
-      )
-    }
-    return (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M12 6v6l4 2" />
-      </svg>
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.some((e) => e.isIntersecting)
+        setInView(visible)
+      },
+      { root: null, threshold: 0.25, rootMargin: '0px 0px -10% 0px' }
     )
-  }
+
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  // internal scroll: disable autoscroll if user scrolls up, re-enable near bottom
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+    const onScroll = () => {
+      const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 32
+      autoScrollRef.current = nearBottom
+    }
+    el.addEventListener('scroll', onScroll, { passive: true })
+    return () => el.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // printing animation (typewriter + gentle "scrub" speed); respects prefers-reduced-motion
+  useEffect(() => {
+    if (!inView) {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      rafRef.current = null
+      return
+    }
+    if (typedLenRef.current >= allText.length) return
+
+    const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+    if (prefersReduced) {
+      setTypedLen(allText.length)
+      return
+    }
+
+    const speed = 48 // chars per second
+    lastTickRef.current = performance.now()
+
+    const tick = (t: number) => {
+      const dt = Math.max(0, (t - lastTickRef.current) / 1000)
+      lastTickRef.current = t
+
+      const nextLen = Math.min(allText.length, typedLenRef.current + Math.ceil(speed * dt))
+      typedLenRef.current = nextLen
+      setTypedLen(nextLen)
+
+      // autoscroll while printing, if user didn't scroll away
+      const el = scrollRef.current
+      if (el && autoScrollRef.current) {
+        el.scrollTop = el.scrollHeight
+      }
+
+      if (nextLen < allText.length && inView) {
+        rafRef.current = requestAnimationFrame(tick)
+      } else {
+        rafRef.current = null
+      }
+    }
+
+    // start
+    rafRef.current = requestAnimationFrame(tick)
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      rafRef.current = null
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allText, inView])
 
   return (
     <div className={rootClassName}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Требования к макетам</h2>
-        <p className={styles.subtitle}>Следуйте этим рекомендациям для идеального результата</p>
-      </div>
-      <div className={styles.content}>
-        <div className={styles.grid}>
-          {sections.map((section, idx) => (
-            <div key={idx} className={styles.card}>
-              <div className={styles.cardHeader}>
-                <div className={styles.iconWrapper}>
-                  {getSectionIcon(section.title)}
-                </div>
-                <h3 className={styles.sectionTitle}>{section.title}</h3>
-              </div>
-              <ul className={styles.itemsList}>
-                {section.items.map((item, itemIdx) => (
-                  <li key={itemIdx} className={styles.item}>
-                    <span className={styles.itemMarker} />
-                    <span className={styles.itemText}>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        <div>
+          <h2 className={styles.title}>Требования к макетам</h2>
+          <p className={styles.subtitle}>Следуйте этим рекомендациям для идеального результата</p>
         </div>
-        <button className={styles.copyBtn} type="button" onClick={handleCopy} aria-label="Скопировать требования">
-          <svg className={styles.copyIcon} width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-            <path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h11v14Z" />
-          </svg>
-          <span>Скопировать требования</span>
-        </button>
+      </div>
+
+      <div className={styles.panel} ref={panelRef}>
+        <div className={styles.panelTop}>
+          <div className={styles.status}>
+            <span className={classNames(styles.dot, styles.dotOk)} aria-hidden="true" />
+            <span className={classNames(styles.dot, styles.dotWarn)} aria-hidden="true" />
+            <span className={classNames(styles.dot, styles.dotInfo)} aria-hidden="true" />
+            <span className={styles.statusText}>{isDone ? 'Готово' : 'Печатаем…'}</span>
+          </div>
+
+          <div className={styles.actions}>
+            <button className={styles.copyBtn} type="button" onClick={handleCopy} aria-label="Скопировать требования">
+              <svg className={styles.copyIcon} width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h11v14Z" />
+              </svg>
+              <span>{copied ? 'Скопировано' : 'Скопировать текст'}</span>
+            </button>
+          </div>
+        </div>
+
+        <div className={styles.scroll} ref={scrollRef}>
+          <div className={classNames(styles.scan, { [styles.scanOn]: !isDone })} aria-hidden="true" />
+          <pre className={styles.paper} aria-label="Требования к макетам">
+            <code>
+              {typedText}
+              {!isDone ? <span className={styles.caret} aria-hidden="true" /> : null}
+            </code>
+          </pre>
+        </div>
       </div>
     </div>
   )
