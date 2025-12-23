@@ -60,7 +60,7 @@ const CaseModal: FC<CaseModalProps> = ({ open, onClose, item }) => {
   return (
     <Portal selector="#modal-root">
       <div className={styles.overlay} role="dialog" aria-modal="true">
-        <button className={styles.close} onClick={onClose} aria-label="Close">
+        <button type="button" className={styles.close} onClick={onClose} aria-label="Close">
           {/* двойная стрелка вверх вплотную */}
           <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" style={{ marginRight: -8 }}>
             <path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

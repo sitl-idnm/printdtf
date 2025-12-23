@@ -43,7 +43,7 @@ const WhatIs: FC<WhatIsProps> = ({
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: rootEl,
-          start: 'top 20%',
+          start: 'top top',
           end: '+=1800',
           scrub: 1,
           pin: true,

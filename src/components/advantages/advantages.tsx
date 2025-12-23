@@ -15,7 +15,8 @@ const Advantages: FC<AdvantagesProps> = ({
   arrAdvantages,
   title,
   classBlock,
-  imageSrc
+  imageSrc1,
+  imageSrc2
 }) => {
   const rootClassName = classNames(styles.root, className,
     classBlock ? styles.right : null
@@ -108,7 +109,7 @@ const Advantages: FC<AdvantagesProps> = ({
             width={200}
             height={200}
             quality={90}
-            src={imageSrc}
+            src={imageSrc1}
             alt=''
             className={styles.image}
           />
@@ -116,7 +117,7 @@ const Advantages: FC<AdvantagesProps> = ({
             width={200}
             height={200}
             quality={90}
-            src={imageSrc}
+            src={imageSrc2}
             alt=''
             className={styles.image2}
           />

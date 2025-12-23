@@ -1,9 +1,13 @@
 @use "@styles/func";
-@use "@styles/mixins";
+@use "@styles/mixins" as *;
 @use "@styles/variables";
 
 .root {
 	padding: 80px 40px;
+
+	@include tablet {
+		padding: 20px 8px;
+	}
 }
 
 .content {
@@ -12,7 +16,7 @@
 	gap: clamp(24px, 4vw, 64px);
 	align-items: start;
 
-	@include mixins.tablet {
+	@include tablet {
 		grid-template-columns: 1fr;
 	}
 }
@@ -28,10 +32,18 @@
 	font-size: clamp(32px, 5vw, 52px);
 	line-height: 1.05;
 	letter-spacing: -0.02em;
+
+	@include mobile-large {
+		font-size: 24px;
+	}
 }
 .text {
 	font-size: 20px;
 	line-height: 1.4;
 	max-width: 48ch;
 	color: rgba(0,0,0,.75);
+
+	@include mobile-large {
+		font-size: 14px;
+	}
 }

@@ -1,3 +1,5 @@
+export { default as Anim } from './anim'
+export { ArrowUp } from './arrowUp'
 export { Button } from './button'
 export { ButtonWave } from './buttonWave'
 export { DynamicBackground } from './dynamicBackground'
