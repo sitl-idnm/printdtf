@@ -5,6 +5,7 @@ import Image from 'next/image'
 import styles from './cases.module.scss'
 import { CasesProps } from './cases.types'
 import CaseModal from './caseModal'
+import { formatCaseHoverLine } from '@/shared/lib/caseMeta'
 
 const Cases: FC<CasesProps> = ({
   className,
@@ -40,9 +41,18 @@ const Cases: FC<CasesProps> = ({
 
   return (
     <section className={rootClassName}>
+      <div className={styles.title}>
+        <h2>
+          Кейсы
+        </h2>
+      </div>
       <div className={styles.grid}>
         {data.map((item) => {
           const { id, kicker, title, image, meta, type } = item
+          const hoverLine = formatCaseHoverLine(
+            meta,
+            'stats' in item ? item.stats : undefined
+          )
           return (
             <article key={id} className={styles.card} onClick={() => handleOpen(item)}>
               <div className={styles.circle}>
@@ -54,12 +64,13 @@ const Cases: FC<CasesProps> = ({
                 <h3 className={styles.title}>{title}</h3>
               </header>
 
-            <div className={styles.media}>
-              <Image className={styles.pic} src={image ?? '/images/sticker-dino.png'} alt="" width={640} height={480} />
-            </div>
+              <div className={styles.media}>
+                <Image className={styles.pic} src={image ?? '/images/sticker-dino.png'} alt="" width={640} height={480} />
+              </div>
 
               <div className={styles.meta}>{type ?? meta}</div>
               <div className={styles.readMore}>смотреть<br />больше</div>
+              {hoverLine ? <div className={styles.hoverStats}>{hoverLine}</div> : null}
             </article>
           )
         })}

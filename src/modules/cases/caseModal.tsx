@@ -6,6 +6,7 @@ import styles from './caseModal.module.scss'
 import { Portal } from '@/service/portal'
 import { ButtonWave } from '@/ui/buttonWave'
 import { lockScroll, unlockScroll } from '@/shared/lib/scrollLock'
+import { parseCaseStats } from '@/shared/lib/caseMeta'
 
 export type CaseModalProps = {
   open: boolean
@@ -38,20 +39,15 @@ const CaseModal: FC<CaseModalProps> = ({ open, onClose, item }) => {
   }, [onClose, open])
 
   const parsedStats = useMemo(() => {
-    if (item?.stats?.length) return item.stats
-    const src = item?.meta ?? ''
-    const res: Array<{ value: string, note: string }> = []
-    const meters = src.match(/(\d+)\s*м(?!ин)/i)
-    const pieces = src.match(/(\d+)\s*шт/i)
-    const sets = src.match(/(\d+)\s*набор/i)
-    const days = src.match(/(\d+)\s*(?:дн|сут)/i)
-    if (pieces) res.push({ value: pieces[1], note: 'изделий' })
-    if (meters) res.push({ value: `${meters[1]}м`, note: 'метров печати' })
-    if (sets) res.push({ value: sets[1], note: 'наборов' })
-    if (days) res.push({ value: days[1], note: 'дней' })
-    // ensure exactly three slots
-    while (res.length < 3) res.push({ value: '—', note: '' })
-    return res.slice(0, 3)
+    const parsed = parseCaseStats(item?.meta, item?.stats)
+    // map short hover notes to nice modal labels
+    return parsed.map((s) => {
+      if (s.note === 'шт') return { value: s.value, note: 'изделий' }
+      if (s.note === 'м') return { value: s.value, note: 'метров печати' }
+      if (s.note === 'день') return { value: s.value, note: 'дней' }
+      if (s.note === 'сутки') return { value: s.value, note: 'суток' }
+      return s
+    })
   }, [item])
 
   if (!open) return null

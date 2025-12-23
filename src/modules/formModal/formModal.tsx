@@ -5,10 +5,21 @@ import styles from './formModal.module.scss'
 import { FormModalProps } from './formModal.types'
 import { Portal } from '@/service/portal'
 import Form from '@/components/form/form'
-import Image from 'next/image'
+// import Image from 'next/image'
 import { lockScroll, unlockScroll } from '@/shared/lib/scrollLock'
 
-const FormModal: FC<FormModalProps> = ({ className, open, onClose, title, text, imageSrc, imageAlt }) => {
+const FormModal: FC<FormModalProps> = ({ className,
+  open,
+  onClose,
+  title,
+  text,
+  imageSrc, imageAlt
+}) => {
+  const one = imageSrc
+  const two = imageAlt
+
+  console.log(one, two)
+
   useEffect(() => {
     if (!open) return
     lockScroll()
@@ -44,7 +55,7 @@ const FormModal: FC<FormModalProps> = ({ className, open, onClose, title, text, 
             <Form submitLabel="Отправить заявку" theme="invert" />
           </div>
         </div>
-        <div className={styles.footer}>
+        {/* <div className={styles.footer}>
           <Image
             src={imageSrc ?? '/images/banner.jpg'}
             alt={imageAlt ?? ''}
@@ -53,7 +64,7 @@ const FormModal: FC<FormModalProps> = ({ className, open, onClose, title, text, 
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             priority
           />
-        </div>
+        </div> */}
       </div>
     </Portal>
   )

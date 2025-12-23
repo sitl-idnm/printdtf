@@ -71,6 +71,10 @@
 				color: white;
 
 				text-align: left;
+
+				@include desktop {
+					font-size: 60px;
+				}
 			}
 		}
 
@@ -93,6 +97,10 @@
 					line-height: 1.2;
 
 					max-width: 1200px;
+
+					@include desktop {
+						font-size: 24px;
+					}
 				}
 
 				.microtext {
@@ -114,9 +122,18 @@
 						line-height: 1.4;
 						color: var(--color-accent-1);
 
+						@include desktop {
+							font-size: 16px;
+						}
+
 						svg {
 							width: 25px;
   						height: 25px;
+
+							@include desktop {
+								width: 21px;
+  							height: 21px;
+							}
 						}
 					}
 				}
