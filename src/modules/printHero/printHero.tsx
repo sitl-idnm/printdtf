@@ -50,7 +50,7 @@ const PrintHero: FC<PrintHeroProps> = ({
           <div className={styles.description_text}>
             <div className={styles.lines}>
               <div className={styles.row}>
-                <h2 className={styles.subtitle}>{subtitle}</h2>
+                <p className={styles.subtitle}>{subtitle}</p>
               </div>
               <div className={styles.buttons}>
                 <ButtonWave variant="accent3" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = '#' }}>

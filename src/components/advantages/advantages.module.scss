@@ -1,5 +1,5 @@
 @use "@styles/func";
-@use "@styles/mixins";
+@use "@styles/mixins" as *;
 @use "@styles/variables";
 
 .root {
@@ -13,6 +13,20 @@
 
 	position: relative;
 	width: 100%;
+
+	@include desktop {
+		flex-direction: column;
+
+		gap: 30px;
+
+		padding: 20px;
+	}
+
+	@include tablet {
+		padding: 20px 8px;
+
+		gap: 20px;
+	}
 
 	.container {
 		position: relative;
@@ -34,13 +48,29 @@
 
 			margin-bottom: 30px;
 
+			@include desktop {
+				margin: 0;
+			}
+
+			@include mobile-large {
+				font-size: 26px;
+			}
+
 			span:last-child {
 				font-size: 64px;
+
+				@include mobile-large {
+					font-size: 44px;
+				}
 			}
 		}
 
 		.bg_image {
 			background: center no-repeat url('/images/background-3.jpg');
+
+			@include desktop {
+				display: none;
+			}
 
 			.image,
 			.image2 {
@@ -74,6 +104,10 @@
 
 		max-width: 950px;
 
+		@include tablet {
+			padding: 0;
+		}
+
 		.item {
 			padding: 15px 30px;
 			background-color: var(--color-accent-1);
@@ -89,6 +123,16 @@
 			// Начальное состояние для анимации (будет переопределено GSAP)
 			opacity: 0;
 
+			@include tablet {
+				padding: 10px 20px;
+
+				max-width: 300px;
+			}
+
+			@include mobile-large {
+				max-width: none;
+			}
+
 			// Разные углы поворота для разных элементов, как в WhatIs
 			&:nth-child(3n + 1) {
 				rotate: -3deg;
@@ -102,7 +146,7 @@
 				rotate: -2deg;
 			}
 
-			@include mixins.desktop-only {
+			@include desktop-only {
 				&:hover {
 					scale: 1.1;
 
@@ -124,12 +168,20 @@
 				font-family: var(--font-unbounded);
 				font-size: 18px;
 				line-height: 1.4;
+
+				@include tablet {
+					font-size: 16px;
+				}
 			}
 
 			.text {
 				font-weight: 500;
 				font-size: 16px;
 				line-height: 1.5;
+
+				@include tablet {
+					font-size: 14px;
+				}
 			}
 		}
 	}
@@ -153,7 +205,7 @@
 			background-color: var(--color-accent-1);
 			color: white;
 
-			@include mixins.desktop-only {
+			@include desktop-only {
 				&:hover {
 					scale: 1.1;
 
