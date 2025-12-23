@@ -5,6 +5,7 @@ import Image from 'next/image'
 import styles from './caseModal.module.scss'
 import { Portal } from '@/service/portal'
 import { ButtonWave } from '@/ui/buttonWave'
+import { lockScroll, unlockScroll } from '@/shared/lib/scrollLock'
 
 export type CaseModalProps = {
   open: boolean
@@ -25,14 +26,13 @@ const CaseModal: FC<CaseModalProps> = ({ open, onClose, item }) => {
   // block body scroll and close on ESC
   useEffect(() => {
     if (!open) return
-    const prevOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+    lockScroll()
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
     window.addEventListener('keydown', onKey)
     return () => {
-      document.body.style.overflow = prevOverflow
+      unlockScroll()
       window.removeEventListener('keydown', onKey)
     }
   }, [onClose, open])

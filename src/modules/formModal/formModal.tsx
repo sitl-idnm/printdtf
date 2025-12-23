@@ -6,18 +6,18 @@ import { FormModalProps } from './formModal.types'
 import { Portal } from '@/service/portal'
 import Form from '@/components/form/form'
 import Image from 'next/image'
+import { lockScroll, unlockScroll } from '@/shared/lib/scrollLock'
 
 const FormModal: FC<FormModalProps> = ({ className, open, onClose, title, text, imageSrc, imageAlt }) => {
   useEffect(() => {
     if (!open) return
-    const prevOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+    lockScroll()
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
     window.addEventListener('keydown', onKey)
     return () => {
-      document.body.style.overflow = prevOverflow
+      unlockScroll()
       window.removeEventListener('keydown', onKey)
     }
   }, [onClose, open])
