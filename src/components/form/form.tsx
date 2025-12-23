@@ -37,16 +37,16 @@ const Form: FC<FormProps> = ({
     return out
   }
 
-  const formatTelegram = (raw: string) => {
-    const cleaned = raw.replace(/[^a-zA-Z0-9_@]/g, '')
-    if (cleaned === '') return ''
-    const noAt = cleaned.replace(/^@+/, '').slice(0, 40)
-    return `@${noAt}`
-  }
+  // const formatTelegram = (raw: string) => {
+  //   const cleaned = raw.replace(/[^a-zA-Z0-9_@]/g, '')
+  //   if (cleaned === '') return ''
+  //   const noAt = cleaned.replace(/^@+/, '').slice(0, 40)
+  //   return `@${noAt}`
+  // }
 
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  const [telegram, setTelegram] = useState('')
+  // const [telegram, setTelegram] = useState('')
   const [messenger, setMessenger] = useState<'Telegram' | 'WhatsApp' | ''>('')
   const [method, setMethod] = useState<'UV DTF' | 'DTF' | ''>('')
   const [agree, setAgree] = useState(false)
@@ -58,7 +58,7 @@ const Form: FC<FormProps> = ({
     const payload = {
       name,
       phone,
-      telegram: telegram || undefined,
+      // telegram: telegram || undefined,
       messenger,
       method: resolvedMethod,
       agree
@@ -119,7 +119,7 @@ const Form: FC<FormProps> = ({
         </div>
       </div>
 
-      <div className={styles.control}>
+      {/* <div className={styles.control}>
 
         <div className={styles.row}>
           <label className={styles.fieldLabel} htmlFor="form-telegram">Telegram</label>
@@ -134,7 +134,7 @@ const Form: FC<FormProps> = ({
             />
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className={styles.control}>
 

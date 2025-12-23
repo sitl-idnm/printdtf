@@ -3,6 +3,8 @@ import classNames from 'classnames'
 
 import styles from './maketRequirments.module.scss'
 import { MaketRequirmentsProps } from './maketRequirments.types'
+import FormatIcon from '@icons/format.svg'
+import RazmerIcon from '@icons/razmer.svg'
 
 const MaketRequirments: FC<MaketRequirmentsProps> = ({
   className
@@ -78,24 +80,19 @@ const MaketRequirments: FC<MaketRequirmentsProps> = ({
   const getSectionIcon = (title: string) => {
     if (title.includes('Формат') || title.includes('цвет')) {
       return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="3" y="3" width="18" height="18" rx="2" />
-          <path d="M9 9h6M9 15h6" />
-        </svg>
+        <FormatIcon />
       )
     }
     if (title.includes('Размеры') || title.includes('разрешение')) {
       return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="3" y="3" width="18" height="18" rx="2" />
-          <path d="M9 9h6M9 15h6" />
-        </svg>
+        <RazmerIcon />
       )
     }
     if (title.includes('Текст') || title.includes('шрифты')) {
       return (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M4 20h16M6 4v16M18 4v16" />
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <path d="M9 9h6M9 15h6" />
         </svg>
       )
     }
