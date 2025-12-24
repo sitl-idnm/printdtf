@@ -24,6 +24,7 @@ const Advantages: FC<AdvantagesProps> = ({
 
   const containerRef = useRef<HTMLDivElement>(null)
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null)
+  const tlRef = useRef<gsap.core.Timeline | null>(null)
 
   useGSAP(() => {
     if (!containerRef.current) return
@@ -32,6 +33,10 @@ const Advantages: FC<AdvantagesProps> = ({
     if (scrollTriggerRef.current) {
       scrollTriggerRef.current.kill()
       scrollTriggerRef.current = null
+    }
+    if (tlRef.current) {
+      tlRef.current.kill()
+      tlRef.current = null
     }
 
     // Get all items
@@ -59,6 +64,7 @@ const Advantages: FC<AdvantagesProps> = ({
 
     // Store ScrollTrigger reference
     scrollTriggerRef.current = tl.scrollTrigger || null
+    tlRef.current = tl
 
     // Animate items from right
     tl.fromTo(
@@ -83,6 +89,10 @@ const Advantages: FC<AdvantagesProps> = ({
       if (scrollTriggerRef.current) {
         scrollTriggerRef.current.kill()
         scrollTriggerRef.current = null
+      }
+      if (tlRef.current) {
+        tlRef.current.kill()
+        tlRef.current = null
       }
     }
   }, { scope: containerRef, dependencies: [arrAdvantages, title] })
