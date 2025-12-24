@@ -1,0 +1,238 @@
+@use "@styles/func";
+@use "@styles/mixins" as *;
+@use "@styles/variables";
+
+.root {
+	width: 100%;
+	padding: clamp(28px, 6vw, 80px) clamp(12px, 4vw, 40px);
+	position: relative;
+	overflow: hidden;
+	background:
+		linear-gradient(180deg, rgba(0 0 0 / 0.02) 0%, rgba(0 0 0 / 0) 34%),
+		repeating-linear-gradient(90deg, rgba(0 0 0 / 0.035) 0 1px, transparent 1px 26px),
+		repeating-linear-gradient(0deg, rgba(0 0 0 / 0.025) 0 1px, transparent 1px 26px),
+		#fff;
+	color: #000;
+}
+
+.head {
+	display: grid;
+	gap: 10px;
+	margin-bottom: clamp(14px, 3vw, 24px);
+	max-width: 980px;
+}
+
+.titleRow {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 12px;
+
+	@include tablet {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
+
+.title {
+	font-family: var(--font-unbounded);
+	font-size: clamp(28px, 5vw, 64px);
+	text-transform: uppercase;
+	line-height: 1.1;
+	margin: 0;
+}
+
+.stamp {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 12px;
+	font-size: 12px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: .12em;
+	color: rgba(0 0 0 / 0.72);
+	border: 1px dashed rgba(0 0 0 / 0.22);
+	background: rgba(255 255 255 / 0.75);
+}
+
+.subtitle {
+	margin: 0;
+	font-size: clamp(14px, 1.8vw, 18px);
+	line-height: 1.55;
+	color: rgba(0 0 0 / 0.78);
+	font-weight: 500;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: clamp(10px, 2.2vw, 18px);
+	align-items: stretch;
+
+	@include tablet {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	@include tablet-small {
+		grid-template-columns: 1fr;
+	}
+}
+
+.card {
+	position: relative;
+	background: rgba(255 255 255 / 0.9);
+	border: 1px solid rgba(0 0 0 / 0.12);
+	box-shadow: 0 10px 24px rgba(0 0 0 / 0.06);
+	min-height: 210px;
+	padding: clamp(14px, 2.6vw, 22px);
+	opacity: 0;
+	transform: translateY(18px) rotate(0deg);
+	filter: blur(6px);
+
+	&::before {
+		content: "";
+		position: absolute;
+		left: 14px;
+		right: 14px;
+		top: 64px;
+		height: 1px;
+		background: repeating-linear-gradient(
+			90deg,
+			rgba(0 0 0 / 0.18) 0 10px,
+			transparent 10px 18px
+		);
+		opacity: .55;
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background: radial-gradient(1200px 420px at 110% -10%, rgba(107 72 255 / 0.18) 0%, transparent 55%);
+		opacity: .9;
+	}
+
+	@include desktop-only {
+		transition:
+			transform .35s cubic-bezier(.2,.7,.2,1),
+			box-shadow .35s cubic-bezier(.2,.7,.2,1),
+			border-color .35s ease;
+
+		&:hover {
+			transform: translateY(-6px) rotate(-0.35deg);
+			border-color: rgba(0 0 0 / 0.18);
+			box-shadow: 0 18px 44px rgba(0 0 0 / 0.12);
+		}
+	}
+}
+
+.inView {
+	opacity: 1;
+	transform: translateY(0) rotate(0deg);
+	filter: blur(0px);
+}
+
+.cardTop {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 14px;
+}
+
+.icon {
+	width: 44px;
+	height: 44px;
+	border-radius: 10px;
+	display: grid;
+	place-items: center;
+	border: 1px solid rgba(0 0 0 / 0.12);
+	background: rgba(255 255 255 / 0.8);
+	color: #000;
+}
+
+.badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 10px;
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+	border: 1px solid rgba(0 0 0 / 0.12);
+	background: rgba(255 255 255 / 0.85);
+}
+
+.toneViolet {
+	--tone: var(--color-accent-3);
+}
+
+.toneMint {
+	--tone: var(--color-accent-2);
+}
+
+.toneAmber {
+	--tone: #ffb020;
+}
+
+.badgeDot {
+	width: 10px;
+	height: 10px;
+	border-radius: 999px;
+	background: var(--tone, var(--color-accent-3));
+	box-shadow: 0 0 0 4px rgba(0 0 0 / 0.04);
+}
+
+.cardBody {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	gap: 10px;
+}
+
+.cardTitle {
+	font-family: var(--font-unbounded);
+	font-size: clamp(18px, 2.2vw, 22px);
+	line-height: 1.2;
+	margin: 0;
+}
+
+.cardText {
+	margin: 0;
+	font-size: clamp(14px, 1.7vw, 16px);
+	line-height: 1.55;
+	color: rgba(0 0 0 / 0.78);
+	font-weight: 500;
+}
+
+.note {
+	margin-top: 6px;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	border: 1px solid rgba(0 0 0 / 0.12);
+	background: rgba(0 0 0 / 0.03);
+	font-size: 13px;
+	font-weight: 700;
+	color: rgba(0 0 0 / 0.78);
+}
+
+.noteKey {
+	font-family: var(--font-unbounded);
+	font-size: 11px;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	color: rgba(0 0 0 / 0.55);
+}
+
+.stampIcon {
+	width: 16px;
+	height: 16px;
+	color: rgba(0 0 0 / 0.62);
+}

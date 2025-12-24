@@ -9,7 +9,7 @@ const ServicesMain: FC<ServicesMainProps> = ({
   items = [
     { title: 'Печать', href: '/print' },
     { title: 'Фулфилмент', href: '#' },
-    { title: 'Логистика', href: '#' },
+    { title: 'Логистика', href: '/logistika' },
   ],
 }) => {
   const rootClassName = classNames(styles.root, className)

@@ -1,0 +1,223 @@
+@use "@styles/func";
+@use "@styles/mixins" as *;
+@use "@styles/variables";
+
+.root {
+	width: 100%;
+	padding: clamp(28px, 6vw, 80px) clamp(12px, 4vw, 40px);
+	background: #fff;
+	color: #000;
+	position: relative;
+	overflow: hidden;
+}
+
+.root::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background:
+		radial-gradient(1000px 420px at -10% -20%, rgba(107 72 255 / 0.16) 0%, transparent 55%),
+		radial-gradient(900px 380px at 110% 0%, rgba(0 245 192 / 0.12) 0%, transparent 55%),
+		linear-gradient(180deg, rgba(0 0 0 / 0.02), rgba(0 0 0 / 0));
+	opacity: .95;
+}
+
+.grid {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	grid-template-columns: minmax(320px, 520px) minmax(320px, 1fr);
+	gap: clamp(14px, 3vw, 26px);
+	align-items: start;
+
+	@include tablet {
+		grid-template-columns: 1fr;
+	}
+}
+
+.panel {
+	border: 1px solid rgba(0 0 0 / 0.10);
+	background: rgba(255 255 255 / 0.85);
+	box-shadow: 0 10px 24px rgba(0 0 0 / 0.06);
+	padding: clamp(16px, 2.8vw, 22px);
+}
+
+.title {
+	font-family: var(--font-unbounded);
+	font-size: clamp(28px, 5vw, 64px);
+	text-transform: uppercase;
+	line-height: 1.1;
+	margin: 0 0 10px;
+}
+
+.subtitle {
+	margin: 0;
+	font-size: clamp(14px, 1.8vw, 18px);
+	line-height: 1.55;
+	color: rgba(0 0 0 / 0.78);
+	font-weight: 500;
+}
+
+.schedule {
+	margin-top: 12px;
+	font-size: 16px;
+	line-height: 1.5;
+	font-weight: 600;
+	color: rgba(0 0 0 / 0.82);
+}
+
+.sep {
+	height: 1px;
+	background: rgba(0 0 0 / 0.14);
+	margin: 18px 0;
+}
+
+.sectionTitle {
+	font-family: var(--font-unbounded);
+	font-size: 14px;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+	margin: 0 0 10px;
+	color: rgba(0 0 0 / 0.68);
+}
+
+.list {
+	display: grid;
+	gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.linkRow {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 12px;
+	border: 1px solid rgba(0 0 0 / 0.12);
+	background: rgba(255 255 255 / 0.9);
+	color: rgba(0 0 0 / 0.82);
+	text-decoration: none;
+	font-weight: 700;
+	transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.chip svg {
+	flex: 0 0 auto;
+	color: rgba(0 0 0 / 0.75);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.chip:hover {
+		transform: translateY(-2px);
+		border-color: rgba(0 0 0 / 0.18);
+		box-shadow: 0 10px 22px rgba(0 0 0 / 0.08);
+	}
+}
+
+.bullets {
+	margin: 0;
+	padding-left: 18px;
+	color: rgba(0 0 0 / 0.78);
+	font-weight: 500;
+	line-height: 1.55;
+}
+
+.bullets li + li {
+	margin-top: 8px;
+}
+
+.addrList {
+	margin: 0;
+	padding-left: 18px;
+	color: rgba(0 0 0 / 0.82);
+	font-weight: 500;
+	line-height: 1.55;
+}
+
+.addrList li + li {
+	margin-top: 10px;
+}
+
+.mapCard {
+	border: 1px solid rgba(0 0 0 / 0.10);
+	background: #fff;
+	box-shadow: 0 10px 24px rgba(0 0 0 / 0.06);
+	overflow: hidden;
+}
+
+.mapTop {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	padding: 12px 14px;
+	border-bottom: 1px solid rgba(0 0 0 / 0.10);
+	background: rgba(255 255 255 / 0.9);
+}
+
+.mapTitle {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-family: var(--font-unbounded);
+	font-size: 14px;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	margin: 0;
+	color: rgba(0 0 0 / 0.72);
+}
+
+.mapBody {
+	position: relative;
+	aspect-ratio: 16 / 9;
+	min-height: 260px;
+}
+
+.iframe {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+.mapPlaceholder {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	padding: 20px;
+	text-align: center;
+	color: rgba(0 0 0 / 0.65);
+	background:
+		linear-gradient(180deg, rgba(0 0 0 / 0.02), rgba(0 0 0 / 0)),
+		repeating-linear-gradient(90deg, rgba(0 0 0 / 0.035) 0 1px, transparent 1px 22px),
+		repeating-linear-gradient(0deg, rgba(0 0 0 / 0.025) 0 1px, transparent 1px 22px);
+}
+
+.fadeIn {
+	opacity: 0;
+	transform: translateY(18px);
+	filter: blur(6px);
+}
+
+.inView {
+	opacity: 1;
+	transform: translateY(0);
+	filter: blur(0px);
+}
+
+.pinIcon {
+	width: 18px;
+	height: 18px;
+	color: rgba(0 0 0 / 0.62);
+}
