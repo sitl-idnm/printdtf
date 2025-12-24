@@ -41,8 +41,16 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
 
       if (width <= 0 || height <= 0) return () => { }
 
-      const cols = Math.max(1, Math.floor(width / cellSize))
-      const rows = Math.max(1, Math.floor(height / cellSize))
+      let cols = Math.max(1, Math.floor(width / cellSize))
+      let rows = Math.max(1, Math.floor(height / cellSize))
+      // Hard cap DOM nodes to keep scroll performance reasonable.
+      const maxCells = 900
+      const rawTotal = cols * rows
+      if (rawTotal > maxCells) {
+        const ratio = Math.sqrt(rawTotal / maxCells)
+        cols = Math.max(1, Math.floor(cols / ratio))
+        rows = Math.max(1, Math.floor(rows / ratio))
+      }
 
       grid.innerHTML = ''
       grid.style.display = 'grid'
@@ -97,9 +105,6 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
         }
       })
 
-      // Avoid forcing refresh storms; ScrollTrigger batches refresh internally.
-      scheduleScrollTriggerRefresh()
-
       return () => {
         st.kill()
         tl.kill()
@@ -110,19 +115,35 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
     // Small delay to ensure layout is ready
     let cleanup: (() => void) | null = null
     let ro: ResizeObserver | null = null
+    let roTimer: number | null = null
+    let lastW = 0
+    let lastH = 0
+
+    const rebuildIfNeeded = () => {
+      const rect = root.getBoundingClientRect()
+      const w = Math.round(rect.width || root.offsetWidth || 0)
+      const h = Math.round(rect.height || root.offsetHeight || 0)
+      if (w <= 0 || h <= 0) return
+      if (Math.abs(w - lastW) < 2 && Math.abs(h - lastH) < 2) return
+      lastW = w
+      lastH = h
+      cleanup?.()
+      cleanup = buildGrid()
+      scheduleScrollTriggerRefresh()
+    }
 
     const timeoutId = setTimeout(() => {
-      cleanup = buildGrid()
+      rebuildIfNeeded()
       ro = new ResizeObserver(() => {
-        cleanup?.()
-        cleanup = buildGrid()
-        scheduleScrollTriggerRefresh()
+        if (roTimer) window.clearTimeout(roTimer)
+        roTimer = window.setTimeout(rebuildIfNeeded, 120)
       })
       ro.observe(root)
     }, 50)
 
     return () => {
       clearTimeout(timeoutId)
+      if (roTimer) window.clearTimeout(roTimer)
       ro?.disconnect()
       cleanup?.()
     }
@@ -216,19 +237,35 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
 
     let cleanup: (() => void) | null = null
     let ro: ResizeObserver | null = null
+    let roTimer: number | null = null
+    let lastW = 0
+    let lastH = 0
+
+    const rebuildIfNeeded = () => {
+      const rect = root.getBoundingClientRect()
+      const w = Math.round(rect.width || root.offsetWidth || 0)
+      const h = Math.round(rect.height || root.offsetHeight || 0)
+      if (w <= 0 || h <= 0) return
+      if (Math.abs(w - lastW) < 2 && Math.abs(h - lastH) < 2) return
+      lastW = w
+      lastH = h
+      cleanup?.()
+      cleanup = buildLines()
+      scheduleScrollTriggerRefresh()
+    }
 
     const timeoutId = setTimeout(() => {
-      cleanup = buildLines()
+      rebuildIfNeeded()
       ro = new ResizeObserver(() => {
-        cleanup?.()
-        cleanup = buildLines()
-        scheduleScrollTriggerRefresh()
+        if (roTimer) window.clearTimeout(roTimer)
+        roTimer = window.setTimeout(rebuildIfNeeded, 120)
       })
       ro.observe(root)
     }, 50)
 
     return () => {
       clearTimeout(timeoutId)
+      if (roTimer) window.clearTimeout(roTimer)
       ro?.disconnect()
       cleanup?.()
     }
@@ -322,19 +359,35 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
 
     let cleanup: (() => void) | null = null
     let ro: ResizeObserver | null = null
+    let roTimer: number | null = null
+    let lastW = 0
+    let lastH = 0
+
+    const rebuildIfNeeded = () => {
+      const rect = root.getBoundingClientRect()
+      const w = Math.round(rect.width || root.offsetWidth || 0)
+      const h = Math.round(rect.height || root.offsetHeight || 0)
+      if (w <= 0 || h <= 0) return
+      if (Math.abs(w - lastW) < 2 && Math.abs(h - lastH) < 2) return
+      lastW = w
+      lastH = h
+      cleanup?.()
+      cleanup = buildSwirl()
+      scheduleScrollTriggerRefresh()
+    }
 
     const timeoutId = setTimeout(() => {
-      cleanup = buildSwirl()
+      rebuildIfNeeded()
       ro = new ResizeObserver(() => {
-        cleanup?.()
-        cleanup = buildSwirl()
-        scheduleScrollTriggerRefresh()
+        if (roTimer) window.clearTimeout(roTimer)
+        roTimer = window.setTimeout(rebuildIfNeeded, 120)
       })
       ro.observe(root)
     }, 50)
 
     return () => {
       clearTimeout(timeoutId)
+      if (roTimer) window.clearTimeout(roTimer)
       ro?.disconnect()
       cleanup?.()
     }
@@ -528,6 +581,9 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
 
     let cleanup: (() => void) | null = null
     let ro: ResizeObserver | null = null
+    let roTimer: number | null = null
+    let lastW = 0
+    let lastH = 0
 
     const initAnimation = () => {
       // Clear any existing animations first
@@ -545,15 +601,25 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
       scheduleScrollTriggerRefresh()
     }
 
+    const rebuildIfNeeded = () => {
+      const rect = root.getBoundingClientRect()
+      const w = Math.round(rect.width || root.offsetWidth || 0)
+      const h = Math.round(rect.height || root.offsetHeight || 0)
+      if (w <= 0 || h <= 0) return
+      if (Math.abs(w - lastW) < 2 && Math.abs(h - lastH) < 2) return
+      lastW = w
+      lastH = h
+      initAnimation()
+    }
+
     // Use requestAnimationFrame for better timing
     let timeoutId: NodeJS.Timeout | undefined = undefined
     const rafId = requestAnimationFrame(() => {
       timeoutId = setTimeout(() => {
-        initAnimation()
+        rebuildIfNeeded()
         ro = new ResizeObserver(() => {
-          cleanup?.()
-          cleanup = buildCrosses()
-          scheduleScrollTriggerRefresh()
+          if (roTimer) window.clearTimeout(roTimer)
+          roTimer = window.setTimeout(rebuildIfNeeded, 120)
         })
         ro.observe(root)
       }, 50)
@@ -562,6 +628,7 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
     return () => {
       cancelAnimationFrame(rafId)
       if (timeoutId) clearTimeout(timeoutId)
+      if (roTimer) window.clearTimeout(roTimer)
       ro?.disconnect()
       if (cleanup) cleanup()
     }

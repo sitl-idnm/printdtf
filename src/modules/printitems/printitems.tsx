@@ -4,6 +4,7 @@ import { FC, useMemo, useRef, useCallback, useEffect } from 'react'
 import classNames from 'classnames'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { scheduleScrollTriggerRefresh } from '@/shared/lib/scrollTrigger'
 import { Printitem } from '@/components'
 import Image from 'next/image'
 
@@ -312,8 +313,8 @@ const Printitems: FC<PrintitemsProps> = ({
       invalidateOnRefresh: true
     })
 
-    // Ensure correct measurements with SmoothSmoother
-    requestAnimationFrame(() => ScrollTrigger.refresh())
+    // Avoid refresh storms (especially in Firefox) and let it batch.
+    scheduleScrollTriggerRefresh()
 
     return () => {
       grow.kill()

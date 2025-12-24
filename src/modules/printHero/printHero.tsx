@@ -11,8 +11,8 @@ const PrintHero: FC<PrintHeroProps> = ({
   className,
   title,
   subtitle,
-  // cta1,
-  // cta2,
+  cta1,
+  cta2,
   microtext,
   option,
 }) => {
@@ -54,10 +54,10 @@ const PrintHero: FC<PrintHeroProps> = ({
               </div>
               <div className={styles.buttons}>
                 <ButtonWave variant="accent3" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = '#' }}>
-                  Заказать тираж
+                  {cta1}
                 </ButtonWave>
                 <ButtonWave variant="accent2" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = '#'  }}>
-                  Обсудить индивидуальный заказ
+                  {cta2}
                 </ButtonWave>
               </div>
               {microtext && (

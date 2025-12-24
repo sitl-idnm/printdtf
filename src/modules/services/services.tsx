@@ -1,0 +1,143 @@
+'use client'
+import { FC, useMemo, useRef } from 'react'
+import classNames from 'classnames'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
+
+import styles from './services.module.scss'
+import { ServicesProps } from './services.types'
+
+gsap.registerPlugin(useGSAP, ScrollTrigger)
+
+function IconPickup() {
+	return (
+		<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+			<path d="M3 7h11v10H3V7Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+			<path d="M14 10h4l3 3v4h-7v-7Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+			<path d="M7 19a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor" />
+			<path d="M18 19a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor" />
+		</svg>
+	)
+}
+
+function IconBoxes() {
+	return (
+		<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+			<path d="M4 7h7v7H4V7Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+			<path d="M13 10h7v7h-7v-7Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+			<path d="M9 14v6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+			<path d="M15 4v6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+		</svg>
+	)
+}
+
+function IconPallet() {
+	return (
+		<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+			<path d="M5 4h14v8H5V4Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+			<path d="M3 14h18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+			<path d="M5 14v6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+			<path d="M12 14v6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+			<path d="M19 14v6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+		</svg>
+	)
+}
+
+function IconRoute() {
+	return (
+		<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+			<path d="M7 7a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" fill="none" stroke="currentColor" strokeWidth="2" />
+			<path d="M17 23a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" fill="none" stroke="currentColor" strokeWidth="2" />
+			<path d="M7 7c0 4 10 2 10 10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+		</svg>
+	)
+}
+
+function IconCalendar() {
+	return (
+		<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+			<path d="M7 3v3M17 3v3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+			<path d="M4 6h16v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+			<path d="M4 10h16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+			<path d="M8 14h3M8 17h6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+		</svg>
+	)
+}
+
+const ICONS = [IconPickup, IconBoxes, IconPallet, IconRoute, IconCalendar]
+
+const Services: FC<ServicesProps> = ({ className, title, items }) => {
+	const rootClassName = classNames(styles.root, className)
+	const listRef = useRef<HTMLDivElement | null>(null)
+
+	const data = useMemo(() => (items ?? []).filter(Boolean), [items])
+
+	useGSAP(() => {
+		const root = listRef.current
+		if (!root) return
+		const rows = Array.from(root.querySelectorAll<HTMLElement>(`.${styles.item}`))
+		if (!rows.length) return
+
+		const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+		if (prefersReduced) {
+			rows.forEach((c) => c.classList.add(styles.inView))
+			return
+		}
+
+		gsap.set(rows, { opacity: 0, x: -24, y: 18, filter: 'blur(6px)' })
+
+		const tl = gsap.timeline({
+			scrollTrigger: {
+				trigger: root,
+				start: 'top 80%',
+				once: true
+			}
+		})
+
+		tl.to(rows, {
+			opacity: 1,
+			x: 0,
+			y: 0,
+			filter: 'blur(0px)',
+			duration: 0.7,
+			ease: 'power2.out',
+			stagger: 0.1,
+			onStart: () => rows.forEach((c) => c.classList.add(styles.inView))
+		})
+
+		return () => {
+			tl.scrollTrigger?.kill()
+			tl.kill()
+		}
+	}, { scope: listRef, dependencies: [data.length] })
+
+	return (
+		<section className={rootClassName} aria-label={title}>
+			<div className={styles.head}>
+				<h2 className={styles.title}>{title}</h2>
+				<div className={styles.pill}>что делаем</div>
+			</div>
+
+			<div className={styles.list} ref={listRef}>
+				<div className={styles.rail} aria-hidden="true" />
+				{data.map((it, idx) => {
+					const Icon = ICONS[idx] ?? IconPickup
+					return (
+						<article className={styles.item} key={idx}>
+							<div className={styles.icon}>
+								<Icon />
+							</div>
+							<div className={styles.body}>
+								<div className={styles.kicker}>{String(idx + 1).padStart(2, '0')}</div>
+								<p className={styles.text}>{it.text}</p>
+							</div>
+						</article>
+					)
+				})}
+			</div>
+		</section>
+	)
+}
+
+export default Services
