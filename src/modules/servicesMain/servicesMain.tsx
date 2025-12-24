@@ -8,7 +8,7 @@ const ServicesMain: FC<ServicesMainProps> = ({
   className,
   items = [
     { title: 'Печать', href: '/print' },
-    { title: 'Фулфилмент', href: '#' },
+    { title: 'Фулфилмент', href: '/fullfilment' },
     { title: 'Логистика', href: '/logistika' },
   ],
 }) => {
