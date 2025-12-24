@@ -7,6 +7,9 @@ import { ProcessProps } from './process.types'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { scheduleScrollTriggerRefresh } from '@/shared/lib/scrollTrigger'
+
+gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 const Process: FC<ProcessProps> = ({
   className
@@ -20,7 +23,6 @@ const Process: FC<ProcessProps> = ({
   const path12Ref = useRef<SVGPathElement>(null)
   const path23Ref = useRef<SVGPathElement>(null)
 
-  gsap.registerPlugin(ScrollTrigger)
   useGSAP(() => {
     const container = containerRef.current
     const first = firstRef.current
@@ -66,7 +68,7 @@ const Process: FC<ProcessProps> = ({
       .to(path23, { strokeDashoffset: 0, duration: 2.5, ease: 'power1.inOut' })
       .to(third, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' })
 
-    ScrollTrigger.create({
+    const st = ScrollTrigger.create({
       trigger: container,
       start: 'top 50%',
       once: true,
@@ -82,13 +84,13 @@ const Process: FC<ProcessProps> = ({
         gsap.set(path12, { strokeDasharray: l12, strokeDashoffset: 0 })
         gsap.set(path23, { strokeDasharray: l23, strokeDashoffset: 0 })
       }
-      ScrollTrigger.refresh()
+      scheduleScrollTriggerRefresh()
     }
     window.addEventListener('resize', handleResize)
     return () => {
       window.removeEventListener('resize', handleResize)
       tl.kill()
-      ScrollTrigger.getAll().forEach(st => st.kill())
+      st.kill()
     }
   }, { scope: containerRef })
 

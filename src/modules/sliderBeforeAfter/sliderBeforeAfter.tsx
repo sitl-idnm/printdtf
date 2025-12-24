@@ -18,6 +18,7 @@ import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { DynamicBackground, LineButton } from '@/ui'
+import { scheduleScrollTriggerRefresh } from '@/shared/lib/scrollTrigger'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 // import { Stages } from '../stages'
@@ -139,21 +140,8 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
   }, []) // Only on mount - initialize from URL once
 
   // Sync atom changes to URL (when user clicks buttons)
-  useEffect(() => {
-    if (!isInitializedRef.current) return // Don't update URL until initialized
-
-    const methodFromUrl = searchParams.get('method') as PrintMethod | null
-    const urlMethod = methodFromUrl === 'dtf' || methodFromUrl === 'uvdtf' ? methodFromUrl : 'dtf'
-
-    // Only update URL if atom differs from URL
-    if (printMethod !== urlMethod) {
-      const params = new URLSearchParams(searchParams.toString())
-      params.set('method', printMethod)
-
-      const newUrl = `${window.location.pathname}?${params.toString()}`
-      router.replace(newUrl, { scroll: false })
-    }
-  }, [printMethod, router, searchParams])
+  // NOTE: Avoid syncing atom -> URL in an effect.
+  // In some browsers (notably Firefox) this can cause "too many History API calls" during routing/hydration.
 
   useGSAP(() => {
     if (!navigationRef.current || !rootRef.current) return
@@ -211,7 +199,14 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
         // Change content while invisible
         setCurrentSlide(target)
         setPrintMethod(method)
-        // URL will be updated automatically via useEffect
+        // Update URL only on explicit user action to avoid history/replace loops.
+        const params = new URLSearchParams(window.location.search)
+        params.set('method', method)
+        const nextUrl = `${window.location.pathname}?${params.toString()}`
+        const currentUrl = `${window.location.pathname}${window.location.search}`
+        if (currentUrl !== nextUrl) {
+          router.replace(nextUrl, { scroll: false })
+        }
 
         // Wait for React to update DOM before fade in
         requestAnimationFrame(() => {
@@ -230,7 +225,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                 // Give React a tick to commit new DOM, then refresh triggers once.
                 // `refresh()` should not change scroll position; if anything shifts, restore once.
                 requestAnimationFrame(() => {
-                  ScrollTrigger.refresh()
+                  scheduleScrollTriggerRefresh()
                   window.scrollTo(0, savedScrollY)
                 })
               }

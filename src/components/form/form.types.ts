@@ -2,6 +2,6 @@ export interface FormProps {
   className?: string
   submitLabel?: string
   theme?: 'default' | 'invert'
-  /** When true, take print method from Jotai atom; hide manual chooser */
+  /** Legacy flag (method is always selectable now); kept for backward compatibility */
   useAtomPrintMethod?: boolean
 }

@@ -1,3 +1,5 @@
+ 'use client'
+
 import { FC, useRef } from 'react'
 import classNames from 'classnames'
 
@@ -42,11 +44,13 @@ const WhatIs: FC<WhatIsProps> = ({
     mm.add('(min-width: 768px)', () => {
       const tl = gsap.timeline({
         scrollTrigger: {
+          id: 'whatIsPin',
           trigger: rootEl,
           start: 'top top',
           end: '+=1800',
           scrub: 1,
           pin: true,
+          refreshPriority: 2,
           invalidateOnRefresh: true
         }
       })
@@ -77,12 +81,14 @@ const WhatIs: FC<WhatIsProps> = ({
 
       const tl = gsap.timeline({
         scrollTrigger: {
+          id: 'whatIsPin',
           trigger: rootEl,
           start: 'top 10%',
           end: `+=${cards.length * 520}`,
           scrub: 2,
           pin: true,
           anticipatePin: 1,
+          refreshPriority: 2,
           invalidateOnRefresh: true
         }
       })
@@ -110,7 +116,7 @@ const WhatIs: FC<WhatIsProps> = ({
         mmRef.current = null
       }
     }
-  }, { scope: containerRef, dependencies: [arrWhat, title] })
+  }, { scope: containerRef, dependencies: [arrWhat, title], revertOnUpdate: true })
 
   return (
     <div className={rootClassName} ref={containerRef}>

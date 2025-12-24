@@ -1,18 +1,16 @@
-import { FC } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 
 import styles from './form.module.scss'
 import { FormProps } from './form.types'
-import { useState } from 'react'
 import ButtonWave from '@/ui/buttonWave/buttonWave'
 import { useAtomValue } from 'jotai'
-import { printMethodReadAtom } from '@/shared/atoms/printMethodAtom'
+import { printMethodReadAtom, PrintMethod } from '@/shared/atoms/printMethodAtom'
 
 const Form: FC<FormProps> = ({
   className,
   submitLabel,
-  theme = 'default',
-  useAtomPrintMethod = false
+  theme = 'default'
 }) => {
   const rootClassName = classNames(
     styles.root,
@@ -20,7 +18,15 @@ const Form: FC<FormProps> = ({
     className
   )
   const atomMethod = useAtomValue(printMethodReadAtom)
-  const atomMethodHuman: 'UV DTF' | 'DTF' = atomMethod === 'uvdtf' ? 'UV DTF' : 'DTF'
+  const [methodKey, setMethodKey] = useState<PrintMethod>(atomMethod)
+  const methodTouchedRef = useRef(false)
+
+  useEffect(() => {
+    // If user didn't change the local method yet, follow the current page method (atom).
+    if (!methodTouchedRef.current) setMethodKey(atomMethod)
+  }, [atomMethod])
+
+  const methodHuman: 'UV DTF' | 'DTF' = methodKey === 'uvdtf' ? 'UV DTF' : 'DTF'
   const formatPhoneFromDigits = (digitsRaw: string) => {
     const core = digitsRaw.slice(0, 10)
     if (core.length === 0) return ''
@@ -48,19 +54,21 @@ const Form: FC<FormProps> = ({
   const [phone, setPhone] = useState('')
   // const [telegram, setTelegram] = useState('')
   const [messenger, setMessenger] = useState<'Telegram' | 'WhatsApp' | ''>('')
-  const [method, setMethod] = useState<'UV DTF' | 'DTF' | ''>('')
   const [agree, setAgree] = useState(false)
 
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const resolvedMethod = useAtomPrintMethod ? atomMethodHuman : method
+    // Method is always selectable; keep atom as the single source of truth.
+    // `useAtomPrintMethod` is kept only for backward compatibility.
+    const resolvedMethod = methodHuman
     const payload = {
       name,
       phone,
       // telegram: telegram || undefined,
       messenger,
       method: resolvedMethod,
+      methodKey,
       agree
     }
     // Replace with actual submission logic
@@ -155,26 +163,29 @@ const Form: FC<FormProps> = ({
         </div>
       </div>
 
-      {useAtomPrintMethod ? null : (
-        <div className={styles.control}>
-
-          <div className={styles.row}>
-            <span className={styles.choiceLabel}>Метод печати</span>
-            <div className={classNames(styles.options, styles.optionsRow)}>
-              {(['UV DTF', 'DTF'] as const).map((m) => (
-                <ButtonWave
-                  key={m}
-                  className={classNames(styles.option, method === m && styles.selected)}
-                  variant="accent3"
-                  onClick={() => setMethod(m)}
-                >
-                  {m}
-                </ButtonWave>
-              ))}
-            </div>
+      <div className={styles.control}>
+        <div className={styles.row}>
+          <span className={styles.choiceLabel}>Метод печати</span>
+          <div className={classNames(styles.options, styles.optionsRow)}>
+            {([
+              { key: 'dtf', label: 'DTF' },
+              { key: 'uvdtf', label: 'UV DTF' }
+            ] as const).map((m) => (
+              <ButtonWave
+                key={m.key}
+                className={classNames(styles.option, methodKey === (m.key as PrintMethod) && styles.selected)}
+                variant="accent3"
+                onClick={() => {
+                  methodTouchedRef.current = true
+                  setMethodKey(m.key)
+                }}
+              >
+                {m.label}
+              </ButtonWave>
+            ))}
           </div>
         </div>
-      )}
+      </div>
 
       <label className={styles.agree}>
         <input

@@ -9,7 +9,7 @@
 
 	.slider {
 		width: 100%;
-		height: 100%;
+		height: auto;
 		position: relative;
 
 		// section wrapper
@@ -28,7 +28,7 @@
 
 		.sectionInner {
 			overflow-x: hidden;
-			overflow-y: hidden;
+			overflow-y: visible;
       display: flex;
 			flex-direction: column;
 			min-width: 0;

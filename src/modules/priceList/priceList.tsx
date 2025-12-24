@@ -12,7 +12,7 @@ const PriceList: FC<PriceListProps> = ({
 
   return (
     <div className={rootClassName}>
-      <h2 className={styles.title}>Общие цены</h2>
+      <h2 className={styles.title}>Цены</h2>
       <p className={styles.intro}>
         Быстро посчитаем ориентировочную стоимость и сроки. Итог зависит от макета и тиража.
         <span className={styles.badge}>Мин. стоимость заказа — 1000 ₽</span>

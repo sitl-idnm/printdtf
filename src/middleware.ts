@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getSessionCookieName, verifySessionToken } from '@/shared/server/session'
+import { getSessionCookieName, verifySessionToken } from '@/shared/edge/session'
 
-export function middleware (req: NextRequest) {
+export async function middleware (req: NextRequest) {
   const { pathname } = req.nextUrl
   if (pathname.startsWith('/lk')) {
     const cookieName = getSessionCookieName()
     const token = req.cookies.get(cookieName)?.value
-    const session = verifySessionToken(token)
+    const session = await verifySessionToken(token)
     if (!session?.phone) {
       const url = req.nextUrl.clone()
       url.pathname = '/login'
@@ -20,7 +20,3 @@ export function middleware (req: NextRequest) {
 export const config = {
   matcher: ['/lk', '/lk/:path*']
 }
-
-
-
-
