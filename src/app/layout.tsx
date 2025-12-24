@@ -8,6 +8,7 @@ import localFont from 'next/font/local'
 import { Provider } from '@service/provider'
 import ChatWidget from '@modules/chat-widget'
 import { ArrowUp } from '@/ui'
+import { ScrollTriggerRouteFix } from '@/components/scrollTriggerRouteFix/scrollTriggerRouteFix'
 
 const involve = localFont({
   src: [
@@ -50,6 +51,7 @@ export default function RootLayout({
     <html lang="ru">
       <body className={`${involve.variable} ${unbounded.variable}`}>
         <Provider>
+          <ScrollTriggerRouteFix />
           <Header />
           <div id="smooth-wrapper">
             <div id="smooth-content">
