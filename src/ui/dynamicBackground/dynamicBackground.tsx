@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
+import { scheduleScrollTriggerRefresh } from '@/shared/lib/scrollTrigger'
 
 import styles from './dynamicBackground.module.scss'
 import { DynamicBackgroundProps } from './dynamicBackground.types'
@@ -96,8 +97,8 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
         }
       })
 
-      // Force initial refresh
-      ScrollTrigger.refresh()
+      // Avoid forcing refresh storms; ScrollTrigger batches refresh internally.
+      scheduleScrollTriggerRefresh()
 
       return () => {
         st.kill()
@@ -115,7 +116,7 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
       ro = new ResizeObserver(() => {
         cleanup?.()
         cleanup = buildGrid()
-        ScrollTrigger.refresh()
+        scheduleScrollTriggerRefresh()
       })
       ro.observe(root)
     }, 50)
@@ -124,9 +125,6 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
       clearTimeout(timeoutId)
       ro?.disconnect()
       cleanup?.()
-      ScrollTrigger.getAll().forEach(st => {
-        if (st.trigger === root) st.kill()
-      })
     }
   }, [variant, cellSize, resolvedPin, scrollFactor])
 
@@ -207,7 +205,7 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
         }
       })
 
-      ScrollTrigger.refresh()
+      scheduleScrollTriggerRefresh()
 
       return () => {
         st.kill()
@@ -224,7 +222,7 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
       ro = new ResizeObserver(() => {
         cleanup?.()
         cleanup = buildLines()
-        ScrollTrigger.refresh()
+        scheduleScrollTriggerRefresh()
       })
       ro.observe(root)
     }, 50)
@@ -233,9 +231,6 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
       clearTimeout(timeoutId)
       ro?.disconnect()
       cleanup?.()
-      ScrollTrigger.getAll().forEach(st => {
-        if (st.trigger === root) st.kill()
-      })
     }
   }, [variant, resolvedPin, scrollFactor])
 
@@ -316,7 +311,7 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
         }
       })
 
-      ScrollTrigger.refresh()
+      scheduleScrollTriggerRefresh()
 
       return () => {
         st.kill()
@@ -333,7 +328,7 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
       ro = new ResizeObserver(() => {
         cleanup?.()
         cleanup = buildSwirl()
-        ScrollTrigger.refresh()
+        scheduleScrollTriggerRefresh()
       })
       ro.observe(root)
     }, 50)
@@ -342,9 +337,6 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
       clearTimeout(timeoutId)
       ro?.disconnect()
       cleanup?.()
-      ScrollTrigger.getAll().forEach(st => {
-        if (st.trigger === root) st.kill()
-      })
     }
   }, [variant, resolvedPin, scrollFactor])
 
@@ -354,11 +346,6 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
     const root = rootRef.current
     const svg = svgRef.current
     if (!root || !svg) return
-
-    // Kill any existing ScrollTriggers for this element
-    ScrollTrigger.getAll().forEach(st => {
-      if (st.trigger === root) st.kill()
-    })
 
     const buildCrosses = () => {
       const rect = root.getBoundingClientRect()
@@ -530,7 +517,7 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
         }
       })
 
-      ScrollTrigger.refresh()
+      scheduleScrollTriggerRefresh()
 
       return () => {
         st.kill()
@@ -545,9 +532,6 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
     const initAnimation = () => {
       // Clear any existing animations first
       if (cleanup) cleanup()
-      ScrollTrigger.getAll().forEach(st => {
-        if (st.trigger === root) st.kill()
-      })
 
       // Ensure dimensions are valid
       const rect = root.getBoundingClientRect()
@@ -558,7 +542,7 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
       }
 
       cleanup = buildCrosses()
-      ScrollTrigger.refresh()
+      scheduleScrollTriggerRefresh()
     }
 
     // Use requestAnimationFrame for better timing
@@ -569,7 +553,7 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
         ro = new ResizeObserver(() => {
           cleanup?.()
           cleanup = buildCrosses()
-          ScrollTrigger.refresh()
+          scheduleScrollTriggerRefresh()
         })
         ro.observe(root)
       }, 50)
@@ -580,18 +564,6 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
       if (timeoutId) clearTimeout(timeoutId)
       ro?.disconnect()
       if (cleanup) cleanup()
-      ScrollTrigger.getAll().forEach(st => {
-        if (st.trigger === root) st.kill()
-      })
-    }
-
-    return () => {
-      clearTimeout(timeoutId)
-      ro?.disconnect()
-      if (cleanup) cleanup()
-      ScrollTrigger.getAll().forEach(st => {
-        if (st.trigger === root) st.kill()
-      })
     }
   }, [variant, resolvedPin, scrollFactor])
 

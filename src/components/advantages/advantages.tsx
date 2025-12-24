@@ -1,4 +1,6 @@
-import { FC, useRef, useEffect } from 'react'
+'use client'
+
+import { FC, useRef } from 'react'
 import classNames from 'classnames'
 
 import styles from './advantages.module.scss'
@@ -23,37 +25,55 @@ const Advantages: FC<AdvantagesProps> = ({
   )
 
   const containerRef = useRef<HTMLDivElement>(null)
-  const scrollTriggerRef = useRef<ScrollTrigger | null>(null)
-  const tlRef = useRef<gsap.core.Timeline | null>(null)
 
   useGSAP(() => {
-    if (!containerRef.current) return
-
-    // Kill any existing ScrollTrigger instances for this element
-    if (scrollTriggerRef.current) {
-      scrollTriggerRef.current.kill()
-      scrollTriggerRef.current = null
-    }
-    if (tlRef.current) {
-      tlRef.current.kill()
-      tlRef.current = null
-    }
+    const root = containerRef.current
+    if (!root) return
 
     // Get all items
-    const items = containerRef.current.querySelectorAll(`.${styles.item}`)
+    const items = Array.from(root.querySelectorAll<HTMLElement>(`.${styles.item}`))
 
     if (items.length === 0) return
+
+    // Preserve CSS "rotate" (individual transform property) from styles like :nth-child(...)
+    const getCssRotateDeg = (el: HTMLElement): number => {
+      const rotate = getComputedStyle(el).rotate
+      if (!rotate || rotate === 'none') return 0
+      const n = Number.parseFloat(rotate)
+      return Number.isFinite(n) ? n : 0
+    }
+
+    const endRotates = items.map(getCssRotateDeg)
 
     // Calculate end based on number of items for proper pin spacing
     const itemCount = items.length
     const endValue = itemCount * 300 // 300px per item for smooth animation
 
+    const getStartEnd = () => {
+      const prev = ScrollTrigger.getById('whatIsPin')
+      const prevEnd = prev && Number.isFinite(prev.end) ? prev.end : null
+      // "Correct" start is when this section's top reaches the top of the viewport.
+      // When WhatIs is pinned, we additionally must not start before its end.
+      const absTop = root.getBoundingClientRect().top + (window.scrollY || window.pageYOffset)
+      const start = prevEnd != null ? Math.max(prevEnd, absTop) : absTop
+      return { start, end: start + endValue }
+    }
+
+    // Explicit initial state (so cards don't appear "already laid out" before the scrub starts)
+    gsap.set(items, {
+      willChange: 'transform, opacity',
+      x: 800,
+      rotate: (i: number) => (endRotates[i] ?? 0) + 12,
+      opacity: 0,
+    })
+
     // Create timeline with ScrollTrigger
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top 10%',
-        end: `+=${endValue}`,
+        trigger: root,
+        // Start only after WhatIs pin completes (prevents "halfway" overlap).
+        start: () => getStartEnd().start,
+        end: () => getStartEnd().end,
         scrub: 1,
         pin: true,
         pinSpacing: true,
@@ -62,53 +82,22 @@ const Advantages: FC<AdvantagesProps> = ({
       }
     })
 
-    // Store ScrollTrigger reference
-    scrollTriggerRef.current = tl.scrollTrigger || null
-    tlRef.current = tl
-
     // Animate items from right
-    tl.fromTo(
-      items,
-      {
-        x: 800,
-        rotation: 15,
-        opacity: 0
-      },
-      {
-        x: 0,
-        rotation: 0,
-        opacity: 1,
-        stagger: 0.8,
-        ease: 'power2.out',
-        duration: 2.5,
-      }
-    )
+    tl.to(items, {
+      x: 0,
+      rotate: (i: number) => endRotates[i] ?? 0,
+      opacity: 1,
+      stagger: 0.8,
+      ease: 'power2.out',
+      duration: 2.5,
+      overwrite: 'auto',
+    })
 
     return () => {
-      // Cleanup on unmount or dependency change
-      if (scrollTriggerRef.current) {
-        scrollTriggerRef.current.kill()
-        scrollTriggerRef.current = null
-      }
-      if (tlRef.current) {
-        tlRef.current.kill()
-        tlRef.current = null
-      }
+      tl.scrollTrigger?.kill()
+      tl.kill()
     }
-  }, { scope: containerRef, dependencies: [arrAdvantages, title] })
-
-  // Refresh ScrollTrigger after content changes
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (scrollTriggerRef.current) {
-        scrollTriggerRef.current.refresh()
-      } else {
-        ScrollTrigger.refresh()
-      }
-    }, 400)
-
-    return () => clearTimeout(timer)
-  }, [arrAdvantages, title])
+  }, { scope: containerRef, dependencies: [arrAdvantages, title], revertOnUpdate: true })
 
   return (
     <div className={rootClassName} ref={containerRef}>
