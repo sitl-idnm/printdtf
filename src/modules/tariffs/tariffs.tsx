@@ -77,52 +77,166 @@ function toneClass(tone?: TariffTone) {
 
 const Tariffs: FC<TariffsProps> = ({ className, title, subtitle, items }) => {
   const rootClassName = classNames(styles.root, className)
+  const sectionRef = useRef<HTMLElement | null>(null)
   const gridRef = useRef<HTMLDivElement | null>(null)
 
   const data = useMemo(() => (items ?? []).filter(Boolean), [items])
 
-  useGSAP(() => {
-    const root = gridRef.current
-    if (!root) return
+  const headerRef = useRef<HTMLElement | null>(null)
 
-    const cards = Array.from(root.querySelectorAll<HTMLElement>(`.${styles.card}`))
-    if (!cards.length) return
+  useGSAP(() => {
+    const section = sectionRef.current
+    const root = gridRef.current
+    const header = headerRef.current
+    if (!section || !root) return
 
     const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
     if (prefersReduced) {
+      const cards = Array.from(root.querySelectorAll<HTMLElement>(`.${styles.card}`))
       cards.forEach((c) => c.classList.add(styles.inView))
       return
     }
 
-    gsap.set(cards, { opacity: 0, y: 18, filter: 'blur(6px)' })
+    // Анимация заголовка и подзаголовка
+    if (header) {
+      const titleEl = header.querySelector<HTMLElement>(`.${styles.title}`)
+      const subtitleEl = header.querySelector<HTMLElement>(`.${styles.subtitle}`)
+      const stamp = header.querySelector<HTMLElement>(`.${styles.stamp}`)
 
-    const tl = gsap.timeline({
+      gsap.set([titleEl, subtitleEl, stamp], { opacity: 0, y: 30, filter: 'blur(8px)' })
+
+      const headerTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: header,
+          start: 'top 85%',
+          once: true
+        }
+      })
+
+      headerTl
+        .to(titleEl, {
+          opacity: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          duration: 0.8,
+          ease: 'power3.out'
+        })
+        .to([subtitleEl, stamp], {
+          opacity: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          duration: 0.7,
+          ease: 'power2.out'
+        }, '-=0.4')
+    }
+
+    // Анимация карточек
+    const cards = Array.from(root.querySelectorAll<HTMLElement>(`.${styles.card}`))
+    if (!cards.length) return
+
+    // Устанавливаем начальные состояния
+    cards.forEach((card) => {
+      const icon = card.querySelector<HTMLElement>(`.${styles.icon}`)
+      const badge = card.querySelector<HTMLElement>(`.${styles.badge}`)
+      const titleEl = card.querySelector<HTMLElement>(`.${styles.cardTitle}`)
+      const text = card.querySelector<HTMLElement>(`.${styles.cardText}`)
+      const note = card.querySelector<HTMLElement>(`.${styles.note}`)
+
+      gsap.set(card, {
+        opacity: 0,
+        y: 50,
+        scale: 0.9,
+        filter: 'blur(8px)',
+        force3D: true
+      })
+
+      gsap.set([icon, badge], {
+        opacity: 0,
+        scale: 0.6,
+        rotation: -15,
+        force3D: true
+      })
+
+      gsap.set([titleEl, text, note], {
+        opacity: 0,
+        y: 20,
+        force3D: true
+      })
+    })
+
+    // Создаем timeline с pin эффектом
+    const pinTl = gsap.timeline({
       scrollTrigger: {
-        trigger: root,
-        start: 'top 80%',
-        once: true
+        trigger: section,
+        start: 'top top',
+        end: () => `+=${cards.length * 400}`,
+        scrub: 1,
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true
       }
     })
 
-    tl.to(cards, {
-      opacity: 1,
-      y: 0,
-      filter: 'blur(0px)',
-      duration: 0.75,
-      ease: 'power2.out',
-      stagger: 0.12,
-      onStart: () => cards.forEach((c) => c.classList.add(styles.inView))
+    // Анимируем карточки последовательно во время скролла
+    cards.forEach((card, index) => {
+      const icon = card.querySelector<HTMLElement>(`.${styles.icon}`)
+      const badge = card.querySelector<HTMLElement>(`.${styles.badge}`)
+      const titleEl = card.querySelector<HTMLElement>(`.${styles.cardTitle}`)
+      const text = card.querySelector<HTMLElement>(`.${styles.cardText}`)
+      const note = card.querySelector<HTMLElement>(`.${styles.note}`)
+
+      const progress = index / cards.length
+
+      pinTl
+        .to(card, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: 'blur(0px)',
+          duration: 0.4,
+          ease: 'power2.out',
+          onStart: () => card.classList.add(styles.inView)
+        }, progress)
+        .to([icon, badge], {
+          opacity: 1,
+          scale: 1,
+          rotation: 0,
+          duration: 0.3,
+          ease: 'back.out(1.4)'
+        }, progress + 0.1)
+        .to(titleEl, {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          ease: 'power2.out'
+        }, progress + 0.15)
+        .to(text, {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          ease: 'power2.out'
+        }, progress + 0.2)
+        .to(note, {
+          opacity: 1,
+          y: 0,
+          duration: 0.25,
+          ease: 'power2.out'
+        }, progress + 0.25)
     })
 
     return () => {
-      tl.scrollTrigger?.kill()
-      tl.kill()
+      ScrollTrigger.getAll().forEach((st) => {
+        if (st.trigger === section || st.trigger === root || st.trigger === header) {
+          st.kill()
+        }
+      })
     }
-  }, { scope: gridRef, dependencies: [data.length] })
+  }, { scope: sectionRef, dependencies: [data.length] })
 
   return (
-    <section className={rootClassName} aria-label={title}>
-      <header className={styles.head}>
+    <section className={rootClassName} aria-label={title} ref={sectionRef}>
+      <header className={styles.head} ref={headerRef}>
         <div className={styles.titleRow}>
           <h2 className={styles.title}>{title}</h2>
           <div className={styles.stamp}>

@@ -31,6 +31,16 @@
 		width: 48px;
 		height: 48px;
 	}
+
+	// Override colors for fulfillment page
+	body[data-page-theme="fulfillment"] & {
+		background: color-mix(in srgb, var(--fulfillment-color-accent-1) 92%, #000 8%);
+	}
+
+	// Override colors for logistika page
+	body[data-page-theme="logistika"] & {
+		background: color-mix(in srgb, var(--logistika-color-accent-1) 92%, #000 8%);
+	}
 }
 
 .visible {
@@ -42,6 +52,16 @@
 .root:hover {
 	background: color-mix(in srgb, var(--color-accent-2) 80%, #000 20%);
 	box-shadow: 0 10px 24px rgba(0 0 0 / 0.25);
+
+	// Override colors for fulfillment page
+	body[data-page-theme="fulfillment"] & {
+		background: color-mix(in srgb, var(--fulfillment-color-accent-2) 80%, #000 20%);
+	}
+
+	// Override colors for logistika page
+	body[data-page-theme="logistika"] & {
+		background: color-mix(in srgb, var(--logistika-color-accent-2) 80%, #000 20%);
+	}
 }
 
 .root:active {
