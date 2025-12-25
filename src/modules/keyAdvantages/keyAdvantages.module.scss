@@ -1,0 +1,183 @@
+@use "@styles/func";
+@use "@styles/mixins" as *;
+@use "@styles/variables";
+
+.root {
+	width: 100%;
+	padding: clamp(28px, 6vw, 80px) clamp(12px, 4vw, 40px);
+	background: #0b0b10;
+	color: #fff;
+	position: relative;
+	overflow: hidden;
+}
+
+.root::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background:
+		radial-gradient(1100px 520px at -10% -30%, rgba(107 72 255 / 0.32) 0%, transparent 58%),
+		radial-gradient(900px 420px at 110% 0%, rgba(0 245 192 / 0.18) 0%, transparent 55%),
+		linear-gradient(180deg, rgba(255 255 255 / 0.06) 0%, rgba(255 255 255 / 0) 45%);
+	opacity: .95;
+}
+
+.head {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	gap: 10px;
+	margin-bottom: clamp(14px, 3vw, 24px);
+	max-width: 980px;
+}
+
+.title {
+	font-family: var(--font-unbounded);
+	font-size: clamp(28px, 5vw, 64px);
+	text-transform: uppercase;
+	line-height: 1.1;
+	margin: 0;
+}
+
+.subtitle {
+	margin: 0;
+	font-size: clamp(14px, 1.8vw, 18px);
+	line-height: 1.55;
+	color: rgba(255 255 255 / 0.82);
+	font-weight: 500;
+}
+
+.grid {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: clamp(10px, 2.2vw, 18px);
+
+	@include tablet {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	@include tablet-small {
+		grid-template-columns: 1fr;
+	}
+}
+
+.card {
+	position: relative;
+	border: 1px solid rgba(255 255 255 / 0.14);
+	background:
+		radial-gradient(1200px 420px at -10% -20%, rgba(107 72 255 / 0.18) 0%, transparent 55%),
+		linear-gradient(135deg, rgba(255 255 255 / 0.10), rgba(255 255 255 / 0.04));
+	backdrop-filter: blur(10px);
+	padding: clamp(14px, 2.6vw, 20px);
+	min-height: 190px;
+
+	opacity: 0;
+	transform: translateY(18px);
+	filter: blur(6px);
+
+	@include desktop-only {
+		transition:
+			transform .35s cubic-bezier(.2,.7,.2,1),
+			border-color .35s ease,
+			box-shadow .35s cubic-bezier(.2,.7,.2,1);
+
+		&:hover {
+			transform: translateY(-6px);
+			border-color: rgba(255 255 255 / 0.22);
+			box-shadow: 0 20px 54px rgba(0 0 0 / 0.45);
+		}
+	}
+}
+
+.inView {
+	opacity: 1;
+	transform: translateY(0);
+	filter: blur(0px);
+}
+
+.top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 12px;
+}
+
+.badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	font-family: var(--font-unbounded);
+	font-size: 12px;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	color: rgba(255 255 255 / 0.82);
+}
+
+.num {
+	width: 38px;
+	height: 38px;
+	display: grid;
+	place-items: center;
+	border-radius: 999px;
+	color: #0b0b10;
+	background: linear-gradient(135deg, var(--color-accent-3), var(--color-accent-2));
+	border: 1px solid rgba(255 255 255 / 0.16);
+}
+
+.spark {
+	width: 18px;
+	height: 18px;
+	opacity: .9;
+}
+
+.cardTitle {
+	font-family: var(--font-unbounded);
+	font-size: clamp(16px, 2.2vw, 18px);
+	line-height: 1.25;
+	margin: 0;
+	color: rgba(255 255 255 / 0.94);
+}
+
+.text {
+	margin: 10px 0 0;
+	font-size: clamp(14px, 1.7vw, 16px);
+	line-height: 1.55;
+	color: rgba(255 255 255 / 0.80);
+	font-weight: 500;
+}
+
+.note {
+	position: relative;
+	z-index: 1;
+	margin-top: clamp(12px, 2.6vw, 18px);
+	padding: clamp(14px, 2.8vw, 20px);
+	border: 1px solid rgba(255 255 255 / 0.16);
+	background: rgba(0 0 0 / 0.22);
+	backdrop-filter: blur(10px);
+	color: rgba(255 255 255 / 0.86);
+
+	opacity: 0;
+	transform: translateY(18px);
+	filter: blur(6px);
+}
+
+.noteTitle {
+	font-family: var(--font-unbounded);
+	font-size: 12px;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	margin: 0 0 8px;
+	color: rgba(255 255 255 / 0.78);
+}
+
+.noteText {
+	margin: 0;
+	font-size: clamp(14px, 1.7vw, 16px);
+	line-height: 1.55;
+	font-weight: 600;
+}
+

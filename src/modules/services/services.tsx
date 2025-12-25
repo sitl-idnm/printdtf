@@ -130,7 +130,7 @@ const Services: FC<ServicesProps> = ({ className, title, items }) => {
 							</div>
 							<div className={styles.body}>
 								<div className={styles.kicker}>{String(idx + 1).padStart(2, '0')}</div>
-								<p className={styles.text}>{it.text}</p>
+								<div className={styles.text}>{it.text}</div>
 							</div>
 						</article>
 					)
