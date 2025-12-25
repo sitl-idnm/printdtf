@@ -23,6 +23,60 @@
 	opacity: .95;
 }
 
+.rootLight {
+	background: #fff;
+	color: #000;
+}
+
+.rootLight::before {
+	background:
+		radial-gradient(1200px 520px at -10% -30%, rgba(107 72 255 / 0.14) 0%, transparent 60%),
+		radial-gradient(900px 420px at 110% 0%, rgba(0 245 192 / 0.10) 0%, transparent 58%),
+		linear-gradient(180deg, rgba(0 0 0 / 0.03) 0%, rgba(0 0 0 / 0) 44%);
+	opacity: .95;
+}
+
+.rootLight .tag {
+	color: rgba(0 0 0 / 0.72);
+	border-color: rgba(0 0 0 / 0.12);
+	background: rgba(255 255 255 / 0.85);
+}
+
+.rootLight .tagIcon {
+	color: rgba(0 0 0 / 0.62);
+}
+
+.rootLight .subtitle {
+	color: rgba(0 0 0 / 0.78);
+}
+
+.rootLight .rail {
+	background: linear-gradient(180deg, var(--color-accent-3), rgba(0 0 0 / 0.10), var(--color-accent-2));
+}
+
+.rootLight .step {
+	border-color: rgba(0 0 0 / 0.12);
+	background: rgba(255 255 255 / 0.85);
+	backdrop-filter: blur(8px);
+}
+
+.rootLight .stepTitle {
+	color: rgba(0 0 0 / 0.88);
+}
+
+.rootLight .text {
+	color: rgba(0 0 0 / 0.74);
+}
+
+.rootLight .badge {
+	border-color: rgba(0 0 0 / 0.12);
+}
+
+.rootLight .badge::after {
+	background: radial-gradient(circle at 30% 30%, rgba(0 0 0 / 0.10), transparent 60%);
+	opacity: .55;
+}
+
 .head {
 	position: relative;
 	z-index: 1;

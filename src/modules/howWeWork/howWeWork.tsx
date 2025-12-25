@@ -36,8 +36,8 @@ function IconFlow() {
   )
 }
 
-const HowWeWork: FC<HowWeWorkProps> = ({ className, title, subtitle, steps }) => {
-  const rootClassName = classNames(styles.root, className)
+const HowWeWork: FC<HowWeWorkProps> = ({ className, variant = 'dark', title, subtitle, steps }) => {
+  const rootClassName = classNames(styles.root, variant === 'light' && styles.rootLight, className)
   const wrapRef = useRef<HTMLDivElement | null>(null)
 
   const data = useMemo(() => (steps ?? []).filter(Boolean), [steps])

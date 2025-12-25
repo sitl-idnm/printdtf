@@ -1,14 +1,15 @@
 import { ReactNode } from 'react'
 
-export interface HowWeWorkStep {
+export interface KeyAdvantageItem {
   title: string
   text: string | ReactNode
 }
 
-export interface HowWeWorkProps {
+export interface KeyAdvantagesProps {
   className?: string
-  variant?: 'dark' | 'light'
   title: string
   subtitle?: string | ReactNode
-  steps: HowWeWorkStep[]
+  items: KeyAdvantageItem[]
+  note?: string | ReactNode
 }
+
