@@ -6,9 +6,9 @@
 	width: 100%;
 	padding: clamp(28px, 6vw, 80px) clamp(12px, 4vw, 40px);
 	background:
-		linear-gradient(180deg, rgba(186 171 255 / 0.18) 0%, rgba(255 255 255 / 0) 35%),
-		#fff;
-	color: #000;
+		linear-gradient(180deg, color-mix(in srgb, var(--color-accent-3) 18%, transparent) 0%, transparent 35%),
+		var(--color-white-default);
+	color: var(--color-black-default);
 	position: relative;
 	overflow: hidden;
 }
@@ -43,9 +43,9 @@
 	font-weight: 800;
 	text-transform: uppercase;
 	letter-spacing: .1em;
-	color: rgba(0 0 0 / 0.7);
-	border: 1px solid rgba(0 0 0 / 0.12);
-	background: rgba(255 255 255 / 0.8);
+	color: color-mix(in srgb, var(--color-black-default) 70%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-black-default) 12%, transparent);
+	background: color-mix(in srgb, var(--color-white-default) 80%, transparent);
 }
 
 .list {
@@ -62,7 +62,7 @@
 	top: 6px;
 	bottom: 6px;
 	width: 2px;
-	background: linear-gradient(180deg, var(--color-accent-3), rgba(0 0 0 / 0.06), var(--color-accent-2));
+	background: linear-gradient(180deg, var(--color-accent-3), color-mix(in srgb, var(--color-black-default) 6%, transparent), var(--color-accent-2));
 	opacity: .55;
 }
 
@@ -73,8 +73,8 @@
 	gap: 14px;
 	align-items: flex-start;
 
-	background: #fff;
-	border: 1px solid rgba(0 0 0 / 0.1);
+	background: var(--color-white-default);
+	border: 1px solid color-mix(in srgb, var(--color-black-default) 10%, transparent);
 	padding: clamp(14px, 2.6vw, 20px);
 
 	opacity: 0;
@@ -87,8 +87,8 @@
 	@include desktop-only {
 		&:hover {
 			transform: translateY(-4px);
-			border-color: rgba(0 0 0 / 0.16);
-			box-shadow: 0 14px 32px rgba(0 0 0 / 0.12);
+			border-color: color-mix(in srgb, var(--color-black-default) 16%, transparent);
+			box-shadow: 0 14px 32px color-mix(in srgb, var(--color-black-default) 12%, transparent);
 		}
 	}
 
@@ -108,9 +108,9 @@
 	height: 44px;
 	display: grid;
 	place-items: center;
-	color: #fff;
+	color: var(--color-white-default);
 	background: linear-gradient(135deg, var(--color-accent-3), var(--color-accent-2));
-	border: 1px solid rgba(0 0 0 / 0.12);
+	border: 1px solid color-mix(in srgb, var(--color-black-default) 12%, transparent);
 	border-radius: 999px;
 	position: relative;
 	z-index: 1;
@@ -125,7 +125,7 @@
 	font-size: 12px;
 	letter-spacing: .12em;
 	text-transform: uppercase;
-	color: rgba(0 0 0 / 0.55);
+	color: color-mix(in srgb, var(--color-black-default) 55%, transparent);
 	margin-bottom: 6px;
 }
 
@@ -133,7 +133,7 @@
 	position: relative;
 	font-size: clamp(14px, 1.7vw, 18px);
 	line-height: 1.55;
-	color: rgba(0 0 0 / 0.82);
+	color: color-mix(in srgb, var(--color-black-default) 82%, transparent);
 	font-weight: 500;
 }
 
@@ -144,7 +144,7 @@
 	text-transform: uppercase;
 	letter-spacing: .06em;
 	margin: 0 0 10px;
-	color: rgba(0 0 0 / 0.86);
+	color: color-mix(in srgb, var(--color-black-default) 86%, transparent);
 }
 
 .text ul {

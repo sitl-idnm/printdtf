@@ -1,5 +1,25 @@
 @use "@styles/func";
 @use "@styles/mixins";
 @use "@styles/variables";
-  
-.root {}
+
+.root {
+  // Override color variables for logistika page
+  --color-blue: var(--logistika-color-blue);
+  --color-blue-border: var(--logistika-color-blue-border);
+  --color-accent-1: var(--logistika-color-accent-1);
+  --color-accent-1-opacity30: var(--logistika-color-accent-1-opacity30);
+  --color-accent-2: var(--logistika-color-accent-2);
+  --color-accent-3: var(--logistika-color-accent-3);
+  --color-accent-4: var(--logistika-color-accent-4);
+  --color-accent-2-opacity30: var(--logistika-color-accent-2-opacity30);
+  --color-background: var(--logistika-color-background);
+  --color-additional: var(--logistika-color-additional);
+  --color-neutral: var(--logistika-color-neutral);
+  --color-dark-bg: var(--logistika-color-dark-bg);
+  --color-light-gray: var(--logistika-color-light-gray);
+  --color-light-gray-2: var(--logistika-color-light-gray-2);
+  --color-success: var(--logistika-color-success);
+  --color-warning: var(--logistika-color-warning);
+  --color-info: var(--logistika-color-info);
+  --color-tone: var(--logistika-color-tone);
+}

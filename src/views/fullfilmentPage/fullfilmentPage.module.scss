@@ -1,5 +1,25 @@
 @use "@styles/func";
 @use "@styles/mixins";
 @use "@styles/variables";
-  
-.root {}
+
+.root {
+  // Override color variables for fulfillment page
+  --color-blue: var(--fulfillment-color-blue);
+  --color-blue-border: var(--fulfillment-color-blue-border);
+  --color-accent-1: var(--fulfillment-color-accent-1);
+  --color-accent-1-opacity30: var(--fulfillment-color-accent-1-opacity30);
+  --color-accent-2: var(--fulfillment-color-accent-2);
+  --color-accent-3: var(--fulfillment-color-accent-3);
+  --color-accent-4: var(--fulfillment-color-accent-4);
+  --color-accent-2-opacity30: var(--fulfillment-color-accent-2-opacity30);
+  --color-background: var(--fulfillment-color-background);
+  --color-additional: var(--fulfillment-color-additional);
+  --color-neutral: var(--fulfillment-color-neutral);
+  --color-dark-bg: var(--fulfillment-color-dark-bg);
+  --color-light-gray: var(--fulfillment-color-light-gray);
+  --color-light-gray-2: var(--fulfillment-color-light-gray-2);
+  --color-success: var(--fulfillment-color-success);
+  --color-warning: var(--fulfillment-color-warning);
+  --color-info: var(--fulfillment-color-info);
+  --color-tone: var(--fulfillment-color-tone);
+}

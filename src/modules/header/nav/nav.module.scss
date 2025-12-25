@@ -27,7 +27,7 @@
 			opacity: 0;
 
 			background-color: var(--color-background);
-			color: black;
+			color: var(--color-black-default);
 			font-size: 20px;
 
 			transition: background 0.3s ease, color 0.3s ease;
@@ -45,11 +45,25 @@
 
 			&:hover {
 				background-color: var(--color-accent-1);
-				color: white;
+				color: var(--color-white-default);
 			}
 
 			a:hover {
 				opacity: 1;
+			}
+
+			// Override colors for fulfillment page
+			body[data-page-theme="fulfillment"] & {
+				--color-background: var(--fulfillment-color-background);
+				--color-accent-1: var(--fulfillment-color-accent-1);
+				--color-accent-2: var(--fulfillment-color-accent-2);
+			}
+
+			// Override colors for logistika page
+			body[data-page-theme="logistika"] & {
+				--color-background: var(--logistika-color-background);
+				--color-accent-1: var(--logistika-color-accent-1);
+				--color-accent-2: var(--logistika-color-accent-2);
 			}
 		}
 
@@ -63,6 +77,16 @@
 
 		&_item_active {
 			background-color: var(--color-accent-2);
+
+			// Override colors for fulfillment page
+			body[data-page-theme="fulfillment"] & {
+				--color-accent-2: var(--fulfillment-color-accent-2);
+			}
+
+			// Override colors for logistika page
+			body[data-page-theme="logistika"] & {
+				--color-accent-2: var(--logistika-color-accent-2);
+			}
 		}
 	}
 
@@ -87,18 +111,30 @@
 			svg {
 				g {
 					line {
-						stroke: white;
+						stroke: var(--color-white-default);
 					}
 				}
 
 				rect {
-					fill: white;
+					fill: var(--color-white-default);
 				}
 
 				line {
-					stroke: white;
+					stroke: var(--color-white-default);
 				}
 			}
+		}
+
+		// Override colors for fulfillment page
+		body[data-page-theme="fulfillment"] & {
+			--color-background: var(--fulfillment-color-background);
+			--color-accent-1: var(--fulfillment-color-accent-1);
+		}
+
+		// Override colors for logistika page
+		body[data-page-theme="logistika"] & {
+			--color-background: var(--logistika-color-background);
+			--color-accent-1: var(--logistika-color-accent-1);
 		}
 
 		svg {

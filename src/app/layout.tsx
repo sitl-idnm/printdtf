@@ -8,6 +8,7 @@ import localFont from 'next/font/local'
 import { Provider } from '@service/provider'
 import ChatWidget from '@modules/chat-widget'
 import { ArrowUp } from '@/ui'
+import { PageThemeProvider } from './pageThemeProvider'
 
 const involve = localFont({
   src: [
@@ -49,17 +50,19 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={`${involve.variable} ${unbounded.variable}`}>
-        <Provider>
-          <Header />
-          <div id="smooth-wrapper">
-            <div id="smooth-content">
-              <div id="root">{children}<Footer /></div>
+        <PageThemeProvider>
+          <Provider>
+            <Header />
+            <div id="smooth-wrapper">
+              <div id="smooth-content">
+                <div id="root">{children}<Footer /></div>
+              </div>
             </div>
-          </div>
-          <div id="modal-root" />
-          <ChatWidget />
-          <ArrowUp />
-        </Provider>
+            <div id="modal-root" />
+            <ChatWidget />
+            <ArrowUp />
+          </Provider>
+        </PageThemeProvider>
       </body>
     </html>
   )

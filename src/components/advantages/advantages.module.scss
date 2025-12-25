@@ -164,6 +164,21 @@
 				}
 			}
 
+			.iconWrapper {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 32px;
+				height: 32px;
+				margin-bottom: 8px;
+
+				svg {
+					width: 24px;
+					height: 24px;
+					color: white;
+				}
+			}
+
 			.number {
 				font-family: var(--font-unbounded);
 				font-size: 18px;

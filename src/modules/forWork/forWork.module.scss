@@ -5,8 +5,8 @@
 .root {
 	width: 100%;
 	padding: clamp(28px, 6vw, 80px) clamp(12px, 4vw, 40px);
-	background: #fff;
-	color: #000;
+	background: var(--color-white-default);
+	color: var(--color-black-default);
 }
 
 .title {
@@ -31,11 +31,11 @@
 .card {
 	position: relative;
 	background:
-		radial-gradient(1200px 420px at -10% -20%, rgba(107 72 255 / 0.22) 0%, transparent 50%),
-		radial-gradient(900px 380px at 110% 0%, rgba(0 245 192 / 0.18) 0%, transparent 45%),
-		#0b0b10;
-	color: #fff;
-	border: 1px solid rgba(255 255 255 / 0.12);
+		radial-gradient(1200px 420px at -10% -20%, color-mix(in srgb, var(--color-accent-1) 22%, transparent) 0%, transparent 50%),
+		radial-gradient(900px 380px at 110% 0%, color-mix(in srgb, var(--color-accent-2) 18%, transparent) 0%, transparent 45%),
+		var(--color-dark-bg);
+	color: var(--color-white-default);
+	border: 1px solid color-mix(in srgb, var(--color-white-default) 12%, transparent);
 	border-radius: 0;
 	overflow: hidden;
 	min-height: 140px;
@@ -51,7 +51,7 @@
 		position: absolute;
 		inset: 0;
 		pointer-events: none;
-		background: linear-gradient(135deg, rgba(255 255 255 / 0.16), transparent 40%, rgba(255 255 255 / 0.06));
+		background: linear-gradient(135deg, color-mix(in srgb, var(--color-white-default) 16%, transparent), transparent 40%, color-mix(in srgb, var(--color-white-default) 6%, transparent));
 		opacity: .5;
 		transition: opacity .35s ease;
 	}
@@ -70,8 +70,8 @@
 	@include desktop-only {
 		&:hover {
 			transform: translateY(-6px) rotate(-1deg);
-			border-color: rgba(255 255 255 / 0.22);
-			box-shadow: 0 18px 44px rgba(0 0 0 / 0.35);
+			border-color: color-mix(in srgb, var(--color-white-default) 22%, transparent);
+			box-shadow: 0 18px 44px color-mix(in srgb, var(--color-black-default) 35%, transparent);
 		}
 		&:hover::before { opacity: .85; }
 	}
@@ -86,6 +86,6 @@
 	margin: 0;
 	font-size: clamp(14px, 1.7vw, 18px);
 	line-height: 1.55;
-	color: rgba(255 255 255 / 0.88);
+	color: color-mix(in srgb, var(--color-white-default) 88%, transparent);
 	font-weight: 500;
 }

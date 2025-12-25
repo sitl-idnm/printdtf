@@ -8,6 +8,16 @@
   padding-bottom: func.rem(24);
   color: var(--color-white-default);
   background-color: var(--color-blue);
+
+  // Override colors for fulfillment page
+  body[data-page-theme="fulfillment"] & {
+    --color-blue: var(--fulfillment-color-blue);
+  }
+
+  // Override colors for logistika page
+  body[data-page-theme="logistika"] & {
+    --color-blue: var(--logistika-color-blue);
+  }
   background-position: center;
   background-size: cover;
   background-repeat: repeat;

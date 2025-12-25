@@ -10,6 +10,7 @@ export interface AdvantagesProps {
 }
 
 export interface arrItem {
-  num: string
+  num?: string
+  icon?: ReactNode
   text: string | ReactNode
 }
