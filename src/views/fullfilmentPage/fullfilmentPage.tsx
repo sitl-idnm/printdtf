@@ -7,6 +7,8 @@ import { FullfilmentPageProps } from './fullfilmentPage.types'
 import { PrintHero } from '@/modules/printHero'
 import { WhoWeAre } from '@/modules/whoWeAre'
 import { KeyAdvantages } from '@/modules/keyAdvantages'
+import { ForWork } from '@/modules/forWork'
+import { Marketplaces } from '@/modules/marketplaces'
 import { HowWeWork } from '@/modules/howWeWork'
 import { Services } from '@/modules/services'
 import { Faq } from '@/modules/faq'
@@ -15,6 +17,11 @@ import { Contacts } from '@/modules/contacts'
 
 const contactsAddresses = [
   { text: 'Адрес основного склада/офиса в Москве с удобным выездом к ключевым складам WB и Ozon.' }
+]
+
+const forWorkItems = [
+  { text: 'Селлеры на WB и Ozon, которым важно стабильно довозить поставки без отмен.' },
+  { text: 'Фулфилменты без автопарка, которым нужно надёжно отправлять грузы на склады маркетплейсов.' }
 ]
 
 const whoWeAreItems = [
@@ -182,6 +189,11 @@ const FullfilmentPage: FC<FullfilmentPageProps> = ({
         items={keyAdvantagesItems}
         note={<>Десятки клиентов сократили расходы на маркировку и логистику благодаря оптимизированным процессам.</>}
       />
+      <ForWork
+        title="Для кого работаем"
+        textArr={forWorkItems}
+      />
+      <Marketplaces title="С какими маркетплейсами работаем" />
       <HowWeWork
         variant="light"
         title="Как мы работаем"
