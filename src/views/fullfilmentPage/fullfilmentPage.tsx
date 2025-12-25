@@ -9,11 +9,13 @@ import { WhoWeAre } from '@/modules/whoWeAre'
 import { KeyAdvantages } from '@/modules/keyAdvantages'
 import { ForWork } from '@/modules/forWork'
 import { Marketplaces } from '@/modules/marketplaces'
+import { BeforeAfter } from '@/modules/beforeAfter'
 import { HowWeWork } from '@/modules/howWeWork'
 import { Services } from '@/modules/services'
 import { Faq } from '@/modules/faq'
 import { DynamicBackground } from '@/ui'
 import { Contacts } from '@/modules/contacts'
+import { ServicePriceList } from '@/modules/servicePriceList'
 
 const contactsAddresses = [
   { text: 'Адрес основного склада/офиса в Москве с удобным выездом к ключевым складам WB и Ozon.' }
@@ -22,6 +24,33 @@ const contactsAddresses = [
 const forWorkItems = [
   { text: 'Селлеры на WB и Ozon, которым важно стабильно довозить поставки без отмен.' },
   { text: 'Фулфилменты без автопарка, которым нужно надёжно отправлять грузы на склады маркетплейсов.' }
+]
+
+const beforeAfterItems = [
+  {
+    beforeImage: '/images/before-after-1-before.jpg',
+    afterImage: '/images/before-after-1-after.jpg',
+    beforeLabel: 'Приняли от поставщика',
+    afterLabel: 'Отправили на маркетплейс',
+    title: 'Упаковка и подготовка',
+    description: 'Аккуратная упаковка товара по требованиям маркетплейсов'
+  },
+  {
+    beforeImage: '/images/before-after-2-before.jpg',
+    afterImage: '/images/before-after-2-after.jpg',
+    beforeLabel: 'До обработки',
+    afterLabel: 'После обработки',
+    title: 'Маркировка и стикеровка',
+    description: 'Нанесение стикеров и маркировки под требования WB и Ozon'
+  },
+  {
+    beforeImage: '/images/before-after-3-before.jpg',
+    afterImage: '/images/before-after-3-after.jpg',
+    beforeLabel: 'До консолидации',
+    afterLabel: 'После консолидации',
+    title: 'Консолидация поставок',
+    description: 'Формирование паллет и подготовка к отгрузке'
+  }
 ]
 
 const whoWeAreItems = [
@@ -121,6 +150,77 @@ const warehousingItems = [
   }
 ]
 
+const servicePriceListSections = [
+  {
+    id: 'logistics',
+    title: '1. Логистика',
+    items: [
+      { id: 'log-1', title: '1. С рынков Москвы: Южные ворота, Садовод, ТЯК Москва' },
+      { id: 'log-1-1', title: '1.1. По Москве и МО' },
+      { id: 'log-1-2', title: '1.2. Доставка товара объемом от 1 м³ до 2 м³' },
+      { id: 'log-1-3', title: '1.3. Доставка более 2-х паллетов', isNegotiable: true },
+      { id: 'log-1-4', title: '1.4. Забор товара со Сдэк (нужны будут данные)' },
+      { id: 'log-1-5', title: '1.5. Схема FBS (Ozon, Wildberries, Яндекс, СберМегаМаркет Марушкинское)' }
+    ]
+  },
+  {
+    id: 'pallet',
+    title: '1.2. Формирование паллета для отгрузки',
+    items: [
+      { id: 'pal-1', title: '1.2.1. Паллет деревянный (1200*800 мм)' },
+      { id: 'pal-2', title: '1.2.2. Формирование паллета: паллет + сборка + упаковка в стретч-пленку' }
+    ]
+  },
+  {
+    id: 'goods-services',
+    title: '2. Услуги по работе с товаром',
+    items: [
+      { id: 'goods-1', title: '2.1. Маркировка одинарная' },
+      { id: 'goods-2', title: '2.2. Маркировка двойная' },
+      { id: 'goods-3', title: '2.3. Дополнительная наклейка' },
+      { id: 'goods-4', title: '2.4. Честный знак' },
+      { id: 'goods-5', title: '2.5. Приемка товара, пересчет' },
+      { id: 'goods-6', title: '2.6. QR поставка + сканирование' },
+      { id: 'goods-7', title: '2.7. Отпаривание (разных параметров)' }
+    ]
+  },
+  {
+    id: 'packaging',
+    title: '3. Упаковка товара',
+    items: [
+      { id: 'pack-1', title: '3.1. Упаковка в пакет ВПП' },
+      { id: 'pack-2', title: '3.2. Упаковка в пакеты Zip-Lock (Зип-Лок)' },
+      { id: 'pack-3', title: '3.3. Упаковка в Zip пакеты-слайдеры (с бегунком)' },
+      { id: 'pack-4', title: '3.4. Упаковка в БОПП пакеты' },
+      { id: 'pack-5', title: '3.5. Упаковка в пупырку + пакет' },
+      { id: 'pack-6', title: '3.6. Упаковка в курьерский пакет' },
+      { id: 'pack-7', title: '3.7. Пупырчатая пленка' },
+      { id: 'pack-8', title: '3.8. Упаковка в коробку' },
+      { id: 'pack-9', title: '3.9. Термоусадка до 1 литра' }
+    ]
+  },
+  {
+    id: 'additional',
+    title: '4. Дополнительные услуги',
+    items: [
+      { id: 'add-1', title: '4.1. Дизайн карточек товара простой' },
+      { id: 'add-2', title: '4.2. Дизайн карточек индивидуальный' },
+      { id: 'add-3', title: '4.3. Создание карточки товара в ЛК - полное описание' },
+      { id: 'add-4', title: '4.4. Создание поставки в ЛК поставщика' }
+    ]
+  },
+  {
+    id: 'turnkey',
+    title: '5. Фулфилмент "под ключ"',
+    items: [
+      { id: 'turn-1', title: '5.1. Продвижение товара' },
+      { id: 'turn-2', title: '5.2. Настройка рекламных кампаний' },
+      { id: 'turn-3', title: '5.3. Самовыкупы' },
+      { id: 'turn-4', title: '5.4. Ведение личного кабинета под ключ' }
+    ]
+  }
+]
+
 const faqData = [
   {
     title: 'Работаете ли вы по FBS и FBO/FBW?',
@@ -194,6 +294,10 @@ const FullfilmentPage: FC<FullfilmentPageProps> = ({
         textArr={forWorkItems}
       />
       <Marketplaces title="С какими маркетплейсами работаем" />
+      <BeforeAfter
+        title="До и после"
+        items={beforeAfterItems}
+      />
       <HowWeWork
         variant="light"
         title="Как мы работаем"
@@ -201,6 +305,7 @@ const FullfilmentPage: FC<FullfilmentPageProps> = ({
         steps={howWeWorkSteps}
       />
       <Services title="Логистика и хранение" items={warehousingItems} />
+      <ServicePriceList sections={servicePriceListSections} />
       <WhoWeAre
         title="Команда"
         brand="City Group"

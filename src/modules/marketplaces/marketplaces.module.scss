@@ -92,7 +92,7 @@
 
   @include desktop-only {
     &:hover {
-      transform: translateY(-6px) rotate(-0.5deg);
+      transform: translateY(-15px) rotate(10deg);
       border-color: color-mix(in srgb, var(--color-white-default) 22%, transparent);
       box-shadow: 0 18px 44px color-mix(in srgb, var(--color-black-default) 35%, transparent);
 

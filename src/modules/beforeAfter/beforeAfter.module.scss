@@ -1,0 +1,275 @@
+@use "@styles/func";
+@use "@styles/mixins" as *;
+@use "@styles/variables";
+
+.root {
+  width: 100%;
+  padding: clamp(40px, 6vw, 80px) clamp(12px, 4vw, 40px);
+  background: var(--color-white-default);
+  color: var(--color-black-default);
+  position: relative;
+  overflow: hidden;
+}
+
+.header {
+  margin-bottom: clamp(32px, 5vw, 48px);
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-unbounded);
+  font-size: clamp(28px, 5vw, 64px);
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin: 0;
+  color: var(--color-black-default);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 3vw, 32px);
+  align-items: start;
+
+  @include desktop {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include tablet {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  position: relative;
+  background: var(--color-white-default);
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-black-default) 8%, transparent);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--color-black-default) 8%, transparent);
+  transition: all 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  opacity: 0;
+  transform: translateY(50px) scale(0.95);
+  filter: blur(8px);
+  will-change: transform, opacity, filter;
+
+  @include desktop-only {
+    &:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 48px color-mix(in srgb, var(--color-black-default) 15%, transparent);
+      border-color: color-mix(in srgb, var(--color-black-default) 15%, transparent);
+    }
+  }
+}
+
+.inView {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0px);
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-dark-bg);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.beforeImage,
+.afterImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.beforeImage {
+  z-index: 1;
+}
+
+.afterImage {
+  z-index: 2;
+  clip-path: inset(0 50% 0 0);
+}
+
+.image {
+  object-fit: cover;
+  object-position: center;
+}
+
+.label {
+  position: absolute;
+  bottom: func.rem(16);
+  padding: func.rem(10) func.rem(18);
+  background: rgba(0 0 0 / 0.85);
+  backdrop-filter: blur(12px);
+  color: var(--color-white-default);
+  font-size: clamp(12px, 1.3vw, 14px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 10px;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: opacity 0.2s ease;
+
+  &[data-label="before"] {
+    left: func.rem(16);
+  }
+
+  &[data-label="after"] {
+    right: func.rem(16);
+  }
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  z-index: 5;
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-50%);
+  opacity: 0;
+  scale: 0.8;
+  pointer-events: auto;
+}
+
+.handle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-white-default);
+  border: 3px solid var(--color-accent-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent-1);
+  box-shadow:
+    0 4px 16px rgba(0 0 0 / 0.35),
+    0 0 0 6px color-mix(in srgb, var(--color-accent-1) 20%, transparent);
+  transition: all 0.2s ease;
+  will-change: transform;
+  position: relative;
+  z-index: 6;
+  flex-shrink: 0;
+  box-sizing: border-box;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  // Override colors for fulfillment page
+  body[data-page-theme="fulfillment"] & {
+    border-color: var(--fulfillment-color-accent-1);
+    color: var(--fulfillment-color-accent-1);
+    box-shadow:
+      0 4px 12px rgba(0 0 0 / 0.3),
+      0 0 0 8px color-mix(in srgb, var(--fulfillment-color-accent-1) 20%, transparent);
+  }
+
+  // Override colors for logistika page
+  body[data-page-theme="logistika"] & {
+    border-color: var(--logistika-color-accent-1);
+    color: var(--logistika-color-accent-1);
+    box-shadow:
+      0 4px 12px rgba(0 0 0 / 0.3),
+      0 0 0 8px color-mix(in srgb, var(--logistika-color-accent-1) 20%, transparent);
+  }
+
+  @include desktop-only {
+    .slider:hover & {
+      transform: scale(1.15);
+      box-shadow:
+        0 6px 16px rgba(0 0 0 / 0.4),
+        0 0 0 10px color-mix(in srgb, var(--color-accent-1) 25%, transparent);
+
+      body[data-page-theme="fulfillment"] & {
+        box-shadow:
+          0 6px 16px rgba(0 0 0 / 0.4),
+          0 0 0 10px color-mix(in srgb, var(--fulfillment-color-accent-1) 25%, transparent);
+      }
+
+      body[data-page-theme="logistika"] & {
+        box-shadow:
+          0 6px 16px rgba(0 0 0 / 0.4),
+          0 0 0 10px color-mix(in srgb, var(--logistika-color-accent-1) 25%, transparent);
+      }
+    }
+  }
+
+  @include tablet {
+    width: 44px;
+    height: 44px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: var(--color-white-default);
+  transform: translateX(-50%);
+  box-shadow:
+    0 0 12px rgba(0 0 0 / 0.4),
+    0 0 0 2px color-mix(in srgb, var(--color-accent-1) 30%, transparent);
+
+  // Override colors for fulfillment page
+  body[data-page-theme="fulfillment"] & {
+    box-shadow:
+      0 0 12px rgba(0 0 0 / 0.4),
+      0 0 0 2px color-mix(in srgb, var(--fulfillment-color-accent-1) 30%, transparent);
+  }
+
+  // Override colors for logistika page
+  body[data-page-theme="logistika"] & {
+    box-shadow:
+      0 0 12px rgba(0 0 0 / 0.4),
+      0 0 0 2px color-mix(in srgb, var(--logistika-color-accent-1) 30%, transparent);
+  }
+}
+
+.cardBody {
+  padding: func.rem(20) func.rem(24);
+  background: var(--color-white-default);
+
+  @include tablet {
+    padding: func.rem(16) func.rem(20);
+  }
+}
+
+.cardTitle {
+  font-family: var(--font-unbounded);
+  font-size: clamp(18px, 2.2vw, 22px);
+  line-height: 1.3;
+  margin: 0 0 func.rem(8) 0;
+  color: var(--color-black-default);
+}
+
+.cardDescription {
+  font-size: clamp(14px, 1.6vw, 16px);
+  line-height: 1.6;
+  margin: 0;
+  color: color-mix(in srgb, var(--color-black-default) 75%, transparent);
+}
