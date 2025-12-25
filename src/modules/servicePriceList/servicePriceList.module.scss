@@ -1,0 +1,188 @@
+@use "@styles/func";
+@use "@styles/mixins" as *;
+@use "@styles/variables";
+
+.root {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 80px) clamp(12px, 4vw, 40px);
+  background: var(--color-white-default);
+  color: var(--color-black-default);
+  position: relative;
+}
+
+.mainTitle {
+  font-family: var(--font-unbounded);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 clamp(32px, 5vw, 48px) 0;
+  color: var(--color-black-default);
+  text-align: left;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  margin-bottom: clamp(32px, 5vw, 48px);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sectionTitle {
+  font-family: var(--font-unbounded);
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 func.rem(20) 0;
+  color: var(--color-black-default);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--color-white-default);
+  border: 1px solid color-mix(in srgb, var(--color-black-default) 12%, transparent);
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: func.rem(16) func.rem(20);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-black-default) 8%, transparent);
+  transition: background-color 0.2s ease;
+  gap: func.rem(24);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  @include desktop-only {
+    &:hover {
+      background-color: color-mix(in srgb, var(--color-accent-1) 5%, transparent);
+    }
+  }
+
+  @include tablet {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: func.rem(12);
+    padding: func.rem(14) func.rem(16);
+  }
+}
+
+.itemContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  gap: func.rem(16);
+  min-width: 0;
+
+  @include tablet {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: func.rem(8);
+  }
+}
+
+.itemTitle {
+  font-size: clamp(14px, 1.8vw, 16px);
+  line-height: 1.5;
+  color: var(--color-black-default);
+  flex: 1;
+  min-width: 0;
+}
+
+.itemPrice {
+  font-size: clamp(14px, 1.8vw, 16px);
+  font-weight: 600;
+  color: var(--color-black-default);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: func.rem(16);
+
+  @include tablet {
+    margin-left: 0;
+  }
+}
+
+.dash {
+  color: color-mix(in srgb, var(--color-black-default) 40%, transparent);
+  font-weight: 400;
+}
+
+.negotiable {
+  color: var(--color-accent-1);
+  font-weight: 600;
+
+  body[data-page-theme="fulfillment"] & {
+    color: var(--fulfillment-color-accent-1);
+  }
+
+  body[data-page-theme="logistika"] & {
+    color: var(--logistika-color-accent-1);
+  }
+}
+
+.orderButton {
+  display: flex;
+  align-items: center;
+  gap: func.rem(8);
+  padding: func.rem(10) func.rem(18);
+  background: var(--color-white-default);
+  border: 1px solid color-mix(in srgb, var(--color-black-default) 20%, transparent);
+  border-radius: 0;
+  color: var(--color-black-default);
+  font-size: clamp(13px, 1.6vw, 15px);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-family: inherit;
+
+  @include tablet {
+    width: 100%;
+    justify-content: center;
+  }
+
+  &:hover {
+    background: var(--color-accent-1);
+    border-color: var(--color-accent-1);
+    color: var(--color-white-default);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-accent-1) 30%, transparent);
+
+    body[data-page-theme="fulfillment"] & {
+      background: var(--fulfillment-color-accent-1);
+      border-color: var(--fulfillment-color-accent-1);
+      box-shadow: 0 4px 12px color-mix(in srgb, var(--fulfillment-color-accent-1) 30%, transparent);
+    }
+
+    body[data-page-theme="logistika"] & {
+      background: var(--logistika-color-accent-1);
+      border-color: var(--logistika-color-accent-1);
+      box-shadow: 0 4px 12px color-mix(in srgb, var(--logistika-color-accent-1) 30%, transparent);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.orderIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: block;
+}
