@@ -45,6 +45,18 @@
 			border-radius: 50%;
 		}
 	}
+
+	// Override colors for fulfillment page
+	body[data-page-theme="fulfillment"] & {
+		--color-accent-1: var(--fulfillment-color-accent-1);
+		--color-accent-2: var(--fulfillment-color-accent-2);
+	}
+
+	// Override colors for logistika page
+	body[data-page-theme="logistika"] & {
+		--color-accent-1: var(--logistika-color-accent-1);
+		--color-accent-2: var(--logistika-color-accent-2);
+	}
 }
 
 .accent2 {

@@ -5,8 +5,8 @@
 .root {
 	width: 100%;
 	padding: clamp(28px, 6vw, 80px) clamp(12px, 4vw, 40px);
-	background: #0b0b10;
-	color: #fff;
+	background: var(--color-dark-bg);
+	color: var(--color-white-default);
 	position: relative;
 	overflow: hidden;
 }
@@ -17,63 +17,63 @@
 	inset: 0;
 	pointer-events: none;
 	background:
-		radial-gradient(1200px 520px at -10% -30%, rgba(107 72 255 / 0.30) 0%, transparent 58%),
-		radial-gradient(900px 420px at 110% 0%, rgba(0 245 192 / 0.18) 0%, transparent 52%),
-		linear-gradient(180deg, rgba(255 255 255 / 0.06) 0%, rgba(255 255 255 / 0) 44%);
+		radial-gradient(1200px 520px at -10% -30%, color-mix(in srgb, var(--color-accent-1) 30%, transparent) 0%, transparent 58%),
+		radial-gradient(900px 420px at 110% 0%, color-mix(in srgb, var(--color-accent-2) 18%, transparent) 0%, transparent 52%),
+		linear-gradient(180deg, color-mix(in srgb, var(--color-white-default) 6%, transparent) 0%, transparent 44%);
 	opacity: .95;
 }
 
 .rootLight {
-	background: #fff;
-	color: #000;
+	background: var(--color-white-default);
+	color: var(--color-black-default);
 }
 
 .rootLight::before {
 	background:
-		radial-gradient(1200px 520px at -10% -30%, rgba(107 72 255 / 0.14) 0%, transparent 60%),
-		radial-gradient(900px 420px at 110% 0%, rgba(0 245 192 / 0.10) 0%, transparent 58%),
-		linear-gradient(180deg, rgba(0 0 0 / 0.03) 0%, rgba(0 0 0 / 0) 44%);
+		radial-gradient(1200px 520px at -10% -30%, color-mix(in srgb, var(--color-accent-1) 14%, transparent) 0%, transparent 60%),
+		radial-gradient(900px 420px at 110% 0%, color-mix(in srgb, var(--color-accent-2) 10%, transparent) 0%, transparent 58%),
+		linear-gradient(180deg, color-mix(in srgb, var(--color-black-default) 3%, transparent) 0%, transparent 44%);
 	opacity: .95;
 }
 
 .rootLight .tag {
-	color: rgba(0 0 0 / 0.72);
-	border-color: rgba(0 0 0 / 0.12);
-	background: rgba(255 255 255 / 0.85);
+	color: color-mix(in srgb, var(--color-black-default) 72%, transparent);
+	border-color: color-mix(in srgb, var(--color-black-default) 12%, transparent);
+	background: color-mix(in srgb, var(--color-white-default) 85%, transparent);
 }
 
 .rootLight .tagIcon {
-	color: rgba(0 0 0 / 0.62);
+	color: color-mix(in srgb, var(--color-black-default) 62%, transparent);
 }
 
 .rootLight .subtitle {
-	color: rgba(0 0 0 / 0.78);
+	color: color-mix(in srgb, var(--color-black-default) 78%, transparent);
 }
 
 .rootLight .rail {
-	background: linear-gradient(180deg, var(--color-accent-3), rgba(0 0 0 / 0.10), var(--color-accent-2));
+	background: linear-gradient(180deg, var(--color-accent-3), color-mix(in srgb, var(--color-black-default) 10%, transparent), var(--color-accent-2));
 }
 
 .rootLight .step {
-	border-color: rgba(0 0 0 / 0.12);
-	background: rgba(255 255 255 / 0.85);
+	border-color: color-mix(in srgb, var(--color-black-default) 12%, transparent);
+	background: color-mix(in srgb, var(--color-white-default) 85%, transparent);
 	backdrop-filter: blur(8px);
 }
 
 .rootLight .stepTitle {
-	color: rgba(0 0 0 / 0.88);
+	color: color-mix(in srgb, var(--color-black-default) 88%, transparent);
 }
 
 .rootLight .text {
-	color: rgba(0 0 0 / 0.74);
+	color: color-mix(in srgb, var(--color-black-default) 74%, transparent);
 }
 
 .rootLight .badge {
-	border-color: rgba(0 0 0 / 0.12);
+	border-color: color-mix(in srgb, var(--color-black-default) 12%, transparent);
 }
 
 .rootLight .badge::after {
-	background: radial-gradient(circle at 30% 30%, rgba(0 0 0 / 0.10), transparent 60%);
+	background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--color-black-default) 10%, transparent), transparent 60%);
 	opacity: .55;
 }
 
@@ -115,23 +115,23 @@
 	font-weight: 800;
 	text-transform: uppercase;
 	letter-spacing: .12em;
-	color: rgba(255 255 255 / 0.82);
-	border: 1px solid rgba(255 255 255 / 0.16);
-	background: rgba(0 0 0 / 0.25);
+	color: color-mix(in srgb, var(--color-white-default) 82%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-white-default) 16%, transparent);
+	background: color-mix(in srgb, var(--color-black-default) 25%, transparent);
 	backdrop-filter: blur(8px);
 }
 
 .tagIcon {
 	width: 18px;
 	height: 18px;
-	color: rgba(255 255 255 / 0.82);
+	color: color-mix(in srgb, var(--color-white-default) 82%, transparent);
 }
 
 .subtitle {
 	margin: 0;
 	font-size: clamp(14px, 1.8vw, 18px);
 	line-height: 1.55;
-	color: rgba(255 255 255 / 0.82);
+	color: color-mix(in srgb, var(--color-white-default) 82%, transparent);
 	font-weight: 500;
 }
 
@@ -149,7 +149,7 @@
 	top: 4px;
 	bottom: 4px;
 	width: 2px;
-	background: linear-gradient(180deg, var(--color-accent-3), rgba(255 255 255 / 0.10), var(--color-accent-2));
+	background: linear-gradient(180deg, var(--color-accent-3), color-mix(in srgb, var(--color-white-default) 10%, transparent), var(--color-accent-2));
 	opacity: .55;
 
 	@include mobile-large {
@@ -165,8 +165,8 @@
 	align-items: flex-start;
 
 	padding: clamp(14px, 2.6vw, 20px);
-	border: 1px solid rgba(255 255 255 / 0.14);
-	background: rgba(255 255 255 / 0.06);
+	border: 1px solid color-mix(in srgb, var(--color-white-default) 14%, transparent);
+	background: color-mix(in srgb, var(--color-white-default) 6%, transparent);
 	backdrop-filter: blur(10px);
 
 	opacity: 0;
@@ -181,8 +181,8 @@
 
 		&:hover {
 			transform: translateY(-4px);
-			border-color: rgba(255 255 255 / 0.20);
-			box-shadow: 0 16px 44px rgba(0 0 0 / 0.35);
+			border-color: color-mix(in srgb, var(--color-white-default) 20%, transparent);
+			box-shadow: 0 16px 44px color-mix(in srgb, var(--color-black-default) 35%, transparent);
 		}
 	}
 
@@ -205,10 +205,10 @@
 	display: grid;
 	place-items: center;
 	position: relative;
-	color: #0b0b10;
+	color: var(--color-dark-bg);
 
 	background: linear-gradient(135deg, var(--color-accent-3), var(--color-accent-2));
-	border: 1px solid rgba(255 255 255 / 0.18);
+	border: 1px solid color-mix(in srgb, var(--color-white-default) 18%, transparent);
 
 	@include mobile-large {
 		width: 40px;
@@ -221,9 +221,30 @@
 	position: absolute;
 	inset: -3px;
 	border-radius: 999px;
-	background: radial-gradient(circle at 30% 30%, rgba(255 255 255 / 0.35), transparent 55%);
+	background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--color-white-default) 35%, transparent), transparent 55%);
 	opacity: .9;
 	pointer-events: none;
+}
+
+.iconWrapper {
+	width: 38px;
+	height: 38px;
+	display: grid;
+	place-items: center;
+	border-radius: 999px;
+	color: var(--color-white-default);
+	background: linear-gradient(135deg, var(--color-accent-3), var(--color-accent-2));
+	border: 1px solid rgba(255 255 255 / 0.16);
+
+	svg {
+		width: 20px;
+		height: 20px;
+	}
+}
+
+.rootLight .iconWrapper {
+	color: var(--color-dark-bg);
+	background: linear-gradient(135deg, var(--color-accent-3), var(--color-accent-2));
 }
 
 .num {
@@ -243,13 +264,13 @@
 	font-family: var(--font-unbounded);
 	font-size: clamp(16px, 2.2vw, 18px);
 	line-height: 1.25;
-	color: rgba(255 255 255 / 0.92);
+	color: color-mix(in srgb, var(--color-white-default) 92%, transparent);
 }
 
 .text {
 	margin: 8px 0 0;
 	font-size: clamp(14px, 1.7vw, 16px);
 	line-height: 1.55;
-	color: rgba(255 255 255 / 0.80);
+	color: color-mix(in srgb, var(--color-white-default) 80%, transparent);
 	font-weight: 500;
 }

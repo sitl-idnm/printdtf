@@ -5,7 +5,7 @@
 
 .root {
 	width: 100%;
-	background-color: black;
+	background-color: var(--color-black-default);
 
 	@include tablet-small {
 		padding: 40px 8px;
@@ -44,8 +44,8 @@
 				max-width: 416px;
 				height: 357px;
 				width: 100%;
-				background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-				border: 1px solid rgba(0 0 0 / 0.08);
+				background: linear-gradient(135deg, var(--color-white-default) 0%, var(--color-light-gray-2) 100%);
+				border: 1px solid color-mix(in srgb, var(--color-black-default) 8%, transparent);
 				overflow: hidden;
 				transition: all 0.4s cubic-bezier(.2, .7, .2, 1);
 
@@ -70,7 +70,7 @@
 					content: "";
 					position: absolute;
 					inset: 0;
-					background: linear-gradient(135deg, rgba(186 171 255 / 0.05) 0%, rgba(56 97 251 / 0.05) 100%);
+					background: linear-gradient(135deg, color-mix(in srgb, var(--color-accent-3) 5%, transparent) 0%, color-mix(in srgb, var(--color-blue) 5%, transparent) 100%);
 					opacity: 0;
 					transition: opacity 0.4s ease;
 					pointer-events: none;
@@ -79,8 +79,8 @@
 				@include desktop-only {
 					&:hover {
 						transform: translateY(-8px);
-						box-shadow: 0 16px 40px rgba(0 0 0 / 0.12), 0 4px 16px rgba(0 0 0 / 0.08);
-						border-color: rgba(0 0 0 / 0.12);
+						box-shadow: 0 16px 40px color-mix(in srgb, var(--color-black-default) 12%, transparent), 0 4px 16px color-mix(in srgb, var(--color-black-default) 8%, transparent);
+						border-color: color-mix(in srgb, var(--color-black-default) 12%, transparent);
 
 						&::before {
 							transform: scaleX(1);
@@ -93,7 +93,7 @@
 						.number {
 							transform: scale(1.1) rotate(5deg);
 							background: linear-gradient(135deg, var(--color-accent-3) 0%, var(--color-accent-2) 100%);
-							color: #fff;
+							color: var(--color-white-default);
 						}
 					}
 				}
@@ -127,7 +127,7 @@
 						font-weight: 400;
 						font-size: 16px;
 						line-height: 1.6;
-						color: rgba(0 0 0 / 0.75);
+						color: color-mix(in srgb, var(--color-black-default) 75%, transparent);
 
 						@include tablet {
 							font-size: 14px;
@@ -138,7 +138,7 @@
 							display: inline-flex;
 							align-items: center;
 							justify-content: center;
-							background: linear-gradient(135deg, rgba(186 171 255 / 0.15) 0%, rgba(56 97 251 / 0.15) 100%);
+							background: linear-gradient(135deg, color-mix(in srgb, var(--color-accent-3) 15%, transparent) 0%, color-mix(in srgb, var(--color-blue) 15%, transparent) 100%);
 							color: var(--color-accent-3);
 							width: 40px;
 							height: 40px;
@@ -180,8 +180,8 @@
 				max-width: 416px;
 				height: 357px;
 				width: 100%;
-				background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-				border: 1px solid rgba(0 0 0 / 0.08);
+				background: linear-gradient(135deg, var(--color-white-default) 0%, var(--color-light-gray-2) 100%);
+				border: 1px solid color-mix(in srgb, var(--color-black-default) 8%, transparent);
 				overflow: hidden;
 				transition: all 0.4s cubic-bezier(.2, .7, .2, 1);
 
@@ -202,7 +202,7 @@
 					content: "";
 					position: absolute;
 					inset: 0;
-					background: linear-gradient(135deg, rgba(186 171 255 / 0.05) 0%, rgba(56 97 251 / 0.05) 100%);
+					background: linear-gradient(135deg, color-mix(in srgb, var(--color-accent-3) 5%, transparent) 0%, color-mix(in srgb, var(--color-blue) 5%, transparent) 100%);
 					opacity: 0;
 					transition: opacity 0.4s ease;
 					pointer-events: none;
@@ -211,8 +211,8 @@
 				@include desktop-only {
 					&:hover {
 						transform: translateY(-8px);
-						box-shadow: 0 16px 40px rgba(0 0 0 / 0.12), 0 4px 16px rgba(0 0 0 / 0.08);
-						border-color: rgba(0 0 0 / 0.12);
+						box-shadow: 0 16px 40px color-mix(in srgb, var(--color-black-default) 12%, transparent), 0 4px 16px color-mix(in srgb, var(--color-black-default) 8%, transparent);
+						border-color: color-mix(in srgb, var(--color-black-default) 12%, transparent);
 
 						&::before {
 							transform: scaleX(1);
@@ -225,7 +225,7 @@
 						.number {
 							transform: scale(1.1) rotate(5deg);
 							background: linear-gradient(135deg, var(--color-accent-3) 0%, var(--color-accent-2) 100%);
-							color: #fff;
+							color: var(--color-white-default);
 						}
 					}
 				}
@@ -259,7 +259,7 @@
 						font-weight: 400;
 						font-size: 16px;
 						line-height: 1.6;
-						color: rgba(0 0 0 / 0.75);
+						color: color-mix(in srgb, var(--color-black-default) 75%, transparent);
 
 						@include tablet {
 							font-size: 14px;
@@ -270,7 +270,7 @@
 							display: inline-flex;
 							align-items: center;
 							justify-content: center;
-							background: linear-gradient(135deg, rgba(186 171 255 / 0.15) 0%, rgba(56 97 251 / 0.15) 100%);
+							background: linear-gradient(135deg, color-mix(in srgb, var(--color-accent-3) 15%, transparent) 0%, color-mix(in srgb, var(--color-blue) 15%, transparent) 100%);
 							color: var(--color-accent-3);
 							width: 40px;
 							height: 40px;

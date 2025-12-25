@@ -5,8 +5,8 @@
 .root {
 	width: 100%;
 	padding: clamp(28px, 6vw, 80px) clamp(12px, 4vw, 40px);
-	background: #fff;
-	color: #000;
+	background: var(--color-white-default);
+	color: var(--color-black-default);
 	position: relative;
 	overflow: hidden;
 }
@@ -17,9 +17,9 @@
 	inset: 0;
 	pointer-events: none;
 	background:
-		radial-gradient(1000px 420px at -10% -20%, rgba(107 72 255 / 0.16) 0%, transparent 55%),
-		radial-gradient(900px 380px at 110% 0%, rgba(0 245 192 / 0.12) 0%, transparent 55%),
-		linear-gradient(180deg, rgba(0 0 0 / 0.02), rgba(0 0 0 / 0));
+		radial-gradient(1000px 420px at -10% -20%, color-mix(in srgb, var(--color-accent-1) 16%, transparent) 0%, transparent 55%),
+		radial-gradient(900px 380px at 110% 0%, color-mix(in srgb, var(--color-accent-2) 12%, transparent) 0%, transparent 55%),
+		linear-gradient(180deg, color-mix(in srgb, var(--color-black-default) 2%, transparent), transparent);
 	opacity: .95;
 }
 
@@ -37,9 +37,9 @@
 }
 
 .panel {
-	border: 1px solid rgba(0 0 0 / 0.10);
-	background: rgba(255 255 255 / 0.85);
-	box-shadow: 0 10px 24px rgba(0 0 0 / 0.06);
+	border: 1px solid color-mix(in srgb, var(--color-black-default) 10%, transparent);
+	background: color-mix(in srgb, var(--color-white-default) 85%, transparent);
+	box-shadow: 0 10px 24px color-mix(in srgb, var(--color-black-default) 6%, transparent);
 	padding: clamp(16px, 2.8vw, 22px);
 }
 
@@ -55,7 +55,7 @@
 	margin: 0;
 	font-size: clamp(14px, 1.8vw, 18px);
 	line-height: 1.55;
-	color: rgba(0 0 0 / 0.78);
+	color: color-mix(in srgb, var(--color-black-default) 78%, transparent);
 	font-weight: 500;
 }
 
@@ -64,12 +64,12 @@
 	font-size: 16px;
 	line-height: 1.5;
 	font-weight: 600;
-	color: rgba(0 0 0 / 0.82);
+	color: color-mix(in srgb, var(--color-black-default) 82%, transparent);
 }
 
 .sep {
 	height: 1px;
-	background: rgba(0 0 0 / 0.14);
+	background: color-mix(in srgb, var(--color-black-default) 14%, transparent);
 	margin: 18px 0;
 }
 
@@ -79,7 +79,7 @@
 	letter-spacing: .08em;
 	text-transform: uppercase;
 	margin: 0 0 10px;
-	color: rgba(0 0 0 / 0.68);
+	color: color-mix(in srgb, var(--color-black-default) 68%, transparent);
 }
 
 .list {
@@ -102,9 +102,9 @@
 	align-items: center;
 	gap: 8px;
 	padding: 10px 12px;
-	border: 1px solid rgba(0 0 0 / 0.12);
-	background: rgba(255 255 255 / 0.9);
-	color: rgba(0 0 0 / 0.82);
+	border: 1px solid color-mix(in srgb, var(--color-black-default) 12%, transparent);
+	background: color-mix(in srgb, var(--color-white-default) 90%, transparent);
+	color: color-mix(in srgb, var(--color-black-default) 82%, transparent);
 	text-decoration: none;
 	font-weight: 700;
 	transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
@@ -112,21 +112,21 @@
 
 .chip svg {
 	flex: 0 0 auto;
-	color: rgba(0 0 0 / 0.75);
+	color: color-mix(in srgb, var(--color-black-default) 75%, transparent);
 }
 
 @media (hover: hover) and (pointer: fine) {
 	.chip:hover {
 		transform: translateY(-2px);
-		border-color: rgba(0 0 0 / 0.18);
-		box-shadow: 0 10px 22px rgba(0 0 0 / 0.08);
+		border-color: color-mix(in srgb, var(--color-black-default) 18%, transparent);
+		box-shadow: 0 10px 22px color-mix(in srgb, var(--color-black-default) 8%, transparent);
 	}
 }
 
 .bullets {
 	margin: 0;
 	padding-left: 18px;
-	color: rgba(0 0 0 / 0.78);
+	color: color-mix(in srgb, var(--color-black-default) 78%, transparent);
 	font-weight: 500;
 	line-height: 1.55;
 }
@@ -138,7 +138,7 @@
 .addrList {
 	margin: 0;
 	padding-left: 18px;
-	color: rgba(0 0 0 / 0.82);
+	color: color-mix(in srgb, var(--color-black-default) 82%, transparent);
 	font-weight: 500;
 	line-height: 1.55;
 }
@@ -148,9 +148,9 @@
 }
 
 .mapCard {
-	border: 1px solid rgba(0 0 0 / 0.10);
-	background: #fff;
-	box-shadow: 0 10px 24px rgba(0 0 0 / 0.06);
+	border: 1px solid color-mix(in srgb, var(--color-black-default) 10%, transparent);
+	background: var(--color-white-default);
+	box-shadow: 0 10px 24px color-mix(in srgb, var(--color-black-default) 6%, transparent);
 	overflow: hidden;
 }
 
@@ -160,8 +160,8 @@
 	justify-content: space-between;
 	gap: 10px;
 	padding: 12px 14px;
-	border-bottom: 1px solid rgba(0 0 0 / 0.10);
-	background: rgba(255 255 255 / 0.9);
+	border-bottom: 1px solid color-mix(in srgb, var(--color-black-default) 10%, transparent);
+	background: color-mix(in srgb, var(--color-white-default) 90%, transparent);
 }
 
 .mapTitle {
@@ -173,7 +173,7 @@
 	letter-spacing: .06em;
 	text-transform: uppercase;
 	margin: 0;
-	color: rgba(0 0 0 / 0.72);
+	color: color-mix(in srgb, var(--color-black-default) 72%, transparent);
 }
 
 .mapBody {
@@ -197,11 +197,11 @@
 	place-items: center;
 	padding: 20px;
 	text-align: center;
-	color: rgba(0 0 0 / 0.65);
+	color: color-mix(in srgb, var(--color-black-default) 65%, transparent);
 	background:
-		linear-gradient(180deg, rgba(0 0 0 / 0.02), rgba(0 0 0 / 0)),
-		repeating-linear-gradient(90deg, rgba(0 0 0 / 0.035) 0 1px, transparent 1px 22px),
-		repeating-linear-gradient(0deg, rgba(0 0 0 / 0.025) 0 1px, transparent 1px 22px);
+		linear-gradient(180deg, color-mix(in srgb, var(--color-black-default) 2%, transparent), transparent),
+		repeating-linear-gradient(90deg, color-mix(in srgb, var(--color-black-default) 3.5%, transparent) 0 1px, transparent 1px 22px),
+		repeating-linear-gradient(0deg, color-mix(in srgb, var(--color-black-default) 2.5%, transparent) 0 1px, transparent 1px 22px);
 }
 
 .fadeIn {
@@ -219,5 +219,5 @@
 .pinIcon {
 	width: 18px;
 	height: 18px;
-	color: rgba(0 0 0 / 0.62);
+	color: color-mix(in srgb, var(--color-black-default) 62%, transparent);
 }

@@ -48,18 +48,18 @@ export const Nav = () => {
 			tlRef.current = null
 			if (menu) gsap.set(menu, { clearProps: 'width' })
 
-				if (items.length) gsap.set(items, { opacity: 0 })
+			if (items.length) gsap.set(items, { opacity: 0 })
 
-				tlRef.current = gsap.timeline({
-					paused: true,
-					defaults: { ease: 'power1.inOut' }
-				})
-					.to(items, { opacity: 1, stagger: { each: 0.5 }, overwrite: 'auto' }, 0)
+			tlRef.current = gsap.timeline({
+				paused: true,
+				defaults: { ease: 'power1.inOut' }
+			})
+				.to(items, { opacity: 1, stagger: { each: 0.5 }, overwrite: 'auto' }, 0)
 
-				return () => {
-					tlRef.current?.kill()
-					tlRef.current = null
-				}
+			return () => {
+				tlRef.current?.kill()
+				tlRef.current = null
+			}
 		})
 
 		return () => mm.revert()
@@ -81,19 +81,19 @@ export const Nav = () => {
 					onClick={() => setActiveIndex(0)}
 					className={`${styles.menu_item} ${activeIndex === 0 ? styles.menu_item_active : ''}`}
 				>
-					<Link href="#">Печать</Link>
+					<Link href="/print">Печать</Link>
 				</li>
 				<li
 					onClick={() => setActiveIndex(1)}
 					className={`${styles.menu_item} ${activeIndex === 1 ? styles.menu_item_active : ''}`}
 				>
-					<Link href="#">Фулфилмент</Link>
+					<Link href="/fullfilment">Фулфилмент</Link>
 				</li>
 				<li
 					onClick={() => setActiveIndex(2)}
 					className={`${styles.menu_item} ${activeIndex === 2 ? styles.menu_item_active : ''}`}
 				>
-					<Link href="#">Логистика</Link>
+					<Link href="/logistika">Логистика</Link>
 				</li>
 				<li
 					onClick={() => setActiveIndex(2)}

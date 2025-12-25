@@ -33,12 +33,12 @@
 	}
 
 	.container {
-		background-image: linear-gradient(180deg,#2562ff00,var(--color-accent-1)35%);
+		background-image: linear-gradient(180deg, transparent, color-mix(in srgb, var(--color-accent-1) 35%, transparent));
 		height: 100%;
 
 		display: flex;
 		flex-direction: column;
-		align-items: center;
+		align-items: flex-start;
 		justify-content: flex-end;
 
 		padding: 0 40px 40px;
@@ -58,68 +58,91 @@
 			gap: 12px;
 		}
 
-		.title {
-			display: flex;
-			align-self: flex-end;
-
+		.glassContainer {
 			width: 100%;
+			max-width: 1400px;
+			padding: clamp(24px, 4vw, 48px);
+			background: rgba(255 255 255 / 0.08);
+			backdrop-filter: blur(3px) saturate(180%);
+			-webkit-backdrop-filter: blur(3px) saturate(180%);
+			border: 1px solid rgba(255 255 255 / 0.18);
+			box-shadow:
+				0 8px 32px rgba(0 0 0 / 0.12),
+				inset 0 1px 0 rgba(255 255 255 / 0.2);
 
-			margin-top: 100px;
+			@include tablet {
+				padding: clamp(20px, 3vw, 32px);
+				border-radius: 16px;
+			}
 
-			font-family: var(--font-unbounded);
+			@include tablet-small {
+				padding: 16px;
+				border-radius: 12px;
+			}
 
-			&_text {
-				font-size: 100px;
-				line-height: 1.4;
-				font-weight: 600;
-				text-transform: uppercase;
+			.title {
+				display: flex;
+				align-self: flex-end;
 
 				width: 100%;
 
-				color: white;
+				margin-top: 0;
+				margin-bottom: 24px;
 
-				text-align: left;
+				font-family: var(--font-unbounded);
 
-				@include desktop {
-					font-size: 60px;
-				}
+				&_text {
+					font-size: 80px;
+					line-height: 1.4;
+					font-weight: 600;
+					text-transform: uppercase;
 
-				@include tablet-small {
-					font-size: 40px;
+					width: 100%;
+
+					color: white;
+
+					text-align: left;
+
+					@include desktop {
+						font-size: 50px;
+					}
+
+					@include tablet-small {
+						font-size: 32px;
+					}
 				}
 			}
-		}
 
-		.description {
-			display: flex;
-			justify-content: space-between;
-
-			align-self: flex-start;
-
-			width: 100%;
-
-			&_text {
-				display: block;
+			.description {
+				display: flex;
+				justify-content: space-between;
 
 				align-self: flex-start;
 
+				width: 100%;
+
+				&_text {
+					display: block;
+
+					align-self: flex-start;
+
 				.subtitle {
 					color: white;
-					font-size: 32px;
+					font-size: 24px;
 					line-height: 1.2;
 
 					max-width: 1200px;
 
 					@include desktop {
-						font-size: 24px;
+						font-size: 20px;
 					}
 
 					@include tablet-small {
-						font-size: 18px;
+						font-size: 16px;
 					}
 
 					@include mobile-large {
-						font-size: 14px;
+						font-size: 12px;
 					}
 				}
 
@@ -165,23 +188,71 @@
 							align-items: center;
 						}
 
+					.clockIcon {
+						width: 25px;
+						height: 25px;
+						flex-shrink: 0;
+						display: inline-block;
+
+						@include desktop {
+							width: 21px;
+							height: 21px;
+						}
+
+						@include tablet-small {
+							width: 16px;
+							height: 16px;
+						}
+
+						// Стили для SVG внутри иконки
 						svg {
-							width: 25px;
-  						height: 25px;
+							width: 100%;
+							height: 100%;
+							display: block;
+						}
 
-							@include desktop {
-								width: 21px;
-  							height: 21px;
-							}
-
-							@include tablet-small {
-								width: 16px;
-  							height: 16px;
-							}
+						// Переопределяем цвет для всех path элементов
+						path {
+							transition: stroke 0.3s ease, fill 0.3s ease;
+							stroke: var(--color-accent-1);
+							fill: var(--color-accent-1);
 						}
 					}
 				}
+
+				// Override colors for fulfillment page
+				body[data-page-theme="fulfillment"] & {
+					.option .clockIcon path {
+						stroke: var(--fulfillment-color-accent-1);
+						fill: var(--fulfillment-color-accent-1);
+					}
+				}
+
+				// Override colors for logistika page
+				body[data-page-theme="logistika"] & {
+					.option .clockIcon path {
+						stroke: var(--logistika-color-accent-1);
+						fill: var(--logistika-color-accent-1);
+					}
+				}
 			}
+				}
+			}
+		}
+
+		.animateItem {
+			// Начальное состояние устанавливается через GSAP
+			// Оставляем только fallback для случаев, когда JS не загрузился
+			opacity: 0;
+			transform: translateY(30px);
+			filter: blur(8px);
+			will-change: opacity, transform, filter;
+		}
+
+		.inView {
+			opacity: 1 !important;
+			transform: translateY(0) !important;
+			filter: blur(0px) !important;
 		}
 	}
 }

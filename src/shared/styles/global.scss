@@ -21,6 +21,57 @@
   --color-background: #FFF5F5;
   --color-additional: #F0F4FF;
   --color-neutral: #2D3748;
+
+  // additional colors
+  --color-dark-bg: #0b0b10; // Темный фон для темных секций
+  --color-light-gray: #F9F9F9; // Светло-серый фон
+  --color-light-gray-2: #F8F9FA; // Еще один светло-серый
+  --color-success: #2ecc71; // Зеленый для успеха
+  --color-warning: #f1c40f; // Желтый для предупреждения
+  --color-info: #3498db; // Синий для информации
+  --color-tone: #ffb020; // Желтый/оранжевый для тарифов
+
+  // fulfillment page colors (duplicates for fulfillment page)
+  // Tranquil Tech / Smart Green theme
+  --fulfillment-color-blue: #2c39f2;
+  --fulfillment-color-blue-border: #dadcfa;
+  --fulfillment-color-accent-1: #0F9D8E; // Насыщенный зеленый бирюзовый
+  --fulfillment-color-accent-1-opacity30: #0F9D8E4D; // accent-1 с 30% opacity
+  --fulfillment-color-accent-2: #6EC0C7; // Спокойный циан
+  --fulfillment-color-accent-3: #4FB3A8; // Промежуточный оттенок между accent-1 и accent-2
+  --fulfillment-color-accent-4: #9DD4D9; // Светлый оттенок accent-2
+  --fulfillment-color-accent-2-opacity30: #6EC0C74D; // accent-2 с 30% opacity
+  --fulfillment-color-background: #F3F8F7; // Светлый серо-зеленый
+  --fulfillment-color-additional: #F3F8F7; // Светлый серо-зеленый
+  --fulfillment-color-neutral: #2D3748;
+  --fulfillment-color-dark-bg: #0b0b10;
+  --fulfillment-color-light-gray: #F9F9F9;
+  --fulfillment-color-light-gray-2: #F8F9FA;
+  --fulfillment-color-success: #2ecc71;
+  --fulfillment-color-warning: #f1c40f;
+  --fulfillment-color-info: #3498db;
+  --fulfillment-color-tone: #ffb020;
+
+  // logistika page colors (duplicates for logistika page)
+  // Cobalt & Sunset / Energetic Gradient theme
+  --logistika-color-blue: #1A56F0; // Чистый кобальтово-синий
+  --logistika-color-blue-border: #8BB3F5; // Светлый оттенок синего для границ
+  --logistika-color-accent-1: #FF6B4A; // Энергичный красно-оранжевый
+  --logistika-color-accent-1-opacity30: #FF6B4A4D; // accent-1 с 30% opacity
+  --logistika-color-accent-2: #1A56F0; // Чистый кобальтово-синий
+  --logistika-color-accent-3: #FF8B6B; // Светлый оттенок оранжевого
+  --logistika-color-accent-4: #5B7FF0; // Промежуточный оттенок между синим и оранжевым (более синий)
+  --logistika-color-accent-2-opacity30: #1A56F04D; // accent-2 с 30% opacity
+  --logistika-color-background: #FDF4F3; // Очень светлый теплый белый
+  --logistika-color-additional: #FDF4F3; // Очень светлый теплый белый
+  --logistika-color-neutral: #2D3748;
+  --logistika-color-dark-bg: #0b0b10;
+  --logistika-color-light-gray: #F9F9F9;
+  --logistika-color-light-gray-2: #F8F9FA;
+  --logistika-color-success: #2ecc71;
+  --logistika-color-warning: #f1c40f;
+  --logistika-color-info: #3498db;
+  --logistika-color-tone: #ffb020;
 }
 
 * {

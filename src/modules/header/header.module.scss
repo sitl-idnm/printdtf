@@ -11,12 +11,22 @@
   transform: translateX(-50%);
   z-index: 100;
   backdrop-filter: blur(4px);
-  color: white;
+  color: var(--color-white-default);
 
   overflow: hidden;
 
   @include tablet {
     overflow: visible;
+  }
+
+  // Override colors for fulfillment page
+  body[data-page-theme="fulfillment"] & {
+    --color-accent-1-opacity30: var(--fulfillment-color-accent-1-opacity30);
+  }
+
+  // Override colors for logistika page
+  body[data-page-theme="logistika"] & {
+    --color-accent-1-opacity30: var(--logistika-color-accent-1-opacity30);
   }
 }
 
