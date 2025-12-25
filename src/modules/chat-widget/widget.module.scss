@@ -9,6 +9,16 @@
 .schemePrimary .item {
   background: var(--color-accent-1);
   color: var(--color-white-default);
+
+  // Override colors for fulfillment page
+  body[data-page-theme="fulfillment"] & {
+    background: var(--fulfillment-color-accent-1);
+  }
+
+  // Override colors for logistika page
+  body[data-page-theme="logistika"] & {
+    background: var(--logistika-color-accent-1);
+  }
 }
 
 .schemeContrast .fab,
@@ -30,10 +40,30 @@
   box-shadow: none;
   transition: box-shadow .25s ease, background-color .25s ease, color .25s ease, opacity .2s ease;
   border: none;
+
+  // Override colors for fulfillment page
+  body[data-page-theme="fulfillment"] & {
+    background: var(--fulfillment-color-blue);
+  }
+
+  // Override colors for logistika page
+  body[data-page-theme="logistika"] & {
+    background: var(--logistika-color-blue);
+  }
 }
 
 .fab:hover {
   box-shadow: 0 14px 34px color-mix(in srgb, var(--color-blue) 85%, transparent);
+
+  // Override colors for fulfillment page
+  body[data-page-theme="fulfillment"] & {
+    box-shadow: 0 14px 34px color-mix(in srgb, var(--fulfillment-color-blue) 85%, transparent);
+  }
+
+  // Override colors for logistika page
+  body[data-page-theme="logistika"] & {
+    box-shadow: 0 14px 34px color-mix(in srgb, var(--logistika-color-blue) 85%, transparent);
+  }
 }
 
 .menu {
@@ -65,10 +95,30 @@
   box-shadow: none;
   transition: box-shadow .18s ease, background-color .25s ease, color .25s ease, opacity .25s ease;
   opacity: 0;
+
+  // Override colors for fulfillment page
+  body[data-page-theme="fulfillment"] & {
+    background: var(--fulfillment-color-blue);
+  }
+
+  // Override colors for logistika page
+  body[data-page-theme="logistika"] & {
+    background: var(--logistika-color-blue);
+  }
 }
 
 .item:hover {
   box-shadow: 0 12px 28px color-mix(in srgb, var(--color-blue) 85%, transparent);
+
+  // Override colors for fulfillment page
+  body[data-page-theme="fulfillment"] & {
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--fulfillment-color-blue) 85%, transparent);
+  }
+
+  // Override colors for logistika page
+  body[data-page-theme="logistika"] & {
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--logistika-color-blue) 85%, transparent);
+  }
 }
 
 .open .menu .item {

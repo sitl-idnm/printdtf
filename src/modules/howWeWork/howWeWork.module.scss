@@ -172,6 +172,7 @@
 	opacity: 0;
 	transform: translateY(18px);
 	filter: blur(6px);
+	will-change: transform, opacity, filter;
 
 	@include desktop-only {
 		transition:
@@ -206,6 +207,7 @@
 	place-items: center;
 	position: relative;
 	color: var(--color-dark-bg);
+	will-change: transform, opacity;
 
 	background: linear-gradient(135deg, var(--color-accent-3), var(--color-accent-2));
 	border: 1px solid color-mix(in srgb, var(--color-white-default) 18%, transparent);
@@ -257,6 +259,7 @@
 
 .body {
 	min-width: 0;
+	will-change: transform, opacity;
 }
 
 .stepTitle {

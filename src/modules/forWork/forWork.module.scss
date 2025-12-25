@@ -80,6 +80,27 @@
 .cardInner {
 	position: relative;
 	padding: clamp(14px, 2.6vw, 22px);
+	display: flex;
+	flex-direction: column;
+	gap: clamp(12px, 2vw, 16px);
+}
+
+.icon {
+	width: 48px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(135deg, var(--color-accent-3), var(--color-accent-2));
+	border-radius: 12px;
+	color: var(--color-white-default);
+	flex-shrink: 0;
+	box-shadow: 0 4px 12px color-mix(in srgb, var(--color-accent-1) 30%, transparent);
+
+	svg {
+		width: 24px;
+		height: 24px;
+	}
 }
 
 .text {

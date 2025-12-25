@@ -12,19 +12,19 @@ import { gsap } from 'gsap'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
-// Иконки для преимуществ
-function IconLogistics() {
+// Иконки для преимуществ (логистика)
+function IconMarketplace() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7 7h10v10H7V7Z" />
-      <path d="M14 10h4l3 3v4h-7v-7Z" />
-      <path d="M7 19a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor" />
-      <path d="M18 19a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor" />
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      <path d="M9 22V12h6v10" />
+      <path d="M7 12h10" />
+      <path d="M12 2v10" />
     </svg>
   )
 }
 
-function IconSchedule() {
+function IconCalendar() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect x="3" y="4" width="18" height="18" rx="2" />
@@ -34,12 +34,13 @@ function IconSchedule() {
   )
 }
 
-function IconWarehouse() {
+function IconBoxes() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M4 7h16v8H4V7Z" />
       <path d="M3 14h18" />
       <path d="M5 14v6M12 14v6M19 14v6" />
+      <path d="M8 10h8M8 12h8" />
     </svg>
   )
 }
@@ -53,15 +54,16 @@ function IconClock() {
   )
 }
 
-function IconShield() {
+function IconDollar() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+      <line x1="12" y1="2" x2="12" y2="22" />
+      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
     </svg>
   )
 }
 
-const DEFAULT_ICONS = [IconLogistics, IconSchedule, IconWarehouse, IconClock, IconShield]
+const DEFAULT_ICONS = [IconMarketplace, IconCalendar, IconBoxes, IconClock, IconDollar]
 
 const Advantages: FC<AdvantagesProps> = ({
   className,
@@ -176,7 +178,7 @@ const Advantages: FC<AdvantagesProps> = ({
       <ul className={styles.list}>
         {
           arrAdvantages?.map((item, index) => {
-            const Icon = DEFAULT_ICONS[index] || IconLogistics
+            const Icon = DEFAULT_ICONS[index] || DEFAULT_ICONS[0]
             return (
               <li key={index} className={styles.item}>
                 <div className={styles.iconWrapper}>

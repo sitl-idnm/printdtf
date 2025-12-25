@@ -10,6 +10,29 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
+// Иконки для ForWork
+function IconStore() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 7v13M9 7v13M14 7v13M19 7v13M2 7h20M2 4h20" />
+      <path d="M6 7V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v3" />
+    </svg>
+  )
+}
+
+function IconWarehouse() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 7h16v8H4V7Z" />
+      <path d="M3 14h18" />
+      <path d="M5 14v6M12 14v6M19 14v6" />
+      <path d="M8 10h8M8 12h8" />
+    </svg>
+  )
+}
+
+const DEFAULT_ICONS = [IconStore, IconWarehouse]
+
 const ForWork: FC<ForWorkProps> = ({
   className,
   title,
@@ -62,13 +85,19 @@ const ForWork: FC<ForWorkProps> = ({
     <div className={rootClassName}>
       <h2 className={styles.title}>{title}</h2>
       <div className={styles.grid} ref={gridRef}>
-        {items.map((item, index) => (
-          <article key={index} className={styles.card}>
-            <div className={styles.cardInner}>
-              <p className={styles.text}>{item.text}</p>
-            </div>
-          </article>
-        ))}
+        {items.map((item, index) => {
+          const Icon = DEFAULT_ICONS[index] ?? DEFAULT_ICONS[0]
+          return (
+            <article key={index} className={styles.card}>
+              <div className={styles.cardInner}>
+                <div className={styles.icon}>
+                  <Icon />
+                </div>
+                <p className={styles.text}>{item.text}</p>
+              </div>
+            </article>
+          )
+        })}
       </div>
     </div>
   )

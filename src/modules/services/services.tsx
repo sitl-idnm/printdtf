@@ -69,13 +69,15 @@ const ICONS = [IconPickup, IconBoxes, IconPallet, IconRoute, IconCalendar]
 
 const Services: FC<ServicesProps> = ({ className, title, items }) => {
 	const rootClassName = classNames(styles.root, className)
+	const sectionRef = useRef<HTMLElement | null>(null)
 	const listRef = useRef<HTMLDivElement | null>(null)
 
 	const data = useMemo(() => (items ?? []).filter(Boolean), [items])
 
 	useGSAP(() => {
+		const section = sectionRef.current
 		const root = listRef.current
-		if (!root) return
+		if (!section || !root) return
 		const rows = Array.from(root.querySelectorAll<HTMLElement>(`.${styles.item}`))
 		if (!rows.length) return
 
@@ -85,35 +87,92 @@ const Services: FC<ServicesProps> = ({ className, title, items }) => {
 			return
 		}
 
-		gsap.set(rows, { opacity: 0, x: -24, y: 18, filter: 'blur(6px)' })
+		// Устанавливаем начальные состояния
+		rows.forEach((item) => {
+			const icon = item.querySelector<HTMLElement>(`.${styles.icon}`)
+			const body = item.querySelector<HTMLElement>(`.${styles.body}`)
 
-		const tl = gsap.timeline({
+			gsap.set(item, {
+				opacity: 0,
+				x: -50,
+				y: 20,
+				scale: 0.95,
+				filter: 'blur(8px)',
+				force3D: true
+			})
+
+			gsap.set(icon, {
+				opacity: 0,
+				scale: 0.6,
+				rotation: -15,
+				force3D: true
+			})
+
+			gsap.set(body, {
+				opacity: 0,
+				x: 30,
+				force3D: true
+			})
+		})
+
+		// Создаем timeline с pin эффектом
+		const pinTl = gsap.timeline({
 			scrollTrigger: {
-				trigger: root,
-				start: 'top 80%',
-				once: true
+				trigger: section,
+				start: 'top top',
+				end: () => `+=${rows.length * 400}`,
+				scrub: 1,
+				pin: true,
+				pinSpacing: true,
+				anticipatePin: 1,
+				invalidateOnRefresh: true
 			}
 		})
 
-		tl.to(rows, {
-			opacity: 1,
-			x: 0,
-			y: 0,
-			filter: 'blur(0px)',
-			duration: 0.7,
-			ease: 'power2.out',
-			stagger: 0.1,
-			onStart: () => rows.forEach((c) => c.classList.add(styles.inView))
+		// Анимируем элементы последовательно во время скролла
+		rows.forEach((item, index) => {
+			const icon = item.querySelector<HTMLElement>(`.${styles.icon}`)
+			const body = item.querySelector<HTMLElement>(`.${styles.body}`)
+
+			const progress = index / rows.length
+
+			pinTl
+				.to(item, {
+					opacity: 1,
+					x: 0,
+					y: 0,
+					scale: 1,
+					filter: 'blur(0px)',
+					duration: 0.4,
+					ease: 'power2.out',
+					onStart: () => item.classList.add(styles.inView)
+				}, progress)
+				.to(icon, {
+					opacity: 1,
+					scale: 1,
+					rotation: 0,
+					duration: 0.3,
+					ease: 'back.out(1.4)'
+				}, progress + 0.1)
+				.to(body, {
+					opacity: 1,
+					x: 0,
+					duration: 0.4,
+					ease: 'power2.out'
+				}, progress + 0.15)
 		})
 
 		return () => {
-			tl.scrollTrigger?.kill()
-			tl.kill()
+			ScrollTrigger.getAll().forEach((st) => {
+				if (st.trigger === section || st.trigger === root) {
+					st.kill()
+				}
+			})
 		}
-	}, { scope: listRef, dependencies: [data.length] })
+	}, { scope: sectionRef, dependencies: [data.length] })
 
 	return (
-		<section className={rootClassName} aria-label={title}>
+		<section className={rootClassName} aria-label={title} ref={sectionRef}>
 			<div className={styles.head}>
 				<h2 className={styles.title}>{title}</h2>
 				<div className={styles.pill}>что делаем</div>
