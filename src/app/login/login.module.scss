@@ -2,13 +2,14 @@
 @use '@styles/mixins';
 
 .container {
-  max-width: func.rem(820);
-  margin: func.rem(120) auto func.rem(100);
+  max-width: func.rem(500);
+  margin: func.rem(180) auto func.rem(100);
   padding: 0 func.rem(24);
 }
 
 .title {
-  margin-bottom: func.rem(12);
+  margin-bottom: func.rem(32);
+  text-align: center;
 }
 
 .hint {
@@ -20,7 +21,7 @@
 
 .form {
   display: grid;
-  gap: func.rem(12);
+  gap: func.rem(20);
   margin-top: func.rem(16);
 }
 
@@ -89,4 +90,65 @@
   background: #fff;
 }
 
+.inputWrapper {
+  position: relative;
 
+  :global(input) {
+    border: 2px solid #e5e7eb !important;
+    background-color: #ffffff !important;
+    font-size: func.rem(16) !important;
+    transition: border-color 0.2s, box-shadow 0.2s !important;
+
+    &:focus {
+      border-color: #3b82f6 !important;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+      outline: none !important;
+    }
+
+    &:hover:not(:focus) {
+      border-color: #9ca3af !important;
+    }
+
+    &::placeholder {
+      color: #9ca3af !important;
+    }
+  }
+}
+
+.error {
+  color: #ef4444;
+  font-size: func.rem(14);
+  margin-top: func.rem(8);
+  padding: func.rem(8) func.rem(12);
+  background: #fef2f2;
+  border-radius: func.rem(6);
+  border: 1px solid #fecaca;
+}
+
+.submitButton {
+  width: 100%;
+  padding: func.rem(16) func.rem(24);
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: func.rem(8);
+  font-size: func.rem(16);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  font-family: inherit;
+
+  &:hover:not(:disabled) {
+    background-color: #2563eb;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}

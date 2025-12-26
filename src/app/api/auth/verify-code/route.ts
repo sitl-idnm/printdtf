@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     if (!ok) {
       return NextResponse.json({ error: 'Invalid code' }, { status: 401 })
     }
-    const token = createSessionToken({ phone: normalized, exp: 0 /* set inside creator */ })
+    const token = createSessionToken({ phone: normalized })
     const res = NextResponse.json({ ok: true }, { status: 200 })
     res.headers.set('Set-Cookie', buildSessionCookie(token))
     return res
