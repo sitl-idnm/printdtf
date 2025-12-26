@@ -32,7 +32,7 @@ function sign (data: string, secret: string): string {
   return b64urlEncode(h.digest())
 }
 
-export function createSessionToken (payload: SessionPayload, ttlDays = DEFAULT_TTL_DAYS): string {
+export function createSessionToken (payload: Omit<SessionPayload, 'exp'>, ttlDays = DEFAULT_TTL_DAYS): string {
   const header = { alg: 'HS256', typ: 'JWT' }
   const nowSec = Math.floor(Date.now() / 1000)
   const exp = nowSec + ttlDays * 24 * 60 * 60
@@ -92,7 +92,3 @@ export function clearSessionCookie (): string {
 export function getSessionCookieName (): string {
   return SESSION_COOKIE
 }
-
-
-
-

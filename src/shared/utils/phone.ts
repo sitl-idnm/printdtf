@@ -42,12 +42,20 @@ export function formatPhoneFromDigits (national10: string): string {
 }
 
 // Apply mask to any raw input string
-export function maskPhoneInput (raw: string): string {
+export function maskPhoneInput (raw: string, previousValue?: string): string {
+  // If backspace was pressed and we're removing characters
+  if (previousValue && raw.length < previousValue.length) {
+    const rawDigits = extractDigits(raw)
+    const clamped = rawDigits.slice(0, 10)
+    return formatPhoneFromDigits(clamped)
+  }
+
   const rawDigits = extractDigits(raw)
-  // Treat starting "7" as country code; keep only national 10 digits
-  const national = rawDigits.startsWith('7') ? rawDigits.slice(1) : rawDigits
+  // Treat starting "7" or "8" as country code; keep only national 10 digits
+  let national = rawDigits
+  if (rawDigits.startsWith('7') || rawDigits.startsWith('8')) {
+    national = rawDigits.slice(1)
+  }
   const clamped = national.slice(0, 10)
   return formatPhoneFromDigits(clamped)
 }
-
-

@@ -1,41 +1,75 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Wrapper } from '@ui/wrapper'
 import { Heading } from '@ui/heading'
 import { Button } from '@ui/button'
 import styles from './lk.module.scss'
 
 type Lead = {
-  ID: string
-  TITLE?: string
-  NAME?: string
-  LAST_NAME?: string
-  SECOND_NAME?: string
-  STATUS_ID?: string
-  ASSIGNED_BY_ID?: string
-  PHONE?: Array<{ ID: string; VALUE: string; VALUE_TYPE?: string }>
-  EMAIL?: Array<{ ID: string; VALUE: string; VALUE_TYPE?: string }>
-  COMMENTS?: string
-  DATE_CREATE?: string
-  DATE_MODIFY?: string
-  SOURCE_ID?: string
-  OPPORTUNITY?: string
-  CURRENCY_ID?: string
+  [key: string]: unknown
+}
+
+type Contact = {
+  [key: string]: unknown
+}
+
+type BitrixDeal = {
+  [key: string]: unknown
+}
+
+type BitrixCompany = {
+  [key: string]: unknown
+}
+
+// Функция для форматирования значения поля
+function formatFieldValue(value: unknown): string {
+  if (value === null || value === undefined) return '—'
+  if (typeof value === 'boolean') return value ? 'Да / Yes' : 'Нет / No'
+  if (typeof value === 'object') {
+    if (Array.isArray(value)) {
+      if (value.length === 0) return '—'
+      // Если это массив объектов с VALUE (телефоны, email)
+      if (value[0] && typeof value[0] === 'object' && 'VALUE' in value[0]) {
+        return value.map((item: { VALUE?: string; VALUE_TYPE?: string }) =>
+          `${item.VALUE || ''}${item.VALUE_TYPE ? ` (${item.VALUE_TYPE})` : ''}`
+        ).join(', ')
+      }
+      return JSON.stringify(value)
+    }
+    return JSON.stringify(value, null, 2)
+  }
+  return String(value)
+}
+
+// Функция для получения всех полей объекта (исключая служебные)
+function getAllFields(obj: Record<string, unknown> | null): Array<{ key: string; value: unknown }> {
+  if (!obj) return []
+  return Object.entries(obj)
+    .filter(([key]) => !key.startsWith('_') && key !== 'result')
+    .map(([key, value]) => ({ key, value }))
+    .sort((a, b) => {
+      // Сначала стандартные поля, потом UF_CRM_
+      const aIsUf = a.key.startsWith('UF_CRM_')
+      const bIsUf = b.key.startsWith('UF_CRM_')
+      if (aIsUf && !bIsUf) return 1
+      if (!aIsUf && bIsUf) return -1
+      return a.key.localeCompare(b.key)
+    })
 }
 
 export default function LkPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [lead, setLead] = useState<Lead | null>(null)
-  const [phone, setPhone] = useState<string | null>(null)
-
-  const fullName = useMemo(() => {
-    if (!lead) return ''
-    const parts = [lead.LAST_NAME, lead.NAME, lead.SECOND_NAME].filter(Boolean)
-    return parts.join(' ').trim()
-  }, [lead])
+  const [contact, setContact] = useState<Contact | null>(null)
+  const [deals, setDeals] = useState<BitrixDeal[]>([])
+  const [leads, setLeads] = useState<Lead[]>([])
+  const [company, setCompany] = useState<BitrixCompany | null>(null)
+  const [openDealIds, setOpenDealIds] = useState<Record<string, boolean>>({})
+  const [openLeadIds, setOpenLeadIds] = useState<Record<string, boolean>>({})
+  const [openCompany, setOpenCompany] = useState(false)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -47,12 +81,23 @@ export default function LkPage() {
         throw new Error(data?.error || 'Failed')
       }
       setLead(data.lead || null)
-      setPhone(data.phone || null)
+      setContact(data.contact || null)
+      setDeals(data.deals || [])
+      setLeads(data.leads || [])
+      setCompany(data.company || null)
     } catch (err: unknown) {
       setError((err instanceof Error ? err.message : 'Unknown error'))
     } finally {
       setLoading(false)
     }
+  }, [])
+
+  const toggleDeal = useCallback((id: string) => {
+    setOpenDealIds(prev => ({ ...prev, [id]: !prev[id] }))
+  }, [])
+
+  const toggleLead = useCallback((id: string) => {
+    setOpenLeadIds(prev => ({ ...prev, [id]: !prev[id] }))
   }, [])
 
   useEffect(() => {
@@ -64,73 +109,165 @@ export default function LkPage() {
     window.location.href = '/login'
   }, [])
 
+  const entity = lead || contact
+  const entityFields = getAllFields(entity as Record<string, unknown> | null)
+  const companyFields = getAllFields(company as Record<string, unknown> | null)
+
   return (
     <Wrapper>
       <div className={styles.container}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Heading tagName='h1' size='sm'>Личный кабинет / Account</Heading>
+        <div className={styles.header}>
+          <Heading tagName='h1' size='sm'>Личный кабинет / Personal Account</Heading>
           <Button onClick={logout}>Выйти / Logout</Button>
         </div>
 
         {loading && <div className={styles.section}>Загрузка...</div>}
-        {error && <div className={styles.section} style={{ color: '#ef4444' }}>{error}</div>}
+        {error && <div className={styles.error}>{error}</div>}
 
-        {!loading && !error && (
+        {!loading && !error && entity && (
           <>
-            <div className={styles.section} style={{ color: '#6b7280' }}>Номер телефона: {phone || '—'}</div>
+            {/* Profile Section - Все поля */}
+            <div className={`${styles.card} ${styles.section}`}>
+              <Heading tagName='h2' size='md' className={styles.cardTitle}>
+                {lead ? 'Информация по лиду / Lead Information' : 'Информация по контакту / Contact Information'}
+              </Heading>
+              <div className={styles.grid}>
+                {entityFields.map(({ key, value }) => (
+                  <div key={key}>
+                    <div className={styles.label}>{key}</div>
+                    <div className={styles.value}>{formatFieldValue(value)}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-            {lead ? (
-              <div className={`${styles.card} ${styles.section}`}>
-                <Heading tagName='h2' size='md'>Данные лида</Heading>
-                <div className={styles.grid} style={{ marginTop: 12 }}>
-                  <div>ID</div>
-                  <div>{lead.ID}</div>
-                  <div>Название</div>
-                  <div>{lead.TITLE || '—'}</div>
-                  <div>ФИО</div>
-                  <div>{fullName || '—'}</div>
-                  <div>Статус</div>
-                  <div>{lead.STATUS_ID || '—'}</div>
-                  <div>Ответственный (ID)</div>
-                  <div>{lead.ASSIGNED_BY_ID || '—'}</div>
-                  <div>Телефон(ы)</div>
-                  <div>
-                    {(lead.PHONE || []).length ? (
-                      <ul style={{ margin: 0, paddingLeft: 18 }}>
-                        {(lead.PHONE || []).map(p => (
-                          <li key={p.ID}>{p.VALUE} {p.VALUE_TYPE ? `(${p.VALUE_TYPE})` : ''}</li>
-                        ))}
-                      </ul>
-                    ) : '—'}
+            {/* Company Section */}
+            {company && (
+              <div className={styles.section}>
+                <Heading tagName='h2' size='md' className={styles.sectionTitle}>
+                  Компания / Company
+                </Heading>
+                <div className={styles.accordion}>
+                  <div className={styles.dealItem}>
+                    <div className={styles.dealHeader} onClick={() => setOpenCompany(!openCompany)}>
+                      <div className={styles.dealTitle}>
+                        {formatFieldValue(company.TITLE) || `Компания #${company.ID} / Company #${company.ID}`}
+                      </div>
+                      <div className={`${styles.badge} ${styles.arrow}`}>
+                        {openCompany ? '▼' : '▶'}
+                      </div>
+                    </div>
+                    {openCompany && (
+                      <div className={styles.dealBody}>
+                        <div className={styles.grid}>
+                          {companyFields.map(({ key, value }) => (
+                            <div key={key}>
+                              <div className={styles.label}>{key}</div>
+                              <div className={styles.value}>{formatFieldValue(value)}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div>Email(ы)</div>
-                  <div>
-                    {(lead.EMAIL || []).length ? (
-                      <ul style={{ margin: 0, paddingLeft: 18 }}>
-                        {(lead.EMAIL || []).map(m => (
-                          <li key={m.ID}>{m.VALUE} {m.VALUE_TYPE ? `(${m.VALUE_TYPE})` : ''}</li>
-                        ))}
-                      </ul>
-                    ) : '—'}
-                  </div>
-                  <div>Создан</div>
-                  <div>{lead.DATE_CREATE || '—'}</div>
-                  <div>Изменён</div>
-                  <div>{lead.DATE_MODIFY || '—'}</div>
-                  <div>Источник</div>
-                  <div>{lead.SOURCE_ID || '—'}</div>
-                  <div>Сумма</div>
-                  <div>{lead.OPPORTUNITY ? `${lead.OPPORTUNITY} ${lead.CURRENCY_ID || ''}` : '—'}</div>
-                  <div>Комментарий</div>
-                  <div style={{ whiteSpace: 'pre-wrap' }}>{lead.COMMENTS || '—'}</div>
                 </div>
               </div>
-            ) : (
+            )}
+
+            {/* Deals Section - Все поля */}
+            {deals.length > 0 && (
               <div className={styles.section}>
-                Лид не найден по вашему номеру. Свяжитесь с поддержкой.
+                <Heading tagName='h2' size='md' className={styles.sectionTitle}>Сделки / Deals</Heading>
+                <div className={styles.accordion}>
+                  {deals.map((deal) => {
+                    const isOpen = !!openDealIds[deal.ID as string]
+                    const dealFields = getAllFields(deal as Record<string, unknown>)
+                    return (
+                      <div key={deal.ID as string} className={styles.dealItem}>
+                        <div className={styles.dealHeader} onClick={() => toggleDeal(deal.ID as string)}>
+                          <div className={styles.dealTitle}>
+                            {formatFieldValue(deal.TITLE) || `Сделка #${deal.ID} / Deal #${deal.ID}`}
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div className={styles.badge}>{formatFieldValue(deal.STAGE_ID)}</div>
+                            <div className={`${styles.badge} ${styles.arrow}`}>
+                              {isOpen ? '▼' : '▶'}
+                            </div>
+                          </div>
+                        </div>
+                        {isOpen && (
+                          <div className={styles.dealBody}>
+                            <div className={styles.grid}>
+                              {dealFields.map(({ key, value }) => (
+                                <div key={key}>
+                                  <div className={styles.label}>{key}</div>
+                                  <div className={styles.value}>{formatFieldValue(value)}</div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Leads Section - Все поля */}
+            {contact && leads.length > 0 && (
+              <div className={styles.section}>
+                <Heading tagName='h2' size='md' className={styles.sectionTitle}>Лиды / Leads</Heading>
+                <div className={styles.accordion}>
+                  {leads.map((leadItem) => {
+                    const isOpen = !!openLeadIds[leadItem.ID as string]
+                    const leadFields = getAllFields(leadItem as Record<string, unknown>)
+                    return (
+                      <div key={leadItem.ID as string} className={styles.dealItem}>
+                        <div className={styles.dealHeader} onClick={() => toggleLead(leadItem.ID as string)}>
+                          <div className={styles.dealTitle}>
+                            {formatFieldValue(leadItem.TITLE) || `Лид #${leadItem.ID} / Lead #${leadItem.ID}`}
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div className={styles.badge}>{formatFieldValue(leadItem.STATUS_ID)}</div>
+                            <div className={`${styles.badge} ${styles.arrow}`}>
+                              {isOpen ? '▼' : '▶'}
+                            </div>
+                          </div>
+                        </div>
+                        {isOpen && (
+                          <div className={styles.dealBody}>
+                            <div className={styles.grid}>
+                              {leadFields.map(({ key, value }) => (
+                                <div key={key}>
+                                  <div className={styles.label}>{key}</div>
+                                  <div className={styles.value}>{formatFieldValue(value)}</div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {deals.length === 0 && leads.length === 0 && !company && (
+              <div className={styles.section}>
+                <div className={styles.emptyState}>Нет сделок и лидов / No deals and leads</div>
               </div>
             )}
           </>
+        )}
+
+        {!loading && !error && !lead && !contact && (
+          <div className={styles.section}>
+            <div className={styles.emptyState}>
+              Данные не найдены. Свяжитесь с поддержкой. / Data not found. Please contact support.
+            </div>
+          </div>
         )}
       </div>
     </Wrapper>
