@@ -3,58 +3,160 @@
 @use "@styles/variables";
 
 .root {
-
-  @include desktop {
-    padding: 16px;
-  }
+  padding: 0;
 
   .row {
     display: flex;
-    height: clamp(20vh, 100vh, 100vh);
-
+    gap: 0;
+    height: 100vh;
+    align-items: stretch;
 
     @include desktop {
-      gap: 16px;
-      height: clamp(220px, 36vh, 460px);
+      height: 100vh;
     }
 
     @include tablet {
-      gap: 12px;
       height: auto;
       flex-direction: column;
     }
   }
 
   .card {
-    background-color: var(--color-white-default);
-    color: var(--color-neutral);
+    --card-accent: var(--color-accent-1);
+    --card-bg: color-mix(in srgb, var(--card-accent) 14%, var(--color-white-default));
+
+    position: relative;
+    overflow: hidden;
+
+    background:
+      linear-gradient(135deg,
+        color-mix(in srgb, var(--card-accent) 18%, var(--color-white-default)) 0%,
+        var(--color-white-default) 55%,
+        color-mix(in srgb, var(--card-accent) 10%, var(--color-white-default)) 100%
+      );
+
+    color: var(--color-black-default);
+    border: 1px solid rgba(0, 0, 0, 0.92);
+    border-left-width: 0; // cards flush; separators handled here
+    &:first-child {
+      border-left-width: 1px;
+    }
+
+    @include tablet {
+      border-left-width: 1px;
+      border-top-width: 0;
+      &:first-child { border-top-width: 1px; }
+    }
+    box-shadow:
+      0 0 0 0 rgba(0 0 0 / 0%),
+      0 18px 42px rgba(0 0 0 / 10%);
+
     flex: 1 1 0%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 16px;
+    padding: clamp(16px, 2.6vw, 28px);
     transition:
       flex-basis 450ms ease,
       flex-grow 450ms ease,
       transform 450ms ease,
-      box-shadow 300ms ease;
-    box-shadow: 0 0 0 0 rgba(0 0 0 / 0%);
+      box-shadow 300ms ease,
+      background 300ms ease;
     will-change: flex-basis, flex-grow, transform;
     min-width: 0; // prevent text overflow pushing width
+    isolation: isolate;
+
+    &[data-variant='1'] { --card-accent: var(--color-accent-1); }
+    &[data-variant='2'] { --card-accent: var(--color-accent-2); }
+    &[data-variant='3'] { --card-accent: var(--color-accent-3); }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--card-accent) 28%, transparent) 0%, transparent 55%),
+        radial-gradient(circle at 80% 30%, color-mix(in srgb, var(--card-accent) 22%, transparent) 0%, transparent 60%),
+        radial-gradient(circle at 40% 85%, color-mix(in srgb, var(--card-accent) 18%, transparent) 0%, transparent 65%);
+      transform: rotate(-6deg);
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.02));
+      opacity: 0;
+      transition: opacity 250ms ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .cardInner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 520px;
+      display: grid;
+      gap: 14px;
+      justify-items: center;
+    }
 
     &:hover {
-      box-shadow: 0 10px 30px rgba(0 0 0 / 12%);
+      transform: translateY(-6px) rotate(-0.25deg);
+      box-shadow:
+        0 0 0 0 rgba(0 0 0 / 0%),
+        0 26px 60px rgba(0 0 0 / 14%);
+      &::after { opacity: 1; }
     }
 
     .title {
-      font-size: clamp(18px, 2.2vw, 28px);
+      font-family: var(--font-unbounded);
+      font-size: clamp(22px, 3vw, 38px);
       font-weight: 600;
       line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 12px 14px;
+      border: 1px solid rgba(0, 0, 0, 0.85);
+      background: color-mix(in srgb, var(--card-accent) 18%, rgba(255, 255, 255, 0.6));
+      backdrop-filter: blur(6px);
+      transition: transform 250ms ease;
+    }
+
+    .ctaIcon {
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      svg { width: 18px; height: 18px; }
+    }
+
+    &:hover .cta {
+      transform: translateX(2px);
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--color-accent-2);
+      outline-offset: 3px;
     }
 
     @include tablet {
       min-height: 140px;
+      &:hover { transform: none; }
     }
   }
 

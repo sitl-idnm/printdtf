@@ -181,15 +181,13 @@ const Advantages: FC<AdvantagesProps> = ({
             const Icon = DEFAULT_ICONS[index] || DEFAULT_ICONS[0]
             return (
               <li key={index} className={styles.item}>
-                <div className={styles.iconWrapper}>
-                  {item.icon || (item.num ? (
-                    <p className={styles.number}>
-                      {item.num}
-                    </p>
-                  ) : (
-                    <Icon />
-                  ))}
-                </div>
+                {item.num ? (
+                  <h3 className={styles.itemTitle}>{item.num}</h3>
+                ) : (
+                  <div className={styles.iconWrapper}>
+                    {item.icon || <Icon />}
+                  </div>
+                )}
                 <p className={styles.text}>
                   {item.text}
                 </p>

@@ -1,0 +1,17 @@
+import { ReactNode } from 'react'
+
+export interface ReviewItem {
+  name: string
+  role?: string
+  company?: string
+  text: string | ReactNode
+  rating?: 1 | 2 | 3 | 4 | 5
+}
+
+export interface ReviewsProps {
+  className?: string
+  title?: string | ReactNode
+  subtitle?: string | ReactNode
+  items?: ReviewItem[]
+}
+

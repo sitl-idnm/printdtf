@@ -25,9 +25,9 @@ const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: triggerRef.current,
-          start: 'top 70%',
+          start: 'top 20%',
           scrub: true,
-          end: 'bottom 40%'
+          end: 'bottom top'
         }
       })
 
