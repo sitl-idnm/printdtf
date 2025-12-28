@@ -37,7 +37,7 @@ const PriceList: FC<PriceListProps> = ({
         </div>
         <div className={styles.card}>
           <div className={styles.rowTop}>
-            <div className={styles.label}>Перенос на изделие (DTF)</div>
+            <div className={styles.label}>Перенос на изделие</div>
             <div className={styles.price}>от 45 ₽</div>
           </div>
           <div className={styles.muted}>Цена зависит от сложности изделия и места нанесения.</div>

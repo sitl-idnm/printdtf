@@ -179,6 +179,18 @@
 				}
 			}
 
+			.itemTitle {
+				font-family: var(--font-unbounded);
+				font-size: 20px;
+				line-height: 1.25;
+				margin-bottom: 8px;
+				text-transform: none;
+
+				@include tablet {
+					font-size: 18px;
+				}
+			}
+
 			.number {
 				font-family: var(--font-unbounded);
 				font-size: 18px;

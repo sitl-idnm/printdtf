@@ -1,3 +1,4 @@
+'use client'
 import { FC } from 'react'
 import { Wrapper } from '@/ui'
 import classNames from 'classnames'
@@ -6,31 +7,12 @@ import styles from './home.module.scss'
 import { HomeProps } from './home.types'
 // import SvgAnimator from '@/modules/svg-animator'
 import { ServicesMain } from '@/modules/servicesMain'
-import { Stages } from '@/modules/stages'
-import { SliderBeforeAfter } from '@/modules/sliderBeforeAfter'
-
-const StagesArray = [
-  { step: 1, title: 'test1' },
-  { step: 2, title: 'test2' },
-  { step: 3, title: 'test3' },
-  { step: 4, title: 'test4' },
-  { step: 5, title: 'test5' }
-]
+import { AboutCompany } from '@/modules/aboutCompany'
+import { FinalOffer } from '@/modules/finalOffer'
+import { Reviews } from '@/modules/reviews'
 
 const Home: FC<HomeProps> = ({ className }) => {
   const rootClassName = classNames(styles.root, className)
-
-  // const faqData = [
-  //   {
-  //     title: 'test1',
-  //     content: 'test1'
-  //   },
-  //   {
-  //     title: 'test2',
-  //     content: 'test2'
-  //   }
-  // ]
-
 
   return (
     <main className={rootClassName}>
@@ -51,10 +33,9 @@ const Home: FC<HomeProps> = ({ className }) => {
 
         </SvgAnimator> */}
         <ServicesMain />
-        <Stages
-          stageArray={StagesArray}
-        />
-        <SliderBeforeAfter />
+        <AboutCompany />
+        <Reviews />
+        <FinalOffer />
       </Wrapper>
     </main>
   )
