@@ -29,20 +29,14 @@
 }
 
 .grid {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: stretch;
 	gap: 24px;
 	width: 100%;
-
-	@media (max-width: 1200px) {
-		grid-template-columns: repeat(3, 1fr);
-	}
-	@media (max-width: 900px) {
-		grid-template-columns: repeat(2, 1fr);
-	}
-	@media (max-width: 560px) {
-		grid-template-columns: 1fr;
-	}
+	max-width: 1400px;
+	margin: 0 auto; /* центрируем блок карточек */
 }
 
 .card {
@@ -57,6 +51,21 @@
 	justify-content: center;
 	cursor: pointer;
 	isolation: isolate;
+	flex: 0 1 calc((100% - 24px * 3) / 4);
+	max-width: calc((100% - 24px * 3) / 4);
+
+	@media (max-width: 1200px) {
+		flex-basis: calc((100% - 24px * 2) / 3);
+		max-width: calc((100% - 24px * 2) / 3);
+	}
+	@media (max-width: 900px) {
+		flex-basis: calc((100% - 24px) / 2);
+		max-width: calc((100% - 24px) / 2);
+	}
+	@media (max-width: 560px) {
+		flex-basis: 100%;
+		max-width: 100%;
+	}
 }
 
 .circle {
@@ -156,16 +165,16 @@
 	position: absolute;
 	left: 50%;
 	bottom: 5%;
-	transform: translate(-50%, 12px);
+	transform: translate(-50%, 0);
 	font-size: 14px;
 	font-weight: 700;
-	color: rgba(255 255 255 / 0.95);
+	color: rgba(0 0 0 / 0.92);
 	letter-spacing: .02em;
-	opacity: 0;
+	opacity: 1;
 	z-index: 2;
 	transition: transform .55s cubic-bezier(.2,.7,.2,1), opacity .55s cubic-bezier(.2,.7,.2,1);
 	white-space: nowrap;
-	text-shadow: 0 10px 22px rgba(0 0 0 / 0.28);
+	text-shadow: none;
 }
 
 .card:hover .circleInner {
@@ -178,7 +187,4 @@
 	opacity: 1;
 	transform: translate(-50%, -50%);
 }
-.card:hover .hoverStats {
-	opacity: 1;
-	transform: translate(-50%, 0);
-}
+.card:hover .hoverStats { }

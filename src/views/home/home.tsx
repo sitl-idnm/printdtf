@@ -7,6 +7,7 @@ import styles from './home.module.scss'
 import { HomeProps } from './home.types'
 // import SvgAnimator from '@/modules/svg-animator'
 import { ServicesMain } from '@/modules/servicesMain'
+import { ServicesScroll } from '@/modules/servicesScroll'
 import { AboutCompany } from '@/modules/aboutCompany'
 import { FinalOffer } from '@/modules/finalOffer'
 import { Reviews } from '@/modules/reviews'
@@ -33,6 +34,7 @@ const Home: FC<HomeProps> = ({ className }) => {
 
         </SvgAnimator> */}
         <ServicesMain />
+        <ServicesScroll />
         <AboutCompany />
         <Reviews />
         <FinalOffer />

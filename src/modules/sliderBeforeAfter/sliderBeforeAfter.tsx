@@ -384,7 +384,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                       { name: 'Перенос на изделие' }
                     ]
                 }
-                videoSrc={isDTF ? '/videos/6.mp4' : ''}
+                videoSrcs={isDTF ? ['/videos/6.mp4', '/videos/6.mp4', '/videos/6.mp4'] : ['/videos/6.mp4', '/videos/6.mp4', '/videos/6.mp4']}
               />
             </div>
           </div>

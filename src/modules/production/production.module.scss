@@ -136,13 +136,23 @@
 
 	.container {
 		width: 100vw;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+		padding: 0 20px;
+
+		@include tablet {
+			grid-template-columns: 1fr;
+			gap: 16px;
+			padding: 0 8px;
+		}
 
 		.video {
 			display: block;
-			width: 100vw;
+			width: 100%;
 			height: auto;
-			max-width: 100%;
-			transform-origin: center;
+			aspect-ratio: 9 / 16;
+			object-fit: cover;
 		}
 	}
 }

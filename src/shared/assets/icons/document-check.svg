@@ -1,0 +1,18 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Document -->
+  <rect x="4" y="2" width="12" height="16" rx="1" stroke="currentColor" stroke-width="2" fill="none"/>
+  <line x1="6" y1="5" x2="14" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <!-- Checkbox 1 with checkmark -->
+  <rect x="6" y="8" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+  <path d="M6.5 9.5 L7.5 10.5 L9 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <line x1="10" y1="9.5" x2="14" y2="9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Checkbox 2 with checkmark -->
+  <rect x="6" y="12" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+  <path d="M6.5 13.5 L7.5 14.5 L9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <line x1="10" y1="13.5" x2="14" y2="13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Magnifying glass -->
+  <circle cx="17" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+  <line x1="19.5" y1="9.5" x2="22" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <!-- Checkmark inside magnifying glass -->
+  <path d="M15.5 7.5 L16.5 8.5 L18.5 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

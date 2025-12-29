@@ -1,0 +1,191 @@
+@use "@styles/func";
+@use "@styles/mixins" as *;
+@use "@styles/variables";
+
+.root {
+  padding: 0;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.block {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  --card-accent: var(--color-accent-1);
+  --card-bg: color-mix(in srgb, var(--card-accent) 14%, var(--color-white-default));
+
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--card-accent) 18%, var(--color-white-default)) 0%,
+      var(--color-white-default) 55%,
+      color-mix(in srgb, var(--card-accent) 10%, var(--color-white-default)) 100%
+    );
+
+  color: var(--color-black-default);
+  border: 1px solid rgba(0, 0, 0, 0.92);
+  box-shadow:
+    0 0 0 0 rgba(0 0 0 / 0%),
+    0 18px 42px rgba(0 0 0 / 10%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: transform 450ms ease, box-shadow 300ms ease, background 300ms ease;
+  will-change: transform;
+  isolation: isolate;
+
+  &[data-variant='1'] { --card-accent: var(--color-accent-1); }
+  &[data-variant='2'] { --card-accent: var(--color-accent-2); }
+  &[data-variant='3'] { --card-accent: var(--color-accent-3); }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -40%;
+    background:
+      radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--card-accent) 28%, transparent) 0%, transparent 55%),
+      radial-gradient(circle at 80% 30%, color-mix(in srgb, var(--card-accent) 22%, transparent) 0%, transparent 60%),
+      radial-gradient(circle at 40% 85%, color-mix(in srgb, var(--card-accent) 18%, transparent) 0%, transparent 65%);
+    transform: rotate(-6deg);
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.02));
+    opacity: 0;
+    transition: opacity 250ms ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cardInner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 520px;
+    display: grid;
+    gap: 14px;
+    justify-items: center;
+  }
+
+  @include desktop-only {
+    &:hover {
+      transform: translateY(-6px) rotate(-0.25deg);
+      box-shadow:
+        0 0 0 0 rgba(0 0 0 / 0%),
+        0 26px 60px rgba(0 0 0 / 14%);
+      &::after { opacity: 1; }
+    }
+  }
+
+  .title {
+    font-family: var(--font-unbounded);
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 600;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 12px 14px;
+    border: 1px solid rgba(0, 0, 0, 0.85);
+    background: color-mix(in srgb, var(--card-accent) 18%, rgba(255, 255, 255, 0.6));
+    backdrop-filter: blur(6px);
+    transition: transform 250ms ease;
+  }
+
+  .ctaIcon {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    svg { width: 18px; height: 18px; }
+  }
+
+  @include desktop-only {
+    &:hover .cta {
+      transform: translateX(2px);
+    }
+  }
+}
+
+.offer {
+  width: 100%;
+  max-width: 1400px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
+
+  @include tablet {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  &Left {
+    display: grid;
+    gap: 16px;
+  }
+
+  &Title {
+    font-family: var(--font-unbounded);
+    font-weight: 700;
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--color-black-default);
+
+    @include mobile-large {
+      font-size: 24px;
+    }
+  }
+
+  &Text {
+    font-size: 20px;
+    line-height: 1.4;
+    max-width: 48ch;
+    color: rgba(0, 0, 0, 0.75);
+
+    @include mobile-large {
+      font-size: 14px;
+    }
+  }
+
+  &Center {
+    width: 100%;
+  }
+}

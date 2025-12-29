@@ -2,7 +2,7 @@ export interface ProductionProps {
   className?: string
   title: string
   titleArr: arrItem[]
-  videoSrc: string
+  videoSrcs: string[]
 }
 
 export interface arrItem {

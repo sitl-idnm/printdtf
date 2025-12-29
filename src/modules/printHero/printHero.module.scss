@@ -211,8 +211,8 @@
 							display: block;
 						}
 
-						// Переопределяем цвет для всех path элементов
-						path {
+						// Переопределяем цвет для всех SVG элементов
+						path, line, rect, circle {
 							transition: stroke 0.3s ease, fill 0.3s ease;
 							stroke: var(--color-accent-1);
 							fill: var(--color-accent-1);
@@ -222,9 +222,11 @@
 
 				// Override colors for fulfillment page
 				body[data-page-theme="fulfillment"] & {
-					.option .clockIcon path {
-						stroke: var(--fulfillment-color-accent-1);
-						fill: var(--fulfillment-color-accent-1);
+					.option .clockIcon {
+						path, line, rect, circle {
+							stroke: var(--fulfillment-color-accent-1);
+							fill: var(--fulfillment-color-accent-1);
+						}
 					}
 				}
 

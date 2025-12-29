@@ -36,7 +36,7 @@ const ServicesMain: FC<ServicesMainProps> = ({
             aria-label={item.title}
           >
             <span className={styles.cardInner}>
-              <span className={styles.title}>{item.title}</span>
+            <span className={styles.title}>{item.title}</span>
               <span className={styles.cta}>
                 Подробнее <span className={styles.ctaIcon}><ArrowIcon /></span>
               </span>

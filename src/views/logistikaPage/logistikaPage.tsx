@@ -13,6 +13,8 @@ import { Contacts } from '@/modules/contacts'
 import { Advantages } from '@/components'
 import { DynamicBackground } from '@/ui'
 import { Faq } from '@/modules/faq'
+import { Reviews } from '@/modules/reviews'
+import { GallerySimple } from '@/modules/gallerySimple'
 
 const WorkArr = [{
   text: 'Селлеры на WB и Ozon, которым важно стабильно довозить поставки без отмен.'
@@ -130,6 +132,18 @@ const LogistikaPage: FC<LogistikaPageProps> = ({
         steps={howWeWorkSteps}
       />
       <DynamicBackground variant="swirl-2" pin={false} cellSize={100}><Faq faqData={faqData} /></DynamicBackground>
+      <GallerySimple
+        title="Галерея"
+        images={[
+          '/images/test.jpg',
+          '/images/test.jpg',
+          '/images/test.jpg',
+          '/images/test.jpg',
+          '/images/test.jpg',
+          '/images/test.jpg'
+        ]}
+      />
+      <Reviews />
       <Contacts
         id="contacts-warehouses"
         title="Контакты"

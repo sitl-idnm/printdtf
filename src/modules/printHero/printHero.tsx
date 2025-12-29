@@ -21,6 +21,7 @@ const PrintHero: FC<PrintHeroProps> = ({
   cta2,
   microtext,
   option,
+  optionIcon,
 }) => {
   const rootClassName = classNames(styles.root, className)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -158,7 +159,11 @@ const PrintHero: FC<PrintHeroProps> = ({
                     className={`${styles.row} ${styles.containertext} ${styles.animateItem}`}
                   >
                     <p className={styles.option}>
-                      <Clock className={styles.clockIcon} />
+                      {optionIcon ? (
+                        <span className={styles.clockIcon}>{optionIcon}</span>
+                      ) : (
+                        <Clock className={styles.clockIcon} />
+                      )}
                       {option}
                     </p>
                   </div>
