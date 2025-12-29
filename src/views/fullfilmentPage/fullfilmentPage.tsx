@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import styles from './fullfilmentPage.module.scss'
 import { FullfilmentPageProps } from './fullfilmentPage.types'
 import { PrintHero } from '@/modules/printHero'
+import DocumentCheck from '@icons/document-check.svg'
 import { WhoWeAre } from '@/modules/whoWeAre'
 import { KeyAdvantages } from '@/modules/keyAdvantages'
 // import { ForWork } from '@/modules/forWork'
@@ -16,6 +17,7 @@ import { Faq } from '@/modules/faq'
 import { DynamicBackground } from '@/ui'
 import { Contacts } from '@/modules/contacts'
 import { ServicePriceList } from '@/modules/servicePriceList'
+import { Reviews } from '@/modules/reviews'
 
 const contactsAddresses = [
   { text: 'Адрес основного склада/офиса в Москве с удобным выездом к ключевым складам WB и Ozon.' }
@@ -273,6 +275,7 @@ const FullfilmentPage: FC<FullfilmentPageProps> = ({
             <li>Работа с «Честным Знаком»</li>
           </ul>
         }
+        optionIcon={<DocumentCheck />}
       />
       <WhoWeAre
         title="Кто мы и что делаем"
@@ -320,6 +323,7 @@ const FullfilmentPage: FC<FullfilmentPageProps> = ({
       <DynamicBackground variant="swirl-2" pin={false} cellSize={100}>
         <Faq faqData={faqData} />
       </DynamicBackground>
+      <Reviews />
       <Contacts
         id="contacts-warehouses"
         title="Контакты"

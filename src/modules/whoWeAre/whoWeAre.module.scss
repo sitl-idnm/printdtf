@@ -20,7 +20,7 @@
 	flex-direction: column;
 	grid-template-columns: minmax(320px, 1fr) minmax(320px, 520px);
 	gap: clamp(14px, 3vw, 26px);
-	align-items: start;
+	align-items: flex-start;
 
 	@include tablet {
 		grid-template-columns: 1fr;
@@ -121,7 +121,7 @@
 	display: grid;
 	grid-template-columns: 38px 1fr;
 	gap: 12px;
-	align-items: start;
+	align-items: flex-start;
 	padding: 12px 12px;
 	border: 1px solid color-mix(in srgb, var(--color-black-default) 10%, transparent);
 	background: color-mix(in srgb, var(--color-white-default) 90%, transparent);

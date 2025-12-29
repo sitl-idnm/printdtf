@@ -8,4 +8,5 @@ export interface PrintHeroProps {
   cta2?: string | ReactNode
   microtext?: string | ReactNode
   option?: string | ReactNode
+  optionIcon?: ReactNode
 }
