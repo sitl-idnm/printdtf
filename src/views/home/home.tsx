@@ -34,8 +34,8 @@ const Home: FC<HomeProps> = ({ className }) => {
 
         </SvgAnimator> */}
         <ServicesMain />
-        <ServicesScroll />
         <AboutCompany />
+        <ServicesScroll />
         <Reviews />
         <FinalOffer />
       </Wrapper>

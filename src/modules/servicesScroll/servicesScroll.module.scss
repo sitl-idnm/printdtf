@@ -23,6 +23,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  will-change: opacity, transform;
+  transform: translateZ(0); // Аппаратное ускорение
+  backface-visibility: hidden; // Предотвращение мерцания
 }
 
 .card {
@@ -51,14 +54,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
   transition: transform 450ms ease, box-shadow 300ms ease, background 300ms ease;
-  will-change: transform;
+  will-change: transform, opacity;
+  transform: translateZ(0); // Аппаратное ускорение
+  backface-visibility: hidden; // Предотвращение мерцания
   isolation: isolate;
 
   &[data-variant='1'] { --card-accent: var(--color-accent-1); }
   &[data-variant='2'] { --card-accent: var(--color-accent-2); }
   &[data-variant='3'] { --card-accent: var(--color-accent-3); }
+  &[data-variant='offer'] { --card-accent: var(--color-accent-1); }
 
   &::before {
     content: '';
@@ -86,66 +91,136 @@
     z-index: 0;
   }
 
-  .cardInner {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 520px;
-    display: grid;
-    gap: 14px;
-    justify-items: center;
-  }
-
   @include desktop-only {
     &:hover {
-      transform: translateY(-6px) rotate(-0.25deg);
       box-shadow:
         0 0 0 0 rgba(0 0 0 / 0%),
         0 26px 60px rgba(0 0 0 / 14%);
       &::after { opacity: 1; }
     }
   }
+}
 
-  .title {
-    font-family: var(--font-unbounded);
-    font-size: clamp(28px, 4vw, 48px);
-    font-weight: 600;
-    line-height: 1.1;
-    text-transform: uppercase;
-  }
+.cardContent {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1400px;
+  padding: clamp(40px, 6vw, 80px);
+  display: flex;
+  align-items: center;
+  gap: clamp(40px, 6vw, 80px);
 
-  .cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    padding: 12px 14px;
-    border: 1px solid rgba(0, 0, 0, 0.85);
-    background: color-mix(in srgb, var(--card-accent) 18%, rgba(255, 255, 255, 0.6));
-    backdrop-filter: blur(6px);
-    transition: transform 250ms ease;
-  }
-
-  .ctaIcon {
-    width: 18px;
-    height: 18px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    svg { width: 18px; height: 18px; }
-  }
-
-  @include desktop-only {
-    &:hover .cta {
-      transform: translateX(2px);
-    }
+  @include tablet {
+    flex-direction: column;
+    gap: 32px;
+    padding: 40px 20px;
   }
 }
 
+.block[data-layout='left'] .cardContent {
+  flex-direction: row;
+}
+
+.block[data-layout='right'] .cardContent {
+  flex-direction: row-reverse;
+
+  @include tablet {
+    flex-direction: column;
+  }
+}
+
+.cardText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 4vw, 40px);
+  align-items: flex-start;
+
+  @include tablet {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.cardImage {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+
+  @include tablet {
+    min-height: 300px;
+    width: 100%;
+  }
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  max-height: 600px;
+  will-change: transform;
+  transform: translateZ(0); // Аппаратное ускорение
+  backface-visibility: hidden; // Предотвращение мерцания
+
+  @include tablet {
+    max-height: 400px;
+  }
+}
+
+.title {
+  font-family: var(--font-unbounded);
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 600;
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 14px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.85);
+  background: color-mix(in srgb, var(--card-accent) 18%, rgba(255, 255, 255, 0.6));
+  backdrop-filter: blur(6px);
+  transition: transform 250ms ease;
+  text-decoration: none;
+  color: inherit;
+
+  @include desktop-only {
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  @include tablet {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.ctaIcon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  svg { width: 18px; height: 18px; }
+}
+
 .offer {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 1400px;
+  padding: clamp(40px, 6vw, 80px);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: clamp(24px, 4vw, 64px);
@@ -154,6 +229,7 @@
   @include tablet {
     grid-template-columns: 1fr;
     gap: 24px;
+    padding: 40px 20px;
   }
 
   &Left {

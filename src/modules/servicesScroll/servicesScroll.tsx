@@ -2,6 +2,7 @@
 import { FC, useRef } from 'react'
 import classNames from 'classnames'
 import Link from 'next/link'
+import Image from 'next/image'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -22,9 +23,9 @@ function ArrowIcon() {
 }
 
 const services = [
-	{ title: 'Печать', href: '/print' },
-	{ title: 'Фулфилмент', href: '/fullfilment' },
-	{ title: 'Логистика', href: '/logistika' },
+	{ title: 'Печать', href: '/print', image: '/images/fotbolka.png' },
+	{ title: 'Фулфилмент', href: '/fullfilment', image: '/images/chehol.png' },
+	{ title: 'Логистика', href: '/logistika', image: '/images/dostavka.png' },
 ]
 
 const ServicesScroll: FC<ServicesScrollProps> = ({
@@ -44,29 +45,50 @@ const ServicesScroll: FC<ServicesScrollProps> = ({
 		if (prefersReduced) {
 			blocks.forEach((block, idx) => {
 				if (idx === 0) {
-					gsap.set(block, { opacity: 1, scale: 1 })
+					gsap.set(block, { opacity: 1, scale: 1, pointerEvents: 'auto' })
 				} else {
-					gsap.set(block, { opacity: 0, scale: 0.95 })
+					gsap.set(block, { opacity: 0, scale: 0.95, pointerEvents: 'none' })
 				}
 			})
 			return
 		}
 
 		// Устанавливаем начальное состояние
+		// Видимый блок должен иметь максимальный z-index
+		const maxZIndex = blocks.length + 1
 		blocks.forEach((block, idx) => {
 			if (idx === 0) {
-				gsap.set(block, { opacity: 1, scale: 1, zIndex: blocks.length - idx })
+				gsap.set(block, {
+					opacity: 1,
+					scale: 1,
+					zIndex: maxZIndex,
+					pointerEvents: 'auto',
+					force3D: true,
+					transformOrigin: 'center center'
+				})
 			} else {
-				gsap.set(block, { opacity: 0, scale: 0.95, zIndex: blocks.length - idx })
+				gsap.set(block, {
+					opacity: 0,
+					scale: 0.95,
+					zIndex: idx,
+					pointerEvents: 'none',
+					force3D: true,
+					transformOrigin: 'center center'
+				})
 			}
 		})
 
 		// Создаём ScrollTrigger с pin
 		// Каждый блок занимает 200vh скролла (удвоенная длительность)
+		// Кэшируем вычисление для производительности
+		let cachedTotalScroll: number | null = null
 		const getTotalScroll = () => {
-			const sectionHeight = window.innerHeight
-			const scrollPerBlock = sectionHeight * 2 // 200vh на блок
-			return blocks.length * scrollPerBlock
+			if (cachedTotalScroll === null) {
+				const sectionHeight = window.innerHeight
+				const scrollPerBlock = sectionHeight * 2 // 200vh на блок
+				cachedTotalScroll = blocks.length * scrollPerBlock
+			}
+			return cachedTotalScroll
 		}
 
 		const tl = gsap.timeline({
@@ -74,9 +96,10 @@ const ServicesScroll: FC<ServicesScrollProps> = ({
 				trigger: container,
 				start: 'top top',
 				end: () => `+=${getTotalScroll()}`,
-				scrub: 1,
+				scrub: 1.5, // Увеличено для более плавной анимации
 				pin: true,
 				pinSpacing: true,
+				anticipatePin: 1, // Предсказание pin для лучшей производительности
 				invalidateOnRefresh: true,
 				refreshPriority: 1,
 			}
@@ -100,19 +123,32 @@ const ServicesScroll: FC<ServicesScrollProps> = ({
 			tl.to(blocks[idx - 1], {
 				opacity: 0,
 				scale: 0.95,
+				zIndex: idx - 1,
+				pointerEvents: 'none',
 				duration: transitionDuration,
 				ease: 'power2.in',
+				force3D: true,
+				overwrite: 'auto',
 			}, transitionPoint)
 
 			// Появление текущего блока одновременно
+			// Видимый блок должен иметь максимальный z-index
+			const maxZIndex = blocks.length + 1
 			tl.fromTo(block, {
 				opacity: 0,
 				scale: 0.95,
+				zIndex: idx,
+				pointerEvents: 'none',
+				force3D: true,
 			}, {
 				opacity: 1,
 				scale: 1,
+				zIndex: maxZIndex,
+				pointerEvents: 'auto',
 				duration: transitionDuration,
 				ease: 'power2.out',
+				force3D: true,
+				overwrite: 'auto',
 			}, transitionPoint)
 		})
 
@@ -131,34 +167,49 @@ const ServicesScroll: FC<ServicesScrollProps> = ({
 						key={service.href}
 						className={styles.block}
 						data-variant={idx + 1}
+						data-layout={idx % 2 === 0 ? 'left' : 'right'}
 					>
-						<Link
-							href={service.href}
-							className={styles.card}
-							aria-label={service.title}
-						>
-							<span className={styles.cardInner}>
-								<span className={styles.title}>{service.title}</span>
-								<span className={styles.cta}>
-									Подробнее <span className={styles.ctaIcon}><ArrowIcon /></span>
-								</span>
-							</span>
-						</Link>
+						<div className={styles.card}>
+							<div className={styles.cardContent}>
+								<div className={styles.cardText}>
+									<h2 className={styles.title}>{service.title}</h2>
+									<Link
+										href={service.href}
+										className={styles.cta}
+										aria-label={`Подробнее о ${service.title}`}
+									>
+										Подробнее <span className={styles.ctaIcon}><ArrowIcon /></span>
+									</Link>
+								</div>
+								<div className={styles.cardImage}>
+									<Image
+										src={service.image}
+										alt={service.title}
+										width={600}
+										height={600}
+										className={styles.image}
+										priority={idx === 0}
+									/>
+								</div>
+							</div>
+						</div>
 					</div>
 				))}
 
 				{/* Блок оффера */}
 				<div className={styles.block} data-variant="offer">
-					<div className={styles.offer}>
-						<div className={styles.offerLeft}>
-							<h2 className={styles.offerTitle}>Готовы обсудить макет?</h2>
-							<p className={styles.offerText}>
-								Выберите метод (DTF/UV DTF) — наш менеджер
-								свяжется с вами в течение 15 минут.
-							</p>
-						</div>
-						<div className={styles.offerCenter}>
-							<Form submitLabel="Отправить заявку" useAtomPrintMethod={false} />
+					<div className={styles.card}>
+						<div className={styles.offer}>
+							<div className={styles.offerLeft}>
+								<h2 className={styles.offerTitle}>Готовы обсудить макет?</h2>
+								<p className={styles.offerText}>
+									Выберите метод (DTF/UV DTF) — наш менеджер
+									свяжется с вами в течение 15 минут.
+								</p>
+							</div>
+							<div className={styles.offerCenter}>
+								<Form submitLabel="Отправить заявку" useAtomPrintMethod={false} />
+							</div>
 						</div>
 					</div>
 				</div>

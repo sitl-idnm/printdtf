@@ -2,10 +2,6 @@
 @use "@styles/mixins" as *;
 @use "@styles/variables";
 
-.root {
-  padding: clamp(28px, 5vw, 56px) 0;
-}
-
 .frame {
   border: 1px solid rgba(0, 0, 0, 0.92);
   background: var(--color-white-default);
@@ -50,31 +46,42 @@
 
 .bullet {
   display: grid;
-  grid-template-columns: 14px 1fr;
+  grid-template-columns: 24px 1fr;
   gap: 12px;
   align-items: start;
   font-size: 15px;
   line-height: 1.5;
 }
 
-.mark {
-  width: 14px;
-  height: 14px;
+.icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid rgba(0, 0, 0, 0.92);
   background: var(--color-accent-2);
+  color: var(--color-black-default);
+  flex-shrink: 0;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
 }
 
 .actions {
   margin-top: 22px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 12px;
-  flex-wrap: wrap;
 }
 
 .btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   padding: 14px 16px;
   border: 1px solid rgba(0, 0, 0, 0.92);
   text-transform: uppercase;
@@ -83,6 +90,8 @@
   font-size: 13px;
   line-height: 1;
   transition: transform 180ms ease, background 180ms ease;
+  text-decoration: none;
+  color: var(--color-black-default);
 }
 
 .btnPrimary {
@@ -92,6 +101,11 @@
 
 .btnSecondary {
   background: color-mix(in srgb, var(--color-accent-1) 14%, var(--color-white-default));
+  color: var(--color-black-default);
+}
+
+.btnTertiary {
+  background: color-mix(in srgb, var(--color-accent-3) 14%, var(--color-white-default));
   color: var(--color-black-default);
 }
 
@@ -155,5 +169,37 @@
   .left {
     border-right: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.92);
+  }
+  .actions {
+    gap: 10px;
+  }
+  .btn {
+    padding: 12px 14px;
+    font-size: 12px;
+  }
+}
+
+@include mobile-large {
+  .bullets {
+    gap: 8px;
+  }
+  .bullet {
+    font-size: 14px;
+    gap: 10px;
+  }
+  .icon {
+    width: 20px;
+    height: 20px;
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+  .actions {
+    gap: 8px;
+  }
+  .btn {
+    padding: 12px;
+    font-size: 11px;
   }
 }

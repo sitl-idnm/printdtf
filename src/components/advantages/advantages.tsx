@@ -83,72 +83,115 @@ const Advantages: FC<AdvantagesProps> = ({
     const root = containerRef.current
     if (!root) return
 
-    // Get all items
-    const items = Array.from(root.querySelectorAll<HTMLElement>(`.${styles.item}`))
+    // Проверка готовности DOM (особенно важно для Vercel)
+    const initAnimation = () => {
+      // Get all items
+      const items = Array.from(root.querySelectorAll<HTMLElement>(`.${styles.item}`))
 
-    if (items.length === 0) return
-
-    // Preserve CSS "rotate" (individual transform property) from styles like :nth-child(...)
-    const getCssRotateDeg = (el: HTMLElement): number => {
-      const rotate = getComputedStyle(el).rotate
-      if (!rotate || rotate === 'none') return 0
-      const n = Number.parseFloat(rotate)
-      return Number.isFinite(n) ? n : 0
-    }
-
-    const endRotates = items.map(getCssRotateDeg)
-
-    // Calculate end based on number of items for proper pin spacing
-    const itemCount = items.length
-    const endValue = itemCount * 300 // 300px per item for smooth animation
-
-    const getStartEnd = () => {
-      const prev = ScrollTrigger.getById('whatIsPin')
-      const prevEnd = prev && Number.isFinite(prev.end) ? prev.end : null
-      // "Correct" start is when this section's top reaches the top of the viewport.
-      // When WhatIs is pinned, we additionally must not start before its end.
-      const absTop = root.getBoundingClientRect().top + (window.scrollY || window.pageYOffset)
-      const start = prevEnd != null ? Math.max(prevEnd, absTop) : absTop
-      return { start, end: start + endValue }
-    }
-
-    // Explicit initial state (so cards don't appear "already laid out" before the scrub starts)
-    gsap.set(items, {
-      willChange: 'transform, opacity',
-      x: 800,
-      rotate: (i: number) => (endRotates[i] ?? 0) + 12,
-      opacity: 0,
-    })
-
-    // Create timeline with ScrollTrigger
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: root,
-        // Start only after WhatIs pin completes (prevents "halfway" overlap).
-        start: () => getStartEnd().start,
-        end: () => getStartEnd().end,
-        scrub: 1,
-        pin: true,
-        pinSpacing: true,
-        invalidateOnRefresh: true,
-        refreshPriority: 1
+      if (items.length === 0) {
+        // Retry if items not ready yet
+        requestAnimationFrame(initAnimation)
+        return
       }
-    })
 
-    // Animate items from right
-    tl.to(items, {
-      x: 0,
-      rotate: (i: number) => endRotates[i] ?? 0,
-      opacity: 1,
-      stagger: 0.8,
-      ease: 'power2.out',
-      duration: 2.5,
-      overwrite: 'auto',
-    })
+      // Проверка, что элементы имеют размеры (важно для Vercel)
+      const rect = root.getBoundingClientRect()
+      if (rect.width <= 0 || rect.height <= 0) {
+        requestAnimationFrame(initAnimation)
+        return
+      }
+
+      // Preserve CSS "rotate" (individual transform property) from styles like :nth-child(...)
+      const getCssRotateDeg = (el: HTMLElement): number => {
+        const rotate = getComputedStyle(el).rotate
+        if (!rotate || rotate === 'none') return 0
+        const n = Number.parseFloat(rotate)
+        return Number.isFinite(n) ? n : 0
+      }
+
+      const endRotates = items.map(getCssRotateDeg)
+
+      // Calculate end based on number of items for proper pin spacing
+      const itemCount = items.length
+      const endValue = itemCount * 300 // 300px per item for smooth animation
+
+      const getStartEnd = () => {
+        const prev = ScrollTrigger.getById('whatIsPin')
+        const prevEnd = prev && Number.isFinite(prev.end) ? prev.end : null
+        // "Correct" start is when this section's top reaches the top of the viewport.
+        // When WhatIs is pinned, we additionally must not start before its end.
+        // Используем более надежный способ получения позиции
+        const rect = root.getBoundingClientRect()
+        const scrollY = typeof window !== 'undefined' ? (window.scrollY || window.pageYOffset || 0) : 0
+        const absTop = rect.top + scrollY
+        const start = prevEnd != null ? Math.max(prevEnd, absTop) : absTop
+        return { start, end: start + endValue }
+      }
+
+      // Explicit initial state (so cards don't appear "already laid out" before the scrub starts)
+      // Используем force3D для аппаратного ускорения
+      gsap.set(items, {
+        willChange: 'transform, opacity',
+        x: 800,
+        rotate: (i: number) => (endRotates[i] ?? 0) + 12,
+        opacity: 0,
+        force3D: true,
+        transformOrigin: 'center center',
+      })
+
+      // Create timeline with ScrollTrigger
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: root,
+          // Start only after WhatIs pin completes (prevents "halfway" overlap).
+          start: () => getStartEnd().start,
+          end: () => getStartEnd().end,
+          scrub: 1.5, // Увеличено для более плавной анимации
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1, // Предсказание pin для лучшей производительности
+          invalidateOnRefresh: true,
+          refreshPriority: 1,
+          // Обработка refresh для Vercel
+          onRefresh: () => {
+            // Обновляем начальное состояние при refresh
+            gsap.set(items, {
+              x: 800,
+              rotate: (i: number) => (endRotates[i] ?? 0) + 12,
+              opacity: 0,
+              force3D: true,
+            })
+          }
+        }
+      })
+
+      // Animate items from right
+      tl.to(items, {
+        x: 0,
+        rotate: (i: number) => endRotates[i] ?? 0,
+        opacity: 1,
+        stagger: 0.8,
+        ease: 'power2.out',
+        duration: 2.5,
+        overwrite: 'auto',
+        force3D: true,
+      })
+
+      return () => {
+        tl.scrollTrigger?.kill()
+        tl.kill()
+      }
+    }
+
+    // Задержка инициализации для Vercel (дает время на полную загрузку)
+    let cleanupFn: (() => void) | null | undefined = null
+    const timeoutId = setTimeout(() => {
+      cleanupFn = initAnimation()
+    }, 100)
 
     return () => {
-      tl.scrollTrigger?.kill()
-      tl.kill()
+      clearTimeout(timeoutId)
+      if (cleanupFn) cleanupFn()
     }
   }, { scope: containerRef, dependencies: [arrAdvantages, title], revertOnUpdate: true })
 

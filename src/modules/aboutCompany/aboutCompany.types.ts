@@ -13,4 +13,5 @@ export interface AboutCompanyProps {
   stats?: AboutCompanyStat[]
   ctaPrimary?: { label: string; href: string }
   ctaSecondary?: { label: string; href: string }
+  ctaTertiary?: { label: string; href: string }
 }

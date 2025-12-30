@@ -43,6 +43,14 @@
 .invert .input::placeholder {
 	color: rgba(255,255,255,.6);
 }
+.invert .differenceLink {
+	color: rgba(255, 255, 255, 0.7);
+	text-decoration-color: rgba(255, 255, 255, 0.4);
+	&:hover {
+		color: rgba(255, 255, 255, 0.9);
+		text-decoration-color: rgba(255, 255, 255, 0.6);
+	}
+}
 
 .control {
 	position: relative;
@@ -68,6 +76,32 @@
 
 	@include mobile-large {
 		font-size: 12px;
+	}
+}
+
+.choiceLabelRow {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.differenceLink {
+	color: rgba(0, 0, 0, 0.6);
+	font-size: clamp(12px, 1.2vw, 14px);
+	text-decoration: underline;
+	text-decoration-color: rgba(0, 0, 0, 0.3);
+	text-underline-offset: 3px;
+	transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	cursor: pointer;
+
+	&:hover {
+		color: rgba(0, 0, 0, 0.85);
+		text-decoration-color: rgba(0, 0, 0, 0.5);
+	}
+
+	@include mobile-large {
+		font-size: 11px;
 	}
 }
 

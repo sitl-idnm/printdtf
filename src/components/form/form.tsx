@@ -1,5 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
+import Link from 'next/link'
 
 import styles from './form.module.scss'
 import { FormProps } from './form.types'
@@ -165,7 +166,12 @@ const Form: FC<FormProps> = ({
 
       <div className={styles.control}>
         <div className={styles.row}>
-          <span className={styles.choiceLabel}>Метод печати</span>
+          <div className={styles.choiceLabelRow}>
+            <span className={styles.choiceLabel}>Метод печати</span>
+            <Link href="/print#faq-dtf-difference" className={styles.differenceLink} scroll={true}>
+              чем отличается?
+            </Link>
+          </div>
           <div className={classNames(styles.options, styles.optionsRow)}>
             {([
               { key: 'dtf', label: 'DTF' },
