@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import styles from './fullfilmentPage.module.scss'
 import { FullfilmentPageProps } from './fullfilmentPage.types'
 import { PrintHero } from '@/modules/printHero'
-import DocumentCheck from '@icons/document-check.svg'
+import WarehouseIcon from '@icons/warehouse.svg'
 import { WhoWeAre } from '@/modules/whoWeAre'
 import { KeyAdvantages } from '@/modules/keyAdvantages'
 // import { ForWork } from '@/modules/forWork'
@@ -30,24 +30,24 @@ const contactsAddresses = [
 
 const beforeAfterItems = [
   {
-    beforeImage: '/images/before-after-1-before.jpg',
-    afterImage: '/images/before-after-1-after.jpg',
+    beforeImage: '/images/1.png',
+    afterImage: '/images/2.png',
     beforeLabel: 'Приняли от поставщика',
     afterLabel: 'Отправили на маркетплейс',
     title: 'Упаковка и подготовка',
     description: 'Аккуратная упаковка товара по требованиям маркетплейсов'
   },
   {
-    beforeImage: '/images/before-after-2-before.jpg',
-    afterImage: '/images/before-after-2-after.jpg',
+    beforeImage: '/images/1.png',
+    afterImage: '/images/2.png',
     beforeLabel: 'До обработки',
     afterLabel: 'После обработки',
     title: 'Маркировка и стикеровка',
     description: 'Нанесение стикеров и маркировки под требования WB и Ozon'
   },
   {
-    beforeImage: '/images/before-after-3-before.jpg',
-    afterImage: '/images/before-after-3-after.jpg',
+    beforeImage: '/images/1.png',
+    afterImage: '/images/2.png',
     beforeLabel: 'До консолидации',
     afterLabel: 'После консолидации',
     title: 'Консолидация поставок',
@@ -275,7 +275,7 @@ const FullfilmentPage: FC<FullfilmentPageProps> = ({
             <li>Работа с «Честным Знаком»</li>
           </ul>
         }
-        optionIcon={<DocumentCheck />}
+        optionIcon={<WarehouseIcon />}
       />
       <WhoWeAre
         title="Кто мы и что делаем"

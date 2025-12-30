@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useState, useEffect } from 'react'
 import classNames from 'classnames'
 
 import styles from './faq.module.scss'
@@ -18,6 +18,40 @@ const FaqComponent: FC<FaqProps> = ({
     setActiveIndex((prev) => (prev === index ? null : index))
   }, [])
 
+  // Обработка якорных ссылок
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash
+      if (hash) {
+        const targetId = hash.slice(1) // убираем #
+        const targetIndex = faqData.findIndex((item) => item.id === targetId)
+        if (targetIndex !== -1) {
+          setActiveIndex(targetIndex)
+          // Прокрутка к элементу с задержкой для загрузки страницы
+          setTimeout(() => {
+            const element = document.getElementById(targetId)
+            if (element) {
+              // Добавляем отступ сверху для лучшей видимости
+              const yOffset = -80
+              const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
+              window.scrollTo({ top: y, behavior: 'smooth' })
+            }
+          }, 300)
+        }
+      }
+    }
+
+    // Обработка при монтировании
+    handleHash()
+
+    // Обработка при изменении hash (например, при клике на ссылку на той же странице)
+    window.addEventListener('hashchange', handleHash)
+
+    return () => {
+      window.removeEventListener('hashchange', handleHash)
+    }
+  }, [faqData])
+
 
   return (
     <div className={rootClassName}>
@@ -25,11 +59,12 @@ const FaqComponent: FC<FaqProps> = ({
         <h2 className={styles.title}>{title}</h2>
         <div className={styles.faqGrid}>
           <div className={styles.col}>
-            {faqData.filter((_, i) => i % 2 === 0).map((item: { title: string; content: string }, idx: number) => {
+            {faqData.filter((_, i) => i % 2 === 0).map((item: { title: string; content: string; id?: string }, idx: number) => {
               const realIndex = idx * 2
               return (
                 <div
                   key={realIndex}
+                  id={item.id}
                   className={classNames(styles.faqItem, {
                     [styles.active]: activeIndex === realIndex
                   })}
@@ -53,11 +88,12 @@ const FaqComponent: FC<FaqProps> = ({
             })}
           </div>
           <div className={styles.col}>
-            {faqData.filter((_, i) => i % 2 === 1).map((item: { title: string; content: string }, idx: number) => {
+            {faqData.filter((_, i) => i % 2 === 1).map((item: { title: string; content: string; id?: string }, idx: number) => {
               const realIndex = idx * 2 + 1
               return (
                 <div
                   key={realIndex}
+                  id={item.id}
                   className={classNames(styles.faqItem, {
                     [styles.active]: activeIndex === realIndex
                   })}

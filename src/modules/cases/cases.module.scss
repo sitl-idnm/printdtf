@@ -31,7 +31,7 @@
 .grid {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: stretch;
 	gap: 24px;
 	width: 100%;
@@ -89,8 +89,7 @@
 .labels {
 	position: absolute;
 	top: 16%;
-	left: 50%;
-	transform: translate(-50%, 0);
+	padding: 0 10px;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
@@ -177,11 +176,11 @@
 	text-shadow: none;
 }
 
-.card:hover .circleInner {
+.card .circleInner {
 	transform: scale(3.3) translateY(-15%); /* «заливка» карточки кругом */
 }
 .card:hover .labels {
-	transform: translate(-50%, -14px); /* уехать немного вверх */
+	transform: translate(0, -14px); /* уехать немного вверх */
 }
 .card:hover .readMore {
 	opacity: 1;

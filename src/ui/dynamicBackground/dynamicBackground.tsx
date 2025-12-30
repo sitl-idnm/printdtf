@@ -25,7 +25,12 @@ const DynamicBackground: FC<DynamicBackgroundProps> = ({
   const svgRef = useRef<SVGSVGElement | null>(null)
 
   const resolvedPin = pin ?? (variant === 'grid-draw' || variant === 'diagonal-lines' || variant === 'swirl-2' || variant === 'crosses')
-  const rootClassName = classNames(styles.root, className, resolvedPin && styles.pin)
+  const rootClassName = classNames(
+    styles.root,
+    className,
+    resolvedPin && styles.pin,
+    !resolvedPin && styles.noMinHeight
+  )
 
   useGSAP(() => {
     if (variant !== 'grid-draw') return

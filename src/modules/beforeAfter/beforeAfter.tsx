@@ -16,7 +16,19 @@ const BeforeAfter: FC<BeforeAfterProps> = ({ className, title, items }) => {
   const gridRef = useRef<HTMLDivElement | null>(null)
   const [sliderPositions, setSliderPositions] = useState<Record<number, number>>({})
 
-  const data = items || []
+  // Дефолтные тестовые данные для демонстрации
+  const defaultItems = [
+    {
+      beforeImage: '/images/1.png',
+      afterImage: '/images/2.png',
+      beforeLabel: 'До',
+      afterLabel: 'После',
+      title: 'Пример работы',
+      description: 'Демонстрация функционала слайдера "До и После"'
+    }
+  ]
+
+  const data = items && items.length > 0 ? items : defaultItems
 
   useGSAP(() => {
     const root = gridRef.current

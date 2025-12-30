@@ -1,6 +1,7 @@
 export interface FaqItem {
   title: string
   content: string
+  id?: string
 }
 
 export interface FaqProps {
@@ -8,6 +9,7 @@ export interface FaqProps {
   faqData: Array<{
     title: string
     content: string
+    id?: string
   }>
   title?: string
 }

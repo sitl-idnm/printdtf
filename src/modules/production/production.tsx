@@ -1,9 +1,14 @@
 'use client'
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 import classNames from 'classnames'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
 
 import styles from './production.module.scss'
 import { ProductionProps } from './production.types'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const Production: FC<ProductionProps> = ({
   className,
@@ -12,9 +17,42 @@ const Production: FC<ProductionProps> = ({
   videoSrcs
 }) => {
   const rootClassName = classNames(styles.root, className)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useGSAP(() => {
+    if (containerRef.current) {
+      const videos = containerRef.current.querySelectorAll(`.${styles.video}`)
+
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 10%',
+          end: '+=200%',
+          scrub: 1,
+          pin: true,
+          pinSpacing: true,
+        }
+      })
+        .fromTo(videos,
+          {
+            y: 100,
+            opacity: 0,
+            scale: 0.8
+          },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            stagger: 0.5,
+            ease: 'power2.out',
+            duration: 1
+          }
+        )
+    }
+  }, { scope: containerRef, dependencies: [videoSrcs] })
 
   return (
-    <div className={rootClassName}>
+    <div className={rootClassName} ref={containerRef}>
       <div className={styles.title}>
         <h2 className={styles.title_name}>
           {title}

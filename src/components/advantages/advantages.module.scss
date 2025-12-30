@@ -66,7 +66,7 @@
 		}
 
 		.bg_image {
-			background: center no-repeat url('/images/background-3.jpg');
+			// background: center no-repeat url('/images/background-3.jpg');
 
 			@include desktop {
 				display: none;
@@ -108,20 +108,25 @@
 			padding: 0;
 		}
 
-		.item {
-			padding: 15px 30px;
-			background-color: var(--color-accent-1);
-			border: 1px solid black;
-			color: white;
-			font-weight: 500;
+	.item {
+		padding: 15px 30px;
+		background-color: var(--color-accent-1);
+		border: 1px solid black;
+		color: white;
+		font-weight: 500;
 
-			transition: scale 0.3s ease-in-out, rotate 0.3s ease-in-out;
+		transition: scale 0.3s ease-in-out, rotate 0.3s ease-in-out;
 
-			max-width: 450px;
-			width: 100%;
+		max-width: 450px;
+		width: 100%;
 
-			// Важно: не прячем контент через CSS.
-			// Начальные состояния для анимации задаёт GSAP, иначе при гидрации/ошибке блок может остаться невидимым.
+		// Оптимизации для производительности
+		will-change: transform, opacity;
+		transform: translateZ(0); // Аппаратное ускорение
+		backface-visibility: hidden; // Предотвращение мерцания
+
+		// Важно: не прячем контент через CSS.
+		// Начальные состояния для анимации задаёт GSAP, иначе при гидрации/ошибке блок может остаться невидимым.
 
 			@include tablet {
 				padding: 10px 20px;
@@ -133,34 +138,9 @@
 				max-width: none;
 			}
 
-			// Разные углы поворота для разных элементов, как в WhatIs
-			&:nth-child(3n + 1) {
-				rotate: -3deg;
-			}
-
-			&:nth-child(3n + 2) {
-				rotate: 4deg;
-			}
-
-			&:nth-child(3n) {
-				rotate: -2deg;
-			}
-
 			@include desktop-only {
 				&:hover {
 					scale: 1.1;
-
-					&:nth-child(3n + 1) {
-						rotate: -8deg;
-					}
-
-					&:nth-child(3n + 2) {
-						rotate: 8deg;
-					}
-
-					&:nth-child(3n) {
-						rotate: -6deg;
-					}
 				}
 			}
 
@@ -235,18 +215,6 @@
 			@include desktop-only {
 				&:hover {
 					scale: 1.1;
-
-					&:nth-child(3n + 1) {
-						rotate: -8deg;
-					}
-
-					&:nth-child(3n + 2) {
-						rotate: 8deg;
-					}
-
-					&:nth-child(3n) {
-						rotate: -6deg;
-					}
 				}
 			}
 		}
