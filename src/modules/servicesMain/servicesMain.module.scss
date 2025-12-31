@@ -115,14 +115,13 @@
       filter: grayscale(100%);
       opacity: 0.4;
       transition: filter 450ms ease, opacity 450ms ease, transform 450ms ease;
-      transform: scale(1.1) translateZ(0);
+      transform: translateZ(0);
       will-change: filter, opacity, transform;
     }
 
     &:hover .image {
       filter: grayscale(0%);
       opacity: 0.6;
-      transform: scale(1.05) translateZ(0);
     }
 
     .cardInner {
