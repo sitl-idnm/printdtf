@@ -161,10 +161,14 @@
 					width: max-content;
   				background-color: white;
 					padding: 20px 40px;
+					max-width: 100%;
+
+					@include desktop {
+						padding: 18px 32px;
+					}
 
 					@include tablet-small {
 						padding: 10px;
-
 						width: 100%;
 					}
 
@@ -174,6 +178,7 @@
 						font-size: 18px;
 						line-height: 1.4;
 						color: var(--color-accent-1);
+						width: 100%;
 
 						@include desktop {
 							font-size: 16px;
@@ -186,6 +191,51 @@
 
 						@include mobile-large {
 							align-items: center;
+						}
+
+						// Когда внутри есть список, меняем layout
+						&:has(ul) {
+							flex-direction: column;
+							gap: 12px;
+
+							@include desktop {
+								gap: 10px;
+							}
+
+							.clockIcon {
+								align-self: flex-start;
+							}
+						}
+
+						// Стили для списка внутри option
+						ul {
+							display: grid;
+							grid-template-columns: repeat(2, 1fr);
+							gap: 8px 24px;
+							margin: 0;
+							padding: 0;
+							list-style: none;
+							width: 100%;
+
+							@include desktop {
+								gap: 6px 20px;
+							}
+
+							@include tablet {
+								grid-template-columns: 1fr;
+								gap: 6px;
+							}
+
+							li {
+								font-size: inherit;
+								line-height: inherit;
+								color: inherit;
+								white-space: nowrap;
+
+								@include tablet {
+									white-space: normal;
+								}
+							}
 						}
 
 					.clockIcon {
