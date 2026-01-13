@@ -1,7 +1,6 @@
 'use client'
 import { FC, useRef } from 'react'
 import classNames from 'classnames'
-import Link from 'next/link'
 import Image from 'next/image'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
@@ -13,19 +12,25 @@ import Form from '@/components/form/form'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
-function ArrowIcon() {
-	return (
-		<svg viewBox="0 0 24 24" aria-hidden="true">
-			<path d="M7 17L17 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-			<path d="M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-		</svg>
-	)
-}
-
 const services = [
-	{ title: 'Печать', href: '/print', image: '/images/fotbolka.png' },
-	{ title: 'Фулфилмент', href: '/fullfilment', image: '/images/chehol.png' },
-	{ title: 'Логистика', href: '/logistika', image: '/images/dostavka.png' },
+	{
+		title: 'Печать',
+		href: '/print',
+		image: '/images/fotbolka.png',
+		description: 'DTF и UV DTF печать под ключ: от единичных креативных вещей до срочных тиражей фирменного мерча за 1–3 рабочих дня, с яркими, износостойкими принтами на ткани, стекле, пластике и других поверхностях, от 1 штуки и по прозрачным ценам.'
+	},
+	{
+		title: 'Фулфилмент',
+		href: '/fullfilment',
+		image: '/images/chehol.png',
+		description: 'Фулфилмент для маркетплейсов: забираем груз, консолидируем, маркируем, упаковываем и довозим на склады WB, Ozon, Я.Маркет по FBO/FBS с фотоотчетами и работой по "Честному Знаку" — честный прайс, опыт селлеров и оптимизация рутины.'
+	},
+	{
+		title: 'Логистика',
+		href: '/logistika',
+		image: '/images/dostavka.png',
+		description: 'Логистика для маркетплейсов: забираем груз в Москве и области, консолидируем, формируем паллеты по требованиям WB/Ozon и доставляем точно в слоты по FBO/FBS с прозрачными тарифами и регулярными рейсами.'
+	},
 ]
 
 const ServicesScroll: FC<ServicesScrollProps> = ({
@@ -106,16 +111,15 @@ const ServicesScroll: FC<ServicesScrollProps> = ({
 		})
 
 		// Анимируем смену блоков
-		// Каждый блок занимает равную часть скролла (25% для 4 блоков)
-		// Переходы происходят на границах: 0.25, 0.5, 0.75
+		// Каждый блок занимает равную часть скролла
+		// Переходы происходят на границах прогресса
 		blocks.forEach((block, idx) => {
 			if (idx === 0) {
-				// Первый блок виден с начала (0-25%)
+				// Первый блок виден с начала
 				return
 			}
 
-			// Позиция перехода: каждый блок занимает 1/4 прогресса
-			// Блок 0: 0-0.25, Блок 1: 0.25-0.5, Блок 2: 0.5-0.75, Блок 3: 0.75-1.0
+			// Позиция перехода: каждый блок занимает равную часть прогресса
 			const transitionPoint = idx / blocks.length
 			const transitionDuration = 0.2 // Короткая анимация перехода
 
@@ -173,13 +177,10 @@ const ServicesScroll: FC<ServicesScrollProps> = ({
 							<div className={styles.cardContent}>
 								<div className={styles.cardText}>
 									<h2 className={styles.title}>{service.title}</h2>
-									<Link
-										href={service.href}
-										className={styles.cta}
-										aria-label={`Подробнее о ${service.title}`}
-									>
-										Подробнее <span className={styles.ctaIcon}><ArrowIcon /></span>
-									</Link>
+									<p className={styles.description}>{service.description}</p>
+									<div className={styles.formWrapper}>
+										<Form submitLabel="Оставить заявку" useAtomPrintMethod={false} className={styles.formCompact} />
+									</div>
 								</div>
 								<div className={styles.cardImage}>
 									<Image
@@ -195,24 +196,6 @@ const ServicesScroll: FC<ServicesScrollProps> = ({
 						</div>
 					</div>
 				))}
-
-				{/* Блок оффера */}
-				<div className={styles.block} data-variant="offer">
-					<div className={styles.card}>
-						<div className={styles.offer}>
-							<div className={styles.offerLeft}>
-								<h2 className={styles.offerTitle}>Готовы обсудить макет?</h2>
-								<p className={styles.offerText}>
-									Выберите метод (DTF/UV DTF) — наш менеджер
-									свяжется с вами в течение 15 минут.
-								</p>
-							</div>
-							<div className={styles.offerCenter}>
-								<Form submitLabel="Отправить заявку" useAtomPrintMethod={false} />
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</section>
 	)

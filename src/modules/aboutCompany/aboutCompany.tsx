@@ -22,25 +22,6 @@ function IconPrint() {
   )
 }
 
-function IconFileCheck() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-      <path d="M14 2v6h6" />
-      <path d="M9 15l2 2 4-4" />
-    </svg>
-  )
-}
-
-function IconClock() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10" />
-      <path d="M12 6v6l4 2" />
-    </svg>
-  )
-}
-
 function IconTruck() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -52,22 +33,48 @@ function IconTruck() {
   )
 }
 
-const bulletIcons = [IconPrint, IconFileCheck, IconClock, IconTruck]
+function IconScissors() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="6" cy="6" r="3" />
+      <circle cx="6" cy="18" r="3" />
+      <path d="M20 4L8.12 15.88" />
+      <path d="M14.47 14.48L20 20" />
+      <path d="M8.12 8.12L12 12" />
+    </svg>
+  )
+}
+
+const bulletIcons = [IconTruck, IconPrint, IconScissors]
 
 const AboutCompany: FC<AboutCompanyProps> = ({
   className,
-  title = <>О&nbsp;компании</>,
-  description = <>PrintDTF — производство и сервис под задачи бизнеса: печать, фулфилмент и логистика. Работаем быстро, прозрачно и по техническим требованиям.</>,
+  title = <>О&nbsp;нас</>,
+  subtitle = <>От семейной мастерской — к технологичному холдингу полного цикла</>,
+  history = <>Наша история — это история роста. С октября 2015 года, начав как небольшая семейная мастерская, мы за 10+ лет прошли путь до технологичного игрока, объединяющего ключевые компетенции для вашего бизнеса.</>,
+  directionsTitle = <>Три сильных направления — одна команда</>,
+  directionsDescription = <>Мы создали экосистему, в которой три независимых экспертных направления. Каждое решает свои задачи на высоком уровне, а их сочетание образует идеально отлаженный производственно-логистический цикл.</>,
+  principlesTitle = <>Нас выбирают за бескомпромиссный баланс трех принципов:</>,
+  principles = [
+    <>Скорость, отточенная процессами.</>,
+    <>Качество, подтвержденное десятками тысяч изделий.</>,
+    <>Клиентоориентированность — персональный менеджер и поддержка на каждом этапе.</>,
+  ],
+  equipment = <>Мы постоянно инвестируем в современное оборудование, чтобы предлагать клиентам передовые методы печати и пошива.</>,
+  cta = <>Готовы стать следующими в нашем списке успешных проектов? Мы создаем решения, которые работают на рост вашего бизнеса.</>,
   bullets = [
-    <>DTF и UV DTF печать — ярко, стойко, с контролем качества.</>,
-    <>Подготовка/проверка макетов и понятные требования к файлам.</>,
-    <>Сроки и стоимость — фиксируем до старта работ.</>,
-    <>Доставка/отгрузки — под ваш график и формат (FBO/FBS).</>,
+    <>Современный фулфилмент для маркетплейсов. Хранение, маркировка, обработка заказов и доставка.</>,
+    <>Цифровая печать (DTF/УФ) на одежде, текстиле и сувенирах. Яркость, стойкость и скорость для вашего мерча.</>,
+    <>Швейное производство полного цикла. От кроя до пошива, создание продукции с нуля.</>,
   ],
   stats = [
-    { value: '1–3', label: 'дня средний срок изготовления' },
-    { value: 'от 1', label: 'штуки — минимальный заказ' },
-    { value: '24/7', label: 'приём заявок онлайн' },
+    { value: '10', label: 'лет стабильной работы на рынке' },
+    { value: '3', label: 'ключевых направления в структуре холдинга' },
+    { value: '1000+', label: 'довольных клиентов и партнеров' },
+    { value: '1.5 млн', label: 'изделий отшито на нашем производстве' },
+    { value: '2.5 тыс. км', label: 'плёнки отпечатано — это расстояние от Москвы до Парижа!' },
+    { value: '650+ тыс.', label: 'готовых переносов нанесено на продукцию' },
+    { value: '7+ млн', label: 'изделий успешно замаркировано и отправлено на маркетплейсы' },
   ],
   ctaPrimary = { label: 'Печать', href: '/print' },
   ctaSecondary = { label: 'Логистика', href: '/logistika' },
@@ -128,7 +135,22 @@ const AboutCompany: FC<AboutCompanyProps> = ({
         <div className={styles.grid}>
           <div className={styles.left}>
             <h2 className={styles.title}>{title}</h2>
-            <p className={styles.desc}>{description}</p>
+
+            {subtitle && (
+              <h3 className={styles.subtitle}>{subtitle}</h3>
+            )}
+
+            {history && (
+              <p className={styles.paragraph}>{history}</p>
+            )}
+
+            {directionsTitle && (
+              <h3 className={styles.sectionTitle}>{directionsTitle}</h3>
+            )}
+
+            {directionsDescription && (
+              <p className={styles.paragraph}>{directionsDescription}</p>
+            )}
 
             <div className={styles.bullets}>
               {bullets.map((b, i) => {
@@ -144,6 +166,26 @@ const AboutCompany: FC<AboutCompanyProps> = ({
               })}
             </div>
 
+            {principlesTitle && (
+              <h3 className={styles.sectionTitle}>{principlesTitle}</h3>
+            )}
+
+            {principles && principles.length > 0 && (
+              <ul className={styles.principles}>
+                {principles.map((principle, i) => (
+                  <li key={i} className={styles.principle}>{principle}</li>
+                ))}
+              </ul>
+            )}
+
+            {equipment && (
+              <p className={styles.paragraph}>{equipment}</p>
+            )}
+
+            {cta && (
+              <p className={styles.cta}>{cta}</p>
+            )}
+
             <div className={styles.actions}>
               <Link href={ctaPrimary.href} className={classNames(styles.btn, styles.btnPrimary)}>
                 {ctaPrimary.label}
@@ -158,7 +200,7 @@ const AboutCompany: FC<AboutCompanyProps> = ({
           </div>
 
           <div className={styles.right}>
-            <div className={styles.statsTitle}>Коротко в цифрах</div>
+            <div className={styles.statsTitle}>Наша экспертиза в цифрах</div>
             <div className={styles.stats} ref={statsRef}>
               {stats.map((s, i) => (
                 <div key={`${s.value}-${i}`} className={styles.stat}>
