@@ -8,7 +8,14 @@ export interface AboutCompanyStat {
 export interface AboutCompanyProps {
   className?: string
   title?: string | ReactNode
-  description?: string | ReactNode
+  subtitle?: string | ReactNode
+  history?: string | ReactNode
+  directionsTitle?: string | ReactNode
+  directionsDescription?: string | ReactNode
+  principlesTitle?: string | ReactNode
+  principles?: Array<string | ReactNode>
+  equipment?: string | ReactNode
+  cta?: string | ReactNode
   bullets?: Array<string | ReactNode>
   stats?: AboutCompanyStat[]
   ctaPrimary?: { label: string; href: string }

@@ -105,11 +105,11 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1800px;
   padding: clamp(40px, 6vw, 80px);
   display: flex;
   align-items: center;
-  gap: clamp(40px, 6vw, 80px);
+  gap: clamp(40px, 6vw, 100px);
 
   @include tablet {
     flex-direction: column;
@@ -134,12 +134,44 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: clamp(24px, 4vw, 40px);
+  gap: clamp(16px, 4vw, 20px);
   align-items: flex-start;
 
   @include tablet {
     align-items: center;
     text-align: center;
+  }
+}
+
+.description {
+  font-size: clamp(16px, 2.2vw, 20px);
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.85);
+  margin: 0;
+  max-width: 70ch;
+
+  @include tablet {
+    max-width: none;
+    text-align: center;
+  }
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 600px;
+
+  @include tablet {
+    max-width: none;
+    width: 100%;
+  }
+
+  // Уменьшаем отступы между инпутами только в формах внутри servicesScroll
+  .formCompact {
+    gap: 10px !important;
+
+    @include mobile-large {
+      gap: 8px !important;
+    }
   }
 }
 
