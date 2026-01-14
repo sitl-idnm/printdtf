@@ -9,19 +9,39 @@
 
 .grid {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  min-height: min(520px, 72vh);
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto auto auto auto auto;
+  gap: 0;
 }
 
-.left {
+.block {
   padding: clamp(18px, 3.4vw, 36px);
   border-right: 1px solid rgba(0, 0, 0, 0.92);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.92);
   background:
     linear-gradient(135deg,
       color-mix(in srgb, var(--color-accent-3) 18%, var(--color-white-default)) 0%,
       var(--color-white-default) 55%,
       color-mix(in srgb, var(--color-accent-1) 10%, var(--color-white-default)) 100%
     );
+
+  &:nth-child(2n) {
+    border-right: 0;
+  }
+
+  &:nth-child(5) {
+    grid-column: 1 / -1;
+    border-right: 0;
+    background:
+      linear-gradient(180deg,
+        color-mix(in srgb, var(--color-accent-1) 8%, var(--color-white-default)) 0%,
+        var(--color-white-default) 70%
+      );
+  }
+}
+
+.blockStats {
+  border-bottom: 0;
 }
 
 .title {
@@ -185,14 +205,6 @@
   outline-offset: 3px;
 }
 
-.right {
-  padding: clamp(18px, 3.4vw, 36px);
-  background:
-    linear-gradient(180deg,
-      color-mix(in srgb, var(--color-accent-1) 8%, var(--color-white-default)) 0%,
-      var(--color-white-default) 70%
-    );
-}
 
 .statsTitle {
   font-family: var(--font-unbounded);
@@ -204,7 +216,7 @@
 
 .stats {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 12px;
 }
 
@@ -231,11 +243,18 @@
 @include tablet {
   .grid {
     grid-template-columns: 1fr;
-    min-height: auto;
+    grid-template-rows: auto;
   }
-  .left {
+  .block {
     border-right: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.92);
+
+    &:nth-child(5) {
+      grid-column: 1;
+    }
+  }
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
   }
   .subtitle {
     font-size: clamp(18px, 2.5vw, 28px);
@@ -274,6 +293,9 @@
 }
 
 @include mobile-large {
+  .stats {
+    grid-template-columns: 1fr;
+  }
   .title {
     font-size: clamp(24px, 5vw, 32px);
     margin-bottom: 16px;

@@ -28,10 +28,11 @@
 
 .title {
 	font-family: var(--font-unbounded);
-	font-size: clamp(28px, 5vw, 64px);
+	font-size: clamp(28px, 5vw, 48px);
 	text-transform: uppercase;
 	line-height: 1.1;
 	margin: 0;
+	max-width: 1300px;
 }
 
 .pill {
@@ -51,19 +52,17 @@
 .list {
 	position: relative;
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: repeat(2, 1fr);
 	gap: clamp(10px, 2.2vw, 16px);
 	padding-left: 0;
+
+	@include tablet {
+		grid-template-columns: 1fr;
+	}
 }
 
 .rail {
-	position: absolute;
-	left: 22px;
-	top: 6px;
-	bottom: 6px;
-	width: 2px;
-	background: linear-gradient(180deg, var(--color-accent-3), color-mix(in srgb, var(--color-black-default) 6%, transparent), var(--color-accent-2));
-	opacity: .55;
+	display: none;
 }
 
 .item {

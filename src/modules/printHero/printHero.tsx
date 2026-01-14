@@ -1,5 +1,5 @@
 'use client'
-import { FC, Children, isValidElement, useRef } from 'react'
+import { FC, Children, isValidElement, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -10,6 +10,7 @@ import { PrintHeroProps } from './printHero.types'
 import { ButtonWave } from '@/ui'
 // import { Button } from '@/ui'
 import Clock from '@icons/watch.svg';
+import { FormModal } from '../formModal'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
@@ -25,6 +26,7 @@ const PrintHero: FC<PrintHeroProps> = ({
 }) => {
   const rootClassName = classNames(styles.root, className)
   const containerRef = useRef<HTMLDivElement>(null)
+  const [isModalOpen, setModalOpen] = useState(false)
 
   const toLines = (node?: React.ReactNode): React.ReactNode[] => {
     if (!node) return []
@@ -95,85 +97,93 @@ const PrintHero: FC<PrintHeroProps> = ({
   }, { scope: containerRef, dependencies: [title, subtitle, cta1, cta2, microtext, option] })
 
   return (
-    <div className={rootClassName} data-chat-scheme="contrast">
-      <div className={styles.spacer}>
-        <div className={styles.spacer_desktop}></div>
-        <div className={styles.spacer_tablet}></div>
-        <div className={styles.spacer_mobile}></div>
-      </div>
-      <div className={styles.bg_image}></div>
-      <div className={styles.container} ref={containerRef}>
-        <div className={styles.glassContainer}>
-          <div className={styles.title}>
-            <div className={styles.lines}>
-              {toLines(title).map((line, idx) => (
-                <div
-                  data-animate-item
-                  className={`${styles.row} ${styles.animateItem}`}
-                  key={`title-${idx}`}
-                >
-                  <h1 className={styles.title_text}>{line}</h1>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className={styles.description}>
-            <div className={styles.description_text}>
+    <>
+      <FormModal
+        open={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        title="Оставьте заявку"
+        text="Заполните форму, и мы свяжемся с вами в ближайшее время."
+      />
+      <div className={rootClassName} data-chat-scheme="contrast">
+        <div className={styles.spacer}>
+          <div className={styles.spacer_desktop}></div>
+          <div className={styles.spacer_tablet}></div>
+          <div className={styles.spacer_mobile}></div>
+        </div>
+        <div className={styles.bg_image}></div>
+        <div className={styles.container} ref={containerRef}>
+          <div className={styles.glassContainer}>
+            <div className={styles.title}>
               <div className={styles.lines}>
-                {subtitle && (
+                {toLines(title).map((line, idx) => (
                   <div
                     data-animate-item
                     className={`${styles.row} ${styles.animateItem}`}
+                    key={`title-${idx}`}
                   >
-                    <p className={styles.subtitle}>{subtitle}</p>
+                    <h1 className={styles.title_text}>{line}</h1>
                   </div>
-                )}
-                {(cta1 || cta2) && (
-                  <div
-                    data-animate-item
-                    className={`${styles.buttons} ${styles.animateItem}`}
-                  >
-                    {cta1 && (
-                      <ButtonWave variant="accent3" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = '#' }}>
-                        {cta1}
-                      </ButtonWave>
-                    )}
-                    {cta2 && (
-                      <ButtonWave variant="accent2" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = '#'  }}>
-                        {cta2}
-                      </ButtonWave>
-                    )}
-                  </div>
-                )}
-                {microtext && (
-                  <div
-                    data-animate-item
-                    className={`${styles.row} ${styles.animateItem}`}
-                  >
-                    <p className={styles.microtext}>{microtext}</p>
-                  </div>
-                )}
-                {option && (
-                  <div
-                    data-animate-item
-                    className={`${styles.row} ${styles.containertext} ${styles.animateItem}`}
-                  >
-                    <p className={styles.option}>
-                      {optionIcon ? (
-                        <span className={styles.clockIcon}>{optionIcon}</span>
-                      ) : (
-                        <Clock className={styles.clockIcon} />
+                ))}
+              </div>
+            </div>
+            <div className={styles.description}>
+              <div className={styles.description_text}>
+                <div className={styles.lines}>
+                  {subtitle && (
+                    <div
+                      data-animate-item
+                      className={`${styles.row} ${styles.animateItem}`}
+                    >
+                      <p className={styles.subtitle}>{subtitle}</p>
+                    </div>
+                  )}
+                  {(cta1 || cta2) && (
+                    <div
+                      data-animate-item
+                      className={`${styles.buttons} ${styles.animateItem}`}
+                    >
+                      {cta1 && (
+                        <ButtonWave variant="accent3" className={styles.btn} onClick={() => setModalOpen(true)}>
+                          {cta1}
+                        </ButtonWave>
                       )}
-                      {option}
-                    </p>
-                  </div>
-                )}
+                      {cta2 && (
+                        <ButtonWave variant="accent2" className={styles.btn} onClick={() => setModalOpen(true)}>
+                          {cta2}
+                        </ButtonWave>
+                      )}
+                    </div>
+                  )}
+                  {microtext && (
+                    <div
+                      data-animate-item
+                      className={`${styles.row} ${styles.animateItem}`}
+                    >
+                      <p className={styles.microtext}>{microtext}</p>
+                    </div>
+                  )}
+                  {option && (
+                    <div
+                      data-animate-item
+                      className={`${styles.row} ${styles.containertext} ${styles.animateItem}`}
+                    >
+                      <p className={styles.option}>
+                        {optionIcon ? (
+                          <span className={styles.clockIcon}>{optionIcon}</span>
+                        ) : (
+                          <Clock className={styles.clockIcon} />
+                        )}
+                        {option}
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

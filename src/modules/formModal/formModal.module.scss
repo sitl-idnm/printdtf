@@ -36,7 +36,7 @@
 	margin: 0;
 	padding: 24px 24px 48px;
 	height: calc(100vh - 52px - 120px);
-	overflow-y: auto;
+	overflow-y: hidden;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-rows: auto auto;
@@ -48,7 +48,7 @@
 	grid-column: 2 / 3;
 	grid-row: 1 / 2;
 	font-family: var(--font-unbounded);
-	font-size: clamp(28px, 4vw, 48px);
+	font-size: clamp(28px, 4vw, 32px);
 	font-weight: 800;
 	line-height: 1.1;
 	text-transform: uppercase;

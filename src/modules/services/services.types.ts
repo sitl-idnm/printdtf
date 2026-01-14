@@ -6,6 +6,6 @@ export type ServicesItem = {
 
 export interface ServicesProps {
   className?: string
-  title: string
+  title: string | ReactNode
   items: ServicesItem[]
 }

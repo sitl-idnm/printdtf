@@ -167,7 +167,6 @@ const KeyAdvantages: FC<KeyAdvantagesProps> = ({ className, title, subtitle, ite
                   <span className={styles.iconWrapper}>
                     <Icon />
                   </span>
-                  преимущество
                 </div>
                 <IconSpark />
               </div>

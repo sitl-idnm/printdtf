@@ -9,7 +9,6 @@ import { HomeProps } from './home.types'
 import { ServicesMain } from '@/modules/servicesMain'
 import { ServicesScroll } from '@/modules/servicesScroll'
 import { AboutCompany } from '@/modules/aboutCompany'
-import { FinalOffer } from '@/modules/finalOffer'
 import { Reviews } from '@/modules/reviews'
 
 const Home: FC<HomeProps> = ({ className }) => {
@@ -37,7 +36,6 @@ const Home: FC<HomeProps> = ({ className }) => {
         <AboutCompany />
         <ServicesScroll />
         <Reviews />
-        <FinalOffer />
       </Wrapper>
     </main>
   )

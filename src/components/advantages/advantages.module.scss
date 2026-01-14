@@ -4,219 +4,271 @@
 
 .root {
 	display: flex;
-
-	justify-content: space-between;
-
-	gap: 60px;
-
+	flex-direction: column;
+	gap: 40px;
 	padding: 80px;
-
 	position: relative;
 	width: 100%;
 
 	@include desktop {
-		flex-direction: column;
-
 		gap: 30px;
-
-		padding: 20px;
+		padding: 40px 20px;
 	}
 
 	@include tablet {
-		padding: 20px 8px;
+		padding: 30px 20px;
+		gap: 24px;
+	}
 
+	@include mobile-large {
+		padding: 20px 16px;
 		gap: 20px;
 	}
+}
 
-	.container {
-		position: relative;
-		left: 0;
+.title {
+	font-family: var(--font-unbounded);
+	font-size: clamp(28px, 4vw, 48px);
+	line-height: 1.2;
+	text-transform: uppercase;
+	margin: 0;
 
-		display: flex;
-		flex-direction: column;
-		gap: 60px;
+	@include mobile-large {
+		font-size: 24px;
+		text-align: left;
+	}
 
-		.title {
-			font-family: var(--font-unbounded);
-			font-size: 32px;
-			line-height: 1.4;
-			text-transform: uppercase;
+	span:last-child {
+		font-size: clamp(48px, 6vw, 80px);
+		display: block;
+		margin-top: 8px;
 
+		@include mobile-large {
+			font-size: 36px;
+		}
+	}
+}
 
-			display: flex;
-			flex-direction: column;
+.list {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+	width: 100%;
+	margin: 0 auto;
 
-			margin-bottom: 30px;
+	// Для 1 карточки - занимает всю ширину
+	&[data-count="1"] {
+		grid-template-columns: 1fr;
+	}
 
-			@include desktop {
-				margin: 0;
+	// Для 2 карточек - каждая занимает половину, растягиваются на всю ширину
+	&[data-count="2"] {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	// Для 3 карточек - каждая занимает треть (по умолчанию)
+	&[data-count="3"] {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	// Для 4 карточек - 2x2, растягиваются на всю ширину
+	&[data-count="4"] {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	// Для 5 карточек: 3 в первой строке, 2 во второй (растягиваются на всю ширину)
+	&[data-count="5"] {
+		grid-template-columns: repeat(6, 1fr);
+		grid-auto-rows: auto;
+
+		.item:nth-child(1),
+		.item:nth-child(2),
+		.item:nth-child(3) {
+			grid-row: 1;
+			grid-column: span 2; // Каждая занимает 2 колонки из 6 (1/3 ширины)
+		}
+
+		.item:nth-child(4) {
+			grid-row: 2;
+			grid-column: span 3; // Занимает 3 колонки из 6 (1/2 ширины)
+		}
+
+		.item:nth-child(5) {
+			grid-row: 2;
+			grid-column: span 3; // Занимает 3 колонки из 6 (1/2 ширины)
+		}
+	}
+
+	// Для 6 карточек - 3x2
+	&[data-count="6"] {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	// Для 7 карточек - 3 в первой строке, 3 во второй, 1 в третьей (по центру)
+	&[data-count="7"] {
+		grid-template-columns: repeat(3, 1fr);
+
+		.item:nth-child(7) {
+			grid-column: 2; // Центрируем последнюю карточку
+		}
+	}
+
+	// Для 8 карточек - 3x3 (последняя строка неполная)
+	&[data-count="8"] {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	@include tablet {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+
+		// На планшетах для 5 карточек: 2-2-1 (последняя растягивается)
+		&[data-count="5"] {
+			grid-template-columns: repeat(2, 1fr);
+
+			.item {
+				grid-column: span 1;
+				grid-row: auto;
 			}
 
-			@include mobile-large {
-				font-size: 26px;
-			}
-
-			span:last-child {
-				font-size: 64px;
-
-				@include mobile-large {
-					font-size: 44px;
-				}
+			.item:nth-child(5) {
+				grid-column: span 2; // Растягивается на всю ширину
 			}
 		}
 
-		.bg_image {
-			// background: center no-repeat url('/images/background-3.jpg');
+		// На планшетах для 7 карточек: 2-2-2-1 (последняя растягивается)
+		&[data-count="7"] {
+			grid-template-columns: repeat(2, 1fr);
 
-			@include desktop {
-				display: none;
+			.item {
+				grid-column: span 1;
+				grid-row: auto;
 			}
 
-			.image,
-			.image2 {
-				transition: scale 0.3s ease-in-out, transform 0.3s ease-in-out;
-
-				transform: translate(-25%, -25%);
-			}
-
-			.image2 {
-				transform: translate(25%, 25%);
-			}
-
-			&:hover {
-				.image {
-					scale: 1.1;
-					transform: translateX(-25%);
-				}
-
-				.image2 {
-					scale: 1.1;
-					transform: translateX(25%);
-				}
+			.item:nth-child(7) {
+				grid-column: span 2; // Растягивается на всю ширину
 			}
 		}
 	}
 
-	.list {
-		display: flex;
-		flex-wrap: wrap;
-		padding: 20px;
+	@include mobile-large {
+		grid-template-columns: 1fr;
+		gap: 12px;
 
-		max-width: 950px;
+		.item {
+			grid-column: span 1 !important;
+			grid-row: auto !important;
+		}
+	}
+}
+
+.item {
+	padding: 24px 32px;
+	background-color: var(--color-accent-1);
+	border: 1px solid rgba(0, 0, 0, 0.92);
+	color: white;
+	font-weight: 500;
+	transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+	width: 100%;
+	border-radius: 4px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+
+	// Оптимизации для производительности
+	will-change: transform, opacity;
+	transform: translateZ(0);
+	backface-visibility: hidden;
+
+	@include tablet {
+		padding: 20px 24px;
+		gap: 10px;
+	}
+
+	@include mobile-large {
+		padding: 16px 20px;
+		gap: 8px;
+	}
+
+	@include desktop-only {
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+		}
+	}
+
+	.iconWrapper {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		margin-bottom: 4px;
+		flex-shrink: 0;
+
+		svg {
+			width: 28px;
+			height: 28px;
+			color: white;
+		}
+	}
+
+	.itemTitle {
+		font-family: var(--font-unbounded);
+		font-size: clamp(20px, 2.5vw, 24px);
+		line-height: 1.3;
+		margin: 0;
+		text-transform: none;
+		font-weight: 600;
 
 		@include tablet {
-			padding: 0;
+			font-size: 20px;
 		}
 
-	.item {
-		padding: 15px 30px;
-		background-color: var(--color-accent-1);
-		border: 1px solid black;
-		color: white;
+		@include mobile-large {
+			font-size: 18px;
+		}
+	}
+
+	.number {
+		font-family: var(--font-unbounded);
+		font-size: clamp(18px, 2vw, 22px);
+		line-height: 1.4;
+		font-weight: 600;
+
+		@include tablet {
+			font-size: 18px;
+		}
+	}
+
+	.text {
 		font-weight: 500;
+		font-size: clamp(15px, 1.8vw, 18px);
+		line-height: 1.6;
+		margin: 0;
+		flex: 1;
 
-		transition: scale 0.3s ease-in-out, rotate 0.3s ease-in-out;
+		@include tablet {
+			font-size: 15px;
+		}
 
-		max-width: 450px;
-		width: 100%;
-
-		// Оптимизации для производительности
-		will-change: transform, opacity;
-		transform: translateZ(0); // Аппаратное ускорение
-		backface-visibility: hidden; // Предотвращение мерцания
-
-		// Важно: не прячем контент через CSS.
-		// Начальные состояния для анимации задаёт GSAP, иначе при гидрации/ошибке блок может остаться невидимым.
-
-			@include tablet {
-				padding: 10px 20px;
-
-				max-width: 300px;
-			}
-
-			@include mobile-large {
-				max-width: none;
-			}
-
-			@include desktop-only {
-				&:hover {
-					scale: 1.1;
-				}
-			}
-
-			.iconWrapper {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				width: 32px;
-				height: 32px;
-				margin-bottom: 8px;
-
-				svg {
-					width: 24px;
-					height: 24px;
-					color: white;
-				}
-			}
-
-			.itemTitle {
-				font-family: var(--font-unbounded);
-				font-size: 20px;
-				line-height: 1.25;
-				margin-bottom: 8px;
-				text-transform: none;
-
-				@include tablet {
-					font-size: 18px;
-				}
-			}
-
-			.number {
-				font-family: var(--font-unbounded);
-				font-size: 18px;
-				line-height: 1.4;
-
-				@include tablet {
-					font-size: 16px;
-				}
-			}
-
-			.text {
-				font-weight: 500;
-				font-size: 16px;
-				line-height: 1.5;
-
-				@include tablet {
-					font-size: 14px;
-				}
-			}
+		@include mobile-large {
+			font-size: 14px;
 		}
 	}
 }
 
 
 .right {
-	justify-content: flex-start;
-
-	.container {
-		right: 0;
-		left: auto;
-
-		.title {
-			color: white;
-		}
+	.title {
+		color: white;
 	}
 
 	.list {
 		.item {
 			background-color: var(--color-accent-1);
 			color: white;
-
-			@include desktop-only {
-				&:hover {
-					scale: 1.1;
-				}
-			}
 		}
 	}
 }
