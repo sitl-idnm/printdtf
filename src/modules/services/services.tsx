@@ -171,8 +171,10 @@ const Services: FC<ServicesProps> = ({ className, title, items }) => {
 		}
 	}, { scope: sectionRef, dependencies: [data.length] })
 
+	const ariaLabel = typeof title === 'string' ? title : String(title)
+
 	return (
-		<section className={rootClassName} aria-label={title} ref={sectionRef}>
+		<section className={rootClassName} aria-label={ariaLabel} ref={sectionRef}>
 			<div className={styles.head}>
 				<h2 className={styles.title}>{title}</h2>
 				<div className={styles.pill}>что делаем</div>

@@ -14,7 +14,6 @@ import { FinalOffer } from '@/modules/finalOffer'
 import { FormModal } from '@/modules/formModal'
 import { MaketRequirments } from '@/modules/maketRequirments'
 import { PriceList } from '@/modules/priceList'
-import { Delivery } from '@/modules/delivery'
 import { Reviews } from '@/modules/reviews'
 
 
@@ -109,7 +108,6 @@ const PrintPage: FC<PrintPageProps> = ({
       <DynamicBackground pin={false} variant="crosses" cellSize={100}>
         <PriceList />
       </DynamicBackground>
-      <Delivery />
       <MaketRequirments />
       <DynamicBackground variant="swirl-2" pin={false} cellSize={100}><Faq faqData={faqData} /></DynamicBackground>
       <Reviews />

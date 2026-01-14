@@ -6,6 +6,8 @@ export interface ReviewItem {
   company?: string
   text: string | ReactNode
   rating?: 1 | 2 | 3 | 4 | 5
+  imageSrc?: string
+  imageAlt?: string
 }
 
 export interface ReviewsProps {
@@ -14,4 +16,3 @@ export interface ReviewsProps {
   subtitle?: string | ReactNode
   items?: ReviewItem[]
 }
-

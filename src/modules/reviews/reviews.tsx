@@ -1,12 +1,13 @@
 'use client'
 
-import { FC, useMemo, useRef } from 'react'
+import { FC, useMemo, useRef, useState } from 'react'
 import classNames from 'classnames'
 
 import styles from './reviews.module.scss'
 import { ReviewsProps } from './reviews.types'
+import ReviewImageModal from './reviewImageModal'
 
-function Arrow ({ dir }: { dir: 'left' | 'right' }) {
+function Arrow({ dir }: { dir: 'left' | 'right' }) {
   const rotate = dir === 'left' ? 180 : 0
   return (
     <svg className={styles.btnIcon} viewBox="0 0 24 24" aria-hidden="true" style={{ transform: `rotate(${rotate}deg)` }}>
@@ -16,7 +17,7 @@ function Arrow ({ dir }: { dir: 'left' | 'right' }) {
   )
 }
 
-function Star ({ filled }: { filled: boolean }) {
+function Star({ filled }: { filled: boolean }) {
   return (
     <svg className={styles.star} viewBox="0 0 24 24" aria-hidden="true">
       <path
@@ -33,11 +34,12 @@ function Star ({ filled }: { filled: boolean }) {
 const Reviews: FC<ReviewsProps> = ({
   className,
   title = <>Отзывы</>,
-  subtitle = <>Несколько коротких отзывов от клиентов. Контент-заглушки — заменим на реальные позже.</>,
+  subtitle = <>Несколько коротких отзывов от клиентов.</>,
   items,
 }) => {
   const rootClassName = classNames(styles.root, className)
   const trackRef = useRef<HTMLDivElement | null>(null)
+  const [selectedReview, setSelectedReview] = useState<{ imageSrc?: string; imageAlt?: string } | null>(null)
 
   const data = useMemo(() => {
     if (items?.length) return items
@@ -96,49 +98,67 @@ const Reviews: FC<ReviewsProps> = ({
   }
 
   return (
-    <section className={rootClassName} aria-label="Отзывы">
-      <div className={styles.header}>
-        <div>
-          <h2 className={styles.title}>{title}</h2>
-          <p className={styles.subtitle}>{subtitle}</p>
+    <>
+      <ReviewImageModal
+        open={!!selectedReview}
+        onClose={() => setSelectedReview(null)}
+        imageSrc={selectedReview?.imageSrc}
+        imageAlt={selectedReview?.imageAlt}
+      />
+      <section className={rootClassName} aria-label="Отзывы">
+        <div className={styles.header}>
+          <div>
+            <h2 className={styles.title}>{title}</h2>
+            <p className={styles.subtitle}>{subtitle}</p>
+          </div>
+          <div className={styles.controls} aria-label="Навигация по отзывам">
+            <button type="button" className={styles.btn} onClick={() => scrollByCard('left')} aria-label="Назад">
+              <Arrow dir="left" />
+            </button>
+            <button type="button" className={styles.btn} onClick={() => scrollByCard('right')} aria-label="Вперёд">
+              <Arrow dir="right" />
+            </button>
+          </div>
         </div>
-        <div className={styles.controls} aria-label="Навигация по отзывам">
-          <button type="button" className={styles.btn} onClick={() => scrollByCard('left')} aria-label="Назад">
-            <Arrow dir="left" />
-          </button>
-          <button type="button" className={styles.btn} onClick={() => scrollByCard('right')} aria-label="Вперёд">
-            <Arrow dir="right" />
-          </button>
-        </div>
-      </div>
 
-      <div className={styles.frame}>
-        <div className={styles.track} ref={trackRef}>
-          {data.map((r, idx) => {
-            const meta = [r.role, r.company].filter(Boolean).join(' · ')
-            const rating = r.rating ?? 5
-            return (
-              <article key={`${r.name}-${idx}`} className={styles.card}>
-                <div className={styles.topline}>
-                  <div className={styles.who}>
-                    <div className={styles.name}>{r.name}</div>
-                    {meta && <div className={styles.meta}>{meta}</div>}
+        <div className={styles.frame}>
+          <div className={styles.track} ref={trackRef}>
+            {data.map((r, idx) => {
+              const meta = [r.role, r.company].filter(Boolean).join(' · ')
+              const rating = r.rating ?? 5
+              return (
+                <article key={`${r.name}-${idx}`} className={styles.card}>
+                  <div className={styles.topline}>
+                    <div className={styles.who}>
+                      <div className={styles.name}>{r.name}</div>
+                      {meta && <div className={styles.meta}>{meta}</div>}
+                    </div>
+                    <div className={styles.rating} aria-label={`Оценка ${rating} из 5`}>
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star key={i} filled={i < rating} />
+                      ))}
+                    </div>
                   </div>
-                  <div className={styles.rating} aria-label={`Оценка ${rating} из 5`}>
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} filled={i < rating} />
-                    ))}
-                  </div>
-                </div>
-                <div className={styles.text}>{r.text}</div>
-              </article>
-            )
-          })}
+                  <div className={styles.text}>{r.text}</div>
+                  <button
+                    type="button"
+                    className={styles.viewButton}
+                    onClick={() => setSelectedReview({
+                      imageSrc: ('imageSrc' in r ? r.imageSrc : undefined) || '/images/test.jpg',
+                      imageAlt: ('imageAlt' in r ? r.imageAlt : undefined) || `Фотография отзыва от ${r.name}`
+                    })}
+                    aria-label="Посмотреть фотографию отзыва"
+                  >
+                    Посмотреть фото
+                  </button>
+                </article>
+              )
+            })}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   )
 }
 
 export default Reviews
-

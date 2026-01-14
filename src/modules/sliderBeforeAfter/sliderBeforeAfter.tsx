@@ -280,8 +280,6 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                     ? <><span>Преимущества</span><span>DTF</span></>
                     : <><span>Преимущества</span><span>UV-DTF</span></>
                 }
-                imageSrc1='/images/1.png'
-                imageSrc2='/images/2.png'
               />
             </div>
           </div>

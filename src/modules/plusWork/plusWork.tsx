@@ -1,52 +1,23 @@
 'use client'
-import { FC, useRef } from 'react'
+import { FC } from 'react'
 import classNames from 'classnames'
 
 import styles from './plusWork.module.scss'
 import { PlusWorkProps } from './plusWork.types'
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
 import Image from 'next/image'
 
 const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
   const rootClassName = classNames(styles.root, className)
-
-  const secondRef = useRef<HTMLDivElement>(null)
-  const thirdRef = useRef<HTMLDivElement>(null)
-  const triggerRef = useRef<HTMLDivElement>(null)
 
   const mergedItems = arrPlusWork.map((defaultItem, index) => ({
     ...defaultItem,
     ...(items?.[index] || {})
   }))
 
-  useGSAP(() => {
-    if (window.innerWidth > 1200) {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: triggerRef.current,
-          start: 'top 20%',
-          scrub: true,
-          end: 'bottom top'
-        }
-      })
-
-      tl.to(secondRef.current, {
-        x: 448,
-        ease: 'power1.out'
-      })
-
-      tl.to(thirdRef.current, {
-        x: -448,
-        ease: 'power1.out'
-      })
-    }
-  })
-
   return (
     <div className={rootClassName}>
       <div className={styles.container}>
-        <div className={styles.firstline} ref={triggerRef}>
+        <div className={styles.firstline}>
           <div className={styles.box}>
             <h3 className={styles.title}>{mergedItems[0].title}</h3>
             <div className={styles.text}>
@@ -75,8 +46,8 @@ const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
             </div>
           </div>
         </div>
-        <div className={styles.secondline} ref={thirdRef}>
-          <div className={styles.box} ref={secondRef}>
+        <div className={styles.secondline}>
+          <div className={styles.box}>
             <h3 className={styles.title}>{mergedItems[3].title}</h3>
             <div className={styles.text}>
               <p>

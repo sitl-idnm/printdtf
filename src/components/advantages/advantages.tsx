@@ -5,7 +5,6 @@ import classNames from 'classnames'
 
 import styles from './advantages.module.scss'
 import { AdvantagesProps } from './advantages.types'
-import Image from 'next/image'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { gsap } from 'gsap'
@@ -69,9 +68,7 @@ const Advantages: FC<AdvantagesProps> = ({
   className,
   arrAdvantages,
   title,
-  classBlock,
-  imageSrc1,
-  imageSrc2
+  classBlock
 }) => {
   const rootClassName = classNames(styles.root, className,
     classBlock ? styles.right : null
@@ -83,142 +80,57 @@ const Advantages: FC<AdvantagesProps> = ({
     const root = containerRef.current
     if (!root) return
 
-    // Проверка готовности DOM (особенно важно для Vercel)
-    const initAnimation = () => {
-      // Get all items
-      const items = Array.from(root.querySelectorAll<HTMLElement>(`.${styles.item}`))
+    const items = Array.from(root.querySelectorAll<HTMLElement>(`.${styles.item}`))
+    if (items.length === 0) return
 
-      if (items.length === 0) {
-        // Retry if items not ready yet
-        requestAnimationFrame(initAnimation)
-        return
-      }
-
-      // Проверка, что элементы имеют размеры (важно для Vercel)
-      const rect = root.getBoundingClientRect()
-      if (rect.width <= 0 || rect.height <= 0) {
-        requestAnimationFrame(initAnimation)
-        return
-      }
-
-      // Preserve CSS "rotate" (individual transform property) from styles like :nth-child(...)
-      const getCssRotateDeg = (el: HTMLElement): number => {
-        const rotate = getComputedStyle(el).rotate
-        if (!rotate || rotate === 'none') return 0
-        const n = Number.parseFloat(rotate)
-        return Number.isFinite(n) ? n : 0
-      }
-
-      const endRotates = items.map(getCssRotateDeg)
-
-      // Calculate end based on number of items for proper pin spacing
-      const itemCount = items.length
-      const endValue = itemCount * 300 // 300px per item for smooth animation
-
-      const getStartEnd = () => {
-        const prev = ScrollTrigger.getById('whatIsPin')
-        const prevEnd = prev && Number.isFinite(prev.end) ? prev.end : null
-        // "Correct" start is when this section's top reaches the top of the viewport.
-        // When WhatIs is pinned, we additionally must not start before its end.
-        // Используем более надежный способ получения позиции
-        const rect = root.getBoundingClientRect()
-        const scrollY = typeof window !== 'undefined' ? (window.scrollY || window.pageYOffset || 0) : 0
-        const absTop = rect.top + scrollY
-        const start = prevEnd != null ? Math.max(prevEnd, absTop) : absTop
-        return { start, end: start + endValue }
-      }
-
-      // Explicit initial state (so cards don't appear "already laid out" before the scrub starts)
-      // Используем force3D для аппаратного ускорения
-      gsap.set(items, {
-        willChange: 'transform, opacity',
-        x: 800,
-        rotate: (i: number) => (endRotates[i] ?? 0) + 12,
-        opacity: 0,
-        force3D: true,
-        transformOrigin: 'center center',
+    const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+    if (prefersReduced) {
+      items.forEach((item) => {
+        gsap.set(item, { opacity: 1, y: 0 })
       })
-
-      // Create timeline with ScrollTrigger
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: root,
-          // Start only after WhatIs pin completes (prevents "halfway" overlap).
-          start: () => getStartEnd().start,
-          end: () => getStartEnd().end,
-          scrub: 1.5, // Увеличено для более плавной анимации
-          pin: true,
-          pinSpacing: true,
-          anticipatePin: 1, // Предсказание pin для лучшей производительности
-          invalidateOnRefresh: true,
-          refreshPriority: 1,
-          // Обработка refresh для Vercel
-          onRefresh: () => {
-            // Обновляем начальное состояние при refresh
-            gsap.set(items, {
-              x: 800,
-              rotate: (i: number) => (endRotates[i] ?? 0) + 12,
-              opacity: 0,
-              force3D: true,
-            })
-          }
-        }
-      })
-
-      // Animate items from right
-      tl.to(items, {
-        x: 0,
-        rotate: (i: number) => endRotates[i] ?? 0,
-        opacity: 1,
-        stagger: 0.8,
-        ease: 'power2.out',
-        duration: 2.5,
-        overwrite: 'auto',
-        force3D: true,
-      })
-
-      return () => {
-        tl.scrollTrigger?.kill()
-        tl.kill()
-      }
+      return
     }
 
-    // Задержка инициализации для Vercel (дает время на полную загрузку)
-    let cleanupFn: (() => void) | null | undefined = null
-    const timeoutId = setTimeout(() => {
-      cleanupFn = initAnimation()
-    }, 100)
+    // Устанавливаем начальное состояние - карточки невидимы и немного смещены вниз
+    gsap.set(items, {
+      opacity: 0,
+      y: 30,
+      force3D: true,
+    })
+
+    // Создаём ScrollTrigger анимацию для плавного появления
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: root,
+        start: 'top 75%',
+        end: 'top 25%',
+        scrub: 0.5,
+        invalidateOnRefresh: true,
+      }
+    })
+
+    // Плавное появление карточек с небольшой задержкой между ними
+    tl.to(items, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      stagger: 0.15,
+      ease: 'power1.out',
+      force3D: true,
+    })
 
     return () => {
-      clearTimeout(timeoutId)
-      if (cleanupFn) cleanupFn()
+      tl.scrollTrigger?.kill()
+      tl.kill()
     }
   }, { scope: containerRef, dependencies: [arrAdvantages, title], revertOnUpdate: true })
 
+  const itemsCount = arrAdvantages?.length || 0
+
   return (
     <div className={rootClassName} ref={containerRef}>
-      <div className={styles.container}>
-        <h2 className={styles.title}>{title}</h2>
-        <div className={styles.bg_image}>
-          <Image
-            width={200}
-            height={200}
-            quality={90}
-            src={imageSrc1}
-            alt=''
-            className={styles.image}
-          />
-          <Image
-            width={200}
-            height={200}
-            quality={90}
-            src={imageSrc2}
-            alt=''
-            className={styles.image2}
-          />
-        </div>
-      </div>
-      <ul className={styles.list}>
+      <h2 className={styles.title}>{title}</h2>
+      <ul className={styles.list} data-count={itemsCount}>
         {
           arrAdvantages?.map((item, index) => {
             const Icon = DEFAULT_ICONS[index] || DEFAULT_ICONS[0]

@@ -134,7 +134,7 @@ const Marketplaces: FC<MarketplacesProps> = ({ className, title }) => {
   }, [])
 
   return (
-    <section className={rootClassName} aria-label={title || 'Маркетплейсы'}>
+    <section className={rootClassName} aria-label={typeof title === 'string' ? title : 'Маркетплейсы'}>
       {title && (
         <div className={styles.header}>
           <h2 className={styles.title}>{title}</h2>

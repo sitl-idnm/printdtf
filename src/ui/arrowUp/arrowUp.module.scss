@@ -4,12 +4,12 @@
 
 .root {
 	position: fixed;
-	left: 16px;
+	right: 16px;
 	bottom: 16px;
 	z-index: 900;
 
-	width: 52px;
-	height: 52px;
+	width: 48px;
+	height: 48px;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -24,13 +24,6 @@
 	pointer-events: none;
 	transform: translateY(10px);
 	transition: opacity .25s ease, transform .25s ease, background-color .25s ease, box-shadow .25s ease;
-
-	@include tablet {
-		right: 12px;
-		bottom: 12px;
-		width: 48px;
-		height: 48px;
-	}
 
 	// Override colors for fulfillment page
 	body[data-page-theme="fulfillment"] & {

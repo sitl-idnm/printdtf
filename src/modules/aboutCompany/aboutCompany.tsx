@@ -100,16 +100,16 @@ const AboutCompany: FC<AboutCompanyProps> = ({
 
     // Устанавливаем начальное состояние
     statElements.forEach((stat) => {
-      gsap.set(stat, { opacity: 0, y: 40 })
+      gsap.set(stat, { opacity: 0, y: 20 })
     })
 
     // Создаём ScrollTrigger анимацию
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: statsContainer,
-        start: 'top 30%',
-        end: 'top bottom',
-        scrub: 1,
+        start: 'top 80%',
+        end: 'top 20%',
+        scrub: 0.5,
         invalidateOnRefresh: true,
       }
     })
@@ -118,9 +118,9 @@ const AboutCompany: FC<AboutCompanyProps> = ({
     tl.to(statElements, {
       opacity: 1,
       y: 0,
-      duration: 2,
-      stagger: 1,
-      ease: 'power2.out',
+      duration: 1.5,
+      stagger: 0.2,
+      ease: 'power1.out',
     })
 
     return () => {
@@ -133,25 +133,25 @@ const AboutCompany: FC<AboutCompanyProps> = ({
     <section className={rootClassName} aria-label="О компании">
       <div className={styles.frame}>
         <div className={styles.grid}>
-          <div className={styles.left}>
+          {/* Блок 1: Заголовок и история */}
+          <div className={styles.block}>
             <h2 className={styles.title}>{title}</h2>
-
             {subtitle && (
               <h3 className={styles.subtitle}>{subtitle}</h3>
             )}
-
             {history && (
               <p className={styles.paragraph}>{history}</p>
             )}
+          </div>
 
+          {/* Блок 2: Направления */}
+          <div className={styles.block}>
             {directionsTitle && (
               <h3 className={styles.sectionTitle}>{directionsTitle}</h3>
             )}
-
             {directionsDescription && (
               <p className={styles.paragraph}>{directionsDescription}</p>
             )}
-
             <div className={styles.bullets}>
               {bullets.map((b, i) => {
                 const Icon = bulletIcons[i] || bulletIcons[0]
@@ -165,11 +165,13 @@ const AboutCompany: FC<AboutCompanyProps> = ({
                 )
               })}
             </div>
+          </div>
 
+          {/* Блок 3: Принципы */}
+          <div className={styles.block}>
             {principlesTitle && (
               <h3 className={styles.sectionTitle}>{principlesTitle}</h3>
             )}
-
             {principles && principles.length > 0 && (
               <ul className={styles.principles}>
                 {principles.map((principle, i) => (
@@ -177,15 +179,16 @@ const AboutCompany: FC<AboutCompanyProps> = ({
                 ))}
               </ul>
             )}
+          </div>
 
+          {/* Блок 4: Оборудование и CTA */}
+          <div className={styles.block}>
             {equipment && (
               <p className={styles.paragraph}>{equipment}</p>
             )}
-
             {cta && (
               <p className={styles.cta}>{cta}</p>
             )}
-
             <div className={styles.actions}>
               <Link href={ctaPrimary.href} className={classNames(styles.btn, styles.btnPrimary)}>
                 {ctaPrimary.label}
@@ -199,7 +202,8 @@ const AboutCompany: FC<AboutCompanyProps> = ({
             </div>
           </div>
 
-          <div className={styles.right}>
+          {/* Блок 5: Статистика (горизонтальная) */}
+          <div className={classNames(styles.block, styles.blockStats)}>
             <div className={styles.statsTitle}>Наша экспертиза в цифрах</div>
             <div className={styles.stats} ref={statsRef}>
               {stats.map((s, i) => (
