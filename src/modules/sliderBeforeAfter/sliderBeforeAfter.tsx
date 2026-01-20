@@ -105,6 +105,31 @@ const advantagesUVDTF = [{
   num: 'Эффект объёмного 3D', text: <>возможность многослойного нанесения для&nbsp;создания тактильной рельефной поверхности.</>
 }]
 
+const galleryDTFItems = [
+  { id: 1, image: '/images/fotbolka.png', title: 'Футболка', tags: ['DTF'] },
+  { id: 2, image: '/images/test.jpg', title: 'Свитшот', tags: ['DTF'] },
+  { id: 3, image: '/images/test.jpg', title: 'Худи', tags: ['DTF'] },
+  { id: 4, image: '/images/test.jpg', title: 'Куртка', tags: ['DTF'] },
+  { id: 5, image: '/images/test.jpg', title: 'Шоппер', tags: ['DTF'] },
+  { id: 6, image: '/images/test.jpg', title: 'Кожа', tags: ['DTF'] },
+  { id: 7, image: '/images/test.jpg', title: 'Упаковка (коробка/ленты/мешочки)', tags: ['DTF'] },
+  { id: 8, image: '/images/test.jpg', title: 'Кепка', tags: ['DTF'] },
+  { id: 9, image: '/images/test.jpg', title: 'Спецодежда', tags: ['DTF'] },
+  { id: 10, image: '/images/test.jpg', title: 'Форма (футбол)', tags: ['DTF'] },
+]
+
+const galleryUVDTFItems = [
+  { id: 11, image: '/images/test.jpg', title: 'Упаковка (коробка/пакеты)', tags: ['UV DTF'] },
+  { id: 12, image: '/images/chehol.png', title: 'Чехол', tags: ['UV DTF'] },
+  { id: 13, image: '/images/steklo.png', title: 'Стекло (бутылка)', tags: ['UV DTF'] },
+  { id: 14, image: '/images/test.jpg', title: 'Дерево (подставка для телефона)', tags: ['UV DTF'] },
+  { id: 15, image: '/images/krujka.png', title: 'Кружка', tags: ['UV DTF'] },
+  { id: 16, image: '/images/test.jpg', title: 'Желеный термос', tags: ['UV DTF'] },
+  { id: 17, image: '/images/sticker-dino.png', title: 'Стикерпаки', tags: ['UV DTF'] },
+  { id: 18, image: '/images/test.jpg', title: 'Корпоративные подарки (брелки, магниты, повербанк)', tags: ['UV DTF'] },
+  { id: 19, image: '/images/test.jpg', title: 'Спецодежда (каска)', tags: ['UV DTF'] },
+]
+
 const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
   className,
   // before,
@@ -295,12 +320,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
               <Gallery
                 title="ПОРТФОЛИО"
                 description=""
-                items={[
-                  { id: 1, image: '/images/test.jpg', title: 'Футболки' },
-                  { id: 2, image: '/images/steklo.png', title: 'UV на стекле' },
-                  { id: 3, image: '/images/chehol.png', title: 'Чехлы' },
-                  { id: 4, image: '/images/krujka.png', title: 'Кружки' },
-                ]}
+                items={printMethod === 'dtf' ? galleryDTFItems : galleryUVDTFItems}
               />
             </div>
           </div>
@@ -313,48 +333,102 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                     id: 'sber',
                     kicker: 'Сбер',
                     type: 'UV DTF',
-                    title: 'Стикерпаки',
-                    meta: '120 м, 3500 шт, плоттерная резка, 5 дней; тестовая печать для согласования цветов.',
-                    image: '/images/notebook.png'
+                    title: 'УФ DTF стикерпаки',
+                    task: 'Печать брендированных стикерпаков для Сбера с точным попаданием в цвет и последующей плоттерной резкой.',
+                    whatWeDid: (
+                      <ul>
+                        <li>УФ DTF печать</li>
+                        <li>Тестовая печать для согласования цветов и макетов</li>
+                        <li>Плоттерная резка</li>
+                      </ul>
+                    ),
+                    result: 'Заказ выполнен в срок, все цвета и макеты согласованы заранее, продукция полностью соответствовала бренд-требованиям клиента.',
+                    stats: [
+                      { value: '120', note: 'м' },
+                      { value: '3500', note: 'шт' },
+                      { value: '5', note: 'день' }
+                    ],
+                    image: '/images/sticker-dino.png'
                   },
                   {
                     id: 'ducks',
                     kicker: '—',
                     type: 'UV DTF',
-                    title: 'Корпоративные уточки',
-                    meta: 'Нанесение на резиновых уточек 50 шт (20 см), печать + перенос — 3 дня.',
+                    title: 'Нанесение на резиновых уточек',
+                    task: 'Нанести принт на резиновых уточек разного размера, включая нестандартные крупные изделия.',
+                    whatWeDid: (
+                      <ul>
+                        <li>Печать и перенос изображения</li>
+                        <li>Работа с нестандартной формой изделия</li>
+                      </ul>
+                    ),
+                    result: 'Качественное нанесение даже на сложную поверхность и быстрые сроки при нестандартной задаче.',
+                    stats: [
+                      { value: '50', note: 'шт' },
+                      { value: '20', note: 'см' },
+                      { value: '3', note: 'день' }
+                    ],
                     image: '/images/notebook.png'
                   },
                   {
                     id: 'lukoil',
                     kicker: 'ЛУКОЙЛ',
                     type: 'DTF',
-                    title: 'Печать на футболках',
-                    meta: '1000 шт — 2 дня, печать + перенос + упаковка.',
+                    title: 'Печать логотипа на футболках',
+                    task: 'Срочный тираж брендированных футболок в сжатые сроки.',
+                    whatWeDid: (
+                      <ul>
+                        <li>Печать логотипа</li>
+                        <li>Перенос изображения</li>
+                        <li>Упаковка готовых изделий</li>
+                      </ul>
+                    ),
+                    result: 'Крупный тираж выполнен максимально быстро без потери качества — заказчик получил готовую продукцию точно в срок.',
+                    stats: [
+                      { value: '1000', note: 'шт' },
+                      { value: '2', note: 'день' },
+                      { value: '—', note: '' }
+                    ],
                     image: '/images/fotbolka.png'
                   },
                   {
                     id: 'mossport',
                     kicker: 'Мосспорт',
                     type: 'DTF',
-                    title: 'Нанесение на блокноты',
-                    meta: '2000 наборов — 1 сутки.',
+                    title: 'Нанесение на наборы с карандашами',
+                    task: 'Брендирование комплектов с карандашами.',
+                    whatWeDid: (
+                      <ul>
+                        <li>DTF печать</li>
+                        <li>Нанесение на блокноты</li>
+                      </ul>
+                    ),
+                    result: 'Большой объём выполнен за сутки — идеальное решение для срочных проектов.',
+                    stats: [
+                      { value: '2000', note: 'наборов' },
+                      { value: '1', note: 'сутки' },
+                      { value: '—', note: '' }
+                    ],
                     image: '/images/notebook.png'
                   },
                   {
                     id: 'fix',
                     kicker: 'Клиент (NDA)',
                     type: 'DTF',
-                    title: 'Исправление заказа',
-                    meta: '5000 изделий — 4 дня.',
-                    image: '/images/notebook.png'
-                  },
-                  {
-                    id: 'van',
-                    kicker: 'PrintDTF',
-                    type: 'UV DTF',
-                    title: 'Печать и поклейка авто',
-                    meta: 'Сделали печать и поклейку собственного авто — как пример нашей заморочки и возможностей.',
+                    title: 'Исправление брака другого подрядчика',
+                    task: 'Исправить ошибки в тексте на уже изготовленной продукции после работы другого исполнителя.',
+                    whatWeDid: (
+                      <ul>
+                        <li>Полная переделка нанесения</li>
+                        <li>Исправление текстовых ошибок</li>
+                      </ul>
+                    ),
+                    result: 'Клиент избежал списания партии и получил корректную продукцию в кратчайшие сроки.',
+                    stats: [
+                      { value: '5000', note: 'шт' },
+                      { value: '4', note: 'день' },
+                      { value: '—', note: '' }
+                    ],
                     image: '/images/notebook.png'
                   }
                 ].filter((item) => (isDTF ? item.type === 'DTF' : item.type === 'UV DTF'))}

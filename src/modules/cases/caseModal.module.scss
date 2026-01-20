@@ -40,6 +40,12 @@
 		flex-direction: column;
 		gap: 16px;
 		padding: 16px 14px 24px;
+		height: calc(100vh - 52px);
+	}
+
+	@include mobile-large {
+		padding: 14px 12px 20px;
+		gap: 14px;
 	}
 }
 
@@ -68,10 +74,23 @@
 	font-size: 24px; /* в 2 раза больше */
 	letter-spacing: .14em;
 	text-transform: uppercase;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+
+	@include tablet {
+		font-size: 20px;
+	}
 
 	@include tablet-small {
+		grid-column: auto;
+		grid-row: auto;
 		font-size: 16px;
 		letter-spacing: .12em;
+	}
+
+	@include mobile-large {
+		font-size: 14px;
+		letter-spacing: .1em;
 	}
 }
 
@@ -85,10 +104,24 @@
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	margin: 4px 0 12px;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+
+	@include tablet {
+		font-size: clamp(32px, 6vw, 64px);
+	}
 
 	@include tablet-small {
+		grid-column: auto;
+		grid-row: auto;
 		margin: 0;
 		font-size: clamp(26px, 7vw, 40px);
+		line-height: 1.1;
+	}
+
+	@include mobile-large {
+		font-size: clamp(22px, 8vw, 32px);
+		letter-spacing: 0.5px;
 	}
 }
 
@@ -120,9 +153,101 @@
 	line-height: 1.6;
 	font-size: 15px;
 	letter-spacing: .01em;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+
+	@include tablet {
+		font-size: 14px;
+		gap: 18px;
+	}
+
+	@include tablet-small {
+		grid-column: auto;
+		grid-row: auto;
+		font-size: 14px;
+		gap: 16px;
+		width: 100%;
+	}
+
+	@include mobile-large {
+		font-size: 13px;
+		gap: 14px;
+		line-height: 1.5;
+	}
+
+	p {
+		margin: 0;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+	}
+
+	ul {
+		margin: 8px 0 0 0;
+		padding-left: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+
+		@include tablet-small {
+			padding-left: 18px;
+			gap: 5px;
+		}
+
+		@include mobile-large {
+			padding-left: 16px;
+			gap: 4px;
+		}
+
+		li {
+			margin: 0;
+			word-wrap: break-word;
+			overflow-wrap: break-word;
+		}
+	}
+}
+
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+
+	@include tablet-small {
+		gap: 6px;
+	}
+
+	@include mobile-large {
+		gap: 5px;
+	}
+}
+
+.sectionTitle {
+	font-family: var(--font-unbounded);
+	font-size: 16px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	margin: 0;
+	color: rgba(255 255 255 / .95);
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+
+	@include tablet {
+		font-size: 15px;
+	}
 
 	@include tablet-small {
 		font-size: 14px;
+		letter-spacing: 0.04em;
+	}
+
+	@include mobile-large {
+		font-size: 13px;
+		letter-spacing: 0.03em;
 	}
 }
 
@@ -179,6 +304,19 @@
 	color: rgba(255 255 255 / .75);
 	letter-spacing: .1em;
 	text-transform: uppercase;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+
+	@include tablet-small {
+		font-size: 12px;
+		margin-top: 8px;
+	}
+
+	@include mobile-large {
+		font-size: 11px;
+		margin-top: 6px;
+		letter-spacing: 0.08em;
+	}
 }
 
 .ticket {

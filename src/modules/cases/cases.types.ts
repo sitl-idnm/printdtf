@@ -8,5 +8,8 @@ export interface CasesProps {
     image?: string
     meta?: string
     stats?: Array<{ value: string, note: string }>
+    task?: string | React.ReactNode
+    whatWeDid?: string | React.ReactNode
+    result?: string | React.ReactNode
   }>
 }

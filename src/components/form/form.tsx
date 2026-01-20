@@ -1,6 +1,5 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
-import Link from 'next/link'
 
 import styles from './form.module.scss'
 import { FormProps } from './form.types'
@@ -21,6 +20,8 @@ const Form: FC<FormProps> = ({
   const atomMethod = useAtomValue(printMethodReadAtom)
   const [methodKey, setMethodKey] = useState<PrintMethod>(atomMethod)
   const methodTouchedRef = useRef(false)
+  const [showTooltip, setShowTooltip] = useState(false)
+  const tooltipRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     // If user didn't change the local method yet, follow the current page method (atom).
@@ -168,9 +169,25 @@ const Form: FC<FormProps> = ({
         <div className={styles.row}>
           <div className={styles.choiceLabelRow}>
             <span className={styles.choiceLabel}>Метод печати</span>
-            <Link href="/print#faq-dtf-difference" className={styles.differenceLink} scroll={true}>
-              чем отличается?
-            </Link>
+            <div
+              className={styles.tooltipWrapper}
+              onMouseEnter={() => setShowTooltip(true)}
+              onMouseLeave={() => setShowTooltip(false)}
+            >
+              <span className={styles.differenceLink}>
+                чем отличается?
+              </span>
+              {showTooltip && (
+                <div ref={tooltipRef} className={styles.tooltip}>
+                  <div className={styles.tooltipContent}>
+                    <p className={styles.tooltipTitle}>DTF</p>
+                    <p className={styles.tooltipText}>Одежда и текстиль, перенос термопрессом, мягкий и эластичный отпечаток.</p>
+                    <p className={styles.tooltipTitle}>UV DTF</p>
+                    <p className={styles.tooltipText}>Стекло/пластик/металл/дерево и т.д., засветка УФ-лампой, жёсткий устойчивый отпечаток.</p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
           <div className={classNames(styles.options, styles.optionsRow)}>
             {([

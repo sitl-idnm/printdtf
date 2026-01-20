@@ -1,6 +1,7 @@
 import { FC, useEffect, useMemo } from 'react'
 import classNames from 'classnames'
 import Image from 'next/image'
+import { ReactNode } from 'react'
 
 import styles from './caseModal.module.scss'
 import { Portal } from '@/service/portal'
@@ -19,6 +20,9 @@ export type CaseModalProps = {
     image?: string
     meta?: string
     stats?: Array<{ value: string, note: string }>
+    task?: string | ReactNode
+    whatWeDid?: string | ReactNode
+    result?: string | ReactNode
   } | null
 }
 
@@ -75,7 +79,27 @@ const CaseModal: FC<CaseModalProps> = ({ open, onClose, item }) => {
             {item?.title ?? 'CASE TITLE'}
           </h2>
           <div className={styles.desc}>
-            {item?.meta ?? ''}
+            {item?.task && (
+              <div className={styles.section}>
+                <h3 className={styles.sectionTitle}>Задача:</h3>
+                <p>{item.task}</p>
+              </div>
+            )}
+            {item?.whatWeDid && (
+              <div className={styles.section}>
+                <h3 className={styles.sectionTitle}>Что сделали:</h3>
+                <div>{item.whatWeDid}</div>
+              </div>
+            )}
+            {item?.meta && !item?.task && !item?.whatWeDid && (
+              <p>{item.meta}</p>
+            )}
+            {item?.result && (
+              <div className={styles.section}>
+                <h3 className={styles.sectionTitle}>Результат:</h3>
+                <p>{item.result}</p>
+              </div>
+            )}
           </div>
           <div className={classNames(styles.hero)}>
             <Image

@@ -59,36 +59,12 @@
   align-items: center;
   justify-content: center;
   gap: func.rem(16);
-  padding: func.rem(24) func.rem(28);
-  background: var(--color-dark-bg);
-  border: 1px solid color-mix(in srgb, var(--color-white-default) 14%, transparent);
   border-radius: 16px;
   min-width: 180px;
   position: relative;
   overflow: hidden;
   transition: all 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
   box-shadow: 0 8px 24px color-mix(in srgb, var(--color-black-default) 25%, transparent);
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: linear-gradient(180deg, var(--color-accent-3), var(--color-accent-2));
-    opacity: 0.9;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(135deg, color-mix(in srgb, var(--color-white-default) 16%, transparent), transparent 40%, color-mix(in srgb, var(--color-white-default) 6%, transparent));
-    opacity: 0.5;
-    transition: opacity 0.35s ease;
-  }
 
   @include desktop-only {
     &:hover {
@@ -116,17 +92,22 @@
 }
 
 .iconWrapper {
-  width: 80px;
+  width: 100%;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  padding: 0 10px;
 
   svg {
     width: 100%;
     height: 100%;
     display: block;
+
+    g {
+      width: 100%;
+    }
   }
 
   @include tablet {

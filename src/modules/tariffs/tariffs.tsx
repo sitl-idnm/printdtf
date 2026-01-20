@@ -258,11 +258,6 @@ const Tariffs: FC<TariffsProps> = ({ className, title, subtitle, items }) => {
                 <div className={styles.icon} aria-hidden="true">
                   <Icon />
                 </div>
-
-                <div className={styles.badge}>
-                  <span className={styles.badgeDot} aria-hidden="true" />
-                  тариф
-                </div>
               </div>
 
               <div className={styles.cardBody}>
