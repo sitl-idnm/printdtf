@@ -34,24 +34,24 @@ const beforeAfterItems = [
     afterImage: '/images/2.png',
     beforeLabel: 'Приняли от поставщика',
     afterLabel: 'Отправили на маркетплейс',
-    title: 'Упаковка и подготовка',
-    description: 'Аккуратная упаковка товара по требованиям маркетплейсов'
+    title: 'Упаковка/Маркировка',
+    description: ''
   },
   {
     beforeImage: '/images/1.png',
     afterImage: '/images/2.png',
     beforeLabel: 'До обработки',
     afterLabel: 'После обработки',
-    title: 'Комплектовка',
-    description: 'Нанесение стикеров и маркировки под требования WB и Ozon'
+    title: 'Сборка наборов',
+    description: ''
   },
   {
     beforeImage: '/images/1.png',
     afterImage: '/images/2.png',
     beforeLabel: 'До консолидации',
     afterLabel: 'После консолидации',
-    title: 'Консолидация поставок',
-    description: 'Формирование паллет и подготовка к отгрузке'
+    title: 'Консолидация поставки',
+    description: ''
   }
 ]
 

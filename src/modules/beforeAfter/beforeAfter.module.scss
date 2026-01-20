@@ -121,11 +121,11 @@
   transition: opacity 0.2s ease;
 
   &[data-label="before"] {
-    left: func.rem(16);
+    right: func.rem(16);
   }
 
   &[data-label="after"] {
-    right: func.rem(16);
+    left: func.rem(16);
   }
 }
 
