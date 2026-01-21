@@ -5,7 +5,6 @@ import { ReactNode } from 'react'
 
 import styles from './caseModal.module.scss'
 import { Portal } from '@/service/portal'
-import { ButtonWave } from '@/ui/buttonWave'
 import { lockScroll, unlockScroll } from '@/shared/lib/scrollLock'
 import { parseCaseStats } from '@/shared/lib/caseMeta'
 
@@ -65,12 +64,8 @@ const CaseModal: FC<CaseModalProps> = ({ open, onClose, item }) => {
     <Portal selector="#modal-root">
       <div className={styles.overlay} role="dialog" aria-modal="true">
         <button type="button" className={styles.close} onClick={onClose} aria-label="Close">
-          {/* двойная стрелка вверх вплотную */}
-          <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" style={{ marginRight: -8 }}>
-            <path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
           <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M6 18L18 6M6 6l12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
         <div className={styles.wrap}>
@@ -122,7 +117,6 @@ const CaseModal: FC<CaseModalProps> = ({ open, onClose, item }) => {
               </div>
             ))}
           </div>
-          <ButtonWave variant="accent3" className={styles.ticket}>Смотреть больше</ButtonWave>
         </div>
       </div>
     </Portal>

@@ -84,13 +84,13 @@ const ServicesScroll: FC<ServicesScrollProps> = ({
 		})
 
 		// Создаём ScrollTrigger с pin
-		// Каждый блок занимает 200vh скролла (удвоенная длительность)
+		// Каждый блок занимает 100vh скролла (один экран на блок)
 		// Кэшируем вычисление для производительности
 		let cachedTotalScroll: number | null = null
 		const getTotalScroll = () => {
 			if (cachedTotalScroll === null) {
 				const sectionHeight = window.innerHeight
-				const scrollPerBlock = sectionHeight * 2 // 200vh на блок
+				const scrollPerBlock = sectionHeight * 1 // 100vh на блок
 				cachedTotalScroll = blocks.length * scrollPerBlock
 			}
 			return cachedTotalScroll
@@ -179,7 +179,12 @@ const ServicesScroll: FC<ServicesScrollProps> = ({
 									<h2 className={styles.title}>{service.title}</h2>
 									<p className={styles.description}>{service.description}</p>
 									<div className={styles.formWrapper}>
-										<Form submitLabel="Оставить заявку" useAtomPrintMethod={false} className={styles.formCompact} />
+										<Form
+											submitLabel="Оставить заявку"
+											useAtomPrintMethod={false}
+											className={styles.formCompact}
+											hidePrintMethod={service.href === '/fullfilment' || service.href === '/logistika'}
+										/>
 									</div>
 								</div>
 								<div className={styles.cardImage}>

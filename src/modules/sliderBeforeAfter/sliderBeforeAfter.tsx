@@ -112,7 +112,7 @@ const galleryDTFItems = [
   { id: 4, image: '/images/test.jpg', title: 'Куртка', tags: ['DTF'] },
   { id: 5, image: '/images/test.jpg', title: 'Шоппер', tags: ['DTF'] },
   { id: 6, image: '/images/test.jpg', title: 'Кожа', tags: ['DTF'] },
-  { id: 7, image: '/images/test.jpg', title: 'Упаковка (коробка/ленты/мешочки)', tags: ['DTF'] },
+  { id: 7, image: '/images/test.jpg', title: 'Упаковка', tags: ['DTF'] },
   { id: 8, image: '/images/test.jpg', title: 'Кепка', tags: ['DTF'] },
   { id: 9, image: '/images/test.jpg', title: 'Спецодежда', tags: ['DTF'] },
   { id: 10, image: '/images/test.jpg', title: 'Форма (футбол)', tags: ['DTF'] },
@@ -410,26 +410,6 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                       { value: '—', note: '' }
                     ],
                     image: '/images/notebook.png'
-                  },
-                  {
-                    id: 'fix',
-                    kicker: 'Клиент (NDA)',
-                    type: 'DTF',
-                    title: 'Исправление брака другого подрядчика',
-                    task: 'Исправить ошибки в тексте на уже изготовленной продукции после работы другого исполнителя.',
-                    whatWeDid: (
-                      <ul>
-                        <li>Полная переделка нанесения</li>
-                        <li>Исправление текстовых ошибок</li>
-                      </ul>
-                    ),
-                    result: 'Клиент избежал списания партии и получил корректную продукцию в кратчайшие сроки.',
-                    stats: [
-                      { value: '5000', note: 'шт' },
-                      { value: '4', note: 'день' },
-                      { value: '—', note: '' }
-                    ],
-                    image: '/images/notebook.png'
                   }
                 ].filter((item) => (isDTF ? item.type === 'DTF' : item.type === 'UV DTF'))}
               />
@@ -439,6 +419,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
           <div className={`${styles.section} ${styles.sectionOpen}`}>
             <div className={styles.sectionInner}>
               <Production
+                key={printMethod}
                 title={isDTF ? 'DTF процесс производства' : 'UV DTF процесс производства'}
                 titleArr={
                   isDTF

@@ -56,6 +56,7 @@
 }
 
 .viewport {
+	position: relative;
 	overflow: hidden;
 }
 
@@ -187,10 +188,25 @@
 .card:hover .caption { transform: translateY(-18px); }
 
 .nav {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
 	display: flex;
-	gap: 8px;
-	justify-content: center;
-	margin-top: 20px;
+	justify-content: space-between;
+	align-items: center;
+	pointer-events: none;
+	padding: 0 20px;
+	z-index: 10;
+
+	@include tablet {
+		padding: 0 12px;
+	}
+
+	@include mobile-large {
+		padding: 0 8px;
+	}
 }
 
 .btn {
@@ -205,6 +221,22 @@
 	justify-content: center;
 	cursor: pointer;
 	transition: transform .12s ease, opacity .2s ease;
+	pointer-events: all;
+	opacity: 0.9;
+
+	&:hover {
+		opacity: 1;
+	}
+
+	@include tablet {
+		width: 44px;
+		height: 44px;
+	}
+
+	@include mobile-large {
+		width: 40px;
+		height: 40px;
+	}
 }
 
 .btn:active { transform: scale(0.96); }

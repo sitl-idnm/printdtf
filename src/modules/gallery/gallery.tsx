@@ -117,18 +117,18 @@ const Gallery: FC<GalleryProps> = ({
               )
             })}
           </div>
-        </div>
-        <div className={styles.nav}>
-          <button type="button" className={styles.btn} onClick={() => scrollByCards(-1)} aria-label="Prev">
-            <svg width="24" height="24" viewBox="0 0 12 24" aria-hidden="true">
-              <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
-            </svg>
-          </button>
-          <button type="button" className={styles.btn} onClick={() => scrollByCards(1)} aria-label="Next">
-            <svg width="24" height="24" viewBox="0 0 12 24" aria-hidden="true" style={{ transform: 'scaleX(-1)' }}>
-              <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
-            </svg>
-          </button>
+          <div className={styles.nav}>
+            <button type="button" className={styles.btn} onClick={() => scrollByCards(-1)} aria-label="Prev">
+              <svg width="24" height="24" viewBox="0 0 12 24" aria-hidden="true">
+                <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
+              </svg>
+            </button>
+            <button type="button" className={styles.btn} onClick={() => scrollByCards(1)} aria-label="Next">
+              <svg width="24" height="24" viewBox="0 0 12 24" aria-hidden="true" style={{ transform: 'scaleX(-1)' }}>
+                <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -144,11 +144,8 @@ const Gallery: FC<GalleryProps> = ({
           {lbIndex !== null && (
             <>
               <button type="button" className={styles.lbCloseBar} onClick={closeLb} aria-label="Close">
-                <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" style={{ marginRight: -8 }}>
-                  <path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
                 <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M6 18L18 6M6 6l12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
               <div className={styles.lbInner} onClick={(e) => e.stopPropagation()}>

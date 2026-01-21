@@ -10,7 +10,8 @@ import { printMethodReadAtom, PrintMethod } from '@/shared/atoms/printMethodAtom
 const Form: FC<FormProps> = ({
   className,
   submitLabel,
-  theme = 'default'
+  theme = 'default',
+  hidePrintMethod = false
 }) => {
   const rootClassName = classNames(
     styles.root,
@@ -64,14 +65,24 @@ const Form: FC<FormProps> = ({
     // Method is always selectable; keep atom as the single source of truth.
     // `useAtomPrintMethod` is kept only for backward compatibility.
     const resolvedMethod = methodHuman
-    const payload = {
+    const payload: {
+      name: string
+      phone: string
+      messenger: string
+      method?: string
+      methodKey?: PrintMethod
+      agree: boolean
+    } = {
       name,
       phone,
       // telegram: telegram || undefined,
       messenger,
-      method: resolvedMethod,
-      methodKey,
       agree
+    }
+    // Only include method if print method field is visible
+    if (!hidePrintMethod) {
+      payload.method = resolvedMethod
+      payload.methodKey = methodKey
     }
     // Replace with actual submission logic
     // eslint-disable-next-line no-console
@@ -165,50 +176,52 @@ const Form: FC<FormProps> = ({
         </div>
       </div>
 
-      <div className={styles.control}>
-        <div className={styles.row}>
-          <div className={styles.choiceLabelRow}>
-            <span className={styles.choiceLabel}>Метод печати</span>
-            <div
-              className={styles.tooltipWrapper}
-              onMouseEnter={() => setShowTooltip(true)}
-              onMouseLeave={() => setShowTooltip(false)}
-            >
-              <span className={styles.differenceLink}>
-                чем отличается?
-              </span>
-              {showTooltip && (
-                <div ref={tooltipRef} className={styles.tooltip}>
-                  <div className={styles.tooltipContent}>
-                    <p className={styles.tooltipTitle}>DTF</p>
-                    <p className={styles.tooltipText}>Одежда и текстиль, перенос термопрессом, мягкий и эластичный отпечаток.</p>
-                    <p className={styles.tooltipTitle}>UV DTF</p>
-                    <p className={styles.tooltipText}>Стекло/пластик/металл/дерево и т.д., засветка УФ-лампой, жёсткий устойчивый отпечаток.</p>
+      {!hidePrintMethod && (
+        <div className={styles.control}>
+          <div className={styles.row}>
+            <div className={styles.choiceLabelRow}>
+              <span className={styles.choiceLabel}>Метод печати</span>
+              <div
+                className={styles.tooltipWrapper}
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+              >
+                <span className={styles.differenceLink}>
+                  чем отличается?
+                </span>
+                {showTooltip && (
+                  <div ref={tooltipRef} className={styles.tooltip}>
+                    <div className={styles.tooltipContent}>
+                      <p className={styles.tooltipTitle}>DTF</p>
+                      <p className={styles.tooltipText}>Одежда и текстиль, перенос термопрессом, мягкий и эластичный отпечаток.</p>
+                      <p className={styles.tooltipTitle}>UV DTF</p>
+                      <p className={styles.tooltipText}>Стекло/пластик/металл/дерево и т.д., засветка УФ-лампой, жёсткий устойчивый отпечаток.</p>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
+            </div>
+            <div className={classNames(styles.options, styles.optionsRow)}>
+              {([
+                { key: 'dtf', label: 'DTF' },
+                { key: 'uvdtf', label: 'UV DTF' }
+              ] as const).map((m) => (
+                <ButtonWave
+                  key={m.key}
+                  className={classNames(styles.option, methodKey === (m.key as PrintMethod) && styles.selected)}
+                  variant="accent3"
+                  onClick={() => {
+                    methodTouchedRef.current = true
+                    setMethodKey(m.key)
+                  }}
+                >
+                  {m.label}
+                </ButtonWave>
+              ))}
             </div>
           </div>
-          <div className={classNames(styles.options, styles.optionsRow)}>
-            {([
-              { key: 'dtf', label: 'DTF' },
-              { key: 'uvdtf', label: 'UV DTF' }
-            ] as const).map((m) => (
-              <ButtonWave
-                key={m.key}
-                className={classNames(styles.option, methodKey === (m.key as PrintMethod) && styles.selected)}
-                variant="accent3"
-                onClick={() => {
-                  methodTouchedRef.current = true
-                  setMethodKey(m.key)
-                }}
-              >
-                {m.label}
-              </ButtonWave>
-            ))}
-          </div>
         </div>
-      </div>
+      )}
 
       <label className={styles.agree}>
         <input

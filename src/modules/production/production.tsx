@@ -23,7 +23,9 @@ const Production: FC<ProductionProps> = ({
     if (containerRef.current) {
       const videos = containerRef.current.querySelectorAll(`.${styles.video}`)
 
-      gsap.timeline({
+      if (videos.length === 0) return
+
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top 10%',
@@ -31,6 +33,8 @@ const Production: FC<ProductionProps> = ({
           scrub: 1,
           pin: true,
           pinSpacing: true,
+          invalidateOnRefresh: true,
+          refreshPriority: 1,
         }
       })
         .fromTo(videos,
@@ -48,8 +52,13 @@ const Production: FC<ProductionProps> = ({
             duration: 1
           }
         )
+
+      return () => {
+        tl.scrollTrigger?.kill()
+        tl.kill()
+      }
     }
-  }, { scope: containerRef, dependencies: [videoSrcs] })
+  }, { scope: containerRef, dependencies: [videoSrcs, title, titleArr], revertOnUpdate: true })
 
   return (
     <div className={rootClassName} ref={containerRef}>

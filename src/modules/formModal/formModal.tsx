@@ -41,11 +41,8 @@ const FormModal: FC<FormModalProps> = ({ className,
     <Portal selector="#modal-root">
       <div className={rootClassName} role="dialog" aria-modal="true">
         <button type="button" className={styles.close} onClick={onClose} aria-label="Close">
-          <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" style={{ marginRight: -8 }}>
-            <path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
           <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M6 18L18 6M6 6l12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
         <div className={styles.wrap}>
