@@ -104,8 +104,8 @@ const LogistikaPage: FC<LogistikaPageProps> = ({
       <PrintHero
         title={<><span>Логистика для маркетплейсов</span></>}
         subtitle={<>Забираем груз и довозим до склада точно в окно. Работаем по FBO и FBS.</>}
-        cta1={'Заказать тираж'}
-        cta2={'Обсудить индивидуальный заказ'}
+        cta1={'Рассчитать стоимость'}
+        cta2={'Получить консультацию'}
         hidePrintMethod={true}
       />
       <ForWork
