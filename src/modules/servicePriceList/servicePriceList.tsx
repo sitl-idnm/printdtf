@@ -26,6 +26,7 @@ const ServicePriceList: FC<ServicePriceListProps> = ({ className, sections }) =>
         }}
         title="Оставить заявку"
         text={selectedService ? `Заказ услуги: ${selectedService}` : 'Заполните форму, и мы свяжемся с вами в ближайшее время.'}
+        hidePrintMethod={true}
       />
       <div className={rootClassName}>
         <h2 className={styles.mainTitle}>Прайс-лист</h2>

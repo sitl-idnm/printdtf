@@ -9,4 +9,5 @@ export interface PrintHeroProps {
   microtext?: string | ReactNode
   option?: string | ReactNode
   optionIcon?: ReactNode
+  hidePrintMethod?: boolean
 }

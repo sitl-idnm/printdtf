@@ -23,6 +23,7 @@ const PrintHero: FC<PrintHeroProps> = ({
   microtext,
   option,
   optionIcon,
+  hidePrintMethod = false,
 }) => {
   const rootClassName = classNames(styles.root, className)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -103,6 +104,7 @@ const PrintHero: FC<PrintHeroProps> = ({
         onClose={() => setModalOpen(false)}
         title="Оставьте заявку"
         text="Заполните форму, и мы свяжемся с вами в ближайшее время."
+        hidePrintMethod={hidePrintMethod}
       />
       <div className={rootClassName} data-chat-scheme="contrast">
         <div className={styles.spacer}>

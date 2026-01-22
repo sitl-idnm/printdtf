@@ -106,6 +106,7 @@ const LogistikaPage: FC<LogistikaPageProps> = ({
         subtitle={<>Забираем груз и довозим до склада точно в окно. Работаем по FBO и FBS.</>}
         cta1={'Заказать тираж'}
         cta2={'Обсудить индивидуальный заказ'}
+        hidePrintMethod={true}
       />
       <ForWork
         title='Для кого работаем'
@@ -153,7 +154,7 @@ const LogistikaPage: FC<LogistikaPageProps> = ({
         ]}
         addresses={contactsAddresses}
         mapTitle="Карта складов"
-        mapEmbedSrc=""
+        mapEmbedSrc="https://yandex.ru/map-widget/v1/?ll=37.564788%2C55.652984&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NjkzMzI1ORJC0KDQvtGB0YHQuNGPLCDQnNC-0YHQutCy0LAsINCl0LXRgNGB0L7QvdGB0LrQsNGPINGD0LvQuNGG0LAsIDIw0LoyIgoNWEIWQhWonF5C&z=17.13"
       />
     </main>
   )

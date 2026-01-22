@@ -13,7 +13,8 @@ const FormModal: FC<FormModalProps> = ({ className,
   onClose,
   title,
   text,
-  imageSrc, imageAlt
+  imageSrc, imageAlt,
+  hidePrintMethod = false
 }) => {
   const one = imageSrc
   const two = imageAlt
@@ -49,7 +50,7 @@ const FormModal: FC<FormModalProps> = ({ className,
           {title ? <h2 className={styles.title}>{title}</h2> : null}
           {text ? <p className={styles.desc}>{text}</p> : null}
           <div className={styles.formBox}>
-            <Form submitLabel="Отправить заявку" theme="invert" />
+            <Form submitLabel="Отправить заявку" theme="invert" hidePrintMethod={hidePrintMethod} />
           </div>
         </div>
         {/* <div className={styles.footer}>

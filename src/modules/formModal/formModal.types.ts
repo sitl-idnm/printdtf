@@ -6,4 +6,5 @@ export interface FormModalProps {
   text?: string
   imageSrc?: string
   imageAlt?: string
+  hidePrintMethod?: boolean
 }

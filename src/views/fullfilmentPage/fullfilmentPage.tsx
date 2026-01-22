@@ -240,6 +240,7 @@ const FullfilmentPage: FC<FullfilmentPageProps> = ({
         subtitle={<>Забираем груз, консолидируем и довозим до склада точно в окно. Работаем по FBO и FBS.</>}
         cta1={'Рассчитать стоимость'}
         cta2={'Получить консультацию'}
+        hidePrintMethod={true}
         option={
           <ul>
             <li>Приёмка и проверка</li>
