@@ -4,7 +4,6 @@ import classNames from 'classnames'
 
 import styles from './plusWork.module.scss'
 import { PlusWorkProps } from './plusWork.types'
-import Image from 'next/image'
 
 const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
   const rootClassName = classNames(styles.root, className)
@@ -67,16 +66,7 @@ const PlusWork: FC<PlusWorkProps> = ({ className, items, arrPlusWork }) => {
               </div>
             </div>
           ) : (
-            <div className={styles.box}>
-              <Image
-                width={200}
-                height={200}
-                quality={90}
-                src={'/images/123.jpg'}
-                alt=''
-                className={styles.image2}
-              />
-            </div>
+            null
           )}
         </div>
       </div>
