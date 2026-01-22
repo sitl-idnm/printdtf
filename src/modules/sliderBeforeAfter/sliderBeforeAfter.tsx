@@ -115,18 +115,18 @@ const galleryDTFItems = [
   { id: 7, image: '/images/test.jpg', title: 'Упаковка', tags: ['DTF'] },
   { id: 8, image: '/images/test.jpg', title: 'Кепка', tags: ['DTF'] },
   { id: 9, image: '/images/test.jpg', title: 'Спецодежда', tags: ['DTF'] },
-  { id: 10, image: '/images/test.jpg', title: 'Форма (футбол)', tags: ['DTF'] },
+  { id: 10, image: '/images/test.jpg', title: 'Форма', tags: ['DTF'] },
 ]
 
 const galleryUVDTFItems = [
-  { id: 11, image: '/images/test.jpg', title: 'Упаковка (коробка/пакеты)', tags: ['UV DTF'] },
+  { id: 11, image: '/images/test.jpg', title: 'Упаковка', tags: ['UV DTF'] },
   { id: 12, image: '/images/chehol.png', title: 'Чехол', tags: ['UV DTF'] },
-  { id: 13, image: '/images/steklo.png', title: 'Стекло (бутылка)', tags: ['UV DTF'] },
-  { id: 14, image: '/images/test.jpg', title: 'Дерево (подставка для телефона)', tags: ['UV DTF'] },
+  { id: 13, image: '/images/steklo.png', title: 'Стекло', tags: ['UV DTF'] },
+  { id: 14, image: '/images/test.jpg', title: 'Дерево', tags: ['UV DTF'] },
   { id: 15, image: '/images/krujka.png', title: 'Кружка', tags: ['UV DTF'] },
   { id: 16, image: '/images/test.jpg', title: 'Желеный термос', tags: ['UV DTF'] },
   { id: 17, image: '/images/sticker-dino.png', title: 'Стикерпаки', tags: ['UV DTF'] },
-  { id: 18, image: '/images/test.jpg', title: 'Корпоративные подарки (брелки, магниты, повербанк)', tags: ['UV DTF'] },
+  { id: 18, image: '/images/test.jpg', title: 'Корпоративные подарки', tags: ['UV DTF'] },
   { id: 19, image: '/images/test.jpg', title: 'Спецодежда (каска)', tags: ['UV DTF'] },
 ]
 
