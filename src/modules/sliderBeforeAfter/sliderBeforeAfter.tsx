@@ -124,7 +124,7 @@ const galleryUVDTFItems = [
   { id: 13, image: '/images/steklo.png', title: 'Стекло', tags: ['UV DTF'] },
   { id: 14, image: '/images/test.jpg', title: 'Дерево', tags: ['UV DTF'] },
   { id: 15, image: '/images/krujka.png', title: 'Кружка', tags: ['UV DTF'] },
-  { id: 16, image: '/images/test.jpg', title: 'Желеный термос', tags: ['UV DTF'] },
+  { id: 16, image: '/images/test.jpg', title: 'Металл', tags: ['UV DTF'] },
   { id: 17, image: '/images/sticker-dino.png', title: 'Стикерпаки', tags: ['UV DTF'] },
   { id: 18, image: '/images/test.jpg', title: 'Корпоративные подарки', tags: ['UV DTF'] },
   { id: 19, image: '/images/test.jpg', title: 'Спецодежда (каска)', tags: ['UV DTF'] },
