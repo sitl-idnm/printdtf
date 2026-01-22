@@ -53,7 +53,7 @@ const Footer: FC = () => {
             <ul className={styles.navList}>
               <li>
                 <Link href="/print" className={styles.navLink}>
-                  Печать DTF
+                  Печать DTF/UV DTF
                 </Link>
               </li>
               <li>
