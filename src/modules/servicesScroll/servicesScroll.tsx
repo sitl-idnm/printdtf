@@ -61,6 +61,7 @@ const ServicesScroll: FC<ServicesScrollProps> = ({
 		// Устанавливаем начальное состояние
 		// Видимый блок должен иметь максимальный z-index
 		const maxZIndex = blocks.length + 1
+
 		blocks.forEach((block, idx) => {
 			if (idx === 0) {
 				gsap.set(block, {
@@ -84,13 +85,13 @@ const ServicesScroll: FC<ServicesScrollProps> = ({
 		})
 
 		// Создаём ScrollTrigger с pin
-		// Каждый блок занимает 100vh скролла (один экран на блок)
+		// Каждый блок занимает равную часть скролла
 		// Кэшируем вычисление для производительности
 		let cachedTotalScroll: number | null = null
 		const getTotalScroll = () => {
 			if (cachedTotalScroll === null) {
 				const sectionHeight = window.innerHeight
-				const scrollPerBlock = sectionHeight * 1 // 100vh на блок
+				const scrollPerBlock = sectionHeight * 1.2 // Немного больше для плавности
 				cachedTotalScroll = blocks.length * scrollPerBlock
 			}
 			return cachedTotalScroll
@@ -101,59 +102,74 @@ const ServicesScroll: FC<ServicesScrollProps> = ({
 				trigger: container,
 				start: 'top top',
 				end: () => `+=${getTotalScroll()}`,
-				scrub: 1.5, // Увеличено для более плавной анимации
+				scrub: 1.2,
 				pin: true,
 				pinSpacing: true,
-				anticipatePin: 1, // Предсказание pin для лучшей производительности
+				anticipatePin: 1,
 				invalidateOnRefresh: true,
 				refreshPriority: 1,
 			}
 		})
 
 		// Анимируем смену блоков
-		// Каждый блок занимает равную часть скролла
-		// Переходы происходят на границах прогресса
+		// Каждый блок занимает равную часть прогресса (1/3 для 3 блоков)
+		const transitionDuration = 0.2
+		const blockProgress = 1 / blocks.length // 0.333 для 3 блоков
+
 		blocks.forEach((block, idx) => {
+			// Позиция перехода между блоками
+			const transitionPoint = idx * blockProgress // 0, 0.333, 0.666
+
 			if (idx === 0) {
-				// Первый блок виден с начала
-				return
+				// Первый блок: появляется сразу в начале
+				tl.fromTo(block, {
+					opacity: 0,
+					scale: 0.95,
+					zIndex: idx,
+					pointerEvents: 'none',
+					force3D: true,
+				}, {
+					opacity: 1,
+					scale: 1,
+					zIndex: maxZIndex,
+					pointerEvents: 'auto',
+					duration: transitionDuration,
+					ease: 'power2.out',
+					force3D: true,
+				}, 0)
 			}
 
-			// Позиция перехода: каждый блок занимает равную часть прогресса
-			const transitionPoint = idx / blocks.length
-			const transitionDuration = 0.2 // Короткая анимация перехода
+			// Исчезновение предыдущего блока и появление текущего
+			if (idx > 0) {
+				const prevBlock = blocks[idx - 1]
+				// Исчезновение предыдущего
+				tl.to(prevBlock, {
+					opacity: 0,
+					scale: 0.95,
+					zIndex: idx - 1,
+					pointerEvents: 'none',
+					duration: transitionDuration,
+					ease: 'power2.in',
+					force3D: true,
+				}, transitionPoint)
 
-			// Исчезновение предыдущего блока в начале перехода
-			tl.to(blocks[idx - 1], {
-				opacity: 0,
-				scale: 0.95,
-				zIndex: idx - 1,
-				pointerEvents: 'none',
-				duration: transitionDuration,
-				ease: 'power2.in',
-				force3D: true,
-				overwrite: 'auto',
-			}, transitionPoint)
-
-			// Появление текущего блока одновременно
-			// Видимый блок должен иметь максимальный z-index
-			const maxZIndex = blocks.length + 1
-			tl.fromTo(block, {
-				opacity: 0,
-				scale: 0.95,
-				zIndex: idx,
-				pointerEvents: 'none',
-				force3D: true,
-			}, {
-				opacity: 1,
-				scale: 1,
-				zIndex: maxZIndex,
-				pointerEvents: 'auto',
-				duration: transitionDuration,
-				ease: 'power2.out',
-				force3D: true,
-				overwrite: 'auto',
-			}, transitionPoint)
+				// Появление текущего одновременно
+				tl.fromTo(block, {
+					opacity: 0,
+					scale: 0.95,
+					zIndex: idx,
+					pointerEvents: 'none',
+					force3D: true,
+				}, {
+					opacity: 1,
+					scale: 1,
+					zIndex: maxZIndex,
+					pointerEvents: 'auto',
+					duration: transitionDuration,
+					ease: 'power2.out',
+					force3D: true,
+				}, transitionPoint)
+			}
 		})
 
 		return () => {
