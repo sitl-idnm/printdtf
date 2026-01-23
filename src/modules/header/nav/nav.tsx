@@ -76,21 +76,33 @@ export const Nav = () => {
 
 	return (
 		<nav ref={containerRef} className={styles.container}>
-			<ul className={styles.menu} ref={menuRef}>
+			<ul
+				className={`${styles.menu} ${!isOpen ? styles.menu_closed : ''}`}
+				ref={menuRef}
+			>
 				<li
-					onClick={() => setActiveIndex(0)}
+					onClick={() => {
+						setActiveIndex(0)
+						setIsOpen(false)
+					}}
 					className={`${styles.menu_item} ${activeIndex === 0 ? styles.menu_item_active : ''}`}
 				>
 					<Link href="/print">Печать</Link>
 				</li>
 				<li
-					onClick={() => setActiveIndex(1)}
+					onClick={() => {
+						setActiveIndex(1)
+						setIsOpen(false)
+					}}
 					className={`${styles.menu_item} ${activeIndex === 1 ? styles.menu_item_active : ''}`}
 				>
 					<Link href="/fullfilment">Фулфилмент</Link>
 				</li>
 				<li
-					onClick={() => setActiveIndex(2)}
+					onClick={() => {
+						setActiveIndex(2)
+						setIsOpen(false)
+					}}
 					className={`${styles.menu_item} ${activeIndex === 2 ? styles.menu_item_active : ''}`}
 				>
 					<Link href="/logistika">Логистика</Link>
@@ -103,7 +115,7 @@ export const Nav = () => {
 				</li>
 			</ul>
 			<div onClick={() => { setIsOpen(!isOpen) }}>
-				<HeaderAnim className={styles.container_icon} />
+				<HeaderAnim className={styles.container_icon} open={isOpen} />
 			</div>
 		</nav>
 	)

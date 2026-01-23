@@ -36,7 +36,21 @@ function formatFieldValue(value: unknown): string {
           `${item.VALUE || ''}${item.VALUE_TYPE ? ` (${item.VALUE_TYPE})` : ''}`
         ).join(', ')
       }
-      return JSON.stringify(value)
+      // Если это массив файлов/документов
+      if (value[0] && typeof value[0] === 'object' && ('downloadUrl' in value[0] || 'url' in value[0] || 'name' in value[0])) {
+        return value.map((item: { name?: string; downloadUrl?: string; url?: string }) => {
+          const name = item.name || 'Файл'
+          const url = item.downloadUrl || item.url || '#'
+          return url !== '#' ? `${name} (ссылка)` : name
+        }).join(', ')
+      }
+      return value.join(', ')
+    }
+    // Если это объект с файлом/документом
+    if ('downloadUrl' in value || 'url' in value || 'name' in value) {
+      const name = (value as { name?: string }).name || 'Файл'
+      const url = (value as { downloadUrl?: string; url?: string }).downloadUrl || (value as { url?: string }).url || '#'
+      return url !== '#' ? `${name} (ссылка)` : name
     }
     return JSON.stringify(value, null, 2)
   }
@@ -57,6 +71,55 @@ function getAllFields(obj: Record<string, unknown> | null): Array<{ key: string;
       if (!aIsUf && bIsUf) return -1
       return a.key.localeCompare(b.key)
     })
+}
+
+// Функция для получения нужных полей сделки
+function getDealFields(deal: Record<string, unknown>): Array<{ key: string; value: unknown; label: string }> {
+  if (!deal) return []
+
+  // Маппинг полей с понятными названиями
+  // Показываем все поля, даже если они пустые
+  const fieldMapping: Array<{
+    keys: string[] // Возможные названия полей в Bitrix
+    label: string // Понятное название для отображения
+  }> = [
+      { keys: ['STAGE_ID'], label: 'Стадия' },
+      { keys: ['UF_CRM_PAYMENT_STATUS', 'PAYMENT_STATUS', 'UF_CRM_STATUS_OPLATY', 'UF_CRM_OPLATA'], label: 'Статус оплаты' },
+      { keys: ['UF_CRM_ORDER_NUMBER', 'ORDER_NUMBER', 'UF_CRM_NOMER_ZAKAZA', 'UF_CRM_NOMER', 'ID'], label: 'Номер заказа' },
+      { keys: ['UF_CRM_TEST_PRINT', 'TEST_PRINT', 'UF_CRM_PECHAT_TESTA', 'UF_CRM_TEST'], label: 'Печать теста' },
+      { keys: ['UF_CRM_TEST_STATUS', 'TEST_STATUS', 'UF_CRM_STATUS_TESTA', 'UF_CRM_TEST_STAGE'], label: 'Статус теста' },
+      { keys: ['UF_CRM_PRINT_METHOD', 'PRINT_METHOD', 'UF_CRM_METOD_PECHATI', 'UF_CRM_METHOD'], label: 'Метод печати' },
+      { keys: ['UF_CRM_IMAGE_SIZE', 'IMAGE_SIZE', 'UF_CRM_RAZMER_IZOBRAZHENIYA_MM', 'UF_CRM_SIZE', 'UF_CRM_RAZMER'], label: 'Размер изображения мм' },
+      { keys: ['UF_CRM_QUANTITY', 'QUANTITY', 'UF_CRM_TIRAGE', 'UF_CRM_TIRAZH', 'UF_CRM_COUNT'], label: 'Тираж' },
+      { keys: ['UF_CRM_PRINT_FILES', 'PRINT_FILES', 'UF_CRM_FAYLY_DLYA_PECHATI', 'UF_CRM_FILES'], label: 'Файлы для печати' },
+      { keys: ['UF_CRM_DOCUMENTS', 'DOCUMENTS', 'UF_CRM_DOKUMENTY', 'UF_CRM_DOCS'], label: 'Документы' },
+      { keys: ['COMMENTS', 'COMMENT', 'UF_CRM_COMMENT', 'UF_CRM_KOMMENTARIY', 'UF_CRM_KOMMENT'], label: 'Комментарий' },
+    ]
+
+  const result: Array<{ key: string; value: unknown; label: string }> = []
+
+  fieldMapping.forEach(({ keys, label }) => {
+    // Ищем первое существующее поле из списка возможных
+    let found = false
+    for (const key of keys) {
+      if (key in deal) {
+        // Показываем поле даже если оно пустое
+        result.push({
+          key,
+          value: deal[key] !== undefined && deal[key] !== null ? deal[key] : null,
+          label
+        })
+        found = true
+        break
+      }
+    }
+    // Если поле не найдено, все равно добавляем его с пустым значением
+    if (!found) {
+      result.push({ key: keys[0], value: null, label })
+    }
+  })
+
+  return result
 }
 
 export default function LkPage() {
@@ -110,7 +173,6 @@ export default function LkPage() {
   }, [])
 
   const entity = lead || contact
-  const entityFields = getAllFields(entity as Record<string, unknown> | null)
   const companyFields = getAllFields(company as Record<string, unknown> | null)
 
   return (
@@ -127,7 +189,7 @@ export default function LkPage() {
         {!loading && !error && entity && (
           <>
             {/* Profile Section - Все поля */}
-            <div className={`${styles.card} ${styles.section}`}>
+            {/* <div className={`${styles.card} ${styles.section}`}>
               <Heading tagName='h2' size='md' className={styles.cardTitle}>
                 {lead ? 'Информация по лиду / Lead Information' : 'Информация по контакту / Contact Information'}
               </Heading>
@@ -139,7 +201,7 @@ export default function LkPage() {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* Company Section */}
             {company && (
@@ -181,7 +243,7 @@ export default function LkPage() {
                 <div className={styles.accordion}>
                   {deals.map((deal) => {
                     const isOpen = !!openDealIds[deal.ID as string]
-                    const dealFields = getAllFields(deal as Record<string, unknown>)
+                    const dealFields = getDealFields(deal as Record<string, unknown>)
                     return (
                       <div key={deal.ID as string} className={styles.dealItem}>
                         <div className={styles.dealHeader} onClick={() => toggleDeal(deal.ID as string)}>
@@ -198,12 +260,17 @@ export default function LkPage() {
                         {isOpen && (
                           <div className={styles.dealBody}>
                             <div className={styles.grid}>
-                              {dealFields.map(({ key, value }) => (
-                                <div key={key}>
-                                  <div className={styles.label}>{key}</div>
-                                  <div className={styles.value}>{formatFieldValue(value)}</div>
-                                </div>
-                              ))}
+                              {dealFields.map(({ key, value, label }) => {
+                                const isEmpty = value === null || value === undefined || value === ''
+                                return (
+                                  <div key={key} className={isEmpty ? styles.fieldEmpty : ''}>
+                                    <div className={styles.label}>{label}</div>
+                                    <div className={`${styles.value} ${isEmpty ? styles.valueEmpty : ''}`}>
+                                      {isEmpty ? '—' : formatFieldValue(value)}
+                                    </div>
+                                  </div>
+                                )
+                              })}
                             </div>
                           </div>
                         )}

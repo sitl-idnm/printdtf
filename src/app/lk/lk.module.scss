@@ -160,8 +160,8 @@
 
 .grid {
   display: grid;
-  grid-template-columns: func.rem(200) 1fr;
-  gap: func.rem(16) func.rem(24);
+  grid-template-columns: func.rem(220) 1fr;
+  gap: func.rem(12) func.rem(24);
   align-items: start;
 
   @include tablet {
@@ -170,17 +170,25 @@
   }
 
   > div {
-    padding: func.rem(12) 0;
+    padding: func.rem(16) func.rem(20);
     border-bottom: 1px solid var(--color-light-gray);
     transition: all 0.2s ease;
+    border-radius: func.rem(8);
+    margin-bottom: func.rem(8);
 
     &:hover {
-      background: linear-gradient(90deg, rgba(107, 72, 255, 0.02) 0%, transparent 100%);
-      padding-left: func.rem(8);
+      background: linear-gradient(90deg, rgba(107, 72, 255, 0.03) 0%, rgba(146, 129, 223, 0.01) 100%);
+      padding-left: func.rem(24);
+      box-shadow: 0 2px 8px rgba(107, 72, 255, 0.05);
     }
 
     &:last-child {
       border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    &.fieldEmpty {
+      opacity: 0.6;
     }
   }
 }
@@ -191,12 +199,24 @@
   font-size: func.rem(13);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: func.rem(6);
-  opacity: 0.7;
+  margin-bottom: func.rem(10);
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: func.rem(8);
+
+  &::before {
+    content: '';
+    width: func.rem(4);
+    height: func.rem(4);
+    background: var(--color-accent-1);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
 
   @include tablet {
     font-size: func.rem(12);
-    margin-bottom: func.rem(4);
+    margin-bottom: func.rem(8);
   }
 }
 
@@ -206,9 +226,22 @@
   word-break: break-word;
   line-height: 1.6;
   font-weight: 500;
+  padding: func.rem(8) func.rem(12);
+  background: rgba(107, 72, 255, 0.02);
+  border-radius: func.rem(6);
+  border-left: 3px solid var(--color-accent-1);
+  min-height: func.rem(24);
+
+  &.valueEmpty {
+    opacity: 0.5;
+    font-style: italic;
+    background: rgba(0, 0, 0, 0.02);
+    border-left-color: var(--color-light-gray);
+  }
 
   @include tablet {
     font-size: func.rem(14);
+    padding: func.rem(6) func.rem(10);
   }
 }
 

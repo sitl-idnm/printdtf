@@ -9,13 +9,21 @@
 		display: flex;
 
 		@include tablet {
-			position: absolute;
+			position: fixed;
 			top: 100px;
 			left: 0;
+			right: 0;
+			z-index: 99;
 
 			width: 100%;
 
 			flex-direction: column;
+
+			&.menu_closed {
+				pointer-events: none;
+				visibility: hidden;
+				opacity: 0;
+			}
 		}
 
 		&_item {
