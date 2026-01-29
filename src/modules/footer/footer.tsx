@@ -74,19 +74,19 @@ const Footer: FC = () => {
             <h3 className={styles.sectionTitle}>Контакты</h3>
             <ul className={styles.contactsList}>
               <li>
-                <a href="tel:+79999999999" className={styles.contactLink}>
+                <a href="tel:+79331846181" className={styles.contactLink}>
                   <span className={styles.contactIcon}>
                     <PhoneIcon />
                   </span>
-                  <span>+7 999 999-99-99</span>
+                  <span>+7 933 184-61-81</span>
                 </a>
               </li>
               <li>
-                <a href="mailto:hello@citygroup.ru" className={styles.contactLink}>
+                <a href="mailto:sales@city-group.pro" className={styles.contactLink}>
                   <span className={styles.contactIcon}>
                     <EnvelopeIcon />
                   </span>
-                  <span>hello@citygroup.ru</span>
+                  <span>sales@city-group.pro</span>
                 </a>
               </li>
             </ul>

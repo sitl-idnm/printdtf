@@ -17,11 +17,11 @@ const SocialLinks: FC<SocialLinksProps> = ({
     <div className={rootClassName}>
       <div className={styles.item}>
         <IconPhone />
-        <a href="tel:+79999999999" className={styles.item_text}>+7 (999) 999-99-99</a>
+        <a href="tel:+79331846181" className={styles.item_text}>+7 (933) 184-61-81</a>
       </div>
       <div className={styles.item}>
         <IconMail />
-        <a href="mailto:example@mail.ru" className={styles.item_text}>example@mail.ru</a>
+        <a href="mailto:sales@city-group.pro" className={styles.item_text}>sales@city-group.pro</a>
       </div>
     </div>
   )

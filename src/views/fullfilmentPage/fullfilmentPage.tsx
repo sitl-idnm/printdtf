@@ -309,7 +309,7 @@ const FullfilmentPage: FC<FullfilmentPageProps> = ({
           'Почта для заявок и договоров.'
         ]}
         phoneLinks={[
-          { label: 'Телефон', value: '+7 999 999-99-99', href: 'tel:+79999999999' }
+          { label: 'Телефон', value: '+7 933 184-61-81', href: 'tel:+79331846181' }
         ]}
         messengerLinks={[
           { label: 'Telegram', value: 'Telegram', href: 'https://t.me/' },
