@@ -47,22 +47,12 @@
       border-top-width: 0;
       &:first-child { border-top-width: 1px; }
     }
-    box-shadow:
-      0 0 0 0 rgba(0 0 0 / 0%),
-      0 18px 42px rgba(0 0 0 / 10%);
-
     flex: 1 1 0%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     padding: clamp(16px, 2.6vw, 28px);
-    transition:
-      flex-basis 450ms ease,
-      flex-grow 450ms ease,
-      transform 450ms ease,
-      box-shadow 300ms ease,
-      background 300ms ease;
     will-change: flex-basis, flex-grow, transform;
     transform: translateZ(0); // Аппаратное ускорение
     backface-visibility: hidden; // Предотвращение мерцания
@@ -93,8 +83,7 @@
       inset: 0;
       background:
         linear-gradient(90deg, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.02));
-      opacity: 0;
-      transition: opacity 250ms ease;
+      opacity: var(--card-overlay-opacity, 0);
       pointer-events: none;
       z-index: 1;
     }
@@ -114,14 +103,8 @@
       object-position: center;
       filter: grayscale(100%);
       opacity: 0.4;
-      transition: filter 450ms ease, opacity 450ms ease, transform 450ms ease;
       transform: translateZ(0);
       will-change: filter, opacity, transform;
-    }
-
-    &:hover .image {
-      filter: grayscale(0%);
-      opacity: 0.6;
     }
 
     .cardInner {
@@ -132,13 +115,6 @@
       display: grid;
       gap: 14px;
       justify-items: center;
-    }
-
-    &:hover {
-      box-shadow:
-        0 0 0 0 rgba(0 0 0 / 0%),
-        0 26px 60px rgba(0 0 0 / 14%);
-      &::after { opacity: 1; }
     }
 
     .title {
@@ -159,7 +135,6 @@
       border: 1px solid rgba(0, 0, 0, 0.85);
       background: color-mix(in srgb, var(--card-accent) 18%, rgba(255, 255, 255, 0.6));
       backdrop-filter: blur(6px);
-      transition: transform 250ms ease;
     }
 
     .ctaIcon {
@@ -171,10 +146,6 @@
       svg { width: 18px; height: 18px; }
     }
 
-    &:hover .cta {
-      transform: translateX(2px);
-    }
-
     &:focus-visible {
       outline: 3px solid var(--color-accent-2);
       outline-offset: 3px;
@@ -182,22 +153,7 @@
 
     @include tablet {
       min-height: 140px;
-      &:hover { transform: none; }
     }
   }
 
-  // Hover behavior with flex-grow ratios (gap-safe, no overflow)
-  // Total weight on hover: 0.6 + 2.8 + 0.6 = 4 (≈70% : 15% : 15%)
-  .row:hover .card { flex: 0.6 1 0%; }
-  .row .card:hover { flex: 2.8 1 0%; }
-
-  // Tablet and below: keep equal columns without hover-expansion
-  @include tablet {
-    .row:hover .card {
-      flex: 1 1 0%;
-    }
-    .row .card:hover {
-      flex: 1 1 0%;
-    }
-  }
 }
