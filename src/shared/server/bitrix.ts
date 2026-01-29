@@ -1,4 +1,6 @@
 
+import { formatPhoneWithSpaces } from '@/shared/utils/phone'
+
 type BitrixCommonResponse<T> = {
 	result?: T
 	time?: unknown
@@ -235,109 +237,56 @@ async function findPasswordFieldCode(): Promise<string | null> {
 }
 
 export async function getContactPasswordField(id: string, fieldName?: string, inputPassword?: string): Promise<string | null> {
-	if (process.env.NODE_ENV === 'development') {
-		console.log('getContactPasswordField called:', { contactId: id, fieldName, hasInputPassword: !!inputPassword })
-	}
+	console.log('  🔍 getContactPasswordField called:', { contactId: id, fieldName, hasInputPassword: !!inputPassword })
 
-	// Если указан явно, используем его
-	if (fieldName) {
-		const contact = await bitrixCall<Record<string, unknown>>('crm.contact.get', { id }).catch(() => null)
-		if (!contact) return null
-		const passwordValue = contact[fieldName]
-		return passwordValue ? String(passwordValue).trim() : null
-	}
+	// Используем конкретное поле UF_CRM_B24LK_CONTACT_PIN для проверки пароля
+	const passwordField = fieldName || 'UF_CRM_B24LK_CONTACT_PIN'
 
 	// Получаем данные контакта
 	let contact: Record<string, unknown>
 	try {
 		contact = await bitrixCall<Record<string, unknown>>('crm.contact.get', { id })
 	} catch (e) {
-		if (process.env.NODE_ENV === 'development') {
-			console.error('Error getting contact:', e)
-		}
+		console.error('  ❌ Error getting contact:', e)
 		return null
 	}
 
-	// НОВЫЙ ПОДХОД: Ищем поле по ЗНАЧЕНИЮ (если передан пароль)
-	if (inputPassword) {
-		const trimmedInput = inputPassword.trim()
-		const excludedFields = ['UF_CRM_B24LK_CONTACT_ACTIVE_LK', 'ACTIVE_LK']
+	// Проверяем, существует ли поле в контакте
+	const hasField = passwordField in contact
+	const passwordValue = contact[passwordField]
 
-		if (process.env.NODE_ENV === 'development') {
-			console.log(`🔍 Searching for password field by value matching "${trimmedInput}" (length: ${trimmedInput.length})`)
+	// Обрабатываем разные типы значений (число, строка, null, undefined)
+	let trimmedPassword: string | null = null
+	if (passwordValue !== null && passwordValue !== undefined) {
+		// Преобразуем в строку и убираем пробелы
+		trimmedPassword = String(passwordValue).trim()
+		// Если после trim осталась пустая строка, считаем null
+		if (trimmedPassword === '') {
+			trimmedPassword = null
 		}
-
-		// Собираем все UF_CRM_ поля для логирования
-		const ufFields: Array<{ key: string; value: string; matches: boolean }> = []
-
-		// Ищем все UF_CRM_ поля и сравниваем их значения с введенным паролем
-		for (const [key, value] of Object.entries(contact)) {
-			if (!key.startsWith('UF_CRM_')) continue
-			if (excludedFields.includes(key)) continue
-
-			const strValue = String(value || '').trim()
-			// Пропускаем пустые, "0", "false"
-			if (!strValue || strValue === '0' || strValue === 'false') {
-				if (process.env.NODE_ENV === 'development') {
-					ufFields.push({ key, value: strValue || '(empty)', matches: false })
-				}
-				continue
-			}
-
-			const matches = strValue === trimmedInput
-			if (process.env.NODE_ENV === 'development') {
-				ufFields.push({
-					key,
-					value: strValue.length > 20 ? strValue.substring(0, 20) + '...' : strValue,
-					matches
-				})
-				// Детальное логирование для отладки
-				if (strValue.length > 0 && trimmedInput.length > 0) {
-					console.log(`   Comparing field ${key}: "${strValue}" (len: ${strValue.length}) vs "${trimmedInput}" (len: ${trimmedInput.length}) - match: ${matches}`)
-				}
-			}
-
-			// Сравниваем значение поля с введенным паролем
-			if (matches) {
-				if (process.env.NODE_ENV === 'development') {
-					console.log(`✅ Found password field by value match: ${key} = "${strValue}"`)
-					console.log(`   All checked fields:`, ufFields)
-				}
-				return strValue
-			}
-		}
-
-		if (process.env.NODE_ENV === 'development') {
-			console.log(`❌ No field found with value matching input password`)
-			console.log(`   Input password: "${trimmedInput}" (length: ${trimmedInput.length})`)
-			console.log(`   All checked fields:`, ufFields)
-		}
-		return null
 	}
 
-	// СТАРЫЙ ПОДХОД (fallback): Ищем поле по названию, если пароль не передан
-	const field = await findPasswordFieldCode()
-	if (!field) {
-		if (process.env.NODE_ENV === 'development') {
-			console.log('Password field not found by title:', PASSWORD_FIELD_TITLE)
-		}
-		return null
-	}
+	console.log('  🔑 Password check:', {
+		contactId: id,
+		fieldCode: passwordField,
+		fieldExists: hasField,
+		rawValue: passwordValue,
+		valueType: typeof passwordValue,
+		hasValue: !!passwordValue,
+		trimmedValue: trimmedPassword ? `"${trimmedPassword}"` : 'null',
+		trimmedValueLength: trimmedPassword?.length || 0,
+		inputPassword: inputPassword ? `"${inputPassword.trim()}"` : 'not provided',
+		inputPasswordLength: inputPassword?.trim().length || 0,
+		willMatch: trimmedPassword === inputPassword?.trim()
+	})
 
-	if (process.env.NODE_ENV === 'development') {
-		console.log('Using password field:', field)
-	}
+	// Дополнительная диагностика: показываем все UF_CRM_ поля для отладки
+	const ufFields = Object.entries(contact)
+		.filter(([key]) => key.startsWith('UF_CRM_'))
+		.map(([key, value]) => ({ key, value: String(value).substring(0, 30), type: typeof value }))
+	console.log('  📋 All UF_CRM_ fields in contact:', ufFields)
 
-	const passwordValue = contact[field]
-	if (process.env.NODE_ENV === 'development') {
-		console.log('Getting contact password by field code:', {
-			contactId: id,
-			fieldCode: field,
-			hasValue: !!passwordValue,
-			value: passwordValue ? String(passwordValue).substring(0, 10) + '...' : 'null'
-		})
-	}
-	return passwordValue ? String(passwordValue).trim() : null
+	return trimmedPassword
 }
 
 export async function findContactIdsByPhone(phoneDigits: string): Promise<string[]> {
@@ -351,25 +300,29 @@ export async function findContactIdsByPhone(phoneDigits: string): Promise<string
 		total?: number
 	}
 
-	if (process.env.NODE_ENV === 'development') {
-		console.log('Searching contacts by phone digits:', phoneDigits)
-	}
+	console.log('🔍 Searching contacts by phone digits:', phoneDigits)
 
 	const allContactIds = new Set<string>()
 
 	// МЕТОД 1: Используем duplicate.findbycomm с разными вариантами формата телефона
-	// Пробуем все возможные варианты, чтобы найти максимум контактов
+	// В Bitrix24 телефон хранится с +7, поэтому приоритет отдаем формату с плюсом
+	const formattedWithSpaces = formatPhoneWithSpaces(phoneDigits) // +7 903 744-76-81
+
 	const phoneVariantsForDuplicate = [
+		formattedWithSpaces, // +7 903 744-76-81 (форматированный вариант - ПРИОРИТЕТ)
+		'+' + phoneDigits, // +79035559873 (формат в Bitrix24)
+		phoneDigits.startsWith('+') ? phoneDigits : '+' + phoneDigits, // +79035559873 (если уже есть +)
 		phoneDigits, // 79035559873
 		phoneDigits.startsWith('7') ? phoneDigits.slice(1) : phoneDigits, // 9035559873
 		phoneDigits.startsWith('7') ? '8' + phoneDigits.slice(1) : '7' + phoneDigits, // 89035559873
 		phoneDigits.startsWith('8') ? '7' + phoneDigits.slice(1) : phoneDigits, // 79035559873
-		'+' + phoneDigits, // +79035559873
-		phoneDigits.startsWith('+') ? phoneDigits.slice(1) : '+' + phoneDigits, // +79035559873 или 79035559873
-	]
+		phoneDigits.startsWith('+') ? phoneDigits.slice(1) : phoneDigits, // 79035559873 (убираем + если есть)
+	].filter(Boolean) // Убираем пустые значения
 
 	// Убираем дубликаты вариантов
 	const uniqueVariants = Array.from(new Set(phoneVariantsForDuplicate))
+
+	console.log('🔍 Searching contacts with phone variants (Bitrix24 format +7 priority):', uniqueVariants)
 
 	for (const variant of uniqueVariants) {
 		try {
@@ -380,19 +333,17 @@ export async function findContactIdsByPhone(phoneDigits: string): Promise<string
 			const contactIds = result?.CONTACT || []
 			contactIds.forEach(id => allContactIds.add(String(id)))
 
-			if (process.env.NODE_ENV === 'development' && contactIds.length > 0) {
-				console.log(`duplicate.findbycomm found ${contactIds.length} contacts with variant "${variant}"`)
+			if (contactIds.length > 0) {
+				console.log(`  ✅ duplicate.findbycomm found ${contactIds.length} contacts with variant "${variant}"`)
+			} else {
+				console.log(`  ❌ No contacts found with variant "${variant}"`)
 			}
 		} catch (e) {
-			if (process.env.NODE_ENV === 'development') {
-				console.error(`Error with duplicate.findbycomm for variant "${variant}":`, e)
-			}
+			console.error(`  ❌ Error with duplicate.findbycomm for variant "${variant}":`, e)
 		}
 	}
 
-	if (process.env.NODE_ENV === 'development') {
-		console.log(`duplicate.findbycomm total unique contacts: ${allContactIds.size}`)
-	}
+	console.log(`📊 duplicate.findbycomm total unique contacts: ${allContactIds.size}`)
 
 	// МЕТОД 2: Используем crm.contact.list с фильтром по телефону (дополнительный поиск)
 	// Используем только если duplicate.findbycomm не нашел контакты, чтобы не делать лишние запросы

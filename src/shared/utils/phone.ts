@@ -41,6 +41,31 @@ export function formatPhoneFromDigits (national10: string): string {
   return out
 }
 
+// Formats phone digits into "+7 XXX XXX-XX-XX" format (without parentheses)
+export function formatPhoneWithSpaces (phoneDigits: string): string {
+  const digits = extractDigits(phoneDigits)
+  if (!digits || digits.length < 10) return ''
+
+  // Если начинается с 7 или 8, берем следующие 10 цифр
+  let national = digits
+  if (digits.startsWith('7') && digits.length >= 11) {
+    national = digits.slice(1, 11)
+  } else if (digits.startsWith('8') && digits.length >= 11) {
+    national = digits.slice(1, 11)
+  } else if (digits.length >= 10) {
+    national = digits.slice(-10) // Берем последние 10 цифр
+  }
+
+  if (national.length !== 10) return ''
+
+  const part1 = national.slice(0, 3)  // 903
+  const part2 = national.slice(3, 6)  // 744
+  const part3 = national.slice(6, 8)  // 76
+  const part4 = national.slice(8, 10) // 81
+
+  return `+7 ${part1} ${part2}-${part3}-${part4}`
+}
+
 // Apply mask to any raw input string
 export function maskPhoneInput (raw: string, previousValue?: string): string {
   // If backspace was pressed and we're removing characters

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo, useMemo } from 'react'
 import classNames from 'classnames'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -21,53 +21,58 @@ const defaultImages = [
   '/images/dostavka.png',
 ]
 
+const defaultItems = [
+  { title: 'Печать', href: '/print' },
+  { title: 'Фулфилмент', href: '/fullfilment' },
+  { title: 'Логистика', href: '/logistika' },
+]
+
 const ServicesMain: FC<ServicesMainProps> = ({
   className,
-  items = [
-    { title: 'Печать', href: '/print' },
-    { title: 'Фулфилмент', href: '/fullfilment' },
-    { title: 'Логистика', href: '/logistika' },
-  ],
+  items = defaultItems,
 }) => {
   const rootClassName = classNames(styles.root, className)
+  const cards = useMemo(() => {
+    return items.map((item, idx) => {
+      const imageSrc: string = ('image' in item && typeof (item as { image?: string }).image === 'string')
+        ? (item as { image: string }).image
+        : (defaultImages[idx] || defaultImages[0])
+      return (
+        <Link
+          key={item.href ?? `${item.title}-${idx}`}
+          href={item.href ?? '#'}
+          className={styles.card}
+          data-variant={idx + 1}
+          aria-label={item.title}
+        >
+          <div className={styles.cardImage}>
+            <Image
+              src={imageSrc}
+              alt=""
+              fill
+              className={styles.image}
+              sizes="(max-width: 768px) 100vw, 33vw"
+              priority={idx === 0}
+            />
+          </div>
+          <span className={styles.cardInner}>
+            <span className={styles.title}>{item.title}</span>
+            <span className={styles.cta}>
+              Подробнее <span className={styles.ctaIcon}><ArrowIcon /></span>
+            </span>
+          </span>
+        </Link>
+      )
+    })
+  }, [items])
 
   return (
     <section className={rootClassName} aria-label="Основные услуги">
       <div className={styles.row}>
-        {items.map((item, idx) => {
-          const imageSrc: string = ('image' in item && typeof (item as { image?: string }).image === 'string')
-            ? (item as { image: string }).image
-            : (defaultImages[idx] || defaultImages[0])
-          return (
-            <Link
-              key={item.href ?? `${item.title}-${idx}`}
-              href={item.href ?? '#'}
-              className={styles.card}
-              data-variant={idx + 1}
-              aria-label={item.title}
-            >
-              <div className={styles.cardImage}>
-                <Image
-                  src={imageSrc}
-                  alt=""
-                  fill
-                  className={styles.image}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  priority={idx === 0}
-                />
-              </div>
-              <span className={styles.cardInner}>
-                <span className={styles.title}>{item.title}</span>
-                <span className={styles.cta}>
-                  Подробнее <span className={styles.ctaIcon}><ArrowIcon /></span>
-                </span>
-              </span>
-            </Link>
-          )
-        })}
+        {cards}
       </div>
     </section>
   )
 }
 
-export default ServicesMain
+export default memo(ServicesMain)
