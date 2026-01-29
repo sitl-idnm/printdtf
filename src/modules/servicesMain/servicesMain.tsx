@@ -114,7 +114,7 @@ const ServicesMain: FC<ServicesMainProps> = ({
       gsap.to(cardNodes, {
         flexGrow: 1,
         flexBasis: '0%',
-        duration: 0.45,
+        duration: 0.35,
         ease: 'power2.out',
         overwrite: 'auto'
       })
@@ -150,16 +150,16 @@ const ServicesMain: FC<ServicesMainProps> = ({
 
     const activateCard = (active: HTMLElement) => {
       gsap.to(cardNodes, {
-        flexGrow: 0.6,
+        flexGrow: 0.9,
         flexBasis: '0%',
-        duration: 0.45,
+        duration: 0.35,
         ease: 'power2.out',
         overwrite: 'auto'
       })
       gsap.to(active, {
-        flexGrow: 2.8,
+        flexGrow: 1.2,
         flexBasis: '0%',
-        duration: 0.45,
+        duration: 0.35,
         ease: 'power2.out',
         overwrite: 'auto'
       })
