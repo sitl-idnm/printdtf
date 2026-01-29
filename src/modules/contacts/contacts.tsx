@@ -208,7 +208,7 @@ const Contacts: FC<ContactsProps> = ({
           {addr.length ? (
             <>
               <div className={styles.sep} />
-              <div className={styles.sectionTitle}>Адреса</div>
+              <div className={styles.sectionTitle}>Адрес</div>
               <ul className={styles.addrList}>
                 {addr.map((a, i) => (
                   <li key={i}>

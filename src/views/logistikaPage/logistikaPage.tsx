@@ -91,7 +91,7 @@ const howWeWorkSteps = [
 ]
 
 const contactsAddresses = [
-  { text: 'Адрес основного склада/офиса в Москве с удобным выездом к ключевым складам WB и Ozon.' }
+  { text: 'Москва, Херсонская улица, 20к2' }
 ]
 
 const LogistikaPage: FC<LogistikaPageProps> = ({
@@ -146,11 +146,11 @@ const LogistikaPage: FC<LogistikaPageProps> = ({
           { label: 'Телефон', value: '+7 933 184-61-81', href: 'tel:+79331846181' }
         ]}
         messengerLinks={[
-          { label: 'Telegram', value: 'Telegram', href: 'https://t.me/' },
-          { label: 'WhatsApp', value: 'WhatsApp', href: 'https://wa.me/' }
+          { label: 'Telegram', value: 'Telegram', href: 'https://t.me/+79331846181' },
+          { label: 'WhatsApp', value: 'WhatsApp', href: 'https://wa.me/+79331846181' }
         ]}
         emailLinks={[
-          { label: 'Email', value: 'hello@example.com', href: 'mailto:hello@example.com' }
+          { label: 'Email', value: 'sales@city-group.pro', href: 'mailto:sales@city-group.pro' }
         ]}
         addresses={contactsAddresses}
         mapTitle="Карта складов"

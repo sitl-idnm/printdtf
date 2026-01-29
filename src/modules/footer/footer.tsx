@@ -97,7 +97,7 @@ const Footer: FC = () => {
             <h3 className={styles.sectionTitle}>Связаться</h3>
             <div className={styles.socialLinks}>
               <a
-                href="https://t.me/citygroup"
+                href="https://t.me/+79331846181"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.socialLink}
@@ -109,7 +109,7 @@ const Footer: FC = () => {
                 <span>Telegram</span>
               </a>
               <a
-                href="https://wa.me/79999999999"
+                href="https://wa.me/+79331846181"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.socialLink}

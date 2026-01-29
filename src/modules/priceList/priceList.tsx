@@ -79,10 +79,10 @@ const PriceList: FC<PriceListProps> = ({
       </div>
 
       <div className={styles.cta}>
-        <ButtonWave variant="accent2" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = 'tel:+79999999999' }}>
+        <ButtonWave variant="accent2" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.location.href = 'tel:+79331846181' }}>
           Остались вопросы? Позвоните
         </ButtonWave>
-        <ButtonWave variant="accent3" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.open('https://t.me/username', '_blank', 'noopener,noreferrer') }}>
+        <ButtonWave variant="accent3" className={styles.btn} onClick={() => { if (typeof window !== 'undefined') window.open('https://t.me/+79331846181', '_blank', 'noopener,noreferrer') }}>
           Написать в Telegram
         </ButtonWave>
       </div>

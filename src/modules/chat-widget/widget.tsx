@@ -17,9 +17,9 @@ type ChatWidgetProps = {
 }
 
 const DEFAULT_LINKS: ChatLink[] = [
-  { href: 'https://t.me/username', label: 'Telegram', icon: 'telegram' },
-  { href: 'https://wa.me/79999999999', label: 'WhatsApp', icon: 'whatsapp' },
-  { href: 'mailto:hello@example.com', label: 'Email', icon: 'email' }
+  { href: 'https://t.me/+79331846181', label: 'Telegram', icon: 'telegram' },
+  { href: 'https://wa.me/+79331846181', label: 'WhatsApp', icon: 'whatsapp' },
+  { href: 'mailto:sales@city-group.pro', label: 'Email', icon: 'email' }
 ]
 
 const Icon: FC<{ name: ChatLink['icon'] | 'message' }> = ({ name }) => {
