@@ -368,7 +368,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                       { value: '20', note: 'см' },
                       { value: '3', note: 'день' }
                     ],
-                    image: '/images/notebook.png'
+                    images: '/videos/cases/ducks/ducks.mp4'
                   },
                   {
                     id: 'lukoil',
@@ -389,7 +389,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                       { value: '2', note: 'день' },
                       { value: '—', note: '' }
                     ],
-                    image: '/images/fotbolka.png'
+                    images: '/images/cases/lucoil/'
                   },
                   {
                     id: 'mossport',

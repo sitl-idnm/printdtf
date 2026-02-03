@@ -251,26 +251,50 @@ const SliderHero: FC<{ images?: string[] | string; fallbackImage?: string }> = (
     <div className={classNames(styles.hero)} style={{ position: 'relative' }}>
       {/* Two-layer crossfade */}
       {srcA ? (
-        <Image
-          key={`A-${srcA}`}
-          src={srcA}
-          alt=""
-          width={1600}
-          height={900}
-          className={classNames(styles.fadeLayer, slot === 0 && styles.fadeActive)}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
+        /\.(mp4|webm|ogg)$/i.test(srcA) ? (
+          <video
+            key={`A-${srcA}`}
+            className={classNames(styles.fadeLayer, slot === 0 && styles.fadeActive)}
+            src={srcA}
+            controls
+            playsInline
+            preload="metadata"
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        ) : (
+          <Image
+            key={`A-${srcA}`}
+            src={srcA}
+            alt=""
+            width={1600}
+            height={900}
+            className={classNames(styles.fadeLayer, slot === 0 && styles.fadeActive)}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        )
       ) : null}
       {srcB ? (
-        <Image
-          key={`B-${srcB}`}
-          src={srcB}
-          alt=""
-          width={1600}
-          height={900}
-          className={classNames(styles.fadeLayer, slot === 1 && styles.fadeActive)}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
+        /\.(mp4|webm|ogg)$/i.test(srcB) ? (
+          <video
+            key={`B-${srcB}`}
+            className={classNames(styles.fadeLayer, slot === 1 && styles.fadeActive)}
+            src={srcB}
+            controls
+            playsInline
+            preload="metadata"
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        ) : (
+          <Image
+            key={`B-${srcB}`}
+            src={srcB}
+            alt=""
+            width={1600}
+            height={900}
+            className={classNames(styles.fadeLayer, slot === 1 && styles.fadeActive)}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        )
       ) : null}
       {resolvedPics && resolvedPics.length > 1 && (
         <>

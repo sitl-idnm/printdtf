@@ -25,59 +25,107 @@ const Production: FC<ProductionProps> = ({
 
       if (videos.length === 0) return
 
-      // Lazy loading for videos: defer load until near viewport
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          const el = entry.target as HTMLVideoElement
-          if (entry.isIntersecting) {
-            // Switch to auto preload and trigger load
-            el.preload = 'auto'
-            try { el.load() } catch { /* ignore */ }
-          } else {
-            // Pause when out of view to save CPU/battery
-            try { el.pause() } catch { /* ignore */ }
-          }
+      let io: IntersectionObserver | null = null
+      let tlRef: gsap.core.Timeline | null = null
+      let stRef: ScrollTrigger | null = null
+
+      const createScene = () => {
+        // IO
+        io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            const el = entry.target as HTMLVideoElement
+            if (entry.isIntersecting) {
+              el.preload = 'auto'
+              try { el.load() } catch { /* ignore */ }
+            } else {
+              try { el.pause() } catch { /* ignore */ }
+            }
+          })
+        }, { root: null, rootMargin: '200px 0px', threshold: 0.01 })
+        videos.forEach((v) => {
+          const el = v as HTMLVideoElement
+          el.preload = 'none'
+          io?.observe(el)
         })
-      }, { root: null, rootMargin: '200px 0px', threshold: 0.01 })
-
-      videos.forEach((v) => {
-        const el = v as HTMLVideoElement
-        el.preload = 'none'
-        io.observe(el)
-      })
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
+        // GSAP
+        tlRef = gsap.timeline()
+          .fromTo(videos,
+            { y: 100, opacity: 0, scale: 0.8 },
+            { y: 0, opacity: 1, scale: 1, stagger: 0.5, ease: 'power2.out', duration: 1 }
+          )
+        stRef = ScrollTrigger.create({
+          animation: tlRef,
+          trigger: containerRef.current!,
           start: 'top 10%',
-          end: '+=200%',
+          end: '+=30%',
           scrub: 1,
-          pin: true,
-          pinSpacing: true,
+          pin: false,
           invalidateOnRefresh: true,
           refreshPriority: 1,
-        }
-      })
-        .fromTo(videos,
-          {
-            y: 100,
-            opacity: 0,
-            scale: 0.8
-          },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            stagger: 0.5,
-            ease: 'power2.out',
-            duration: 1
+        })
+      }
+
+      const destroyScene = () => {
+        try { stRef?.kill() } catch { /* ignore */ }
+        try { tlRef?.kill() } catch { /* ignore */ }
+        try { io?.disconnect() } catch { /* ignore */ }
+        stRef = null
+        tlRef = null
+        io = null
+      }
+
+      createScene()
+
+      // Handle fullscreen to avoid conflicts with pin/observers
+      const onFsChange = () => {
+        const fsEl = document.fullscreenElement as HTMLElement | null
+        const isInside = !!fsEl && !!containerRef.current && containerRef.current.contains(fsEl)
+        if (isInside) {
+          // Fully tear down to avoid style updates that can exit fullscreen
+          destroyScene()
+          // Ensure fullscreen video is visible (no transforms/filters)
+          const fsVideo = (fsEl?.tagName === 'VIDEO' ? fsEl : fsEl?.closest('video')) as HTMLVideoElement | null
+          if (fsVideo) {
+            try {
+              // store previous inline styles to restore later
+              fsVideo.dataset.prevTransform = fsVideo.style.transform || ''
+              fsVideo.dataset.prevFilter = fsVideo.style.filter || ''
+              fsVideo.dataset.prevOpacity = fsVideo.style.opacity || ''
+              fsVideo.style.transform = 'none'
+              fsVideo.style.filter = 'none'
+              fsVideo.style.opacity = '1'
+            } catch { /* ignore */ }
           }
-        )
+        } else {
+          // Recreate after exit, keep scroll position
+          const y = window.scrollY
+          createScene()
+          // restore possible styles on previously fullscreen video
+          const last = document.querySelector('video[data-prev-transform]') as HTMLVideoElement | null
+          if (last) {
+            try {
+              last.style.transform = last.dataset.prevTransform || ''
+              last.style.filter = last.dataset.prevFilter || ''
+              last.style.opacity = last.dataset.prevOpacity || ''
+              delete last.dataset.prevTransform
+              delete last.dataset.prevFilter
+              delete last.dataset.prevOpacity
+            } catch { /* ignore */ }
+          }
+          window.scrollTo(0, y)
+        }
+      }
+
+      document.addEventListener('fullscreenchange', onFsChange)
+      // Safari legacy prefix (noop elsewhere)
+      // @ts-expect-error - vendor event
+      document.addEventListener('webkitfullscreenchange', onFsChange)
 
       return () => {
-        tl.scrollTrigger?.kill()
-        tl.kill()
-        io.disconnect()
+        destroyScene()
+        document.removeEventListener('fullscreenchange', onFsChange)
+        // @ts-expect-error - vendor event
+        document.removeEventListener('webkitfullscreenchange', onFsChange)
       }
     }
   }, { scope: containerRef, dependencies: [videoSrcs, title, titleArr], revertOnUpdate: true })

@@ -27,10 +27,10 @@ const Cases: FC<CasesProps> = ({
   const data = useMemo(() => {
     if (items?.length) return items
     return [
-      { id: 1, kicker: 'Сбер', type: 'UV DTF', title: 'Стикерпаки', image: '/images/sticker-shark.png' },
-      { id: 2, kicker: 'Корпоративные уточки', type: 'UV DTF', title: 'Нанесение на резиновых уточек', image: '/images/sticker-dino.png' },
-      { id: 3, kicker: 'ЛУКОЙЛ', type: 'DTF', title: 'Печать на футболках', image: '/images/sticker-shark.png' },
-      { id: 4, kicker: 'Мосспорт', type: 'DTF', title: 'Нанесение на блокноты', image: '/images/sticker-dino.png' }
+      { id: 1, kicker: 'Сбер', type: 'UV DTF', title: 'Стикерпаки', image: '/images/cases/sber/IMG_3179.jpg' },
+      { id: 2, kicker: 'Корпоративные уточки', type: 'UV DTF', title: 'Нанесение на резиновых уточек', image: '/images/cases/ducks/ducks.jpg' },
+      { id: 3, kicker: 'ЛУКОЙЛ', type: 'DTF', title: 'Печать на футболках', image: '/images/cases/lukoil/lukoil.jpg' },
+      { id: 4, kicker: 'Мосспорт', type: 'DTF', title: 'Нанесение на блокноты', image: '/images/cases/mossport/sportlend.webp' }
     ]
   }, [items])
 
