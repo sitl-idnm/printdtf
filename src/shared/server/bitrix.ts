@@ -365,7 +365,9 @@ export async function listDealsByContactId(contactId: string): Promise<BitrixDea
 		console.log(`   Calling crm.deal.list with filter: { CONTACT_ID: "${contactId}" }`)
 		const deals = await bitrixCall<BitrixDeal[]>('crm.deal.list', {
 			filter: { CONTACT_ID: contactId },
-			order: { ID: 'DESC' }
+			order: { ID: 'DESC' },
+			// ВАЖНО: тянем пользовательские поля
+			select: ['*', 'UF_*']
 		})
 
 		console.log(`✅ Found ${deals?.length || 0} deals for contact ${contactId}`)
@@ -393,7 +395,8 @@ export async function listDealsByContactId(contactId: string): Promise<BitrixDea
 			console.log(`   Trying alternative method with string contactId...`)
 			const dealsAlt = await bitrixCall<BitrixDeal[]>('crm.deal.list', {
 				filter: { 'CONTACT_ID': String(contactId) },
-				order: { ID: 'DESC' }
+				order: { ID: 'DESC' },
+				select: ['*', 'UF_*']
 			})
 
 			console.log(`✅ Alternative method found ${dealsAlt?.length || 0} deals for contact ${contactId}`)
@@ -426,7 +429,8 @@ export async function listDealsByCompanyId(companyId: string): Promise<BitrixDea
 	// Получаем все поля сделок (без select - вернёт все поля)
 	const deals = await bitrixCall<BitrixDeal[]>('crm.deal.list', {
 		filter: { COMPANY_ID: companyId },
-		order: { ID: 'DESC' }
+		order: { ID: 'DESC' },
+		select: ['*', 'UF_*']
 	})
 	return deals || []
 }

@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Wrapper } from '@ui/wrapper'
 import { Heading } from '@ui/heading'
-import { Button } from '@ui/button'
+import { ButtonWave } from '@ui/buttonWave'
 import styles from './lk.module.scss'
 
 type Lead = {
@@ -15,16 +15,14 @@ type Contact = {
   [key: string]: unknown
 }
 
-type BitrixDeal = {
-  [key: string]: unknown
-}
+type BitrixDeal = Record<string, unknown>
 
 type BitrixCompany = {
   [key: string]: unknown
 }
 
-// Функция для форматирования значения поля
-function formatFieldValue(value: unknown): string {
+// Универсальная отрисовка значения
+function formatFieldValue(value: unknown): string | JSX.Element | Array<JSX.Element> {
   if (value === null || value === undefined) return '—'
   if (typeof value === 'boolean') return value ? 'Да / Yes' : 'Нет / No'
   if (typeof value === 'object') {
@@ -38,19 +36,28 @@ function formatFieldValue(value: unknown): string {
       }
       // Если это массив файлов/документов
       if (value[0] && typeof value[0] === 'object' && ('downloadUrl' in value[0] || 'url' in value[0] || 'name' in value[0])) {
-        return value.map((item: { name?: string; downloadUrl?: string; url?: string }) => {
-          const name = item.name || 'Файл'
-          const url = item.downloadUrl || item.url || '#'
-          return url !== '#' ? `${name} (ссылка)` : name
-        }).join(', ')
+        return (value as Array<{ id?: number | string; name?: string; downloadUrl?: string; url?: string }>)
+          .map((item, idx) => {
+            const name = item.name || `Файл ${idx + 1}`
+            const url = item.downloadUrl || item.url || '#'
+            return (
+              <a key={`${name}-${idx}`} href={url} target='_blank' rel='noreferrer'>
+                {name}
+              </a>
+            )
+          })
       }
-      return value.join(', ')
+      return value.map(v => String(v)).join(', ')
     }
     // Если это объект с файлом/документом
     if ('downloadUrl' in value || 'url' in value || 'name' in value) {
       const name = (value as { name?: string }).name || 'Файл'
       const url = (value as { downloadUrl?: string; url?: string }).downloadUrl || (value as { url?: string }).url || '#'
-      return url !== '#' ? `${name} (ссылка)` : name
+      return (
+        <a href={url} target='_blank' rel='noreferrer'>
+          {name}
+        </a>
+      )
     }
     return JSON.stringify(value, null, 2)
   }
@@ -73,53 +80,29 @@ function getAllFields(obj: Record<string, unknown> | null): Array<{ key: string;
     })
 }
 
-// Функция для получения нужных полей сделки
+// Набор ключевых полей сделки для отображения (как в референсе)
+const DEAL_FIELD_ORDER: Array<{ key: string; label: string }> = [
+  { key: 'STAGE_ID', label: 'Стадия' },
+  { key: 'OPPORTUNITY', label: 'Сумма заказа' },
+  { key: 'UF_CRM_1729774666016', label: 'Статус оплаты' },
+  { key: 'UF_CRM_1729763576', label: 'Номер заказа' },
+  { key: 'UF_CRM_1730356149644', label: 'Печать теста' },
+  { key: 'UF_CRM_1729774752184', label: 'Статус теста' },
+  { key: 'UF_CRM_1730361963003', label: 'Метод печати' },
+  { key: 'UF_CRM_1730363014413', label: 'Размер изображения, мм' },
+  { key: 'UF_CRM_1729673717983', label: 'Тираж' },
+  { key: 'UF_CRM_1730357338802', label: 'Файлы для печати' },
+  { key: 'UF_CRM_1760519761774', label: 'Документы' },
+  { key: 'COMMENTS', label: 'Комментарий' }
+]
+
 function getDealFields(deal: Record<string, unknown>): Array<{ key: string; value: unknown; label: string }> {
   if (!deal) return []
-
-  // Маппинг полей с понятными названиями
-  // Показываем все поля, даже если они пустые
-  const fieldMapping: Array<{
-    keys: string[] // Возможные названия полей в Bitrix
-    label: string // Понятное название для отображения
-  }> = [
-      { keys: ['STAGE_ID'], label: 'Стадия' },
-      { keys: ['UF_CRM_PAYMENT_STATUS', 'PAYMENT_STATUS', 'UF_CRM_STATUS_OPLATY', 'UF_CRM_OPLATA'], label: 'Статус оплаты' },
-      { keys: ['UF_CRM_ORDER_NUMBER', 'ORDER_NUMBER', 'UF_CRM_NOMER_ZAKAZA', 'UF_CRM_NOMER', 'ID'], label: 'Номер заказа' },
-      { keys: ['UF_CRM_TEST_PRINT', 'TEST_PRINT', 'UF_CRM_PECHAT_TESTA', 'UF_CRM_TEST'], label: 'Печать теста' },
-      { keys: ['UF_CRM_TEST_STATUS', 'TEST_STATUS', 'UF_CRM_STATUS_TESTA', 'UF_CRM_TEST_STAGE'], label: 'Статус теста' },
-      { keys: ['UF_CRM_PRINT_METHOD', 'PRINT_METHOD', 'UF_CRM_METOD_PECHATI', 'UF_CRM_METHOD'], label: 'Метод печати' },
-      { keys: ['UF_CRM_IMAGE_SIZE', 'IMAGE_SIZE', 'UF_CRM_RAZMER_IZOBRAZHENIYA_MM', 'UF_CRM_SIZE', 'UF_CRM_RAZMER'], label: 'Размер изображения мм' },
-      { keys: ['UF_CRM_QUANTITY', 'QUANTITY', 'UF_CRM_TIRAGE', 'UF_CRM_TIRAZH', 'UF_CRM_COUNT'], label: 'Тираж' },
-      { keys: ['UF_CRM_PRINT_FILES', 'PRINT_FILES', 'UF_CRM_FAYLY_DLYA_PECHATI', 'UF_CRM_FILES'], label: 'Файлы для печати' },
-      { keys: ['UF_CRM_DOCUMENTS', 'DOCUMENTS', 'UF_CRM_DOKUMENTY', 'UF_CRM_DOCS'], label: 'Документы' },
-      { keys: ['COMMENTS', 'COMMENT', 'UF_CRM_COMMENT', 'UF_CRM_KOMMENTARIY', 'UF_CRM_KOMMENT'], label: 'Комментарий' },
-    ]
-
-  const result: Array<{ key: string; value: unknown; label: string }> = []
-
-  fieldMapping.forEach(({ keys, label }) => {
-    // Ищем первое существующее поле из списка возможных
-    let found = false
-    for (const key of keys) {
-      if (key in deal) {
-        // Показываем поле даже если оно пустое
-        result.push({
-          key,
-          value: deal[key] !== undefined && deal[key] !== null ? deal[key] : null,
-          label
-        })
-        found = true
-        break
-      }
-    }
-    // Если поле не найдено, все равно добавляем его с пустым значением
-    if (!found) {
-      result.push({ key: keys[0], value: null, label })
-    }
-  })
-
-  return result
+  return DEAL_FIELD_ORDER.map(({ key, label }) => ({
+    key,
+    value: key in deal ? deal[key] : null,
+    label
+  }))
 }
 
 export default function LkPage() {
@@ -134,13 +117,97 @@ export default function LkPage() {
   const [openLeadIds, setOpenLeadIds] = useState<Record<string, boolean>>({})
   const [openCompany, setOpenCompany] = useState(false)
 
+  // Справочники
+  const [stageById, setStageById] = useState<Record<string, string>>({})
+  const [enumByField, setEnumByField] = useState<Record<string, Record<string, string>>>({})
+
+  const FILE_FIELDS = new Set(['UF_CRM_1730357338802', 'UF_CRM_1760519761774'])
+
+  // Типы для словарей
+  type DealStageInfo = { stageId?: string; name?: string }
+  type DealCategoryInfo = { stages?: DealStageInfo[] }
+  type EnumItem = {
+    ID?: string | number
+    VALUE?: string
+    NAME?: string
+    id?: string | number
+    value?: string
+    name?: string
+  }
+  type BitrixFieldMeta = {
+    items?: EnumItem[]
+    LIST?: EnumItem[]
+    VALUES?: EnumItem[]
+    ENUM?: Record<string, EnumItem>
+  }
+  type FieldsResponse = Record<string, BitrixFieldMeta>
+  type FileItem = { id?: number | string; name?: string; downloadUrl?: string; url?: string; showUrl?: string }
+
+  // Получаем справочники стадий и полей
+  const loadDictionaries = useCallback(async () => {
+    try {
+      const [stagesRes, fieldsRes] = await Promise.all([
+        fetch('/api/b24/deal-stages'),
+        fetch('/api/b24/deal-fields')
+      ])
+
+      // Стадии
+      if (stagesRes.ok) {
+        const data = await stagesRes.json()
+        const map: Record<string, string> = {}
+        const categories: DealCategoryInfo[] = Array.isArray(data?.categories) ? (data.categories as DealCategoryInfo[]) : []
+        categories.forEach((cat) => {
+          (cat.stages || []).forEach((s: DealStageInfo) => {
+            if (s?.stageId && s?.name) map[s.stageId] = s.name
+          })
+        })
+        setStageById(map)
+      }
+
+      // Поля
+      if (fieldsRes.ok) {
+        const data = await fieldsRes.json()
+        const fields: FieldsResponse = (data?.fields || {}) as FieldsResponse
+        const enums: Record<string, Record<string, string>> = {}
+
+        Object.entries(fields).forEach(([code, meta]) => {
+          const m = meta as BitrixFieldMeta
+          let list: Array<EnumItem> | null = null
+          // Попытки извлечь список вариантов из разных структур Bitrix
+          if (Array.isArray(m?.items)) list = m.items as EnumItem[]
+          else if (Array.isArray(m?.LIST)) list = m.LIST as EnumItem[]
+          else if (Array.isArray(m?.VALUES)) list = m.VALUES as EnumItem[]
+          else if (m?.ENUM && typeof m.ENUM === 'object') list = Object.values(m.ENUM) as EnumItem[]
+
+          if (list && list.length) {
+            const map: Record<string, string> = {}
+            for (const it of list) {
+              const id = String(it?.ID ?? it?.id ?? it?.VALUE ?? it?.value ?? '')
+              const name = String(it?.VALUE ?? it?.value ?? it?.NAME ?? it?.name ?? '')
+              if (id) map[id] = name
+            }
+            if (Object.keys(map).length) enums[code] = map
+          }
+        })
+
+        setEnumByField(enums)
+      }
+    } catch {
+      // ignore
+    }
+  }, [])
+
   const load = useCallback(async () => {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch('/api/b24/me', { method: 'GET' })
-      const data = await res.json()
-      if (!res.ok) {
+      // Параллельно подгружаем данные пользователя и справочники
+      const [meRes] = await Promise.all([
+        fetch('/api/b24/me', { method: 'GET' }),
+        loadDictionaries()
+      ] as const)
+      const data = await meRes.json()
+      if (!meRes.ok) {
         throw new Error(data?.error || 'Failed')
       }
       setLead(data.lead || null)
@@ -153,7 +220,7 @@ export default function LkPage() {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [loadDictionaries])
 
   const toggleDeal = useCallback((id: string) => {
     setOpenDealIds(prev => ({ ...prev, [id]: !prev[id] }))
@@ -175,12 +242,77 @@ export default function LkPage() {
   const entity = lead || contact
   const companyFields = getAllFields(company as Record<string, unknown> | null)
 
+  // Преобразование значения поля с учётом справочников
+  const renderDealFieldValue = useCallback((fieldKey: string, rawValue: unknown) => {
+    // Комментарии: BBCode [url=...]...[/url] и переносы строк
+    if (fieldKey === 'COMMENTS' && typeof rawValue === 'string') {
+      const html = rawValue
+        .replace(/\n/g, '<br/>')
+        .replace(/\[url=(.+?)\](.+?)\[\/url\]/g, '<a href="$1" target="_blank" rel="noreferrer">$2</a>')
+      return <span dangerouslySetInnerHTML={{ __html: html }} />
+    }
+
+    // Стадия
+    if (fieldKey === 'STAGE_ID' && typeof rawValue === 'string') {
+      return stageById[rawValue] || rawValue
+    }
+
+    // Денежное значение
+    if (fieldKey === 'OPPORTUNITY' && (typeof rawValue === 'string' || typeof rawValue === 'number')) {
+      const num = Number(rawValue)
+      if (!Number.isNaN(num)) {
+        return new Intl.NumberFormat('ru-RU').format(num) + ' ₽'
+      }
+    }
+
+    // Перечисления (кастомные UF поля)
+    if (fieldKey.startsWith('UF_CRM_')) {
+      const dict = enumByField[fieldKey]
+      if (dict) {
+        if (Array.isArray(rawValue)) {
+          const ids = rawValue.map(v => String(v))
+          const names = ids.map(id => dict[id] || id)
+          return names.join(', ')
+        }
+        const id = String(rawValue ?? '')
+        if (id in dict) return dict[id]
+      }
+    }
+
+    return formatFieldValue(rawValue)
+  }, [enumByField, stageById])
+
+  // Отдельный рендер «красивых» плиток файлов
+  const renderFiles = useCallback((value: unknown) => {
+    if (!Array.isArray(value) || value.length === 0) return '—'
+    return (
+      <div className={styles.fileGrid}>
+        {(value as FileItem[]).map((item, idx: number) => {
+          const url = item?.downloadUrl || item?.url || item?.showUrl || '#'
+          const name = item?.name || `Файл ${idx + 1}`
+          return (
+            <a
+              key={String(item?.id ?? idx)}
+              href={url}
+              target='_blank'
+              rel='noreferrer'
+              className={styles.fileItem}
+            >
+              <div className={styles.fileThumb} aria-hidden />
+              <div className={styles.fileName}>{name}</div>
+            </a>
+          )
+        })}
+      </div>
+    )
+  }, [])
+
   return (
     <Wrapper>
       <div className={styles.container}>
         <div className={styles.header}>
-          <Heading tagName='h1' size='sm'>Личный кабинет / Personal Account</Heading>
-          <Button onClick={logout}>Выйти / Logout</Button>
+          <Heading tagName='h1' size='sm'>Личный кабинет</Heading>
+          <ButtonWave onClick={logout}>Выйти</ButtonWave>
         </div>
 
         {loading && <div className={styles.section}>Загрузка...</div>}
@@ -251,7 +383,9 @@ export default function LkPage() {
                             {formatFieldValue(deal.TITLE) || `Сделка #${deal.ID} / Deal #${deal.ID}`}
                           </div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <div className={styles.badge}>{formatFieldValue(deal.STAGE_ID)}</div>
+                            <div className={styles.badge}>
+                              {renderDealFieldValue('STAGE_ID', deal.STAGE_ID)}
+                            </div>
                             <div className={`${styles.badge} ${styles.arrow}`}>
                               {isOpen ? '▼' : '▶'}
                             </div>
@@ -259,14 +393,29 @@ export default function LkPage() {
                         </div>
                         {isOpen && (
                           <div className={styles.dealBody}>
-                            <div className={styles.grid}>
+                            <div className={styles.detailList}>
                               {dealFields.map(({ key, value, label }) => {
                                 const isEmpty = value === null || value === undefined || value === ''
+
+                                // Определяем «сигнальные» поля для раскраски
+                                const highlightClass =
+                                  key === 'UF_CRM_1729774666016' // Статус оплаты
+                                    ? (String(renderDealFieldValue(key, value)).includes('Не') ? styles.bad : styles.ok)
+                                    : key === 'UF_CRM_1730356149644' // Печать теста
+                                      ? (String(renderDealFieldValue(key, value)).includes('Да') ? styles.ok : styles.bad)
+                                      : key === 'UF_CRM_1729774752184' // Статус теста
+                                        ? (String(renderDealFieldValue(key, value)).includes('Не') ? styles.bad : styles.ok)
+                                        : undefined
+
                                 return (
-                                  <div key={key} className={isEmpty ? styles.fieldEmpty : ''}>
-                                    <div className={styles.label}>{label}</div>
-                                    <div className={`${styles.value} ${isEmpty ? styles.valueEmpty : ''}`}>
-                                      {isEmpty ? '—' : formatFieldValue(value)}
+                                  <div key={key} className={styles.row}>
+                                    <div className={styles.name}>{label}</div>
+                                    <div className={`${styles.val} ${isEmpty ? styles.valueEmpty : ''} ${highlightClass || ''}`}>
+                                      {isEmpty
+                                        ? '—'
+                                        : FILE_FIELDS.has(key)
+                                          ? renderFiles(value)
+                                          : renderDealFieldValue(key, value)}
                                     </div>
                                   </div>
                                 )
