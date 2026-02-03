@@ -65,13 +65,37 @@ const Gallery: FC<GalleryProps> = ({
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (lbIndex === null) return
-      if (e.key === 'Escape') closeLb()
-      if (e.key === 'ArrowRight') nextLb()
-      if (e.key === 'ArrowLeft') prevLb()
+      const current = data[lbIndex]
+      const id = current?.id
+      const pics = id ? (imagesById[id] || []) : []
+
+      if (e.key === 'Escape') {
+        closeLb()
+        return
+      }
+      if (e.key === 'ArrowRight') {
+        if (pics.length > 1) {
+          e.preventDefault()
+          setImgIndex((i) => (i + 1) % pics.length)
+        } else {
+          // fallback: нет нескольких картинок — листаем карточки
+          nextLb()
+        }
+        return
+      }
+      if (e.key === 'ArrowLeft') {
+        if (pics.length > 1) {
+          e.preventDefault()
+          setImgIndex((i) => (i - 1 + pics.length) % pics.length)
+        } else {
+          prevLb()
+        }
+        return
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [lbIndex, data.length, nextLb, prevLb])
+  }, [lbIndex, data, imagesById, nextLb, prevLb])
 
   const isOpen = lbIndex !== null
 
