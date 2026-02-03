@@ -235,18 +235,20 @@ const Gallery: FC<GalleryProps> = ({
               )
             })}
           </div>
-          <div className={styles.nav}>
-            <button type="button" className={styles.btn} onClick={() => scrollByCards(-1)} aria-label="Prev">
-              <svg width="24" height="24" viewBox="0 0 12 24" aria-hidden="true">
-                <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
-              </svg>
-            </button>
-            <button type="button" className={styles.btn} onClick={() => scrollByCards(1)} aria-label="Next">
-              <svg width="24" height="24" viewBox="0 0 12 24" aria-hidden="true" style={{ transform: 'scaleX(-1)' }}>
-                <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
-              </svg>
-            </button>
-          </div>
+          {!isOpen && (
+            <div className={styles.nav}>
+              <button type="button" className={styles.btn} onClick={() => scrollByCards(-1)} aria-label="Prev">
+                <svg width="24" height="24" viewBox="0 0 12 24" aria-hidden="true">
+                  <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
+                </svg>
+              </button>
+              <button type="button" className={styles.btn} onClick={() => scrollByCards(1)} aria-label="Next">
+                <svg width="24" height="24" viewBox="0 0 12 24" aria-hidden="true" style={{ transform: 'scaleX(-1)' }}>
+                  <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
+                </svg>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -268,18 +270,6 @@ const Gallery: FC<GalleryProps> = ({
               </button>
               <div className={styles.lbInner} onClick={(e) => e.stopPropagation()}>
 
-                <div className={styles.lbNav}>
-                  <button type="button" className={styles.lbBtn} onClick={prevLb} aria-label="Prev">
-                    <svg width="28" height="28" viewBox="0 0 12 24" aria-hidden="true">
-                      <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
-                    </svg>
-                  </button>
-                  <button type="button" className={styles.lbBtn} onClick={nextLb} aria-label="Next">
-                    <svg width="28" height="28" viewBox="0 0 12 24" aria-hidden="true" style={{ transform: 'scaleX(-1)' }}>
-                      <path d="M9.54801 6.57999L8.48701 5.51999L2.70801 11.297C2.61486 11.3896 2.54093 11.4996 2.49048 11.6209C2.44003 11.7421 2.41406 11.8722 2.41406 12.0035C2.41406 12.1348 2.44003 12.2648 2.49048 12.3861C2.54093 12.5073 2.61486 12.6174 2.70801 12.71L8.48701 18.49L9.54701 17.43L4.12301 12.005L9.54801 6.57999Z" fill="currentColor" />
-                    </svg>
-                  </button>
-                </div>
                 {(() => {
                   const item = lbIndex !== null ? data[lbIndex] : null
                   const id = item?.id
@@ -290,7 +280,7 @@ const Gallery: FC<GalleryProps> = ({
                   })()
                   const srcNow = pics.length ? pics[Math.max(0, Math.min(imgIndex, pics.length - 1))] : base
                   return (
-                    <div className={styles.lbImageWrap} style={{ position: 'relative' }}>
+                    <div className={styles.lbImageWrap} style={{ position: 'relative' }} onClick={(e) => e.stopPropagation()}>
                       <Image
                         className={styles.lbImage}
                         src={srcNow}
@@ -300,26 +290,32 @@ const Gallery: FC<GalleryProps> = ({
                         priority
                         style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
                       />
-                      {pics.length > 1 && (
-                        <>
-                          <button
-                            type="button"
-                            aria-label="Prev photo"
-                            className={styles.lbPrev}
-                            onClick={() => setImgIndex((i) => (i - 1 + pics.length) % pics.length)}
-                          >
-                            ‹
-                          </button>
-                          <button
-                            type="button"
-                            aria-label="Next photo"
-                            className={styles.lbNext}
-                            onClick={() => setImgIndex((i) => (i + 1) % pics.length)}
-                          >
-                            ›
-                          </button>
-                        </>
-                      )}
+                      <div className={styles.lbNav} aria-hidden={pics.length <= 1}>
+                        <button
+                          type="button"
+                          aria-label="Предыдущее фото"
+                          className={styles.lbBtn}
+                          onClick={(e) => { e.stopPropagation(); if (pics.length > 1) setImgIndex((i) => (i - 1 + pics.length) % pics.length) }}
+                          disabled={pics.length <= 1}
+                          style={{ visibility: pics.length > 1 ? 'visible' : 'hidden' }}
+                        >
+                          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          aria-label="Следующее фото"
+                          className={styles.lbBtn}
+                          onClick={(e) => { e.stopPropagation(); if (pics.length > 1) setImgIndex((i) => (i + 1) % pics.length) }}
+                          disabled={pics.length <= 1}
+                          style={{ visibility: pics.length > 1 ? 'visible' : 'hidden' }}
+                        >
+                          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style={{ transform: 'scaleX(-1)' }}>
+                            <path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   )
                 })()}
