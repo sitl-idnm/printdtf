@@ -116,22 +116,23 @@ const Gallery: FC<GalleryProps> = ({
     'Куртка': 'kurtka',
     'Шоппер': 'shoper',
     'Кожа': 'koja',
-    'Упаковка': 'korobka',
+    'Упаковка (DTF)': 'meshok',
     'Кепка': 'kepka',
-    'Спецодежда': 'gilet', // предположительно жилет
-    'Форма': '', // неизвестно
+    'Спецодежда (DTF)': 'gilet', // предположительно жилет
+    'Форма': 'forma', // неизвестно
     // UV DTF
+    'Упаковка (UV DTF)': 'korobka',
     'Чехол': 'chehli',
     'Стекло': 'steklo',
     'Дерево': 'derevo',
     'Кружка': 'krujka',
-    'Металл': '', // неизвестно
+    'Металл': 'termos', // неизвестно
     'Стикерпаки': 'stikerpack',
-    'Корпоративные подарки': '', // неизвестно
-    'Спецодежда (каска)': 'kaska'
+    'Корпоративные подарки': 'brelki', // неизвестно
+    'Спецодежда (UV DTF)': 'kaska'
   }), [])
 
-  // Batch-load previews for all folders via API to avoid 404 probing
+  // Batch-load previews for folders: return only first image per folder (fast, cached by API)
   useEffect(() => {
     const folders = Array.from(new Set(
       data.map((it) => folderByTitle[it.title]).filter(Boolean)
@@ -205,7 +206,7 @@ const Gallery: FC<GalleryProps> = ({
         <div className={styles.viewport}>
           <div className={styles.track} ref={viewRef}>
             {data.map((item, idx) => {
-              const src = item.image as string | StaticImageData
+              const src = previewById[item.id] as string | StaticImageData | undefined
               return (
                 <article className={styles.card} key={item.id} onClick={() => openLb(idx)}>
                   {item.tags && item.tags.length ? (
@@ -215,15 +216,17 @@ const Gallery: FC<GalleryProps> = ({
                       ))}
                     </div>
                   ) : null}
-                  <Image
-                    className={styles.image}
-                    src={(previewById[item.id] || src) as string | StaticImageData}
-                    alt=""
-                    fill
-                    sizes="(max-width: 900px) 100vw, 50vw"
-                    priority={idx < 2}
-                    style={{ objectFit: 'cover' }}
-                  />
+                  {src ? (
+                    <Image
+                      className={styles.image}
+                      src={src}
+                      alt=""
+                      fill
+                      sizes="(max-width: 900px) 100vw, 50vw"
+                      priority={idx < 2}
+                      style={{ objectFit: 'cover' }}
+                    />
+                  ) : null}
                   <div className={styles.shade} aria-hidden="true" />
                   <div className={styles.tint} aria-hidden="true" />
                   <div className={styles.caption}>

@@ -106,28 +106,28 @@ const advantagesUVDTF = [{
 }]
 
 const galleryDTFItems = [
-  { id: 1, image: '/images/fotbolka.png', title: 'Футболка', tags: ['DTF'] },
-  { id: 2, image: '/images/test.jpg', title: 'Свитшот', tags: ['DTF'] },
-  { id: 3, image: '/images/test.jpg', title: 'Худи', tags: ['DTF'] },
-  { id: 4, image: '/images/test.jpg', title: 'Куртка', tags: ['DTF'] },
-  { id: 5, image: '/images/test.jpg', title: 'Шоппер', tags: ['DTF'] },
-  { id: 6, image: '/images/test.jpg', title: 'Кожа', tags: ['DTF'] },
-  { id: 7, image: '/images/test.jpg', title: 'Упаковка', tags: ['DTF'] },
-  { id: 8, image: '/images/test.jpg', title: 'Кепка', tags: ['DTF'] },
-  { id: 9, image: '/images/test.jpg', title: 'Спецодежда', tags: ['DTF'] },
-  { id: 10, image: '/images/test.jpg', title: 'Форма', tags: ['DTF'] },
+  { id: 1, title: 'Футболка', tags: ['DTF'] },
+  { id: 2, title: 'Свитшот', tags: ['DTF'] },
+  { id: 3, title: 'Худи', tags: ['DTF'] },
+  { id: 4, title: 'Куртка', tags: ['DTF'] },
+  { id: 5, title: 'Шоппер', tags: ['DTF'] },
+  { id: 6, title: 'Кожа', tags: ['DTF'] },
+  { id: 7, title: 'Упаковка (DTF)', tags: ['DTF'] },
+  { id: 8, title: 'Кепка', tags: ['DTF'] },
+  { id: 9, title: 'Спецодежда (DTF)', tags: ['DTF'] },
+  { id: 10, title: 'Форма', tags: ['DTF'] },
 ]
 
 const galleryUVDTFItems = [
-  { id: 11, image: '/images/test.jpg', title: 'Упаковка', tags: ['UV DTF'] },
-  { id: 12, image: '/images/chehol.png', title: 'Чехол', tags: ['UV DTF'] },
-  { id: 13, image: '/images/steklo.png', title: 'Стекло', tags: ['UV DTF'] },
-  { id: 14, image: '/images/test.jpg', title: 'Дерево', tags: ['UV DTF'] },
-  { id: 15, image: '/images/krujka.png', title: 'Кружка', tags: ['UV DTF'] },
-  { id: 16, image: '/images/test.jpg', title: 'Металл', tags: ['UV DTF'] },
-  { id: 17, image: '/images/sticker-dino.png', title: 'Стикерпаки', tags: ['UV DTF'] },
-  { id: 18, image: '/images/test.jpg', title: 'Корпоративные подарки', tags: ['UV DTF'] },
-  { id: 19, image: '/images/test.jpg', title: 'Спецодежда (каска)', tags: ['UV DTF'] },
+  { id: 11, title: 'Упаковка (UV DTF)', tags: ['UV DTF'] },
+  { id: 12, title: 'Чехол', tags: ['UV DTF'] },
+  { id: 13, title: 'Стекло', tags: ['UV DTF'] },
+  { id: 14, title: 'Дерево', tags: ['UV DTF'] },
+  { id: 15, title: 'Кружка', tags: ['UV DTF'] },
+  { id: 16, title: 'Металл', tags: ['UV DTF'] },
+  { id: 17, title: 'Стикерпаки', tags: ['UV DTF'] },
+  { id: 18, title: 'Корпоративные подарки', tags: ['UV DTF'] },
+  { id: 19, title: 'Спецодежда (UV DTF)', tags: ['UV DTF'] },
 ]
 
 const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({

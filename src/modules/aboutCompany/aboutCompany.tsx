@@ -49,7 +49,7 @@ const bulletIcons = [IconTruck, IconPrint, IconScissors]
 
 const AboutCompany: FC<AboutCompanyProps> = ({
   className,
-  title = <>О&nbsp;нас</>,
+  title = <>City&nbsp;Group</>,
   subtitle = <>От семейной мастерской — к технологичному холдингу полного цикла</>,
   history = <>Наша история — это история роста. С октября 2015 года, начав как небольшая семейная мастерская, мы за 10+ лет прошли путь до технологичного игрока, объединяющего ключевые компетенции для вашего бизнеса.</>,
   directionsTitle = <>Три сильных направления — одна команда</>,
