@@ -169,17 +169,7 @@ const Gallery: FC<GalleryProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lbIndex])
 
-  // Autoplay inside lightbox per item
-  useEffect(() => {
-    if (lbIndex === null) return
-    const id = data[lbIndex]?.id
-    const pics = id ? imagesById[id] || [] : []
-    if (!pics || pics.length <= 1) return
-    const t = setInterval(() => {
-      setImgIndex((i) => (i + 1) % pics.length)
-    }, 3500)
-    return () => clearInterval(t)
-  }, [lbIndex, imagesById, data])
+  // Note: no autoplay to reduce re-renders and improve performance
 
   return (
     <section className={rootClassName}>
@@ -283,6 +273,7 @@ const Gallery: FC<GalleryProps> = ({
                         alt=""
                         width={1600}
                         height={1000}
+                        priority
                         style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
                       />
                       {pics.length > 1 && (
