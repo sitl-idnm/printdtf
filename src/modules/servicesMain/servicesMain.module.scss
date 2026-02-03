@@ -17,6 +17,7 @@
 
     @include tablet {
       height: auto;
+      margin-top: 20vh;
       flex-direction: column;
     }
   }

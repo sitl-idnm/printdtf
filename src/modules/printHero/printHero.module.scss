@@ -103,7 +103,7 @@
 
 					text-align: left;
 
-					@include desktop {
+					@media (max-width: 1600px) {
 						font-size: 50px;
 					}
 

@@ -7,6 +7,11 @@
 	gap: 24px;
 
 
+
+	@media (max-width: 1400px) {
+		gap: 12px;
+	}
+
 	@include mobile-large {
 		gap: 8px;
 	}
@@ -80,7 +85,7 @@
 .fieldLabel {
 	color: #131313;
 	font-weight: 400;
-	font-size: clamp(14px, 1.4vw, 16px);
+	font-size: clamp(12px, 1.4vw, 16px);
 	margin-top: 8px;
 
 	@include mobile-large {
@@ -255,6 +260,10 @@
 	border-radius: 4px;
 	transition: border-color .2s ease, background-color .2s ease;
 
+
+	@media (max-width: 1400px) {
+		padding: 14px 18px;
+	}
 
 	@include mobile-large {
 		padding: 12px 16px;
