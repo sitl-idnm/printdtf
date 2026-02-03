@@ -117,15 +117,17 @@ const Production: FC<ProductionProps> = ({
       }
 
       document.addEventListener('fullscreenchange', onFsChange)
-      // Safari legacy prefix (noop elsewhere)
-      // @ts-expect-error - vendor event
-      document.addEventListener('webkitfullscreenchange', onFsChange)
+      // Safari legacy prefix (noop elsewhere) with explicit typing
+      const docWithWebkit = document as Document & {
+        addEventListener(type: 'webkitfullscreenchange', listener: (this: Document, ev: Event) => unknown, options?: boolean | AddEventListenerOptions): void
+        removeEventListener(type: 'webkitfullscreenchange', listener: (this: Document, ev: Event) => unknown, options?: boolean | EventListenerOptions): void
+      }
+      docWithWebkit.addEventListener('webkitfullscreenchange', onFsChange)
 
       return () => {
         destroyScene()
         document.removeEventListener('fullscreenchange', onFsChange)
-        // @ts-expect-error - vendor event
-        document.removeEventListener('webkitfullscreenchange', onFsChange)
+        docWithWebkit.removeEventListener('webkitfullscreenchange', onFsChange)
       }
     }
   }, { scope: containerRef, dependencies: [videoSrcs, title, titleArr], revertOnUpdate: true })
