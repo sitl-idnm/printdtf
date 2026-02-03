@@ -8,13 +8,15 @@
 	color: #fff;
 	z-index: 1000;
 	opacity: 0;
-	animation: fadeIn .35s ease forwards;
+	animation: fadeIn 0.35s ease forwards;
 	display: grid;
 	grid-template-rows: 52px 1fr; /* верхняя плашка + контент */
 }
 
 @keyframes fadeIn {
-	to { opacity: 1; }
+	to {
+		opacity: 1;
+	}
 }
 
 .wrap {
@@ -63,16 +65,18 @@
 	cursor: pointer;
 }
 
-.close:hover { background: var(--color-accent-2); }
+.close:hover {
+	background: var(--color-accent-2);
+}
 
 .impact {
 	grid-column: 1 / 2;
 	grid-row: 1 / 2;
 	align-self: start;
 	justify-self: start;
-	color: rgba(255 255 255 / .8);
+	color: rgba(255 255 255 / 0.8);
 	font-size: 24px; /* в 2 раза больше */
-	letter-spacing: .14em;
+	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
@@ -85,12 +89,12 @@
 		grid-column: auto;
 		grid-row: auto;
 		font-size: 16px;
-		letter-spacing: .12em;
+		letter-spacing: 0.12em;
 	}
 
 	@include mobile-large {
 		font-size: 14px;
-		letter-spacing: .1em;
+		letter-spacing: 0.1em;
 	}
 }
 
@@ -98,7 +102,7 @@
 	grid-column: 2 / 3;
 	grid-row: 1 / 2;
 	font-family: var(--font-unbounded);
-	font-size: clamp(36px, 6vw, 72px);
+	font-size: clamp(36px, 6vw, 64px);
 	font-weight: 900;
 	line-height: 1.05;
 	text-transform: uppercase;
@@ -135,7 +139,6 @@
 	background: #111;
 	border-radius: 0;
 	overflow: hidden;
-	filter: grayscale(100%);
 
 	@include tablet-small {
 		grid-column: auto;
@@ -145,14 +148,26 @@
 	}
 }
 
+/* Crossfade layers for hero slider */
+.fadeLayer {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	transition: opacity 0.4s ease;
+	will-change: opacity;
+}
+.fadeActive {
+	opacity: 1;
+}
+
 .desc {
 	grid-column: 1 / 2;
 	grid-row: 2 / 3;
 	align-self: start;
-	color: rgba(255 255 255 / .85);
+	color: rgba(255 255 255 / 0.85);
 	line-height: 1.6;
 	font-size: 15px;
-	letter-spacing: .01em;
+	letter-spacing: 0.01em;
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
@@ -232,7 +247,7 @@
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
 	margin: 0;
-	color: rgba(255 255 255 / .95);
+	color: rgba(255 255 255 / 0.95);
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 
@@ -256,7 +271,6 @@
 	height: 100%;
 	object-fit: cover;
 	display: block;
-	filter: grayscale(100%);
 }
 
 .stats {
@@ -283,7 +297,7 @@
 	font-family: var(--font-unbounded);
 	font-size: clamp(48px, 10vw, 96px);
 	font-weight: 900;
-	letter-spacing: .5px;
+	letter-spacing: 0.5px;
 	/* убираем странную обводку */
 
 	@include tablet-small {
@@ -292,7 +306,7 @@
 }
 
 .statNum span {
-	font-size: .35em;
+	font-size: 0.35em;
 	position: relative;
 	top: -0.25em; /* приподняли плюс */
 	margin-left: 8px;
@@ -301,8 +315,8 @@
 .statNote {
 	margin-top: 10px;
 	font-size: 13px;
-	color: rgba(255 255 255 / .75);
-	letter-spacing: .1em;
+	color: rgba(255 255 255 / 0.75);
+	letter-spacing: 0.1em;
 	text-transform: uppercase;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
@@ -331,7 +345,7 @@
 	border: 0;
 	border-radius: 0;
 	font-weight: 700;
-	letter-spacing: .6px;
+	letter-spacing: 0.6px;
 	cursor: pointer;
 
 	@include tablet-small {
@@ -342,5 +356,7 @@
 }
 
 .close {
-	transition: background-color .25s ease, color .25s ease; /* плавное изменение цвета */
+	transition:
+		background-color 0.25s ease,
+		color 0.25s ease; /* плавное изменение цвета */
 }

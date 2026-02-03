@@ -53,25 +53,24 @@ export async function bitrixCall<T>(method: string, params: Record<string, unkno
 	}
 	const url = `${base}/${method}.json`
 	const form = new URLSearchParams()
-	Object.entries(params || {}).forEach(([key, value]) => {
+
+	const appendParam = (prefix: string, value: unknown) => {
 		if (value === undefined || value === null) return
-		if (typeof value === 'object' && !Array.isArray(value)) {
-			Object.entries(value).forEach(([k, v]) => {
-				form.append(`${key}[${k}]`, String(v))
-			})
-		} else if (Array.isArray(value)) {
-			value.forEach((v, idx) => {
-				if (typeof v === 'object') {
-					Object.entries(v).forEach(([vk, vv]) => {
-						form.append(`${key}[${idx}][${vk}]`, String(vv))
-					})
-				} else {
-					form.append(`${key}[${idx}]`, String(v))
-				}
-			})
-		} else {
-			form.append(key, String(value))
+		if (Array.isArray(value)) {
+			value.forEach((v, idx) => appendParam(`${prefix}[${idx}]`, v))
+			return
 		}
+		if (typeof value === 'object') {
+			Object.entries(value as Record<string, unknown>).forEach(([k, v]) => {
+				appendParam(`${prefix}[${k}]`, v)
+			})
+			return
+		}
+		form.append(prefix, String(value))
+	}
+
+	Object.entries(params || {}).forEach(([key, value]) => {
+		appendParam(key, value)
 	})
 	const res = await fetch(url, {
 		method: 'POST',

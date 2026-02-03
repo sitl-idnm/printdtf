@@ -199,6 +199,7 @@ const ServicesScroll: FC<ServicesScrollProps> = ({
 											submitLabel="Оставить заявку"
 											useAtomPrintMethod={false}
 											className={styles.formCompact}
+											formTitle={`Форма: ${service.title}`}
 											hidePrintMethod={service.href === '/fullfilment' || service.href === '/logistika'}
 										/>
 									</div>

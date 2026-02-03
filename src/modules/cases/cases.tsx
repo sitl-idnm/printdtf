@@ -48,7 +48,7 @@ const Cases: FC<CasesProps> = ({
       </div>
       <div className={styles.grid}>
         {data.map((item) => {
-          const { id, kicker, title, image, meta, type } = item
+          const { id, kicker, title, image, cardImage, meta, type } = item as (NonNullable<CasesProps['items']>[number] & { cardImage?: string })
           const hoverLine = formatCaseHoverLine(
             meta,
             'stats' in item ? item.stats : undefined
@@ -65,7 +65,7 @@ const Cases: FC<CasesProps> = ({
               </header>
 
               <div className={styles.media}>
-                <Image className={styles.pic} src={image ?? '/images/sticker-dino.png'} alt="" width={640} height={480} />
+                <Image className={styles.pic} src={cardImage ?? image ?? '/images/sticker-dino.png'} alt="" width={640} height={480} />
               </div>
 
               <div className={styles.meta}>{type ?? meta}</div>

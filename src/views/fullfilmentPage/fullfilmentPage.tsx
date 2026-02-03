@@ -251,6 +251,7 @@ const FullfilmentPage: FC<FullfilmentPageProps> = ({
           </ul>
         }
         optionIcon={<WarehouseIcon />}
+        bgImage={'/images/webp/fullfilment-preview.webp'}
       />
       <WhoWeAre
         title="Кто мы и что делаем"

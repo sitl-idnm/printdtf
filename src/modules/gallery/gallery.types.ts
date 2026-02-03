@@ -10,5 +10,7 @@ export interface GalleryProps {
     title: string
     subtitle?: string
     tags?: Array<'DTF' | 'UV DTF' | string>
+    /** Optional images for lightbox slider */
+    images?: string[]
   }>
 }

@@ -348,7 +348,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                       { value: '3500', note: 'шт' },
                       { value: '5', note: 'день' }
                     ],
-                    image: '/images/sticker-dino.png'
+                    images: '/images/cases/sber'
                   },
                   {
                     id: 'ducks',
@@ -409,7 +409,8 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                       { value: '1', note: 'сутки' },
                       { value: '—', note: '' }
                     ],
-                    image: '/images/notebook.png'
+                    images: ['/images/webp/sportlend.webp'],
+                    cardImage: '/images/notebook.png'
                   }
                 ].filter((item) => (isDTF ? item.type === 'DTF' : item.type === 'UV DTF'))}
               />
@@ -437,7 +438,18 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                       { name: 'Перенос на изделие' }
                     ]
                 }
-                videoSrcs={isDTF ? ['/videos/6.mp4', '/videos/6.mp4', '/videos/6.mp4'] : ['/videos/6.mp4', '/videos/6.mp4', '/videos/6.mp4']}
+                videoSrcs={isDTF
+                  ? [[
+                    '/videos/dtf/dtf-mus-1080p.mp4',
+                    '/videos/dtf/dtf-mus-720p.mp4',
+                    '/videos/dtf/dtf-mus-480p.mp4'
+                  ]]
+                  : [[
+                    '/videos/uv-dtf/uv-dtf-mus-1080p.mp4',
+                    '/videos/uv-dtf/uv-dtf-mus-720p.mp4',
+                    '/videos/uv-dtf/uv-dtf-mus-480p.mp4'
+                  ]]
+                }
               />
             </div>
           </div>

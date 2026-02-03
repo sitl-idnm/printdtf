@@ -24,6 +24,9 @@ const PrintHero: FC<PrintHeroProps> = ({
   option,
   optionIcon,
   hidePrintMethod = false,
+  bgImage,
+  bgClassName,
+  bgStyle
 }) => {
   const rootClassName = classNames(styles.root, className)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -112,7 +115,13 @@ const PrintHero: FC<PrintHeroProps> = ({
           <div className={styles.spacer_tablet}></div>
           <div className={styles.spacer_mobile}></div>
         </div>
-        <div className={styles.bg_image}></div>
+        <div
+          className={classNames(styles.bg_image, bgClassName)}
+          style={{
+            ...(bgImage ? { backgroundImage: `url(${bgImage})` } : {}),
+            ...bgStyle
+          }}
+        ></div>
         <div className={styles.container} ref={containerRef}>
           <div className={styles.glassContainer}>
             <div className={styles.title}>

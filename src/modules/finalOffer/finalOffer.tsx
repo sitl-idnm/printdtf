@@ -22,7 +22,11 @@ const FinalOffer: FC<FinalOfferProps> = ({
           </p>
         </div>
         <div className={styles.center}>
-          <Form submitLabel="Отправить заявку" useAtomPrintMethod={!!useAtomPrintMethod} />
+          <Form
+            submitLabel="Отправить заявку"
+            useAtomPrintMethod={!!useAtomPrintMethod}
+            formTitle="Форма: Готовы обсудить макет"
+          />
         </div>
         <div className={styles.right}>
         </div>

@@ -341,6 +341,12 @@ button.selected {
 	font-size: 14px;
 	color: #131313;
 
+	span {
+		position: relative;
+		left: -2px;
+		top: 2px;
+	}
+
 
 	@include mobile-large {
 		gap: 6px;
@@ -401,3 +407,58 @@ button.selected {
 		}
 	}
 }
+
+/* Toast notifications (success/error) */
+.toast {
+	position: fixed;
+	z-index: 10000;
+	right: 24px;
+	bottom: 24px;
+	max-width: min(92vw, 420px);
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: start;
+	gap: 12px;
+	padding: 14px 16px;
+	border-radius: 10px;
+	box-shadow: 0 10px 30px rgba(0,0,0,.18);
+	color: #fff;
+	backdrop-filter: saturate(120%) blur(4px);
+	transform: translateY(8px);
+	opacity: 0;
+	animation: toastIn .18s ease forwards;
+}
+
+.toastSuccess {
+	background: rgba(36, 172, 75, .95);
+}
+.toastError {
+	background: rgba(217, 63, 63, .95);
+}
+
+.toastText {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+.toastClose {
+	appearance: none;
+	-webkit-appearance: none;
+	margin: 0;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: currentColor;
+	padding: 2px;
+	cursor: pointer;
+	opacity: .9;
+	transition: opacity .15s ease;
+}
+.toastClose:hover { opacity: 1; }
+
+@keyframes toastIn {
+	from { opacity: 0; transform: translateY(8px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+

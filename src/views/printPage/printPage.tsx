@@ -100,6 +100,7 @@ const PrintPage: FC<PrintPageProps> = ({
 
         microtext={'Наш менеджер свяжется с вами в течение 15 минут'}
         option={'Средний срок изготовления: 1–3 рабочих дня. Срочные — по запросу.'}
+        bgImage={'/images/webp/print-preview.webp'}
       />
 
 

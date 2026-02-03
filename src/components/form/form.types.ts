@@ -6,4 +6,6 @@ export interface FormProps {
   useAtomPrintMethod?: boolean
   /** Hide print method field (for services that don't require print method selection) */
   hidePrintMethod?: boolean
+  /** Human-readable name of the form for analytics/Bitrix title details */
+  formTitle?: string
 }

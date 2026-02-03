@@ -50,7 +50,12 @@ const FormModal: FC<FormModalProps> = ({ className,
           {title ? <h2 className={styles.title}>{title}</h2> : null}
           {text ? <p className={styles.desc}>{text}</p> : null}
           <div className={styles.formBox}>
-            <Form submitLabel="Отправить заявку" theme="invert" hidePrintMethod={hidePrintMethod} />
+            <Form
+              submitLabel="Отправить заявку"
+              theme="invert"
+              hidePrintMethod={hidePrintMethod}
+              formTitle={title ? `Модальная форма: ${title}` : 'Модальная форма'}
+            />
           </div>
         </div>
         {/* <div className={styles.footer}>

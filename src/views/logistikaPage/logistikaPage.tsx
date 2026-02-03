@@ -107,6 +107,7 @@ const LogistikaPage: FC<LogistikaPageProps> = ({
         cta1={'Рассчитать стоимость'}
         cta2={'Получить консультацию'}
         hidePrintMethod={true}
+        bgImage={'/images/webp/logistika-preview.webp'}
       />
       <ForWork
         title='Для кого работаем'

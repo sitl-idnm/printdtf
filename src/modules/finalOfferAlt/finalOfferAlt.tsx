@@ -12,7 +12,7 @@ const FinalOfferAlt: FC<FinalOfferAltProps> = ({ className }) => {
 		<section className={rootClassName}>
 			<div className={styles.content}>
 				<div className={styles.right}>
-					<Form submitLabel="Отправить заявку" />
+					<Form submitLabel="Отправить заявку" formTitle="Форма: Оставьте заявку на расчёт" />
 				</div>
 				<div className={styles.left}>
 					<h2 className={styles.title}>Оставьте заявку на расчёт</h2>

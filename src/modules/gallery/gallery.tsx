@@ -16,6 +16,9 @@ const Gallery: FC<GalleryProps> = ({
   const rootClassName = classNames(styles.root, className)
   const viewRef = useRef<HTMLDivElement | null>(null)
   const [lbIndex, setLbIndex] = useState<number | null>(null)
+  const [imgIndex, setImgIndex] = useState<number>(0)
+  const [previewById, setPreviewById] = useState<Record<string | number, string>>({})
+  const [imagesById, setImagesById] = useState<Record<string | number, string[]>>({})
 
   const data = useMemo(() => {
     if (items?.length) return items
@@ -47,7 +50,10 @@ const Gallery: FC<GalleryProps> = ({
     })
   }
 
-  const openLb = (i: number) => setLbIndex(i)
+  const openLb = (i: number) => {
+    setLbIndex(i)
+    setImgIndex(0)
+  }
   const closeLb = () => setLbIndex(null)
   const nextLb = useCallback(() => {
     setLbIndex((i) => (i === null ? 0 : (i + 1) % data.length))
@@ -77,6 +83,104 @@ const Gallery: FC<GalleryProps> = ({
     return () => unlockScroll()
   }, [isOpen])
 
+  // Map titles to portfolio folder slugs
+  const folderByTitle: Record<string, string> = useMemo(() => ({
+    // DTF
+    'Футболка': 'futbolka',
+    'Свитшот': 'svitshot',
+    'Худи': 'hudi',
+    'Куртка': 'kurtka',
+    'Шоппер': 'shoper',
+    'Кожа': 'koja',
+    'Упаковка': 'korobka',
+    'Кепка': 'kepka',
+    'Спецодежда': 'gilet', // предположительно жилет
+    'Форма': '', // неизвестно
+    // UV DTF
+    'Чехол': 'chehli',
+    'Стекло': 'steklo',
+    'Дерево': 'derevo',
+    'Кружка': 'krujka',
+    'Металл': '', // неизвестно
+    'Стикерпаки': 'stikerpack',
+    'Корпоративные подарки': '', // неизвестно
+    'Спецодежда (каска)': 'kaska'
+  }), [])
+
+  // Batch-load previews for all folders via API to avoid 404 probing
+  useEffect(() => {
+    const folders = Array.from(new Set(
+      data.map((it) => folderByTitle[it.title]).filter(Boolean)
+    )) as string[]
+    if (!folders.length) return
+    const load = async () => {
+      try {
+        const url = `/api/portfolio?folders=${encodeURIComponent(folders.join(','))}`
+        const res = await fetch(url, { method: 'GET' })
+        const json = await res.json() as { folders?: Record<string, string[]> }
+        const mapping: Record<string | number, string> = {}
+        data.forEach((item) => {
+          const folder = folderByTitle[item.title]
+          if (!folder) return
+          const list = json.folders?.[folder] || []
+          if (list.length > 0) {
+            mapping[item.id] = list[0]
+          }
+        })
+        if (Object.keys(mapping).length) {
+          setPreviewById((p) => ({ ...p, ...mapping }))
+        }
+      } catch {
+        // ignore
+      }
+    }
+    load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.length])
+
+  // Load all images for current item when lightbox opens (server lists directory)
+  useEffect(() => {
+    if (lbIndex === null) return
+    const item = data[lbIndex]
+    if (!item) return
+    const id = item.id
+    if (imagesById[id]) return
+    const provided = (item as { images?: string[] }).images
+    if (provided && provided.length) {
+      setImagesById((m) => ({ ...m, [id]: provided }))
+      return
+    }
+    const folder = folderByTitle[item.title]
+    if (!folder) return
+    const loadAll = async () => {
+      let found: string[] = []
+      try {
+        const res = await fetch(`/api/portfolio?folder=${encodeURIComponent(folder)}`)
+        const json = await res.json() as { files?: string[] }
+        found = json.files || []
+      } catch {
+        found = []
+      }
+      if (found.length) {
+        setImagesById((m) => ({ ...m, [id]: found }))
+      }
+    }
+    loadAll()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lbIndex])
+
+  // Autoplay inside lightbox per item
+  useEffect(() => {
+    if (lbIndex === null) return
+    const id = data[lbIndex]?.id
+    const pics = id ? imagesById[id] || [] : []
+    if (!pics || pics.length <= 1) return
+    const t = setInterval(() => {
+      setImgIndex((i) => (i + 1) % pics.length)
+    }, 3500)
+    return () => clearInterval(t)
+  }, [lbIndex, imagesById, data])
+
   return (
     <section className={rootClassName}>
       <div className={styles.container}>
@@ -99,7 +203,7 @@ const Gallery: FC<GalleryProps> = ({
                   ) : null}
                   <Image
                     className={styles.image}
-                    src={src}
+                    src={(previewById[item.id] || src) as string | StaticImageData}
                     alt=""
                     fill
                     sizes="(max-width: 900px) 100vw, 50vw"
@@ -164,17 +268,44 @@ const Gallery: FC<GalleryProps> = ({
                 </div>
                 {(() => {
                   const item = lbIndex !== null ? data[lbIndex] : null
-                  const img = item?.image as string | StaticImageData | undefined
-                  const lbSrc: string = typeof img === 'string' ? img : (img as StaticImageData | undefined)?.src ?? ''
+                  const id = item?.id
+                  const pics = id ? (imagesById[id] || []) : []
+                  const base = (() => {
+                    const img = item?.image as string | StaticImageData | undefined
+                    return typeof img === 'string' ? img : (img as StaticImageData | undefined)?.src ?? ''
+                  })()
+                  const srcNow = pics.length ? pics[Math.max(0, Math.min(imgIndex, pics.length - 1))] : base
                   return (
-                    <Image
-                      className={styles.lbImage}
-                      src={lbSrc}
-                      alt=""
-                      width={1600}
-                      height={1000}
-                      style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
-                    />
+                    <div className={styles.lbImageWrap} style={{ position: 'relative' }}>
+                      <Image
+                        className={styles.lbImage}
+                        src={srcNow}
+                        alt=""
+                        width={1600}
+                        height={1000}
+                        style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
+                      />
+                      {pics.length > 1 && (
+                        <>
+                          <button
+                            type="button"
+                            aria-label="Prev photo"
+                            className={styles.lbPrev}
+                            onClick={() => setImgIndex((i) => (i - 1 + pics.length) % pics.length)}
+                          >
+                            ‹
+                          </button>
+                          <button
+                            type="button"
+                            aria-label="Next photo"
+                            className={styles.lbNext}
+                            onClick={() => setImgIndex((i) => (i + 1) % pics.length)}
+                          >
+                            ›
+                          </button>
+                        </>
+                      )}
+                    </div>
                   )
                 })()}
                 {/* old close removed in favour of top bar */}

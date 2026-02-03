@@ -10,4 +10,10 @@ export interface PrintHeroProps {
   option?: string | ReactNode
   optionIcon?: ReactNode
   hidePrintMethod?: boolean
+  /** Optional background image URL for the hero background layer */
+  bgImage?: string
+  /** Optional extra class for the background layer */
+  bgClassName?: string
+  /** Optional inline styles for the background layer (e.g., gradients) */
+  bgStyle?: React.CSSProperties
 }

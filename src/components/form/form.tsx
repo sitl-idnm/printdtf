@@ -1,4 +1,5 @@
 import { FC, useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import classNames from 'classnames'
 
 import styles from './form.module.scss'
@@ -11,7 +12,8 @@ const Form: FC<FormProps> = ({
   className,
   submitLabel,
   theme = 'default',
-  hidePrintMethod = false
+  hidePrintMethod = false,
+  formTitle
 }) => {
   const rootClassName = classNames(
     styles.root,
@@ -58,9 +60,22 @@ const Form: FC<FormProps> = ({
   // const [telegram, setTelegram] = useState('')
   const [messenger, setMessenger] = useState<'Telegram' | 'WhatsApp' | ''>('')
   const [agree, setAgree] = useState(false)
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
+  const toastTimerRef = useRef<number | null>(null)
+
+  const showToast = (type: 'success' | 'error', message: string) => {
+    setToast({ type, message })
+    if (toastTimerRef.current) {
+      window.clearTimeout(toastTimerRef.current)
+    }
+    toastTimerRef.current = window.setTimeout(() => {
+      setToast(null)
+      toastTimerRef.current = null
+    }, 3500)
+  }
 
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // Method is always selectable; keep atom as the single source of truth.
     // `useAtomPrintMethod` is kept only for backward compatibility.
@@ -72,25 +87,58 @@ const Form: FC<FormProps> = ({
       method?: string
       methodKey?: PrintMethod
       agree: boolean
+      page?: string
+      formTitle?: string
     } = {
       name,
       phone,
       // telegram: telegram || undefined,
       messenger,
-      agree
+      agree,
+      page: typeof window !== 'undefined' ? window.location.href : undefined,
+      formTitle
     }
     // Only include method if print method field is visible
     if (!hidePrintMethod) {
       payload.method = resolvedMethod
       payload.methodKey = methodKey
     }
-    // Replace with actual submission logic
-    // eslint-disable-next-line no-console
-    console.log('Form submit:', payload)
+    try {
+      const res = await fetch('/api/b24/form-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        // eslint-disable-next-line no-console
+        console.error('Lead create failed', data?.error || data)
+        showToast('error', data?.error ? String(data.error) : 'Ошибка отправки. Попробуйте ещё раз.')
+        return
+      }
+      // Success: optionally clear fields
+      setName('')
+      setPhone('')
+      setMessenger('')
+      setAgree(false)
+      showToast('success', 'Спасибо! Ваша заявка отправлена.')
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Lead create error', err)
+      showToast('error', 'Ошибка сети. Попробуйте ещё раз.')
+    }
   }
 
   return (
     <form className={rootClassName} onSubmit={onSubmit}>
+      {toast && (
+        <div className={classNames(styles.toast, toast.type === 'success' ? styles.toastSuccess : styles.toastError)} role="status" aria-live="polite">
+          <p className={styles.toastText}>{toast.message}</p>
+          <button type="button" className={styles.toastClose} aria-label="Закрыть" onClick={() => setToast(null)}>
+            ✕
+          </button>
+        </div>
+      )}
       <div className={styles.control}>
 
         <div className={styles.row}>
@@ -232,7 +280,8 @@ const Form: FC<FormProps> = ({
           required
         />
         <span>
-          Подтверждаю, что предоставляю согласие на обработку моих персональных данных и согласен с условиями Политики.
+          Согласен на обработку{' '}
+          <Link href="/politika-konfidencialnosti">персональных данных</Link>
         </span>
       </label>
 
