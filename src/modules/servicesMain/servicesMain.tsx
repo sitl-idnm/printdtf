@@ -22,9 +22,9 @@ function ArrowIcon() {
 }
 
 const defaultImages = [
-  '/images/fotbolka.png',
-  '/images/chehol.png',
-  '/images/dostavka.png',
+  '/images/webp/print-preview.webp',
+  '/images/webp/fullfilment-preview.webp',
+  '/images/webp/logistika-preview.webp',
 ]
 
 const defaultItems = [

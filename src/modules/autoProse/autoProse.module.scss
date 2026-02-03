@@ -1,0 +1,124 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.h1 {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 120%;
+}
+
+.h2 {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 120%;
+}
+
+.h3 {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 140%;
+}
+
+.p {
+  font-size: 16px;
+}
+
+/* Обёртка для текста с правым выравниванием */
+.textRight {
+  text-align: right;
+}
+
+/* Обёртка для отступа 20px */
+.margin20 {
+  margin: 20px 0;
+}
+
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.table th,
+.table td {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 8px 10px;
+  vertical-align: top;
+  text-align: left;
+}
+
+.table th:not(:first-child),
+.table td:not(:first-child) {
+  text-align: right;
+}
+
+.table th:first-child,
+.table td:first-child {
+  text-align: left;
+  font-weight: 600;
+}
+
+/* Специальные стили для цен */
+.table td:nth-child(2):contains('₽'),
+.table td:nth-child(3):contains('₽'),
+.table td:nth-child(4):contains('₽'),
+.table td:nth-child(5):contains('₽'),
+.table td:nth-child(6):contains('₽') {
+  text-align: right;
+  font-weight: 600;
+}
+
+/* Стили для галочек и тире */
+.table td:contains('✓') {
+  text-align: center;
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.table td:contains('—') {
+  text-align: center;
+  color: #999;
+}
+
+/* Стили для цен в рублях */
+.table td:contains('руб') {
+  text-align: right;
+  font-weight: 600;
+  color: #333;
+}
+
+.table td {
+  &.checkmark {
+    text-align: center;
+    color: #4CAF50;
+    font-weight: bold;
+  }
+
+  &.dash {
+    text-align: center;
+    color: #999;
+  }
+
+  &.price {
+    text-align: right;
+    font-weight: 600;
+    color: #333;
+  }
+}
+
+.table thead th {
+  background: #f8f8fb;
+  font-weight: 600;
+}
+
+.table tbody tr:nth-child(odd) td {
+  background: #fcfcff;
+}

@@ -16,19 +16,19 @@ const services = [
 	{
 		title: 'Печать',
 		href: '/print',
-		image: '/images/fotbolka.png',
+		image: '/images/webp/print-preview.webp',
 		description: 'DTF и UV DTF печать под ключ: от единичных креативных вещей до срочных тиражей фирменного мерча за 1–3 рабочих дня, с яркими, износостойкими принтами на ткани, стекле, пластике и других поверхностях, от 1 штуки и по прозрачным ценам.'
 	},
 	{
 		title: 'Фулфилмент',
 		href: '/fullfilment',
-		image: '/images/chehol.png',
+		image: '/images/webp/fullfilment-preview.webp',
 		description: 'Фулфилмент для маркетплейсов: забираем груз, консолидируем, маркируем, упаковываем и довозим на склады WB, Ozon, Я.Маркет по FBO/FBS с фотоотчетами и работой по "Честному Знаку" — честный прайс, опыт селлеров и оптимизация рутины.'
 	},
 	{
 		title: 'Логистика',
 		href: '/logistika',
-		image: '/images/dostavka.png',
+		image: '/images/webp/logistika-preview.webp',
 		description: 'Логистика для маркетплейсов: забираем груз в Москве и области, консолидируем, формируем паллеты по требованиям WB/Ozon и доставляем точно в слоты по FBO/FBS с прозрачными тарифами и регулярными рейсами.'
 	},
 ]

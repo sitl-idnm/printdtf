@@ -130,11 +130,11 @@ const Footer: FC = () => {
             © {new Date().getFullYear()} City Group. Все права защищены.
           </p>
           <div className={styles.legalLinks}>
-            <Link href="/privacy" className={styles.legalLink}>
+            <Link href="/politika-konfidencialnosti" className={styles.legalLink}>
               Политика конфиденциальности
             </Link>
-            <Link href="/terms" className={styles.legalLink}>
-              Условия использования
+            <Link href="/approve" className={styles.legalLink}>
+              Согласие на обработку персональных данных
             </Link>
           </div>
         </div>
