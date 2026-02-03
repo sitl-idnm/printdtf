@@ -28,26 +28,28 @@ const contactsAddresses = [
 //   { text: 'Фулфилменты без автопарка, которым нужно надёжно отправлять грузы на склады маркетплейсов.' }
 // ]
 
+// Для замены изображений положите файлы в public/images/before-after/
+// и сохраните их под именами: supplies.jpg, warehouse.jpg, uniforms.jpg
 const beforeAfterItems = [
   {
-    beforeImage: '/images/1.png',
-    afterImage: '/images/2.png',
+    beforeImage: '/images/markerovka-before.jpg',
+    afterImage: '/images/markerovka-after.jpg',
     beforeLabel: 'Приняли от поставщика',
     afterLabel: 'Отправили на маркетплейс',
     title: 'Упаковка/Маркировка',
     description: ''
   },
   {
-    beforeImage: '/images/1.png',
-    afterImage: '/images/2.png',
+    beforeImage: '/images/sborka-before.jpg',
+    afterImage: '/images/sborka-after.jpg',
     beforeLabel: 'До обработки',
     afterLabel: 'После обработки',
     title: 'Сборка наборов',
     description: ''
   },
   {
-    beforeImage: '/images/1.png',
-    afterImage: '/images/2.png',
+    beforeImage: '/images/consolid-before.jpg',
+    afterImage: '/images/consolid-after.jpg',
     beforeLabel: 'До консолидации',
     afterLabel: 'После консолидации',
     title: 'Консолидация поставки',

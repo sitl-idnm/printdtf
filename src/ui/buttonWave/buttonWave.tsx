@@ -9,7 +9,8 @@ const ButtonWave: FC<ButtonWaveProps> = ({
   variant = 'accent2',
   children,
   onClick,
-  type = 'button'
+  type = 'button',
+  textColor
 }) => {
   const rootClassName = classNames(
     styles.root,
@@ -19,7 +20,7 @@ const ButtonWave: FC<ButtonWaveProps> = ({
   )
 
   return (
-    <button className={rootClassName} onClick={onClick} type={type}>
+    <button className={rootClassName} onClick={onClick} type={type} style={textColor ? { color: textColor } : undefined}>
       {children ?? 'Кнопка'}
     </button>
   )

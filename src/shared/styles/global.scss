@@ -99,6 +99,11 @@ body {
   font-family: var(--font-involve);
 }
 
+// Избегаем горизонтального «рывка» при появлении вертикального скролла
+html {
+  scrollbar-gutter: stable both-edges;
+}
+
 html.has-scroll-snap,
 body.has-scroll-snap {
   scroll-snap-type: y mandatory;

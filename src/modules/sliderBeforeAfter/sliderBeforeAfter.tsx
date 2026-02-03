@@ -348,7 +348,8 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                       { value: '3500', note: 'шт' },
                       { value: '5', note: 'день' }
                     ],
-                    images: '/images/cases/sber'
+                    images: '/images/cases/sber',
+                    cardImage: '/images/cases/arbuz.png'
                   },
                   {
                     id: 'ducks',
@@ -368,7 +369,8 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                       { value: '20', note: 'см' },
                       { value: '3', note: 'день' }
                     ],
-                    images: '/videos/cases/ducks/ducks.mp4'
+                    images: '/videos/cases/ducks/ducks.mp4',
+                    cardImage: '/images/cases/duck.png'
                   },
                   {
                     id: 'lukoil',
@@ -389,7 +391,8 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                       { value: '2', note: 'день' },
                       { value: '—', note: '' }
                     ],
-                    images: '/images/cases/lucoil/'
+                    images: '/images/cases/lucoil/',
+                    cardImage: '/images/cases/lucoil.png'
                   },
                   {
                     id: 'mossport',
@@ -410,7 +413,7 @@ const SliderBeforeAfter: FC<SliderBeforeAfterProps> = ({
                       { value: '—', note: '' }
                     ],
                     images: ['/images/webp/sportlend.webp'],
-                    cardImage: '/images/notebook.png'
+                    cardImage: '/images/cases/sportlend.png'
                   }
                 ].filter((item) => (isDTF ? item.type === 'DTF' : item.type === 'UV DTF'))}
               />

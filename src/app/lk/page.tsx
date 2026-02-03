@@ -312,7 +312,8 @@ export default function LkPage() {
       <div className={styles.container}>
         <div className={styles.header}>
           <Heading tagName='h1' size='sm'>Личный кабинет</Heading>
-          <ButtonWave onClick={logout}>Выйти</ButtonWave>
+          <ButtonWave onClick={logout} className={styles.logoutButton}>Выйти</ButtonWave>
+          
         </div>
 
         {loading && <div className={styles.section}>Загрузка...</div>}

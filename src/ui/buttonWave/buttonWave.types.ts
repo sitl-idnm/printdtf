@@ -4,4 +4,5 @@ export interface ButtonWaveProps {
   children?: React.ReactNode
   onClick?: () => void
   type?: 'button' | 'submit' | 'reset'
+  textColor?: string
 }
