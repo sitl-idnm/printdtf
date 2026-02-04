@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { Footer } from '@modules/footer'
 import { Header } from '@modules/header'
 import Script from 'next/script'
+import type { Metadata } from 'next'
 
 import '@styles/global.scss'
 
@@ -10,6 +11,13 @@ import { Provider } from '@service/provider'
 import ChatWidget from '@modules/chat-widget'
 import { ArrowUp } from '@/ui'
 import { PageThemeProvider } from './pageThemeProvider'
+
+export const metadata: Metadata = {
+  other: {
+    // Для верификации Яндекс (если проверка через meta)
+    'yandex-verification': 'b385e356905e31f2'
+  }
+}
 
 const involve = localFont({
   src: [
@@ -89,7 +97,7 @@ export default function RootLayout({
             </Script>
             <noscript>
               <div>
-                <img src="https://mc.yandex.ru/watch/106625552" style={{position:'absolute', left:'-9999px'}} alt="" />
+                <img src="https://mc.yandex.ru/watch/106625552" style={{ position: 'absolute', left: '-9999px' }} alt="" />
               </div>
             </noscript>
 
@@ -114,7 +122,7 @@ export default function RootLayout({
             </Script>
             <noscript>
               <div>
-                <img src="https://top-fwz1.mail.ru/counter?id=3611462;js=na" style={{position:'absolute', left:'-9999px'}} alt="Top.Mail.Ru" />
+                <img src="https://top-fwz1.mail.ru/counter?id=3611462;js=na" style={{ position: 'absolute', left: '-9999px' }} alt="Top.Mail.Ru" />
               </div>
             </noscript>
           </Provider>
