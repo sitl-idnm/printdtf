@@ -14,8 +14,12 @@ export async function GET(req: NextRequest) {
     if (!rec) {
       return NextResponse.json({ error: 'OAuth exchange failed' }, { status: 500 })
     }
-    // Redirect to LK or root
-    return NextResponse.redirect('/lk', { status: 302 })
+    // Redirect to LK or root (absolute URL required)
+    const base =
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      (typeof req.nextUrl?.origin === 'string' ? req.nextUrl.origin : '')
+    const target = base ? new URL('/lk', base).toString() : req.url.replace(/\/api\/b24\/oauth\/callback.*/,'/lk')
+    return NextResponse.redirect(target, { status: 302 })
   } catch (e: unknown) {
     return NextResponse.json({ error: e instanceof Error ? e.message : 'Unknown error' }, { status: 500 })
   }
