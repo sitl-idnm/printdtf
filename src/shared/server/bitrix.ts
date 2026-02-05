@@ -350,6 +350,27 @@ export type BitrixDeal = {
 	[key: string]: unknown // Все остальные поля
 }
 
+export type BitrixDiskFile = {
+	ID: string
+	NAME?: string
+	SIZE?: number
+	DOWNLOAD_URL?: string
+	DETAIL_URL?: string
+	CONTENT_TYPE?: string
+	// Bitrix sometimes returns nested data
+	NAME_FILE?: string
+	OBJECT_ID?: string | number
+}
+
+export type BitrixDiskAttachedObject = {
+	ID: string
+	OBJECT_ID?: string | number // actual file ID on disk
+	NAME?: string
+	// some portals return FILE_NAME or NAME_FILE, keep flexible
+	FILE_NAME?: string
+	NAME_FILE?: string
+}
+
 export async function getCompanyById(id: string): Promise<BitrixCompany | null> {
 	// Получаем все поля компании (без select - вернёт все поля)
 	const company = await bitrixCall<Record<string, unknown>>('crm.company.get', { id })
@@ -438,4 +459,25 @@ export async function listDealsByCompanyId(companyId: string): Promise<BitrixDea
 export async function getDealById(id: string): Promise<BitrixDeal | null> {
 	const deal = await bitrixCall<BitrixDeal>('crm.deal.get', { id })
 	return deal || null
+}
+
+/**
+ * Получить метаданные файла Диска Битрикс по ID (для формирования ссылки загрузки)
+ */
+export async function getDiskFileMeta(id: string): Promise<BitrixDiskFile | null> {
+	try {
+		const file = await bitrixCall<BitrixDiskFile>('disk.file.get', { id })
+		return file || null
+	} catch {
+		return null
+	}
+}
+
+export async function getDiskAttachedMeta(id: string): Promise<BitrixDiskAttachedObject | null> {
+	try {
+		const obj = await bitrixCall<BitrixDiskAttachedObject>('disk.attachedObject.get', { id })
+		return obj || null
+	} catch {
+		return null
+	}
 }

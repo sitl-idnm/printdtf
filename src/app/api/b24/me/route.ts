@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSessionCookieName, verifySessionToken } from '@/shared/server/session'
 import { extractDigits } from '@/shared/utils/phone'
-import { findContactIdsByPhone, getContactById, listDealsByContactId, listDealsByCompanyId, listLeadsByContactId, getCompanyById, type BitrixContact, type BitrixDeal, type BitrixCompany } from '@/shared/server/bitrix'
+import { findContactIdsByPhone, getContactById, listDealsByContactId, listDealsByCompanyId, listLeadsByContactId, getCompanyById, getDiskFileMeta, getDiskAttachedMeta, type BitrixContact, type BitrixDeal, type BitrixCompany } from '@/shared/server/bitrix'
 
 // Отключаем кэширование для этого роута
 export const dynamic = 'force-dynamic'
@@ -93,9 +93,108 @@ export async function GET(req: NextRequest) {
 
       console.log(`📋 Total unique deals: ${uniqueDeals.length}`, uniqueDeals.map(d => d.ID))
 
-      console.log('🚀 Returning response with deals:', uniqueDeals.length)
+      // Преобразуем файловые поля в объекты с ссылками на прокси-скачивание
+      const FILE_FIELDS = new Set(['UF_CRM_1730357338802', 'UF_CRM_1760519761774'])
+
+      type UfFileItem = { ID?: string | number; id?: string | number }
+
+      // Подтягиваем реальные имена файлов (ограничимся до 20 запросов за вызов)
+      const nameCache = new Map<string, string>()
+      const resolveFileName = async (id: string): Promise<string> => {
+        if (nameCache.has(id)) return nameCache.get(id) as string
+        try {
+          // Пробуем как fileId, затем как attachedObjectId -> OBJECT_ID
+          let meta = await getDiskFileMeta(id)
+          if (!meta) {
+            const attached = await getDiskAttachedMeta(id as string)
+            const objectId = attached?.OBJECT_ID ? String(attached.OBJECT_ID) : ''
+            if (objectId) {
+              meta = await getDiskFileMeta(objectId)
+            }
+          }
+          const metaObj = meta as { NAME?: string; NAME_FILE?: string } | null
+          let name = metaObj?.NAME || metaObj?.NAME_FILE
+
+          // Если имя не нашли через Disk — пробуем достать из заголовка Content-Disposition crm.file.get
+          if (!name) {
+            const base = process.env.BITRIX_WEBHOOK_URL
+            if (base) {
+              const form = new URLSearchParams()
+              form.set('id', id)
+              const resp = await fetch(`${base}/crm.file.get`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: form
+              })
+              if (resp.ok) {
+                const cd = resp.headers.get('content-disposition') || ''
+                const m = /filename\*?=UTF-8''([^;]+)/i.exec(cd) || /filename="?([^"]+)"?/i.exec(cd || '')
+                if (m && m[1]) {
+                  try { name = decodeURIComponent(m[1]) } catch { name = m[1] }
+                }
+                // Не тянем тело, чтобы не грузить сеть
+                try { await resp.body?.cancel() } catch { /* ignore */ }
+              }
+            }
+          }
+
+          const finalName = name || `Файл ${id}`
+          nameCache.set(id, String(finalName))
+          return String(finalName)
+        } catch {
+          return `Файл ${id}`
+        }
+      }
+
+      const dealsWithFiles = await Promise.all(uniqueDeals.map(async (deal) => {
+        const patch: Record<string, unknown> = {}
+        const dealIdStr = String((deal as Record<string, unknown>).ID)
+        for (const key of Object.keys(deal as Record<string, unknown>)) {
+          if (!FILE_FIELDS.has(key)) continue
+          const raw = (deal as Record<string, unknown>)[key]
+          if (!raw) continue
+          if (Array.isArray(raw)) {
+            const items = await Promise.all(raw.map(async (v, idx) => {
+              const item = v as UfFileItem
+              const id = String(item?.ID ?? item?.id ?? v ?? '')
+              if (!id) return null
+              const displayName = await resolveFileName(id)
+              return {
+                id,
+                name: displayName || `Файл ${idx + 1}`,
+                showUrl: `/api/b24/file?id=${encodeURIComponent(id)}&dealId=${encodeURIComponent(dealIdStr)}`
+              }
+            })).then(arr => arr.filter(Boolean))
+            patch[key] = items
+          } else if (typeof raw === 'object') {
+            const item = raw as UfFileItem
+            const id = String(item?.ID ?? item?.id ?? '')
+            if (id) {
+              const displayName = await resolveFileName(id)
+              patch[key] = [{
+                id,
+                name: displayName || 'Файл',
+                showUrl: `/api/b24/file?id=${encodeURIComponent(id)}&dealId=${encodeURIComponent(dealIdStr)}`
+              }]
+            }
+          } else {
+            const id = String(raw)
+            if (id) {
+              const displayName = await resolveFileName(id)
+              patch[key] = [{
+                id,
+                name: displayName || 'Файл',
+                showUrl: `/api/b24/file?id=${encodeURIComponent(id)}&dealId=${encodeURIComponent(dealIdStr)}`
+              }]
+            }
+          }
+        }
+        return { ...(deal as Record<string, unknown>), ...patch }
+      }))
+
+      console.log('🚀 Returning response with deals:', dealsWithFiles.length)
       console.log('🚀 ========== /api/b24/me END (contact) ==========\n\n')
-      return NextResponse.json({ entity: 'contact', contact, lead: null, deals: uniqueDeals, leads, company, phone: session.phone }, { status: 200 })
+      return NextResponse.json({ entity: 'contact', contact, lead: null, deals: dealsWithFiles, leads, company, phone: session.phone }, { status: 200 })
     }
 
     console.log('🚀 No contacts found')

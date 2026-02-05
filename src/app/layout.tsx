@@ -97,6 +97,7 @@ export default function RootLayout({
             </Script>
             <noscript>
               <div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="https://mc.yandex.ru/watch/106625552" style={{ position: 'absolute', left: '-9999px' }} alt="" />
               </div>
             </noscript>
@@ -122,6 +123,7 @@ export default function RootLayout({
             </Script>
             <noscript>
               <div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="https://top-fwz1.mail.ru/counter?id=3611462;js=na" style={{ position: 'absolute', left: '-9999px' }} alt="Top.Mail.Ru" />
               </div>
             </noscript>
