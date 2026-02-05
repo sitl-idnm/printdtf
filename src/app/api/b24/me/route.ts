@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSessionCookieName, verifySessionToken } from '@/shared/server/session'
 import { extractDigits } from '@/shared/utils/phone'
 import { findContactIdsByPhone, getContactById, listDealsByContactId, listDealsByCompanyId, listLeadsByContactId, getCompanyById, getDiskFileMeta, getDiskAttachedMeta, type BitrixContact, type BitrixDeal, type BitrixCompany } from '@/shared/server/bitrix'
+import { getValidAccessToken } from '@/shared/server/b24OAuth'
 
 // Отключаем кэширование для этого роута
 export const dynamic = 'force-dynamic'
@@ -96,11 +97,11 @@ export async function GET(req: NextRequest) {
       // Преобразуем файловые поля в объекты с ссылками на прокси-скачивание
       const FILE_FIELDS = new Set(['UF_CRM_1730357338802', 'UF_CRM_1760519761774'])
 
-      type UfFileItem = { ID?: string | number; id?: string | number }
+  type UfFileItem = { ID?: string | number; id?: string | number; showUrl?: string }
 
       // Подтягиваем реальные имена файлов (ограничимся до 20 запросов за вызов)
       const nameCache = new Map<string, string>()
-      const resolveFileName = async (id: string): Promise<string> => {
+  const resolveFileName = async (id: string, showUrl?: string): Promise<string> => {
         if (nameCache.has(id)) return nameCache.get(id) as string
         try {
           // Пробуем как fileId, затем как attachedObjectId -> OBJECT_ID
@@ -138,6 +139,29 @@ export async function GET(req: NextRequest) {
             }
           }
 
+      // Если имя не обнаружено и есть showUrl — пробуем через OAuth доступ к show_file.php
+      if (!name && showUrl) {
+        const origin = process.env.BITRIX_PORTAL_ORIGIN || ''
+        const token = await getValidAccessToken()
+        if (origin && token) {
+          const abs = new URL(showUrl.startsWith('/') ? origin + showUrl : showUrl, origin)
+          // добавим auth токен
+          const hasAuth = abs.searchParams.has('auth')
+          if (!hasAuth || abs.searchParams.get('auth') === '') {
+            abs.searchParams.set('auth', token)
+          }
+          const resp = await fetch(abs.toString(), { method: 'GET', headers: { Accept: '*/*' } })
+          if (resp.ok) {
+            const cd = resp.headers.get('content-disposition') || ''
+            const m = /filename\*?=UTF-8''([^;]+)/i.exec(cd) || /filename="?([^"]+)"?/i.exec(cd || '')
+            if (m && m[1]) {
+              try { name = decodeURIComponent(m[1]) } catch { name = m[1] }
+            }
+            try { await resp.body?.cancel() } catch { /* ignore */ }
+          }
+        }
+      }
+
           const finalName = name || `Файл ${id}`
           nameCache.set(id, String(finalName))
           return String(finalName)
@@ -158,7 +182,7 @@ export async function GET(req: NextRequest) {
               const item = v as UfFileItem
               const id = String(item?.ID ?? item?.id ?? v ?? '')
               if (!id) return null
-              const displayName = await resolveFileName(id)
+          const displayName = await resolveFileName(id, item?.showUrl)
               return {
                 id,
                 name: displayName || `Файл ${idx + 1}`,
@@ -170,7 +194,7 @@ export async function GET(req: NextRequest) {
             const item = raw as UfFileItem
             const id = String(item?.ID ?? item?.id ?? '')
             if (id) {
-              const displayName = await resolveFileName(id)
+          const displayName = await resolveFileName(id, item?.showUrl)
               patch[key] = [{
                 id,
                 name: displayName || 'Файл',
@@ -180,7 +204,7 @@ export async function GET(req: NextRequest) {
           } else {
             const id = String(raw)
             if (id) {
-              const displayName = await resolveFileName(id)
+          const displayName = await resolveFileName(id)
               patch[key] = [{
                 id,
                 name: displayName || 'Файл',
