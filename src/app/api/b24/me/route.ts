@@ -71,15 +71,18 @@ export async function GET(req: NextRequest) {
       const leads = await listLeadsByContactId(targetId)
       console.log(`📋 Leads found: ${leads.length}`)
 
-      // also try by company
+      // also try by company (only if COMPANY_ID is valid and not "0")
       let companyDeals: BitrixDeal[] = []
       let company: BitrixCompany | null = null
-      const companyId = (contact as BitrixContact)?.COMPANY_ID
-      if (companyId) {
-        console.log(`📋 Contact has COMPANY_ID: ${companyId}, fetching company deals...`)
-        companyDeals = await listDealsByCompanyId(String(companyId))
-        company = await getCompanyById(String(companyId))
+      const rawCompanyId = (contact as BitrixContact)?.COMPANY_ID
+      const normalizedCompanyId = rawCompanyId != null ? String(rawCompanyId).trim() : ''
+      if (normalizedCompanyId && normalizedCompanyId !== '0') {
+        console.log(`📋 Contact has COMPANY_ID: ${normalizedCompanyId}, fetching company deals...`)
+        companyDeals = await listDealsByCompanyId(normalizedCompanyId)
+        company = await getCompanyById(normalizedCompanyId)
         console.log(`📋 Company deals found: ${companyDeals.length}`)
+      } else {
+        console.log(`📋 COMPANY_ID is empty or zero (${String(rawCompanyId)}), skip fetching company deals`)
       }
 
       // Remove duplicates by ID
