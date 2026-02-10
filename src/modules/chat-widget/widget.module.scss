@@ -105,6 +105,10 @@
   body[data-page-theme="logistika"] & {
     background: var(--logistika-color-blue);
   }
+
+  svg {
+    max-height: 20px;
+  }
 }
 
 .item:hover {

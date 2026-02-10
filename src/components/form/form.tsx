@@ -58,7 +58,7 @@ const Form: FC<FormProps> = ({
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   // const [telegram, setTelegram] = useState('')
-  const [messenger, setMessenger] = useState<'Telegram' | 'WhatsApp' | ''>('')
+  const [messenger, setMessenger] = useState<'Telegram' | 'МАКС' | ''>('')
   const [agree, setAgree] = useState(false)
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
   const toastTimerRef = useRef<number | null>(null)
@@ -210,7 +210,7 @@ const Form: FC<FormProps> = ({
         <div className={styles.row}>
           <span className={styles.choiceLabel}>Мессенджер</span>
           <div className={classNames(styles.options, styles.optionsRow)}>
-            {(['Telegram', 'WhatsApp'] as const).map((m) => (
+            {(['Telegram', 'МАКС'] as const).map((m) => (
               <ButtonWave
                 key={m}
                 className={classNames(styles.option, messenger === m && styles.selected)}
