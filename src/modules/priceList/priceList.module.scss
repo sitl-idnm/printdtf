@@ -71,6 +71,13 @@
 	border-color: var(--color-white-default);
 }
 
+// Кнопка «Позвоните» — только на телефонах и планшетах
+.btnCall {
+	@include desktop-only {
+		display: none;
+	}
+}
+
 .card::before {
   content: "";
   position: absolute;

@@ -148,7 +148,7 @@ const LogistikaPage: FC<LogistikaPageProps> = ({
         ]}
         messengerLinks={[
           { label: 'Telegram', value: 'Telegram', href: 'https://t.me/+79331846181' },
-          { label: 'WhatsApp', value: 'WhatsApp', href: 'https://wa.me/+79331846181' }
+          { label: 'МАКС', value: 'МАКС', href: 'https://max.ru/u/f9LHodD0cOLso5py8qzZB5X3BFhgLdTS2gUjkYbdDQWuIikvT2Urr0ZxjEM' }
         ]}
         emailLinks={[
           { label: 'Email', value: 'sales@city-group.pro', href: 'mailto:sales@city-group.pro' }

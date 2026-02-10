@@ -89,6 +89,11 @@ const Footer: FC = () => {
                   <span>sales@city-group.pro</span>
                 </a>
               </li>
+              <li>
+                <a href="https://yandex.ru/maps/-/CPQVjD~o" className={styles.contactLink}>
+                  <span>Москва, Херсонская улица, 20к2</span>
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -109,16 +114,16 @@ const Footer: FC = () => {
                 <span>Telegram</span>
               </a>
               <a
-                href="https://wa.me/+79331846181"
+                href="https://max.ru/u/f9LHodD0cOLso5py8qzZB5X3BFhgLdTS2gUjkYbdDQWuIikvT2Urr0ZxjEM"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.socialLink}
-                aria-label="WhatsApp"
+                aria-label="МАКС"
               >
                 <span className={styles.socialIcon}>
                   <ChatBubbleLeftRightIcon />
                 </span>
-                <span>WhatsApp</span>
+                <span>МАКС</span>
               </a>
             </div>
           </div>

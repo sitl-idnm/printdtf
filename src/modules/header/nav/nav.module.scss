@@ -30,7 +30,7 @@
 			display: flex;
 			align-items: center;
 
-			padding: 30px 25px;
+			padding: 0;
 
 			opacity: 0;
 
@@ -39,8 +39,16 @@
 			font-size: 20px;
 
 			transition: background 0.3s ease, color 0.3s ease;
+		}
 
+		.menu_link {
+			display: block;
+			width: 100%;
+			padding: 30px 25px;
+			text-decoration: none;
+			color: inherit;
 			cursor: pointer;
+			transition: background 0.3s ease, color 0.3s ease;
 
 			@include desktop {
 				font-size: 16px;
@@ -48,16 +56,12 @@
 			}
 
 			@include tablet {
-				justify-content: center;
+				text-align: center;
 			}
 
 			&:hover {
 				background-color: var(--color-accent-1);
 				color: var(--color-white-default);
-			}
-
-			a:hover {
-				opacity: 1;
 			}
 
 			// Override colors for fulfillment page
@@ -80,6 +84,8 @@
 
 			@include tablet {
 				display: flex;
+				justify-content: center;
+				padding: 20px 15px;
 			}
 		}
 
@@ -163,5 +169,16 @@
 				transition: stroke 0.3s ease;
 			}
 		}
+	}
+
+	.burger_btn {
+		display: block;
+		margin: 0;
+		padding: 0;
+		border: none;
+		background: none;
+		font: inherit;
+		color: inherit;
+		cursor: pointer;
 	}
 }

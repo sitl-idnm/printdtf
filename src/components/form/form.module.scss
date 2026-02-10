@@ -4,17 +4,7 @@
 
 .root {
 	display: grid;
-	gap: 24px;
-
-
-
-	@media (max-width: 1400px) {
-		gap: 12px;
-	}
-
-	@include mobile-large {
-		gap: 8px;
-	}
+	gap: 8px;
 }
 
 .invert {
@@ -470,4 +460,3 @@ button.selected {
 	from { opacity: 0; transform: translateY(8px); }
 	to { opacity: 1; transform: translateY(0); }
 }
-
